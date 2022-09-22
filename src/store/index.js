@@ -12,6 +12,7 @@ function GlobalStoreContextProvider(props) {
     });
 
     let db = new DBManager();
+    let currentGame = "";
 
     store.saveGame = function(game) {
         db.mutationCreateGame(game);
@@ -24,6 +25,19 @@ function GlobalStoreContextProvider(props) {
     store.getGameByKey = function(key) {
         return db.queryGetGame(key);
     }
+
+    store.getCurrentGame = function() {
+        return currentGame;
+    }
+
+    store.setCurrentGame = function(newGame) {
+        currentGame = newGame;
+    }
+
+    store.deleteGame = function(gameTitle) {
+        return db.mutationDeleteGame(gameTitle);
+    }
+
 
     
     return (

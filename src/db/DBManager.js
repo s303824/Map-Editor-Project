@@ -26,18 +26,27 @@ export default class DBManager {
     }
 
     mutationDeleteGame = (game) => {
-        localStorage.removeItem("game-" +game.key);
+        localStorage.removeItem("game-" +game);
     }
 
     mutationGetAllGames = () => {
-        var values = [],
+        let values = [],
         keys = Object.keys(localStorage),
         i = keys.length;
 
         while ( i-- ) {
             values.push( localStorage.getItem(keys[i]) );
         }
-        return JSON.parse(values);
+
+        if(values.length===0) {
+            return "";
+        }
+        let games = [];
+
+        for(let i=0; i<values.length; i++) {
+            games[i] = JSON.parse(values[i]);
+        }
+        return (games);
     }
 
     mutationUpdateGame = (game) => {

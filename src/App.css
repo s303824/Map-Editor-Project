@@ -16,6 +16,11 @@
   text-align: center;
 }
 
+.play {
+  padding-top: 2%;
+  text-align: center;
+}
+
 .horizontal-list {
   display: flex;
   flex-direction: row;

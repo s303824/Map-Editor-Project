@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import { useContext, useEffect, useState } from 'react'
 import { GlobalStoreContext } from '../store'
 import TextField from '@mui/material/TextField';
+import { useNavigate } from 'react-router-dom';
 
 function GameCreator() {
     const { store } = useContext(GlobalStoreContext)
@@ -15,16 +16,21 @@ function GameCreator() {
     const [currentItem, setCurrentItem] = useState([0,0]);
     const [categoryNames, setCategoryNames] = useState(["", "cat1", "cat2", "cat3", "cat4", "cat5", "cat6"]);
 
+    const [answerText, setAnswerText] = useState("");
+
     const [catEditorDisabled, setCatEditorDisabled] = useState(true);
     const [category, setCategory] = useState(0);
     const [catText, setCatText] = useState("");
 
     const [gameName, setGameName] = useState("default title");
 
+    const navigate = useNavigate()
+
     function handleClick(list, item) {
         if(editorDisabled && catEditorDisabled) {
             setCurrentItem([list, item]);
             setText(listItem[list][item]['question']);
+            setAnswerText(listItem[list][item]['answer']);
         }
         else {
             alert("please save before doing something else");
@@ -36,10 +42,14 @@ function GameCreator() {
     function handleChange(event) {
         setText(event.target.value);
     }
+
+    function handleAnswerChange(event) {
+        setAnswerText(event.target.value);
+    }
     
     function handleSaveQuestion() {
         let newListItem = JSON.parse(JSON.stringify(listItem));
-        newListItem[currentItem[0]][currentItem[1]] = {score:currentItem[0]*200, question:text};
+        newListItem[currentItem[0]][currentItem[1]] = {score:currentItem[0]*200, question:text, answer:answerText};
         setListItem(newListItem);
         setEditorDisabled(!editorDisabled);
     }
@@ -71,6 +81,7 @@ function GameCreator() {
         //category names are save in newlistitem[0]
         let savedGame = {title: gameName, questions:newListItem}
         store.saveGame(savedGame);
+        navigate('/',{})
     }
 
     function handleChangeName(event) {
@@ -80,7 +91,7 @@ function GameCreator() {
     useEffect(() => {
         for(let i=1; i<categories+1; i++){  
             for(let j=1; j<6; j++) {
-                listItem[i][j] = {score:defaultPointVal*j, question:""};
+                listItem[i][j] = {score:defaultPointVal*j, question:"test question", answer:"test answer"};
             }
         }
     }, []);
@@ -90,11 +101,9 @@ function GameCreator() {
     
     for(let i=1; i<categories+1; i++){
         let innerArr = [];
-
         for(let j=1; j<6; j++) {
 
             //Individual list items
-
             innerArr[j] = 
             <Box key={"list-" + i + "-item-" + j}
             paddingTop="10%"
@@ -110,7 +119,6 @@ function GameCreator() {
     let catLists = [];
 
     for(let i=1; i<categories+1; i++) {
-
         //Lists
         catLists[i] = 
         <Box key = {"list-" + i} className="creator-list-item">
@@ -126,6 +134,11 @@ function GameCreator() {
     let questionEditor = editorDisabled ? "" : 
     <Box>
         <TextField id="outlined-basic" label="Question" variant="outlined" value={text} onChange={handleChange}></TextField>
+    </Box>
+
+    let answerEditor = editorDisabled ? "" : 
+    <Box paddingLeft="13%" paddingTop="2%">
+        <TextField id="outlined-basic" label="Answer" variant="outlined" value={answerText} onChange={handleAnswerChange}></TextField>
         <Button onClick={handleSaveQuestion}>Save Question</Button>
     </Box>
 
@@ -148,13 +161,14 @@ function GameCreator() {
 
         <Box paddingTop="5%">
             {questionEditor}
+            {answerEditor}
         </Box>
 
         <Box paddingTop="5%">
             {catEditor}
         </Box>
 
-        <Box paddingTop="10%">
+        <Box paddingTop="1%">
             <Button onClick={handleSaveGame}>Save Game</Button>
         </Box>
       </Box>
