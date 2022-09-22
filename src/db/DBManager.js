@@ -22,7 +22,7 @@ export default class DBManager {
     }
 
     mutationCreateGame = (game) => {
-        this.mutationUpdateList(game);
+        this.mutationUpdateGame(game);
     }
 
     mutationDeleteGame = (game) => {
@@ -32,7 +32,8 @@ export default class DBManager {
     mutationUpdateGame = (game) => {
         // AND FLOW THOSE CHANGES TO LOCAL STORAGE
         let listString = JSON.stringify(game);
-        localStorage.setItem("game-" + game.key, listString);
+        console.log(listString);
+        localStorage.setItem("game-1", listString);
     }
     
     mutationUpdateSessionData = (sessionData) => {
