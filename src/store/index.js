@@ -18,7 +18,7 @@ function GlobalStoreContextProvider(props) {
     }
 
     store.getGames = function() {
-        return db.queryGetSessionData();
+        return db.mutationGetAllGames();
     }
 
     store.getGameByKey = function(key) {

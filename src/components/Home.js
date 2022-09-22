@@ -11,9 +11,17 @@ function Home() {
 
     const [games, setGames] = useState(store.getGames());
 
-    function testGetGames() {
-        setGames(store.getGameByKey(1));
+    /*function testGetGames() {
+        setGames(store.getGames());
         console.log(games);
+    }*/
+
+    let listOfGames = [store.getGames()];
+    console.log(listOfGames)
+    let gamesList = [];
+
+    for(let i =0; i<listOfGames.length; i++) {
+      gamesList[i] = <Box>{listOfGames[i]['title']}</Box>
     }
 
     return (
@@ -21,10 +29,7 @@ function Home() {
         <Button component={Link} to="/create" variant="contained" color="primary">
             Create New Gameshow
         </Button>
-
-        <Button variant="contained" color="primary" onClick={testGetGames}>
-            log
-        </Button>
+        {gamesList}        
       </Box>
     );
   }

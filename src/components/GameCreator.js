@@ -19,6 +19,8 @@ function GameCreator() {
     const [category, setCategory] = useState(0);
     const [catText, setCatText] = useState("");
 
+    const [gameName, setGameName] = useState("default title");
+
     function handleClick(list, item) {
         if(editorDisabled && catEditorDisabled) {
             setCurrentItem([list, item]);
@@ -66,7 +68,13 @@ function GameCreator() {
     function handleSaveGame() {
         let newListItem = listItem;
         newListItem[0] = categoryNames;
-        store.saveGame(newListItem);
+        //category names are save in newlistitem[0]
+        let savedGame = {title: gameName, questions:newListItem}
+        store.saveGame(savedGame);
+    }
+
+    function handleChangeName(event) {
+        setGameName(event.target.value);
     }
 
     useEffect(() => {
@@ -129,14 +137,10 @@ function GameCreator() {
 
     const [games, setGames] = useState(store.getGames());
 
-    function testGetGames() {
-        setGames(store.getGameByKey(1));
-        console.log(games);
-    }
-
     return (
       <Box className="Creator">
         <Box paddingBottom="1%">if you leave this page before you finish editing, everything will reset</Box>
+        <TextField id="outlined-basic" label="Gameshow Title" variant="outlined" value={gameName} onChange={handleChangeName}></TextField>
         <Box paddingBottom="1%">click on number/catergory to edit question/category</Box>
         <Box className="horizontal-list" paddingLeft="15%">
             {catLists}
@@ -153,9 +157,6 @@ function GameCreator() {
         <Box paddingTop="10%">
             <Button onClick={handleSaveGame}>Save Game</Button>
         </Box>
-        <Button variant="contained" color="primary" onClick={testGetGames}>
-            log
-        </Button>
       </Box>
     );
   }

@@ -29,11 +29,21 @@ export default class DBManager {
         localStorage.removeItem("game-" +game.key);
     }
 
+    mutationGetAllGames = () => {
+        var values = [],
+        keys = Object.keys(localStorage),
+        i = keys.length;
+
+        while ( i-- ) {
+            values.push( localStorage.getItem(keys[i]) );
+        }
+        return JSON.parse(values);
+    }
+
     mutationUpdateGame = (game) => {
         // AND FLOW THOSE CHANGES TO LOCAL STORAGE
         let listString = JSON.stringify(game);
-        console.log(listString);
-        localStorage.setItem("game-1", listString);
+        localStorage.setItem("game-"+game.title, listString);
     }
     
     mutationUpdateSessionData = (sessionData) => {
