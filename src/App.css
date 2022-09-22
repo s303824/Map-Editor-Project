@@ -2,6 +2,30 @@
   text-align: center;
 }
 
+.Banner {
+  background-color: #282c34;
+}
+
+.Home{
+  padding-top: 2%;
+  text-align: center;
+}
+
+.Creator {
+  padding-top: 2%;
+  text-align: center;
+}
+
+.horizontal-list {
+  display: flex;
+  flex-direction: row;
+}
+
+.creator-list-item {
+  padding-left: 12%;
+}
+
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
