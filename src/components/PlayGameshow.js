@@ -29,6 +29,7 @@ function PlayGameshow() {
     const [text, setText] = useState("");
     const [currentQuestion, setCurrentQuestion] = useState([])
     const [onAnswer, setOnAnswer] = useState(false);
+    const [answered, setAnswered] = useState([7][7])
 
     let catItems = [];
 
@@ -36,6 +37,8 @@ function PlayGameshow() {
         setText(questions[list][item]['question'])
         setCurrentQuestion([list, item])
         setQOpen(true);
+
+
     }
 
     function handleAnswer(list, item) {
@@ -55,9 +58,16 @@ function PlayGameshow() {
             //Individual list items
             innerArr[j] = 
             <Box key={"list-" + i + "-item-" + j}
-            paddingTop="10%"
-            onClick = {() => handleClick(i,j)}>
+            paddingTop="3%"
+            textAlign="center"
+            onClick = {() => handleClick(i,j)}
+            backgroundColor=""
+            margin="1%"
+            border="3px solid gray"
+            minWidth="70%">
+
                 {defaultPointVal*j + ""}
+
             </Box>;
         }
         catItems[i] = innerArr;
@@ -68,12 +78,15 @@ function PlayGameshow() {
     for(let i=1; i<6+1; i++) {
         //Lists
         catLists[i] = 
-        <Box key = {"list-" + i} className="creator-list-item">
-        <Box>{questions[0][i]}</Box>
+        <Box key = {"list-" + i} className="creator-list-item" maxWidth="15%" justifyContent="space-between">
 
-            <Box paddingTop="20px">
-                {catItems[i]}
-            </Box>
+          <Box maxWidth="100%" border="3px solid gray" marginBottom="50%" backgroundColor="blue" color="white">
+            <h2 wordWrap="break-word" maxWidth="10%">{questions[0][i]}</h2>
+          </Box>
+
+          <Box  minWidth="100px" position="fixed" top="300px" marginLeft="3%" backgroundColor="blue" color="yellow">
+              {catItems[i]}
+          </Box>
         </Box>
     }
 

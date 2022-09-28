@@ -27,8 +27,25 @@
 }
 
 .creator-list-item {
-  padding-right: 10%;
+  padding-right: 1%;
 }
+
+div.image::before {
+  height:fit-content;
+  content:url(https://i.pinimg.com/originals/94/ba/53/94ba53dc8a376c9727742a4fd56cf509.gif);
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+}
+
+/* Resize images */
+.container img {
+  width: 100%;
+  height: auto;
+}
+​
 
 
 .App-logo {

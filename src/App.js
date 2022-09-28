@@ -6,6 +6,7 @@ import Banner from "./components/Banner";
 import './App.css';
 import { GlobalStoreContextProvider } from './store'
 import PlayGameshow from "./components/PlayGameshow";
+import NewPage from "./components/NewPage";
 
 
 
@@ -20,6 +21,7 @@ const App = () => {
             <Route path="/" element={<Home/>}/>
             <Route path="/create" element={<GameCreator/>}/>
             <Route path="/play" element={<PlayGameshow/>}></Route>
+            <Route path="/newpage" element={<NewPage/>}></Route>
           </Routes>
       </GlobalStoreContextProvider>
     </BrowserRouter>
