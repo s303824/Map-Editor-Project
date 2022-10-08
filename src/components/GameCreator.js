@@ -103,7 +103,7 @@ function GameCreator() {
         if(store.getCurrentGame() != "") {
             for(let i=1; i<categories+1; i++){  
                 for(let j=1; j<6; j++) {
-                    listItem[i][j] = {score:defaultPointVal*j, question:questions[i][j]['question'], answer:questions[i][j]['answer']};
+                    listItem[i][j] = {score:defaultPointVal*j, question:questions[i][j]['question'], answer:questions[i][j]['answer'], imgsrc:questions[i][j]['imgsrc']};
                 }
             }
             setCategoryNames(["",questions[0][1],questions[0][2],questions[0][3],questions[0][4],questions[0][5],questions[0][6]])
@@ -129,7 +129,9 @@ function GameCreator() {
             //Individual list items
             innerArr[j] = 
             <Box key={"list-" + i + "-item-" + j}
-            paddingTop="10%"
+            className = "question-boxes"
+            border="3px solid gray"
+            text-textAlign="center"
             onClick = {() => handleClick(i,j)}>
                 {defaultPointVal*j + ""}
             </Box>;
@@ -144,61 +146,63 @@ function GameCreator() {
     for(let i=1; i<categories+1; i++) {
         //Lists
         catLists[i] = 
-        <Box key = {"list-" + i} className="creator-list-item">
-        <Box
-        onClick={(() => handleCatClick(i))}>{categoryNames[i]}</Box>
+        <Box key = {"list-" + i} className="categories">
 
-            <Box paddingTop="20px">
+            <Box className="category-box" onClick={(() => handleCatClick(i))}>{categoryNames[i]}</Box>
+
+            <Box className='question-box'>
                 {catItems[i]}
             </Box>
         </Box>
     }
 
     let questionEditor = editorDisabled ? "" : 
-    <Box>
+    <Box paddingTop="2%">
         <TextField id="outlined-basic" label="Question" variant="outlined" value={text} onChange={handleChange}></TextField>
     </Box>
 
     let answerEditor = editorDisabled ? "" : 
-    <Box paddingLeft="13%" paddingTop="2%">
+    <Box paddingTop="2%">
         <TextField id="outlined-basic" label="Answer" variant="outlined" value={answerText} onChange={handleAnswerChange}></TextField>
-        <Button onClick={handleSaveQuestion}>Save Question</Button>
     </Box>
 
     let imageEditor = editorDisabled ? "" : 
-    <Box paddingLeft="13%" paddingTop="2%">
+    <Box  className="horizontal-list-creator" paddingTop="2%">
         <TextField id="outlined-basic" label="Image" variant="outlined" value={imageLink} onChange={handleImageChange}></TextField>
+        <Button variant="contained" color="primary" onClick={handleSaveQuestion}>Save Question</Button>
     </Box>
 
     let catEditor = catEditorDisabled ? "" : 
     <Box>
         <TextField id="outlined-basic" label="Category" variant="outlined" value={text} onChange={handleChange}></TextField>
-        <Button onClick={handleSaveCat}>Save Category</Button>
+        <Button variant="contained" color="primary" onClick={handleSaveCat}>Save Question</Button>
     </Box>
 
     const [games, setGames] = useState(store.getGames());
+    
 
     return (
-      <Box className="Creator">
-        <Box paddingBottom="1%">if you leave this page before you finish editing, everything will reset</Box>
+      <Box className="play">
+        <Box paddingBottom="1%">if you leave this page before you click save, everything will reset</Box>
         <TextField id="outlined-basic" label="Gameshow Title" variant="outlined" value={gameName} onChange={handleChangeName}></TextField>
-        <Box paddingBottom="1%">click on number/catergory to edit question/category</Box>
-        <Box className="horizontal-list" paddingLeft="15%">
+        <Box paddingBottom="1%">click on number/catergory to edit question/category, save to edit another question</Box>
+
+        <Box className="horizontal-list">
             {catLists}
         </Box>
 
-        <Box paddingTop="5%">
+        <Box className="horizontal-list-creator">
             {questionEditor}
             {answerEditor}
             {imageEditor}
         </Box>
 
-        <Box paddingTop="5%">
+        <Box>
             {catEditor}
         </Box>
 
         <Box paddingTop="1%">
-            <Button onClick={handleSaveGame}>Save Game</Button>
+            <Button variant="contained" color="primary" onClick={handleSaveGame}>Save Game</Button>
         </Box>
       </Box>
     );

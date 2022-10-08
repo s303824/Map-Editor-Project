@@ -30,16 +30,19 @@ function PlayGameshow() {
     const [currentQuestion, setCurrentQuestion] = useState([])
     const [onAnswer, setOnAnswer] = useState(false);
     const [image, setImage] = useState("")
-    const [answered, setAnswered] = useState([7][7])
+    const [answered, setAnswered] = useState([[],[false,false,false,false,false,false,false],[
+      false,false,false,false,false,false,false],[false,false,false,false,false,false,false],[false,false,false,false,false,false,false],[false,false,false,false,false,false,false],[false,false,false,false,false,false,false]])
 
     let catItems = [];
 
     function handleClick(list, item) {
+        let temp = answered;
+        temp[list][item] = true;
+        setAnswered(temp)
+
         setText(questions[list][item]['question'])
         setCurrentQuestion([list, item])
         setQOpen(true);
-
-
     }
 
     function handleAnswer(list, item) {
@@ -56,21 +59,19 @@ function PlayGameshow() {
     
     for(let i=1; i<6+1; i++){
         let innerArr = [];
-        for(let j=1; j<6; j++) {
+        for(let j=1; j<6; j++) {                                                
+            let bg = answered[i][j] ? "red" : "blue"
 
             //Individual list items
             innerArr[j] = 
             <Box key={"list-" + i + "-item-" + j}
-            paddingTop="3%"
+            className="question-boxes"
             textAlign="center"
+            backgroundColor = {bg}
             onClick = {() => handleClick(i,j)}
-            backgroundColor=""
-            margin="1%"
-            border="3px solid gray"
-            minWidth="70%">
+            border="3px solid gray">                 
 
                 {defaultPointVal*j + ""}
-
             </Box>;
         }
         catItems[i] = innerArr;
@@ -81,45 +82,56 @@ function PlayGameshow() {
     for(let i=1; i<6+1; i++) {
         //Lists
         catLists[i] = 
-        <Box key = {"list-" + i} className="creator-list-item" maxWidth="15%" justifyContent="space-between">
+        <Box key = {"list-" + i} className="categories" >
 
-          <Box maxWidth="100%" border="3px solid gray" marginBottom="50%" backgroundColor="blue" color="white">
-            <h2 wordWrap="break-word" maxWidth="10%">{questions[0][i]}</h2>
+          <Box className="category-box">
+            <h3>{questions[0][i]}</h3>
           </Box>
 
-          <Box  minWidth="100px" position="fixed" top="300px" marginLeft="3%" backgroundColor="blue" color="yellow">
+          <Box className="question-box">
               {catItems[i]}
           </Box>
         </Box>
     }
 
-    let button = onAnswer ? <Button onClick={handleClose}>Close</Button> : <Button onClick={handleAnswer}>Answer</Button>
+    let button = onAnswer ? 
+    <Button onClick={handleClose}>Close</Button> : 
+    <Button onClick={handleAnswer}>Answer</Button>
+
+    let img = onAnswer ? 
+              image == "" ?  <Box></Box>
+              : <img className='image' src={image}></img>
+              : <Box></Box>
 
     let modal = qOpen ? 
-    <div>
+    <Box>
       <Modal
         open={true}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            {text}
-            <img src={image}></img>
+
+          <Typography >
+            {img}
+            <Box className="qmodal-text">{text}</Box>
           </Typography>
           {button}
+
         </Box>
       </Modal>
-    </div> 
+    </Box> 
     : <Box></Box>
 
 
     return (
       <Box className="play">
         {modal}
-        <Box className="horizontal-list" paddingLeft="15%">
+
+        <Box className="horizontal-list">
             {catLists}
         </Box>
+
       </Box>
     );
   }

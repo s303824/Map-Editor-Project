@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import Box from '@mui/material/Box';
 import { Link } from 'react-router-dom';
 import { useContext } from 'react'
@@ -18,10 +18,15 @@ function Home() {
     let titles = [];
 
     for(let i=0; i<listOfGames.length; i++) {
-      gamesList[i] = <Box key={i} className="horizontal-list" paddingLeft="40%" paddingTop="2%">
+      gamesList[i] = 
+      <Box key={i} className="home-list-item">
         <Box  onClick={ () => handleGameSelect(i)}> {listOfGames[i]['title']} </Box>
-        <Button onClick={() => handleDelete(listOfGames[i]['title'])}>delete</Button>
-        <Box onClick={() => handleEdit(i)}>edit</Box>
+
+        <Box className='home-button-holder'>
+          <Button variant="contained" color="primary" onClick={() => handleEdit(i)}>edit</Button>
+          <Button variant="contained" color="error" onClick={() => handleDelete(listOfGames[i]['title'])}>delete</Button>
+        </Box>
+
       </Box>
       titles[i] = listOfGames[i]['title'];
     }
@@ -48,13 +53,18 @@ function Home() {
 
     return (
       <Box className="Home">
-        <Button component={Link} to="/create" variant="contained" color="primary">
-            Create New Gameshow
-        </Button>
-        <Button onClick={handleReset}>
-            Reset Current Game
-        </Button>
-        {gamesList}        
+
+        <Box className='home-button-holder'>
+          <Button component={Link} to="/create" variant="contained" color="primary">
+              Create New Gameshow
+          </Button>
+
+          <Button onClick={handleReset} variant="contained" color="error">
+              Reset Current Game
+          </Button>
+        </Box>
+
+        <Box className='home-list'>{gamesList}</Box>       
 
       </Box>
     );
