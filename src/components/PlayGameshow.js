@@ -29,6 +29,7 @@ function PlayGameshow() {
     const [text, setText] = useState("");
     const [currentQuestion, setCurrentQuestion] = useState([])
     const [onAnswer, setOnAnswer] = useState(false);
+    const [image, setImage] = useState("")
     const [answered, setAnswered] = useState([7][7])
 
     let catItems = [];
@@ -43,10 +44,12 @@ function PlayGameshow() {
 
     function handleAnswer(list, item) {
         setText(questions[currentQuestion[0]][currentQuestion[1]]['answer'])
+        setImage(questions[currentQuestion[0]][currentQuestion[1]]['imgsrc'])
         setOnAnswer(true);
     }
 
     function handleClose() {
+      setImage("")
         setQOpen(false);
         setOnAnswer(false);
     }
@@ -102,6 +105,7 @@ function PlayGameshow() {
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             {text}
+            <img src={image}></img>
           </Typography>
           {button}
         </Box>

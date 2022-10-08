@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 function GameCreator() {
     const { store } = useContext(GlobalStoreContext)
 
+    const [game, setGame] = useState(store.getGameByKey(store.getCurrentGame()));
+    const [questions, setQuestions] = useState(store.getCurrentGame() == "" ? [] : game['questions']);
     const [categories, setCategories] = useState(6); //TODO: add more than 6 categories
     const [defaultPointVal, setDefaultPointVal] = useState(200);
     const [editorDisabled, setEditorDisabled] = useState(true);
@@ -22,7 +24,9 @@ function GameCreator() {
     const [category, setCategory] = useState(0);
     const [catText, setCatText] = useState("");
 
-    const [gameName, setGameName] = useState("default title");
+    const [imageLink, setImageLink] = useState("");
+
+    const [gameName, setGameName] = useState(store.getCurrentGame() == "" ? "default" : game['title']);
 
     const navigate = useNavigate()
 
@@ -31,6 +35,7 @@ function GameCreator() {
             setCurrentItem([list, item]);
             setText(listItem[list][item]['question']);
             setAnswerText(listItem[list][item]['answer']);
+            setImageLink(listItem[list][item]['imgsrc'])
         }
         else {
             alert("please save before doing something else");
@@ -46,10 +51,15 @@ function GameCreator() {
     function handleAnswerChange(event) {
         setAnswerText(event.target.value);
     }
+
+    function handleImageChange(event) {
+        setImageLink(event.target.value);
+    }
     
     function handleSaveQuestion() {
         let newListItem = JSON.parse(JSON.stringify(listItem));
-        newListItem[currentItem[0]][currentItem[1]] = {score:currentItem[0]*200, question:text, answer:answerText};
+        newListItem[currentItem[0]][currentItem[1]] = {score:currentItem[0]*200, question:text, 
+            answer:answerText, imgsrc:imageLink};
         setListItem(newListItem);
         setEditorDisabled(!editorDisabled);
     }
@@ -89,11 +99,24 @@ function GameCreator() {
     }
 
     useEffect(() => {
+
+        if(store.getCurrentGame() != "") {
+            for(let i=1; i<categories+1; i++){  
+                for(let j=1; j<6; j++) {
+                    listItem[i][j] = {score:defaultPointVal*j, question:questions[i][j]['question'], answer:questions[i][j]['answer']};
+                }
+            }
+            setCategoryNames(["",questions[0][1],questions[0][2],questions[0][3],questions[0][4],questions[0][5],questions[0][6]])
+        }
+
+        else {
         for(let i=1; i<categories+1; i++){  
             for(let j=1; j<6; j++) {
-                listItem[i][j] = {score:defaultPointVal*j, question:"test question", answer:"test answer"};
+                listItem[i][j] = {score:defaultPointVal*j, question:"test question", answer:"test answer",
+            imgsrc:""};
             }
         }
+    }
     }, []);
 
 
@@ -142,6 +165,11 @@ function GameCreator() {
         <Button onClick={handleSaveQuestion}>Save Question</Button>
     </Box>
 
+    let imageEditor = editorDisabled ? "" : 
+    <Box paddingLeft="13%" paddingTop="2%">
+        <TextField id="outlined-basic" label="Image" variant="outlined" value={imageLink} onChange={handleImageChange}></TextField>
+    </Box>
+
     let catEditor = catEditorDisabled ? "" : 
     <Box>
         <TextField id="outlined-basic" label="Category" variant="outlined" value={text} onChange={handleChange}></TextField>
@@ -162,6 +190,7 @@ function GameCreator() {
         <Box paddingTop="5%">
             {questionEditor}
             {answerEditor}
+            {imageEditor}
         </Box>
 
         <Box paddingTop="5%">

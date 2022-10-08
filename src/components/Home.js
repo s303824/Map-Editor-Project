@@ -17,14 +17,17 @@ function Home() {
     let gamesList = [];
     let titles = [];
 
-    console.log(listOfGames[0])
-
     for(let i=0; i<listOfGames.length; i++) {
       gamesList[i] = <Box key={i} className="horizontal-list" paddingLeft="40%" paddingTop="2%">
         <Box  onClick={ () => handleGameSelect(i)}> {listOfGames[i]['title']} </Box>
         <Button onClick={() => handleDelete(listOfGames[i]['title'])}>delete</Button>
+        <Box onClick={() => handleEdit(i)}>edit</Box>
       </Box>
       titles[i] = listOfGames[i]['title'];
+    }
+
+    function handleReset () {
+      store.setCurrentGame("");
     }
 
     function handleGameSelect(i) {
@@ -37,12 +40,22 @@ function Home() {
       setReset(reset+1);
     }
 
+    function handleEdit(i) {
+      store.setCurrentGame(titles[i]);
+      navigate('/create',{})
+    }
+
+
     return (
       <Box className="Home">
         <Button component={Link} to="/create" variant="contained" color="primary">
             Create New Gameshow
         </Button>
+        <Button onClick={handleReset}>
+            Reset Current Game
+        </Button>
         {gamesList}        
+
       </Box>
     );
   }

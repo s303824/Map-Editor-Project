@@ -7,6 +7,7 @@ import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom'
 
 export default function Banner() {
+
     return (
         <Box sx={{ flexGrow: 1 }} >
         <AppBar position="static" id="app-bar">
