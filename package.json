@@ -14,7 +14,7 @@
     "build": "cd client && npm install && npm run build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-	"heroku-prebuild": "cd server && node index.js"
+	"heroku-prebuild": "cd server && npm install && node index.js"
   },
   "eslintConfig": {
     "extends": [
