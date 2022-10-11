@@ -28,6 +28,12 @@
   word-wrap: break-word;
 }
 
+.login-page {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
 .qmodal-text {
   text-overflow: clip;
   word-wrap: break-word;
@@ -38,6 +44,13 @@ html {background-color: rgba(88, 80, 245, 0.396)}
 .horizontal-list {
   display: flex;
   flex-direction: row;
+}
+
+.vertical-list {
+  display:flex;
+  flex-flow: column nowrap;
+  margin-top: 5%;
+  gap: 20px;
 }
 
 .horizontal-list-creator {

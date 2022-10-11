@@ -1,5 +1,5 @@
 const auth = require('../auth')
-const User = require('../models/user-model')
+const User = require('../model/user-model')
 const bcrypt = require('bcryptjs')
 
 registerUser = async (req, res) => {
@@ -72,11 +72,62 @@ registerUser = async (req, res) => {
     }
 }
 
+login = async(req, res) => {
+    const { email, username, password } = req.body;
+    console.log("hfd")
+    const loggedInUser = await User.findOne({ username: username });
+    if (!loggedInUser) {
+        return res.status(400).json({errorMessage:"User not found"});
+    }
+    const passwordCorrect = await bcrypt.compare(password, loggedInUser.passwordHash);
+    if(!passwordCorrect) {
+        return res.status(400).json({errorMessage:"Wrong password"});
+    }
+    const saltRounds = 10;
+    const salt = await bcrypt.genSalt(saltRounds);
+    const passwordHash = await bcrypt.hash(password, salt);
+
+    // LOGIN THE USER
+    const token = auth.signToken(loggedInUser);
+
+    res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none"
+    }).status(200).json({
+        success: true,
+        user: {
+            username: loggedInUser.username,
+            email: loggedInUser.email,
+        }
+    }).send();
+}
+
+getLoggedIn = async (req, res) => {
+    auth.verify(req, res, async function () {
+        const loggedInUser = await User.findOne({ _id: req.userId });
+        if(!loggedInUser) {
+            return res.status(200).json({
+                loggedIn: false,
+                user: null
+            })
+        }
+
+        return res.status(200).json({
+            loggedIn: true,
+            user: {
+                email: loggedInUser.email,
+                username: loggedInUser.username,
+            }
+        })
+    })
+}
+
 
 module.exports = {
-    //getLoggedIn,
+    getLoggedIn,
     registerUser,
-    //login,
+    login,
     //logout,
     //updateUser
 }

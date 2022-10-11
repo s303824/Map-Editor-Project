@@ -61,6 +61,10 @@ function GlobalStoreContextProvider(props) {
         return db.mutationDeleteGame(gameTitle);
     }
 
+    store.registerUser = function(userData) {
+        console.log(userData)
+    }
+
 
     
     return (
