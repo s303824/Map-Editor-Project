@@ -1,2 +1,3 @@
     "heroku-prebuild": "cd client && npm install -f",
     "heroku-postbuild": "cd client && npm run build"
+gds
