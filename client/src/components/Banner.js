@@ -3,19 +3,25 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
 import { Button } from '@mui/material';
 import { GlobalStoreContext } from '../store'
 import "../App.css"
 import { useNavigate } from 'react-router-dom';
+import AuthContext from '../auth';
 
-export default function Banner() {
+function Banner() {
 
     const navigate = useNavigate()
+    const {auth} = useContext(AuthContext)
 
     function handleLogin() {
         navigate('/login',{})
+    }
+
+    function handleLogout() {
+        auth.logoutUser();
     }
 
     let loginButton = true ? <Link to="/login">Login</Link> :
@@ -23,29 +29,26 @@ export default function Banner() {
     let signUpButton = true ? <Link to="/signup">Sign Up</Link> :
     <Box></Box>
 
-    let accBox = <Box>{loginButton}{signUpButton}</Box>
+    let accBox = <Box marginRight="10px">{loginButton}    {signUpButton}</Box>
+
+
+    if(auth.loggedIn) {
+        accBox = <Box className="horizontal-list">
+                    <Box paddingRight="10px">{auth.user.username}</Box>
+                    <Button variant="contained"  onClick={handleLogout}>Log out</Button>
+                </Box>
+    }
+    
 
     return (
         <Box sx={{ flexGrow: 1 }} >
-        <AppBar position="static" id="app-bar">
-            <Toolbar>
-                <Typography                        
-                    variant="h4"
-                    noWrap
-                    component="div"
-                    sx={{ display: { xs: 'none', sm: 'block' } }}                        
-                >
-                    <Link to="/">Gameshow</Link>
-                </Typography>
-                
-                    {accBox}
+            <Box className="banner">
 
-                
-                
-                <Box sx={{ flexGrow: 1 }}></Box>
-            </Toolbar>
-        </AppBar>
-        
-    </Box>
+            <Link to="/">Gameshow</Link>    
+            {accBox}        
+            </Box>
+        </Box>
     );
   }
+
+  export default Banner;

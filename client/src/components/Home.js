@@ -6,29 +6,31 @@ import { GlobalStoreContext } from '../store'
 import "../App.css"
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react'
+import AuthContext from '../auth';
 
 function Home() {
 
     const { store } = useContext(GlobalStoreContext)
+    const {auth} = useContext(AuthContext)
     const navigate = useNavigate()
     const [reset, setReset] = useState(0);
+    const [games, setGames] = useState(store.getGames)
 
-    let listOfGames = store.getGames();
     let gamesList = [];
     let titles = [];
 
-    for(let i=0; i<listOfGames.length; i++) {
+    for(let i=0; i<games.length; i++) {
       gamesList[i] = 
       <Box key={i} className="home-list-item">
-        <Box  onClick={ () => handleGameSelect(i)}> {listOfGames[i]['title']} </Box>
+        <Box  onClick={ () => handleGameSelect(i)}> {games[i]['title']} </Box>
 
         <Box className='home-button-holder'>
           <Button variant="contained" color="primary" onClick={() => handleEdit(i)}>edit</Button>
-          <Button variant="contained" color="error" onClick={() => handleDelete(listOfGames[i]['title'])}>delete</Button>
+          <Button variant="contained" color="error" onClick={() => handleDelete(games[i]['title'])}>delete</Button>
         </Box>
 
       </Box>
-      titles[i] = listOfGames[i]['title'];
+      titles[i] = games[i]['title'];
     }
 
     function handleReset () {
@@ -46,8 +48,22 @@ function Home() {
     }
 
     function handleEdit(i) {
+      if(!auth.loggedIn){
+        alert("Please log in")
+        return
+      }
+
       store.setCurrentGame(titles[i]);
       navigate('/create',{})
+    }
+
+    function handleCreate() {
+      if(!auth.loggedIn){
+        alert("Please log in")
+        return
+      }
+      alert("WARNING: \nthis version of website is only saving gameshows locally! \nfuture versions will save gameshows online!\nyour local gameshows will NOT be carried over")
+      navigate('/create', {});
     }
 
 
@@ -55,7 +71,7 @@ function Home() {
       <Box className="Home">
 
         <Box className='home-button-holder'>
-          <Button component={Link} to="/create" variant="contained" color="primary">
+          <Button onClick={handleCreate} to="/create" variant="contained" color="primary">
               Create New Gameshow
           </Button>
 

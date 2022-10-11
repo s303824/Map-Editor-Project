@@ -46,6 +46,17 @@ html {background-color: rgba(88, 80, 245, 0.396)}
   flex-direction: row;
 }
 
+.banner {
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+  min-height: 40px;
+  padding-top: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: #0a97be;
+}
+
 .vertical-list {
   display:flex;
   flex-flow: column nowrap;
@@ -146,17 +157,6 @@ img {
 }
 ​
 
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
 
 .App-header {
   background-color: #282c34;

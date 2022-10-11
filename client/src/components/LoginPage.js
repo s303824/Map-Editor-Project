@@ -15,7 +15,6 @@ function LoginPage() {
     const { auth } = useContext(AuthContext)
     const [ username, setUsername] = useState("");
     const [ password, setPassword] = useState("");
-    const [ email, setEmail] = useState("");
 
     function handleUsernameChange(event) {
         setUsername(event.target.value);
@@ -25,14 +24,10 @@ function LoginPage() {
         setPassword(event.target.value)
     }
 
-    function handleEmailChange(event) {
-        setEmail(event.target.value)
-    }
 
     function handleLogin() {
         let userData = {
             username: username,
-            email: email,
             password:password,
         }
 
@@ -43,7 +38,6 @@ function LoginPage() {
         <Box className="login-page">
             <Box className="vertical-list">
                 <TextField label="username" onChange={handleUsernameChange} value = {username}></TextField>
-                <TextField label="email" onChange={handleEmailChange} value = {email}></TextField>
                 <TextField label="password" onChange={handlePasswordChange} value={password}></TextField>
                 <Button variant="contained" onClick={handleLogin}>Login</Button>
             </Box>

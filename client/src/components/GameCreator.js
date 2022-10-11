@@ -4,12 +4,14 @@ import { useContext, useEffect, useState } from 'react'
 import { GlobalStoreContext } from '../store'
 import TextField from '@mui/material/TextField';
 import { useNavigate } from 'react-router-dom';
+import AuthContext from '../auth';
 
 function GameCreator() {
     const { store } = useContext(GlobalStoreContext)
+    const { auth } = useContext(AuthContext)
 
-    const [game, setGame] = useState(store.getGameByKey(store.getCurrentGame()));
-    const [questions, setQuestions] = useState(store.getCurrentGame() == "" ? [] : game['questions']);
+    const [game, setGame] = useState(store.getGameByKey(store.currentGame));
+    const [questions, setQuestions] = useState(store.currentGame == null ? [] : game['questions']);
     const [categories, setCategories] = useState(6); //TODO: add more than 6 categories
     const [defaultPointVal, setDefaultPointVal] = useState(200);
     const [editorDisabled, setEditorDisabled] = useState(true);
@@ -26,7 +28,7 @@ function GameCreator() {
 
     const [imageLink, setImageLink] = useState("");
 
-    const [gameName, setGameName] = useState(store.getCurrentGame() == "" ? "default" : game['title']);
+    const [gameName, setGameName] = useState(store.getCurrentGame() == null ? "default" : game['title']);
 
     const navigate = useNavigate()
 
@@ -89,7 +91,7 @@ function GameCreator() {
         let newListItem = listItem;
         newListItem[0] = categoryNames;
         //category names are save in newlistitem[0]
-        let savedGame = {title: gameName, questions:newListItem}
+        let savedGame = {title: gameName, user:auth.user.username, questions:newListItem}
         store.saveGame(savedGame);
         navigate('/',{})
     }
@@ -100,7 +102,7 @@ function GameCreator() {
 
     useEffect(() => {
 
-        if(store.getCurrentGame() != "") {
+        if(store.currentGame != null) {
             for(let i=1; i<categories+1; i++){  
                 for(let j=1; j<6; j++) {
                     listItem[i][j] = {score:defaultPointVal*j, question:questions[i][j]['question'], answer:questions[i][j]['answer'], imgsrc:questions[i][j]['imgsrc']};

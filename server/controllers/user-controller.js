@@ -123,11 +123,26 @@ getLoggedIn = async (req, res) => {
     })
 }
 
+logout = async(req, res) => {
+    console.log("hd")
+    
+    const token = auth.signToken(null);
+
+    res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none"
+    }).status(200).json({
+        success: true,
+        user: null
+    })
+}
+
 
 module.exports = {
     getLoggedIn,
     registerUser,
     login,
-    //logout,
+    logout,
     //updateUser
 }

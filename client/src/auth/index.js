@@ -62,6 +62,16 @@ function AuthContextProvider(props) {
                     guest: false
                 });
             }
+            case AuthActionType.LOGOUT: {
+                return setAuth({
+                    user: null,
+                    loggedIn: false,
+                    successfulRegister: true,
+                    successfulLogin: true,
+                    error: null,
+                    guest: auth.guest
+                });
+            }
         }
         
     }
@@ -130,6 +140,19 @@ function AuthContextProvider(props) {
                     user: null,
                     successfulRegister: false,
                     error: error.response.data.errorMessage
+                }
+            });
+        }
+    }
+
+    auth.logoutUser = async function () { 
+        const response = await api.logoutUser();
+        if (response.status === 200) {
+            authReducer({
+                type: AuthActionType.LOGOUT,
+                payload: {
+                    loggedIn: false,
+                    user: null
                 }
             });
         }
