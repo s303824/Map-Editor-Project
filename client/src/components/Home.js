@@ -63,7 +63,7 @@ function Home() {
         return
       }
       alert("WARNING: \nthis version of website is only saving gameshows locally! \nfuture versions will save gameshows online!\nyour local gameshows will NOT be carried over")
-      navigate('/create', {});
+      navigate('/create', {}); 
     }
 
 
