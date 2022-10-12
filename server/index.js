@@ -30,12 +30,14 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
 if (process.env.NODE_ENV === 'production') {
     // Exprees will serve up production assets
+    app.use(express.static(path.join("..", "client", "build")));
     app.use(express.static('client'));
+    console.log(__dirname)
   
     // Express serve up index.html file if it doesn't recognize route
     const path = require('path');
     app.get('*', (req, res) => {
-      res.sendFile(path.resolve('client', 'index.js'));
+      res.sendFile(path.resolve('client', 'build', 'index.html'));
     });
   }
   
