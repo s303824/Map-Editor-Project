@@ -18,6 +18,11 @@ app.use(cors({
 app.use(express.json())
 app.use(cookieParser())
 
+var distDir = __dirname + "/dist/";
+app.use(express.static(distDir));
+
+
+
 // SETUP OUR OWN ROUTERS AS MIDDLEWARE
 const top5listsRouter = require('./routes/gameshow-router.js')
 app.use('/api', top5listsRouter)
