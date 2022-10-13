@@ -3,7 +3,6 @@ const express = require('express')
 const cors = require('cors')
 const dotenv = require('dotenv')
 const cookieParser = require('cookie-parser')
-const path = require("path");
 
 // CREATE OUR SERVER
 dotenv.config()
@@ -28,6 +27,8 @@ app.use('/api', top5listsRouter)
 // INITIALIZE OUR DATABASE OBJECT
 const db = require('./db')
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
+
+const path = require("path");
 
 if (process.env.NODE_ENV === 'production') {
     // Exprees will serve up production assets
