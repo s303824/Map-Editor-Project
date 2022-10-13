@@ -40,7 +40,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'))
   
     // Express serve up index.html file if it doesn't recognize route
     app.get('/*', (req, res) => {
-      res.sendFile(('../client/build/index.html'));
+      res.sendFile(('app/client/build/index.html'));
     });
   
 
