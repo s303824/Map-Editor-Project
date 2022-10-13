@@ -29,7 +29,6 @@ const db = require('./db')
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
 
-if (process.env.NODE_ENV === 'production') {
     const path = require('path');
     // Exprees will serve up production assets
     app.use(express.static(path.join("..", "client", "build")));
@@ -40,7 +39,6 @@ if (process.env.NODE_ENV === 'production') {
     app.get('*', (req, res) => {
       res.sendFile(path.resolve('client', 'build', 'index.html'));
     });
-  }
   
 
 // PUT THE SERVER IN LISTENING MODE
