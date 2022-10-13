@@ -13,16 +13,23 @@ const app = express()
 
 // SETUP THE MIDDLEWARE
 app.use(express.urlencoded({ extended: true }))
-app.use(cors())
 app.use(express.json())
 app.use(cookieParser())
 
+const corsOptions ={
+  origin:'*', 
+  credentials:true,            //access-control-allow-credentials:true
+  optionSuccessStatus:200,
+}
+
+app.use(cors(corsOptions))
+
 // SETUP OUR OWN ROUTERS AS MIDDLEWARE
-const top5listsRouter = require('./server/routes/gameshow-router.js')
+const top5listsRouter = require('../server/routes/gameshow-router.js')
 app.use('/api', top5listsRouter)
 
 // INITIALIZE OUR DATABASE OBJECT
-const db = require('./server/db')
+const db = require('../server/db')
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
 
