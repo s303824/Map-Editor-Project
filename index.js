@@ -22,7 +22,7 @@ const corsOptions ={
   optionSuccessStatus:200,
 }
 
-app.use(cors(corsOptions))
+
 
 // SETUP OUR OWN ROUTERS AS MIDDLEWARE
 const top5listsRouter = require('../server/routes/gameshow-router.js')
