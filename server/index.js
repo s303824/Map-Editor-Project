@@ -33,14 +33,15 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
     const path = require('path');
     // Exprees will serve up production assets
-    app.use(express.static(path.join("..", "client", "build")));
+    app.use(express.static(path.resolve("..", "client", "build")));
     app.use(express.static('client'));
 
-    console.log(path.resolve('..', 'client', 'build', 'index.html') + "\n")
+    console.log(path.resolve('../', 'client', 'build', 'index.html') + "\n")
+    console.log((path.resolve("..", "client", "build")) + "\n")
   
     // Express serve up index.html file if it doesn't recognize route
     app.get('/*', (req, res) => {
-      res.sendFile(('app/client/build/index.html'));
+      res.sendFile(path.resolve('../', 'client', 'build', 'index.html'));
     });
   
 
