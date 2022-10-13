@@ -4,6 +4,8 @@ const cors = require('cors')
 const dotenv = require('dotenv')
 const cookieParser = require('cookie-parser')
 
+console.log("\n\nNEW SERVER\n")
+
 // CREATE OUR SERVER
 dotenv.config()
 const PORT = process.env.PORT || 4000;
@@ -33,11 +35,12 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'))
     // Exprees will serve up production assets
     app.use(express.static(path.join("..", "client", "build")));
     app.use(express.static('client'));
-    console.log(__dirname)
+
+    console.log(path.resolve('..', 'client', 'build', 'index.html') + "\n")
   
     // Express serve up index.html file if it doesn't recognize route
     app.get('*', (req, res) => {
-      res.sendFile(path.resolve('client', 'build', 'index.html'));
+      res.sendFile(path.resolve('..', 'client', 'build', 'index.html'));
     });
   
 
