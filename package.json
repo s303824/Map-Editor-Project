@@ -1,36 +1,44 @@
 {
-  "name": "gameshow",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    
-  },
-"engines": {
-   "node": "16.x"
- },
-  "scripts": {
-    "build": "cd client && npm run build",
-     "install-client": "cd client && npm install",
-    "heroku-postbuild": "npm run install-client && npm run build",
-     "start": "cd server && node index.js"
-
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "name": "gameshow",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+      "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.7.5"
+    },
+  "engines": {
+     "node": "16.x"
+   },
+    "scripts": {
+      "build": "cd client && npm run build",
+       "install-client": "cd client && npm install",
+      "heroku-postbuild": "npm run install-client && npm run build",
+       "start": "cd server && node index.js"
+  
+    },
+    "eslintConfig": {
+      "extends": [
+        "react-app",
+        "react-app/jest"
+      ]
+    },
+    "browserslist": {
+      "production": [
+        ">0.2%",
+        "not dead",
+        "not op_mini all"
+      ],
+      "development": [
+        "last 1 chrome version",
+        "last 1 firefox version",
+        "last 1 safari version"
+      ]
+    }
   }
-}
+  
