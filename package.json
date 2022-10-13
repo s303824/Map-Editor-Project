@@ -19,7 +19,7 @@
       "build": "cd client && npm run build",
        "install-client": "cd client && npm install",
       "heroku-postbuild": "npm run install-client && npm run build",
-       "start": "cd server && node index.js"
+       "start": "node index.js"
   
     },
     "eslintConfig": {
