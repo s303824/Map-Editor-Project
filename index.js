@@ -18,11 +18,11 @@ app.use(express.json())
 app.use(cookieParser())
 
 // SETUP OUR OWN ROUTERS AS MIDDLEWARE
-const top5listsRouter = require('../server/routes/gameshow-router.js')
+const top5listsRouter = require('/server/routes/gameshow-router.js')
 app.use('/api', top5listsRouter)
 
 // INITIALIZE OUR DATABASE OBJECT
-const db = require('../server/db')
+const db = require('/server/db')
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
 
