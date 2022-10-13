@@ -13,16 +13,9 @@ const app = express()
 
 // SETUP THE MIDDLEWARE
 app.use(express.urlencoded({ extended: true }))
+app.use(cors())
 app.use(express.json())
 app.use(cookieParser())
-
-const corsOptions ={
-  origin:'*', 
-  credentials:true,            //access-control-allow-credentials:true
-  optionSuccessStatus:200,
-}
-
-
 
 // SETUP OUR OWN ROUTERS AS MIDDLEWARE
 const top5listsRouter = require('../server/routes/gameshow-router.js')
