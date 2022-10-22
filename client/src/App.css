@@ -39,7 +39,7 @@
   word-wrap: break-word;
 }
 
-html {background-color: rgba(88, 80, 245, 0.396)} 
+html {background-color:#0e0e10} 
 
 .horizontal-list {
   display: flex;

@@ -1,6 +1,6 @@
 import {BrowserRouter, BrowserRouter as Router, Route, Routes} from "react-router-dom";
-import Home from "./components/Home";
-import Banner from "./components/Banner";
+import Home from "../src/routes/Home";
+import Banner from "./components/navbar.component";
 import './App.css';
 import { GlobalStoreContextProvider } from './store'
 import { AuthContextProvider } from "./auth";

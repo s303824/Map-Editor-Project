@@ -7,6 +7,7 @@ import "../App.css"
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react'
 import AuthContext from '../auth';
+import PermanentDrawerLeft from '../components/sidebar.component';
 
 function Home() {
 
@@ -16,7 +17,7 @@ function Home() {
 
     return (
       <Box className="Home">
-
+        <PermanentDrawerLeft></PermanentDrawerLeft>
         Welcome to Tileslate 
 
       </Box>
