@@ -2,13 +2,46 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const ObjectId = Schema.Types.ObjectId
 
-const UserSchema = new Schema(
+const userSchema = new Schema(
     {
-        username: {type: String, required: true},
-        email: { type: String, required: true },
-        passwordHash: { type: String, required: true },
-    },
-    { timestamps: true },
+        first_name: {             // first name of the user
+            type: String, 
+            required: true,
+            maxlength: 100
+        },
+        last_name: {              // last name of the user
+            type: String,
+            required: true,
+            maxlength: 100
+        }, 
+        liked_projects: [String], //type: array - list of maps liked by the user
+    
+        myprojects: [String],  //type: array  -        list of maps created by the user 
+    
+        passwordHash: {               // password of the user
+            type: String,
+            required: true,
+            minlength: 8
+        },
+        profile_picture: {     // image will be stored in cloudinary, and link to the image 
+            type: String       // will be stored in the database
+        },
+    
+        publishedMaps: [Object],  //type: array - list of user’s published maps
+        
+        email: {             // Email account of the user
+            type: String,
+            required: true,
+        maxlength: 100,
+        unique: true
+        },
+        username: {              // user name of the user
+            type: String,
+            required: true,
+            maxlength: 100,
+        unique: true
+        }
+  }
 )
 
-module.exports = mongoose.model('User', UserSchema)
+module.exports = mongoose.model('User', userSchema)
