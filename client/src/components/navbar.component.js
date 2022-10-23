@@ -1,34 +1,38 @@
 import '../App.css';
+import "../App"
+
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import AuthContext from '../auth';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
+import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom'
-import { GlobalStoreContext } from '../store'
-import "../App"
-import { useNavigate } from 'react-router-dom';
-import AuthContext from '../auth';
-import logo from '../assets/tileslate_logo.png'
-import userImage from '../assets/userimage.png'
-
-import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import IconButton from '@mui/material/IconButton';
-import Button, { ButtonProps } from '@mui/material/Button';
-import Sidebar from './sidebar.component'
-
-
 import Avatar from '@mui/material/Avatar';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
+import { styled, alpha } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
+import logo from '../assets/tileslate_logo.png'
+import userImage from '../assets/userimage.png'
+import Sidebar from './sidebar.component'
+import UserCard from './user-card.component';
+
 
 function Banner() {
 
-    const navigate = useNavigate()
-    const {auth} = useContext(AuthContext)
+    const navigate = useNavigate();
+    const {auth} = useContext(AuthContext);
 
+    const userInfo = { //sample data 
+      "id":1,
+      "userName":"user4",
+      "email":"user4@gmail.com"
+  }
+    
     const Search = styled('div')(({ theme }) => ({
         position: 'relative',
         borderRadius: theme.shape.borderRadius,
@@ -70,10 +74,10 @@ function Banner() {
       }));
 
     return (
-        <Box sx={{ display: 'flex' ,flexGrow: 1}} >
+        <Box className='top-navbar' sx={{ display: 'flex' ,flexGrow: 1}} >
            <CssBaseline/>
-           <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-              <Toolbar sx={{boxShadow: 1 ,backgroundColor:'#18171b',justifyContent: 'space-between'}}> 
+           <AppBar position="static" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1}}>
+              <Toolbar sx={{boxShadow: 1 ,backgroundColor:'#1E1E1E',justifyContent: 'space-between'}}> 
               <Box 
                 component="img"
                 sx={{ height: 60 }}
@@ -97,11 +101,7 @@ function Banner() {
             </Box>
             
             <Box display="flex" flexDirection="row" >
-                <Avatar alt="user image" src= {userImage} sx={{ border:2 ,borderRadius: '50%', borderColor:"#fb7603"}}></Avatar>
-                <Box  sx={{ paddingX: 2, justifyContent: 'center' }}>
-                    <Typography>USERNAME</Typography>
-                    <Typography> user@gmail.com </Typography>
-                </Box >
+                <UserCard userName ={userInfo.userName} email = {userInfo.email}/>
                 <IconButton 
                     size="large"
                     aria-label="account of current user"

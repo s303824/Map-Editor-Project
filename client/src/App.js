@@ -9,7 +9,6 @@ import { AuthContextProvider } from "./auth";
 
 const App = () => {
 
-
   return (
     <BrowserRouter>
       <AuthContextProvider>
@@ -17,6 +16,7 @@ const App = () => {
           <Banner/>
             <Routes>
               <Route path="/" element={<Home/>}/>
+              <Route path="/home" element={<Home/>}/>
             </Routes>
         </GlobalStoreContextProvider>
       </AuthContextProvider>
