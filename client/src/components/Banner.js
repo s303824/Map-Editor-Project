@@ -6,13 +6,11 @@ import { useNavigate } from 'react-router-dom';
 function Banner() {
 
     const navigate = useNavigate()
+    const {auth} = useContext(AuthContext)
 
     return (
         <Box sx={{ flexGrow: 1 }} >
-            <Box className="banner">``
-
-            TS       
-            </Box>
+            TS
         </Box>
     );
   }

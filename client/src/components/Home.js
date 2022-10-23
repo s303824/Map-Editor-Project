@@ -17,7 +17,7 @@ function Home() {
     return (
       <Box className="Home">
 
-        Welcome to Tileslate 
+        Welcome to Tileslate  SFDGfgdsadfgshdfg
 
       </Box>
     );
