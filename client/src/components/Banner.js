@@ -1,6 +1,7 @@
 import '../App.css';
 import Box from '@mui/material/Box';
-import "../App.css"
+import AuthContext from '../auth';
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function Banner() {
