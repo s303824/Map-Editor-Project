@@ -1,15 +1,8 @@
 import '../App.css';
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom'
-import { Button } from '@mui/material';
-import { GlobalStoreContext } from '../store'
-import "../App.css"
-import { useNavigate } from 'react-router-dom';
 import AuthContext from '../auth';
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Banner() {
 
