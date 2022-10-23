@@ -4,8 +4,8 @@ const bcrypt = require('bcryptjs')
 
 registerUser = async (req, res) => {
     try {
-        const { username, email, password, passwordVerify } = req.body;
-        if (!email || !password || !passwordVerify || !username) {
+        const { username, email, password, passwordVerify, first_name, last_name } = req.body;
+        if (!email || !password || !passwordVerify || !username || !first_name || !last_name) {
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
@@ -48,7 +48,7 @@ registerUser = async (req, res) => {
         const passwordHash = await bcrypt.hash(password, salt);
 
         const newUser = new User({
-            username, email, passwordHash, 
+            username, email, passwordHash, first_name, last_name
         });
         const savedUser = await newUser.save();
 
@@ -74,7 +74,6 @@ registerUser = async (req, res) => {
 
 login = async(req, res) => {
     const { email, username, password } = req.body;
-    console.log("hfd")
     const loggedInUser = await User.findOne({ username: username });
     if (!loggedInUser) {
         return res.status(400).json({errorMessage:"User not found"});
@@ -104,6 +103,7 @@ login = async(req, res) => {
 }
 
 getLoggedIn = async (req, res) => {
+    console.log(req.userId)
     auth.verify(req, res, async function () {
         const loggedInUser = await User.findOne({ _id: req.userId });
         if(!loggedInUser) {
@@ -138,11 +138,59 @@ logout = async(req, res) => {
     })
 }
 
+updateUser = async(req, res) => {
+    
+    const { email, username, first_name, last_name } = req.body;
+    const loggedInUser = await User.findOne({ email: email });
+    const body = req.body
+
+    loggedInUser.first_name = first_name;
+    loggedInUser.last_name = last_name;
+    loggedInUser.username = username;
+    loggedInUser.email = email;
+
+    //loggedInUser.myProjects = myProjects
+    //loggedInUser.likedProjects = likedProjects
+    //loggedInUser.profilePicture = profilePicture
+    //loggedInUser.publishedMaps = publishedMaps
+
+    if (!body) {
+        return res.status(400).json({
+            success: false,
+            error: 'You must provide a body to update',
+        })
+    }
+
+    if (!loggedInUser) {
+        return res.status(400).json({errorMessage:"User not found"});
+    }
+
+        loggedInUser
+            .save()
+            .then(() => {
+                console.log("SUCCESS!!!");
+                return res.status(200).json({
+                    success: true,
+                    username: loggedInUser.username,
+                    message: 'user updated!',
+                })
+            })
+            .catch(error => {
+                console.log((error));
+                return res.status(404).json({
+                    error,
+                    message: 'user not updated!',
+                })
+            })
+    
+    
+}
+
 
 module.exports = {
     getLoggedIn,
     registerUser,
     login,
     logout,
-    //updateUser
+    updateUser
 }
