@@ -74,7 +74,6 @@ registerUser = async (req, res) => {
 
 login = async(req, res) => {
     const { email, username, password } = req.body;
-    console.log("hfd")
     const loggedInUser = await User.findOne({ username: username });
     if (!loggedInUser) {
         return res.status(400).json({errorMessage:"User not found"});
