@@ -127,8 +127,6 @@ getLoggedIn = async (req, res) => {
 }
 
 logout = async(req, res) => {
-    console.log("hd")
-    
     const token = auth.signToken(null);
 
     res.cookie("token", token, {
@@ -139,6 +137,11 @@ logout = async(req, res) => {
         success: true,
         user: null
     })
+}
+
+updateUserByName = async(username) => {
+    const loggedInUser = await User.findOne({ username: username });
+    //loggedInUser
 }
 
 updateUser = async(req, res) => {
