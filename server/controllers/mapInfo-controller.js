@@ -162,3 +162,11 @@ getAllMapInfoByUser = async (req, res) => {
     }
 }
 
+module.exports = {
+    registerMapInfo,
+    deleteMapInfo,
+    updateMapInfo,
+    updateMapgetMapInfo,
+    getAllMapInfoByUser
+}
+

@@ -6,21 +6,21 @@ const MapInfoController = require('../controllers/mapInfo-controller')
 
 const router = express.Router()
 
-router.post('/registerUser', UserController.registerUser)
+router.post('/register', UserController.registerUser)
 router.get('/loggedIn', UserController.getLoggedIn)
 router.post('/login', UserController.login)
 router.get('/logout', UserController.logout)
-router.put('/updateUser', UserController.updateUser)
+router.put('/user', UserController.updateUser)
 
 router.post('/registerMap', MapController.registerMap)
-router.post('/deleteMap', MapController.deleteMap)
-router.post('/updateMap', MapController.updateMap)
-router.post('/getMap', MapController.getMap)
+router.delete('/deleteMap', MapController.deleteMap)
+router.put('/updateMap', MapController.updateMap)
+router.get('/getMap', MapController.getMap)
 
-router.get('/registerMapInfo', MapInfoController.registerMapInfo)
-router.post('/deleteMapInfo', MapInfoController.deleteMapInfo)
-router.post('/updateMapInfo', MapInfoController.updateMapInfo)
-router.post('/updateMapgetMapInfo', MapInfoController.getMapInfo)
-router.post('/getAllMapInfoByUser', MapInfoController.getAllMapInfoByUser)
+router.post('/registerMapInfo', MapInfoController.registerMapInfo)
+router.delete('/deleteMapInfo', MapInfoController.deleteMapInfo)
+router.put('/updateMapInfo', MapInfoController.updateMapInfo)
+router.get('/updateMapgetMapInfo', MapInfoController.getMapInfo)
+router.get('/getAllMapInfoByUser', MapInfoController.getAllMapInfoByUser)
 
 module.exports = router

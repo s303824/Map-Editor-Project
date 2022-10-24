@@ -146,3 +146,10 @@ getMap = async (req, res) => {
         res.status(500).send();
     }
 }
+
+module.exports = {
+    registerMap,
+    deleteMap,
+    updateMap,
+    getMap
+}
