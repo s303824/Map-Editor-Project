@@ -13,7 +13,6 @@ connection.once("open", function() {
   console.log("MongoDB database connection established successfully");
 });
 
-
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion });
 
 
