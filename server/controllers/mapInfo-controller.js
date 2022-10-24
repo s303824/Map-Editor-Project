@@ -145,7 +145,6 @@ module.exports = {
     registerMapInfo,
     deleteMapInfo,
     updateMapInfo,
-    updateMapgetMapInfo,
+    getMapInfo,
     getAllMapInfoByUser
 }
-

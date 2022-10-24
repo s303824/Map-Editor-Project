@@ -22,4 +22,5 @@ const mapsSchema = new Schema(
     }
 )
 
+
 module.exports = mongoose.model('Map', mapsSchema)
