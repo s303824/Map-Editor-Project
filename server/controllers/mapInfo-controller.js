@@ -32,6 +32,8 @@ registerMapInfo = async (req, res) => {
             published
         });
         await MapInfo.create(newMapInfo);
+        res.status(200).send();
+        return newMapInfo;
     } catch (err) {
         console.error(err);
         res.status(500).send();
