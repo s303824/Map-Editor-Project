@@ -69,12 +69,13 @@ deleteMap = async (req, res) => {
 }
 
 updateMap = async (req, res) => {
-    const { backgroundcolor, height, infinite, layers, mapInfo, nextLayerId, 
+    const { mapid, backgroundcolor, height, infinite, layers, mapInfo, nextLayerId, 
         nextObjectId, renderOrder, tileslateVersion, tileHeight, tilesets, 
         tileWidth, version, width } = req.body;
     const selectedMap = await Map.findOne({ mapid: mapid });
 
     Map.findByIdAndUpdate(selectedMap.mapid, {
+        mapid : mapid,
         backgroundcolor : backgroundcolor,
         height : height, 
         infinite : infinite,
