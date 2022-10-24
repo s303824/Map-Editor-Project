@@ -14,7 +14,7 @@ registerMap = async (req, res) => {
                 .json({ errorMessage: "Please enter all required fields." });
         }
         const existingMap = await Map.findOne({ mapid: mapid });
-        if (existingMap != NULL) {
+        if (existingMap != null) {
             return res
                 .status(400)
                 .json({
