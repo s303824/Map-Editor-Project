@@ -22,7 +22,7 @@ registerMapInfo = async (req, res) => {
 
         const newMapInfo = new MapInfo({
             name, 
-            creator, 
+            creator: [creator], 
             thumbnailURL, 
             comments, 
             likes, 
@@ -31,9 +31,13 @@ registerMapInfo = async (req, res) => {
             map_id, 
             published
         });
+        
         await MapInfo.create(newMapInfo);
-        res.status(200).send();
-        return newMapInfo;
+        return res.status(200).json({
+            success: true,
+            mapInfo: newMapInfo
+        })
+
     } catch (err) {
         console.error(err);
         res.status(500).send();

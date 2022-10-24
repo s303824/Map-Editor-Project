@@ -27,7 +27,7 @@ const userSchema = new Schema(
             type: String       // will be stored in the database
         },
     
-        publishedMaps: [Object],  //type: array - list of user’s published maps
+        publishedMaps: [String],  //type: array - list of user’s published maps
         
         email: {             // Email account of the user
             type: String,

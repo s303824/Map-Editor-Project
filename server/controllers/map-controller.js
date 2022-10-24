@@ -1,19 +1,20 @@
 const Map = require('../model/map-model')
 const MapInfo = require('../model/mapInfo-model')
+const User = require("../model/user-model")
 
 registerMap = async (req, res) => {
     try {
-        const { mapid, backgroundcolor, height, infinite, layers, mapinfo, nextlayerid, 
+        const { _id, backgroundcolor, height, infinite, layers, mapinfo, nextlayerid, 
             nextobjectid, renderorder, tiledversion, tileheight, tilesets, 
             tilewidth, version, width } = req.body;
-        if (!(mapid, backgroundcolor && height && infinite && layers && mapinfo 
+        if (!( _id, backgroundcolor && height && infinite && layers && mapinfo 
             && nextlayerid && nextobjectid && renderorder && tiledversion 
             && tileheight && tilesets && tilewidth && version && width)) {
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
-        const existingMap = await Map.findOne({ mapid: mapid });
+        const existingMap = await Map.findOne({ _id: _id });
         if (existingMap != null) {
             return res
                 .status(400)
@@ -24,7 +25,6 @@ registerMap = async (req, res) => {
         }
 
         const newMap = new Map({
-            mapid,
             backgroundcolor,    // Hex-formatted color
             height,                // Number of tile rows
             infinite,          // Whether the map has infinite dimensions
@@ -40,16 +40,16 @@ registerMap = async (req, res) => {
             version,             // The JSON format version
             width                  // Number of tile columns
         });
-        await Map.create(newMap);
 
-        const {infoId, name, ownerName, thumbnailURL, comments, likes, dislikes, downloads} = mapinfo
-        console.log(ownerName)
-        const published = Date.now()
-        const map_id = mapid
+        //creating mapinfo
+        const {name, ownerName, thumbnailURL, comments, likes, dislikes, downloads} = mapinfo
+        const creator = [ownerName]
+        const published = "not-published"
+        const map_id = newMap._id
 
         const newMapInfo = new MapInfo({
             name,
-            ownerName,
+            creator,
             thumbnailURL,
             comments,
             likes,
@@ -59,9 +59,22 @@ registerMap = async (req, res) => {
             published
         });
 
-        await MapInfo.create(newMapInfo);
+        //adding map to user projects
+        const loggedInUser = await User.findOne({username: ownerName });
+        loggedInUser.myprojects.push(newMap._id)
 
-        res.status(200).send();
+
+        await MapInfo.create(newMapInfo);
+        await Map.create(newMap);
+        await loggedInUser.save()
+
+        return res.status(200).json({
+            success: true,
+            map: newMap,
+            mapInfo: newMapInfo,
+            user: loggedInUser,
+            message: "Map successfully created"
+        })
     } catch (err) {
         console.error(err);
         res.status(500).send();
@@ -70,26 +83,38 @@ registerMap = async (req, res) => {
 
 deleteMap = async (req, res) => {
     try{
-        const {  mapid } = req.body;
+        const {  _id } = req.body;
         
-        if(!mapid){
+        if(!_id){
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
-        Map.findOneAndDelete({mapid}, function (err, docs) {
-            if (err){
+        await Map.findOneAndDelete({_id}, function (err, docs) {
+            if (docs==null){
                 return res.status(404).json({
                     err,
                     message: 'could not find the map!',
                 })
             }
             else{
+                User.findOne({username: docs.mapinfo.ownerName }, function(err, loggedInUser) { 
+                    loggedInUser.myprojects = loggedInUser.myprojects.filter(function(e) {return e !== _id})
+                    loggedInUser.save();
+                });
+
+
+                const newMap = MapInfo.findOneAndDelete({map_id: _id}, function (err, map) {
+                    if(err) {
+                        console.log("Could not find mapInfo related to map with _id " + _id);
+                    }
+                    console.log("Deleted MapInfo related to map with _id " + _id)
+                })
+
                 return res.status(200).json({
                     message: 'Map deleted!',
                     docs
                 })
-                console.log("Deleted: ", docs);
             }
         })  
     } catch (err){
@@ -99,10 +124,10 @@ deleteMap = async (req, res) => {
 }
 
 updateMap = async (req, res) => {
-    const { mapid, backgroundcolor, height, infinite, layers, nextlayerid, 
+    const { _id, backgroundcolor, height, infinite, layers, nextlayerid, 
         nextobjectid, renderorder, tiledversion, tileheight, tilesets, 
         tilewidth, version, width } = req.body;
-    const selectedMap = await Map.findOne({ mapid: mapid });
+    const selectedMap = await Map.findOne({ _id: _id });
 
     if(selectedMap === null){
         return res
@@ -110,7 +135,7 @@ updateMap = async (req, res) => {
             .json({ errorMessage: "No map found!" });
     }
 
-    Map.findOneAndUpdate(selectedMap.mapid, {
+    Map.findOneAndUpdate(_id, {
         backgroundcolor : backgroundcolor,
         height : height, 
         infinite : infinite,
@@ -134,7 +159,7 @@ updateMap = async (req, res) => {
         else{
             return res.status(200).json({
                 message: 'Map Updated!',
-                docs
+                docs,
             }).send()
         }
         
@@ -143,13 +168,13 @@ updateMap = async (req, res) => {
 
 getMap = async (req, res) => {
     try{
-        const {  mapid } = req.body;
-        if(!mapid){
+        const {  _id } = req.body;
+        if(!_id){
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
-        Map.findOne({mapid}, function (err, docs) {
+        Map.findOne({_id}, function (err, docs) {
             if (err){
                 console.log(err)
                 return res.status(404).json({
@@ -157,8 +182,8 @@ getMap = async (req, res) => {
                 }).send();
             }
             else{
-                console.log("Map: ", docs);
                 return res.status(200).json({
+                    success:true,
                    docs 
                 }).send();
                 

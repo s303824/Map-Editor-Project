@@ -46,9 +46,14 @@ registerUser = async (req, res) => {
         const saltRounds = 10;
         const salt = await bcrypt.genSalt(saltRounds);
         const passwordHash = await bcrypt.hash(password, salt);
+        
+        const liked_projects = []
+        const myprojects = []
+        const profile_picture = ""
+        const publishedMaps = []
 
         const newUser = new User({
-            username, email, passwordHash, first_name, last_name
+            username, email, passwordHash, first_name, last_name, liked_projects, myprojects, profile_picture, publishedMaps
         });
         const savedUser = await newUser.save();
 
@@ -61,11 +66,7 @@ registerUser = async (req, res) => {
             sameSite: "none"
         }).status(200).json({
             success: true,
-            user: {
-                username: savedUser.username,
-                email: savedUser.email,
-                id: savedUser._id
-            }
+            user: savedUser
         }).send();
     } catch (err) {
         console.error(err);
@@ -96,11 +97,7 @@ login = async(req, res) => {
         sameSite: "none"
     }).status(200).json({
         success: true,
-        user: {
-            username: loggedInUser.username,
-            email: loggedInUser.email,
-            id: loggedInUser._id
-        }
+        user: loggedInUser
     }).send();
 }
 
@@ -117,11 +114,7 @@ getLoggedIn = async (req, res) => {
 
         return res.status(200).json({
             loggedIn: true,
-            user: {
-                email: loggedInUser.email,
-                username: loggedInUser.username,
-                id: loggedInUser._id
-            }
+            user: loggedInUser
         })
     })
 }
@@ -139,26 +132,9 @@ logout = async(req, res) => {
     })
 }
 
-updateUserByName = async(username) => {
-    const loggedInUser = await User.findOne({ username: username });
-    //loggedInUser
-}
-
 updateUser = async(req, res) => {
     
-    const { email, username, first_name, last_name, id } = req.body;
-    const loggedInUser = await User.findOne({ _id: id });
-    const body = req.body
-
-    loggedInUser.first_name = first_name;
-    loggedInUser.last_name = last_name;
-    loggedInUser.username = username;
-    loggedInUser.email = email;
-
-    //loggedInUser.myProjects = myProjects
-    //loggedInUser.likedProjects = likedProjects
-    //loggedInUser.profilePicture = profilePicture
-    //loggedInUser.publishedMaps = publishedMaps
+    const { email, username, first_name, last_name, id, myprojects, liked_projects, profile_picture, publishedMaps } = req.body;
 
     if (!body) {
         return res.status(400).json({
@@ -167,6 +143,19 @@ updateUser = async(req, res) => {
         })
     }
 
+    const loggedInUser = await User.findOne({ _id: id });
+    const body = req.body
+
+    loggedInUser.first_name = first_name;
+    loggedInUser.last_name = last_name;
+    loggedInUser.username = username;
+    loggedInUser.email = email;
+
+    loggedInUser.myProjects = myprojects
+    loggedInUser.liked_projects = liked_projects
+    loggedInUser.profile_picture = profile_picture
+    loggedInUser.publishedMaps = publishedMaps
+
     if (!loggedInUser) {
         return res.status(400).json({errorMessage:"User not found"});
     }
@@ -174,10 +163,10 @@ updateUser = async(req, res) => {
         loggedInUser
             .save()
             .then(() => {
-                console.log("SUCCESS!!!");
                 return res.status(200).json({
                     success: true,
                     username: loggedInUser.username,
+                    user: loggedInUser,
                     message: 'user updated!',
                 })
             })
