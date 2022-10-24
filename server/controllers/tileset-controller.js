@@ -30,40 +30,8 @@ registerTileSet = async (req, res) => {
         objectalignment, properties, source, tilecount, tileslateversion, tileheight, tilerendersize, tiles,
         tilewidth, transparentcolor, type, version, wangsets
         });
-        const savedTileSet = await newTileSet.save();
 
-        await res.cookie("token", token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: "none"
-        }).status(200).json({
-            success: true,
-            Tileset: {
-                backgroundcolor: savedTileSet.backgroundcolor,
-                columns: savedTileSet.columns,
-                fillmode: savedTileSet.fillmode,
-                firstgid: savedTileSet.firstgid,
-                grid: savedTileSet.grid,
-                image: savedTileSet.image,
-                imageheight: savedTileSet.imageheight,
-                imagewidth: savedTileSet.imagewidth,
-                margin: savedTileSet.margin,
-                name: savedTileSet.name,
-                objectalignment: savedTileSet.objectalignment,
-                properties: savedTileSet.properties,
-                source: savedTileSet.source,
-                tilecount: savedTileSet.tilecount,
-                tileslateversion: savedTileSet.tileslateversion,
-                tileheight: savedTileSet.tileheight,
-                tilerendersize: savedTileSet.tilerendersize,
-                tiles: savedTileSet.tiles,
-                tilewidth: savedTileSet.tilewidth,
-                transparentcolor: savedTileSet.transparentcolor, 
-                type: savedTileSet.type, 
-                version: savedTileSet.version, 
-                wangsets: savedTileSet.wangsets
-            }
-        }).send();
+        await Tileset.create(newTileSet);
     } catch (err) {
         console.error(err);
         res.status(500).send();

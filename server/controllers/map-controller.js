@@ -2,17 +2,17 @@ const Map = require('../model/map-model')
 
 registerMap = async (req, res) => {
     try {
-        const { mapId, backgroundcolor, height, infinite, layers, mapInfo, nextLayerId, 
-            nextObjectId, renderOrder, tileslateVersion, tileHeight, tilesets, 
-            tileWidth, version, width } = req.body;
-        if (!(mapId, backgroundcolor && height && infinite && layers && mapInfo 
-            && nextLayerId && nextObjectId && renderOrder && tileslateVersion 
-            && tileHeight && tilesets && tileWidth && version && width)) {
+        const { mapid, backgroundcolor, height, infinite, layers, mapInfo, nextlayerid, 
+            nextobjectid, renderorder, tileslateversion, tileheight, tilesets, 
+            tilewidth, version, width } = req.body;
+        if (!(mapid, backgroundcolor && height && infinite && layers && mapInfo 
+            && nextlayerid && nextobjectid && renderorder && tileslateversion 
+            && tileheight && tilesets && tilewidth && version && width)) {
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
-        const existingMap = await Map.findOne({ mapId: mapId });
+        const existingMap = await Map.findOne({ mapid: mapid });
         if (existingMap) {
             return res
                 .status(400)
@@ -23,12 +23,12 @@ registerMap = async (req, res) => {
         }
 
         const newMap = new Map({
-            mapId,
+            mapid,
             backgroundcolor,    // Hex-formatted color
             height,                // Number of tile rows
             infinite,          // Whether the map has infinite dimensions
             layers,              // Array of Layers
-            mapInfo,      // Project meta-data
+            mapinfo,            // Project meta-data
             nextlayerid,           // Auto-increments for each layer
             nextobjectid,          // Auto-increments for each placed object
             renderorder,   // right-down (the default), right-up, left-down or left-up
@@ -39,32 +39,7 @@ registerMap = async (req, res) => {
             version,             // The JSON format version
             width                  // Number of tile columns
         });
-        const savedMap = await newMap.save();
-
-        await res.cookie("token", token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: "none"
-        }).status(200).json({
-            success: true,
-            map: {
-                mapId: savedMap.mapId,
-                backgroundcolor: savedMap.backgroundcolor,    // Hex-formatted color
-                height: savedMap.height,                // Number of tile rows
-                infinite: savedMap.infinite,          // Whether the map has infinite dimensions
-                layers: savedMap.layers,              // Array of Layers
-                mapInfo: savedMap.mapInfo,      // Project meta-data
-                nextlayerid: savedMap.nextlayerid,           // Auto-increments for each layer
-                nextobjectid: savedMap.nextobjectid,          // Auto-increments for each placed object
-                renderorder: savedMap.renderorder,   // right-down (the default), right-up, left-down or left-up
-                tiledversion: savedMap.tiledversion,        // The Tiled version used to save the file
-                tileheight: savedMap.tileheight,             // Map grid height
-                tilesets: savedMap.tilesets,             // Array of Tilesets
-                tilewidth: savedMap.tilewidth,              // Map grid width
-                version: savedMap.version,             // The JSON format version
-                width: savedMap.width                  // Number of tile columns
-            }
-        }).send();
+        await Map.create(newMap);
     } catch (err) {
         console.error(err);
         res.status(500).send();
@@ -73,13 +48,13 @@ registerMap = async (req, res) => {
 
 deleteMap = async (req, res) => {
     try{
-        const {  mapId } = req.body;
-        if(!mapId){
+        const {  mapid } = req.body;
+        if(!mapid){
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
-        Map.findByIdAndDelete(mapId, function (err, docs) {
+        Map.findByIdAndDelete(mapid, function (err, docs) {
             if (err){
                 console.log(err)
             }
@@ -97,9 +72,9 @@ updateMap = async (req, res) => {
     const { backgroundcolor, height, infinite, layers, mapInfo, nextLayerId, 
         nextObjectId, renderOrder, tileslateVersion, tileHeight, tilesets, 
         tileWidth, version, width } = req.body;
-    const selectedMap = await Map.findOne({ mapId: mapId });
+    const selectedMap = await Map.findOne({ mapid: mapid });
 
-    Map.findByIdAndUpdate(selectedMap.mapId, {
+    Map.findByIdAndUpdate(selectedMap.mapid, {
         backgroundcolor : backgroundcolor,
         height : height, 
         infinite : infinite,
@@ -126,13 +101,13 @@ updateMap = async (req, res) => {
 
 getMap = async (req, res) => {
     try{
-        const {  mapId } = req.body;
-        if(!mapId){
+        const {  mapid } = req.body;
+        if(!mapid){
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
-        Map.findById(mapId, function (err, docs) {
+        Map.findById(mapid, function (err, docs) {
             if (err){
                 console.log(err)
             }

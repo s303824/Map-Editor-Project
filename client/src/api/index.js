@@ -19,7 +19,7 @@ export const getMap = () => api.get(`/getMap/`, payload)
 export const registerMapInfo = (payload) => api.post(`/registerMapInfo/`, payload)
 export const deleteMapInfo = () => api.delete(`/deleteMapInfo/`, payload)
 export const updateMapInfo = (payload) => api.push(`/updateMapInfo/`, payload)
-export const updateMapgetMapInfo = () => api.get(`/updateMapgetMapInfo/`, payload)
+export const getMapInfo = () => api.get(`/getMapInfo/`, payload)
 export const getAllMapInfoByUser = () => api.get(`/getAllMapInfoByUser/`, payload)
 
 export const registerTileSet = (payload) => api.post(`/registerTileSet/`, payload)
@@ -41,7 +41,7 @@ const apis= {
     registerMapInfo,
     deleteMapInfo,
     updateMapInfo,
-    updateMapgetMapInfo,
+    getMapInfo,
     getAllMapInfoByUser,
     registerTileSet,
     deleteTileSet,
