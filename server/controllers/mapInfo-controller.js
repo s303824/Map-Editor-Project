@@ -1,29 +1,27 @@
-const auth = require('../auth')
 const MapInfo = require('../model/mapInfo-model')
-const bcrypt = require('bcryptjs')
 
 registerMapInfo = async (req, res) => {
     try {
-        const { title, creator, thumbnailURL, comments, likes, 
+        const { name, creator, thumbnailURL, comments, likes, 
             dislikes, downloads, map_id, published } = req.body;
-        if (!(title && creator && thumbnailURL && comments && likes 
+        if (!(name && creator && thumbnailURL && comments && likes 
             && dislikes && downloads && map_id && published)) {
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
-        const existingMapInfo = await MapInfo.findOne({ title: title });
+        const existingMapInfo = await MapInfo.findOne({ map_id: map_id });
         if (existingMapInfo) {
             return res
                 .status(400)
                 .json({
                     success: false,
-                    errorMessage: "A mapInfo with the same title already exists."
+                    errorMessage: "A mapInfo with the same name already exists."
                 })
         }
 
         const newMapInfo = new MapInfo({
-            title, 
+            name, 
             creator, 
             thumbnailURL, 
             comments, 
@@ -33,26 +31,7 @@ registerMapInfo = async (req, res) => {
             map_id, 
             published
         });
-        const savedMapInfo = await newMapInfo.save();
-
-        await res.cookie("token", token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: "none"
-        }).status(200).json({
-            success: true,
-            mapInfo: {
-                title: savedMapInfo.title, 
-                creator: savedMapInfo.creator, 
-                thumbnailURL: savedMapInfo.thumbnailURL, 
-                comments: savedMapInfo.comments, 
-                likes: savedMapInfo.likes, 
-                dislikes: savedMapInfo.dislikes, 
-                downloads: savedMapInfo.downloads, 
-                map_id: savedMapInfo.map_id, 
-                published: savedMapInfo.published
-            }
-        }).send();
+        await MapInfo.create(newMapInfo);
     } catch (err) {
         console.error(err);
         res.status(500).send();
@@ -61,13 +40,13 @@ registerMapInfo = async (req, res) => {
 
 deleteMapInfo = async (req, res) => {
     try{
-        const {  infoId } = req.body;
-        if(!infoId){
+        const {  map_id } = req.body;
+        if(!map_id){
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
-        MapInfo.findByIdAndDelete(infoId, function (err, docs) {
+        MapInfo.findByIdAndDelete(map_id, function (err, docs) {
             if (err){
                 console.log(err)
             }
@@ -82,11 +61,11 @@ deleteMapInfo = async (req, res) => {
 }
 
 updateMapInfo = async (req, res) => {
-    const { infoId, title, creator, thumbnailURL, comments, likes, 
+    const { map_id, name, creator, thumbnailURL, comments, likes, 
         dislikes, downloads, published } = req.body;
-    const selectedMapInfo = await MapInfo.findOne({ infoId: infoId });
+    const selectedMapInfo = await MapInfo.findOne({ map_id: map_id });
 
-    selectedMapInfo.title = title;
+    selectedMapInfo.name = name;
     selectedMapInfo.creator = creator;
     selectedMapInfo.thumbnailURL = thumbnailURL;
     selectedMapInfo.comments = comments;
@@ -96,8 +75,8 @@ updateMapInfo = async (req, res) => {
     selectedMapInfo.downloads = downloads;
     selectedMapInfo.published = published;
 
-    MapInfo.findByIdAndUpdate(selectedMapInfo.infoId, {
-        title : title,
+    MapInfo.findByIdAndUpdate(selectedMapInfo.map_id, {
+        name : name,
         creator : creator,
         thumbnailURL : thumbnailURL,
         comments : comments,
@@ -118,13 +97,13 @@ updateMapInfo = async (req, res) => {
 
 getMapInfo = async (req, res) => {
     try{
-        const {  infoId } = req.body;
-        if(!infoId){
+        const {  map_id } = req.body;
+        if(!map_id){
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
-        MapInfo.findById(infoId, function (err, docs) {
+        MapInfo.findById(map_id, function (err, docs) {
             if (err){
                 console.log(err)
             }
@@ -166,7 +145,6 @@ module.exports = {
     registerMapInfo,
     deleteMapInfo,
     updateMapInfo,
-    updateMapgetMapInfo,
+    getMapInfo,
     getAllMapInfoByUser
 }
-
