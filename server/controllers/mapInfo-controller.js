@@ -52,7 +52,7 @@ deleteMapInfo = async (req, res) => {
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
-        MapInfo.findByIdAndDelete(map_id, function (err, docs) {
+        MapInfo.findOneAndDelete({_id: _id}, function (err, docs) {
             if (err){
                 console.log(err)
             }
@@ -81,7 +81,7 @@ updateMapInfo = async (req, res) => {
     selectedMapInfo.downloads = downloads;
     selectedMapInfo.published = published;
 
-    MapInfo.findByIdAndUpdate(selectedMapInfo.map_id, {
+    MapInfo.findOneAndUpdate({_id: _id}, {
         name : name,
         creator : creator,
         thumbnailURL : thumbnailURL,
@@ -109,7 +109,7 @@ getMapInfo = async (req, res) => {
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
-        MapInfo.findById(map_id, function (err, docs) {
+        MapInfo.findOne({_id: _id}, function (err, docs) {
             if (err){
                 console.log(err)
             }

@@ -7,7 +7,7 @@ registerMap = async (req, res) => {
         const { _id, backgroundcolor, height, infinite, layers, mapinfo, nextlayerid, 
             nextobjectid, renderorder, tiledversion, tileheight, tilesets, 
             tilewidth, version, width } = req.body;
-        if (!( _id, backgroundcolor && height && infinite && layers && mapinfo 
+        if (!( backgroundcolor && height && infinite && layers && mapinfo 
             && nextlayerid && nextobjectid && renderorder && tiledversion 
             && tileheight && tilesets && tilewidth && version && width)) {
             return res
@@ -90,7 +90,7 @@ deleteMap = async (req, res) => {
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
-        await Map.findOneAndDelete({_id}, function (err, docs) {
+        await Map.findOneAndDelete({_id: _id}, function (err, docs) {
             if (docs==null){
                 return res.status(404).json({
                     err,
@@ -135,7 +135,7 @@ updateMap = async (req, res) => {
             .json({ errorMessage: "No map found!" });
     }
 
-    Map.findOneAndUpdate(_id, {
+    Map.findOneAndUpdate({_id: _id}, {
         backgroundcolor : backgroundcolor,
         height : height, 
         infinite : infinite,
@@ -159,7 +159,7 @@ updateMap = async (req, res) => {
         else{
             return res.status(200).json({
                 message: 'Map Updated!',
-                docs,
+                map: docs,
             }).send()
         }
         
@@ -174,7 +174,7 @@ getMap = async (req, res) => {
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
-        Map.findOne({_id}, function (err, docs) {
+        Map.findOne({_id: _id}, function (err, docs) {
             if (err){
                 console.log(err)
                 return res.status(404).json({
