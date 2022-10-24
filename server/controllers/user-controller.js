@@ -64,6 +64,7 @@ registerUser = async (req, res) => {
             user: {
                 username: savedUser.username,
                 email: savedUser.email,
+                id: savedUser._id
             }
         }).send();
     } catch (err) {
@@ -98,6 +99,7 @@ login = async(req, res) => {
         user: {
             username: loggedInUser.username,
             email: loggedInUser.email,
+            id: loggedInUser._id
         }
     }).send();
 }
@@ -118,14 +120,13 @@ getLoggedIn = async (req, res) => {
             user: {
                 email: loggedInUser.email,
                 username: loggedInUser.username,
+                id: loggedInUser._id
             }
         })
     })
 }
 
 logout = async(req, res) => {
-    console.log("hd")
-    
     const token = auth.signToken(null);
 
     res.cookie("token", token, {
@@ -138,10 +139,15 @@ logout = async(req, res) => {
     })
 }
 
+updateUserByName = async(username) => {
+    const loggedInUser = await User.findOne({ username: username });
+    //loggedInUser
+}
+
 updateUser = async(req, res) => {
     
-    const { email, username, first_name, last_name } = req.body;
-    const loggedInUser = await User.findOne({ email: email });
+    const { email, username, first_name, last_name, id } = req.body;
+    const loggedInUser = await User.findOne({ _id: id });
     const body = req.body
 
     loggedInUser.first_name = first_name;

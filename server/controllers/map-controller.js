@@ -1,4 +1,5 @@
 const Map = require('../model/map-model')
+const MapInfo = require('../model/mapInfo-model')
 
 registerMap = async (req, res) => {
     try {
@@ -40,6 +41,26 @@ registerMap = async (req, res) => {
             width                  // Number of tile columns
         });
         await Map.create(newMap);
+
+        const {infoId, name, ownerName, thumbnailURL, comments, likes, dislikes, downloads} = mapinfo
+        console.log(ownerName)
+        const published = Date.now()
+        const map_id = mapid
+
+        const newMapInfo = new MapInfo({
+            name,
+            ownerName,
+            thumbnailURL,
+            comments,
+            likes,
+            dislikes,
+            downloads,
+            map_id,
+            published
+        });
+
+        await MapInfo.create(newMapInfo);
+
         res.status(200).send();
     } catch (err) {
         console.error(err);
