@@ -22,6 +22,10 @@ export const updateMapInfo = (payload) => api.push(`/updateMapInfo/`, payload)
 export const updateMapgetMapInfo = () => api.get(`/updateMapgetMapInfo/`, payload)
 export const getAllMapInfoByUser = () => api.get(`/getAllMapInfoByUser/`, payload)
 
+export const registerTileSet = (payload) => api.post(`/registerTileSet/`, payload)
+export const deleteTileSet = () => api.delete(`/deleteTileSet/`, payload)
+export const updateTileSet = (payload) => api.push(`/updateTileSet/`, payload)
+export const getTileSet = () => api.get(`/getTileSet/`, payload)
 
 
 const apis= {
@@ -38,7 +42,11 @@ const apis= {
     deleteMapInfo,
     updateMapInfo,
     updateMapgetMapInfo,
-    getAllMapInfoByUser
+    getAllMapInfoByUser,
+    registerTileSet,
+    deleteTileSet,
+    updateTileSet,
+    getTileSet
 }
 
 export default apis;
