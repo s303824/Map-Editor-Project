@@ -53,7 +53,7 @@ deleteTileSet = async (req, res) => {
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
-        Tileset.findOneAndDelete(_id, function (err, docs) {
+        Tileset.findOneAndDelete({_id: _id}, function (err, docs) {
             if (err){
                 console.log(err)
             }
