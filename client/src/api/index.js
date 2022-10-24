@@ -41,7 +41,6 @@ const apis= {
     registerMapInfo,
     deleteMapInfo,
     updateMapInfo,
-    getMapInfo,
     getAllMapInfoByUser,
     registerTileSet,
     deleteTileSet,
