@@ -4,7 +4,7 @@ const ObjectId = Schema.Types.ObjectId
 
 const mapsSchema = new Schema(
     {
-        mapid: {type: Number, unique: true},              // Key ID
+        mapid: {type: Number},              // Key ID
         backgroundcolor: String,    // Hex-formatted color
         height: Number,                // Number of tile rows
         infinite: Boolean,          // Whether the map has infinite dimensions
