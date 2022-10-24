@@ -32,6 +32,8 @@ registerTileSet = async (req, res) => {
         });
 
         await Tileset.create(newTileSet);
+        res.status(200).send();
+        return newTileSet;
     } catch (err) {
         console.error(err);
         res.status(500).send();
