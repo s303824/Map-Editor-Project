@@ -136,7 +136,7 @@ updateUser = async(req, res) => {
     
     const { email, username, first_name, last_name, id, myprojects, liked_projects, profile_picture, publishedMaps } = req.body;
 
-    if (!body) {
+    if (!req.body) {
         return res.status(400).json({
             success: false,
             error: 'You must provide a body to update',
@@ -177,15 +177,46 @@ updateUser = async(req, res) => {
                     message: 'user not updated!',
                 })
             })
-    
-    
+
 }
 
+deleteUser = async(req, res) => {
+
+    try{
+        const { id } = req.body;
+
+        if (!req.body) {
+            return res.status(400).json({
+                success: false,
+                error: 'You must provide an id to delete',
+            })
+        }
+
+        const loggedInUser = await User.findOne({ _id: id });
+
+        if (!loggedInUser) {
+            return res.status(404).json({errorMessage:"User not found"});
+        }
+
+        const deletedUser = await User.findOneAndDelete({_id: id});
+        return res.status(200).json({
+            message: "deleted successfully!",
+            user: {
+                email: deletedUser.email,
+                username: deletedUser.username,
+            }
+        })
+    }catch (err) {
+        console.error(err);
+        res.status(500).send();
+    }
+}
 
 module.exports = {
     getLoggedIn,
     registerUser,
     login,
     logout,
-    updateUser
+    updateUser,
+    deleteUser,
 }
