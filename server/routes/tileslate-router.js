@@ -22,7 +22,7 @@ router.get('/getMap', MapController.getMap)
 router.post('/registerMapInfo', MapInfoController.registerMapInfo)
 router.delete('/deleteMapInfo', MapInfoController.deleteMapInfo)
 router.put('/updateMapInfo', MapInfoController.updateMapInfo)
-router.get('getMapInfo', MapInfoController.getMapInfo)
+router.get('/getMapInfo', MapInfoController.getMapInfo)
 router.get('/getAllMapInfoByUser', MapInfoController.getAllMapInfoByUser)
 
 router.post('/registerTileSet', TileSetController.registerTileSet)
