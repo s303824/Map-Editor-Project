@@ -205,39 +205,6 @@ deleteUser = async(req, res) => {
             return res.status(404).json({errorMessage:"User not found"});
         }
 
-        //find all the users maps and delete them
-        MapInfo.find({creator: loggedInUser.username}, function(err, docs) {  
-            for(var i=0; i<docs.length; i++) {
-
-                //if they are the owner, delete the map and the mapinfo
-                if(loggedInUser.username == docs[i].creator[0]) {
-
-                    //remove map from other users projects
-                    for(var j=0; j<docs[i].creator.length; j++) {
-                        var currId = docs[i].map_id
-                        User.findOne({username: docs[i].creator[j]}, function(err, user) {
-                            user.myprojects = loggedInUser.myprojects.filter(function(e) {return e !== currId})
-                            user.save();
-                        })  
-                    }
-                    //delete map
-                    Map.findOneAndDelete({id: docs[i].map_id}, function(err, map) {
-                        console.log("Successfully deleted map with id " + id)
-                    })
-                    
-                    MapInfo.findOneAndDelete({id: docs[i]._id}, function(err, mapinfo){
-                        console.log("Successfully deleted mapInfo with id " + id)
-                    })
-                }
-
-                //if they are not the owner, simply remove them from the creator list
-                else {
-                    docs[i].creator = docs[i].creator.filter(function(e) {return e !== loggedInUser.username})
-                    docs[i].save();
-                }
-            }
-
-        })
         
         const deletedUser = await User.findOneAndDelete({_id: id});
         return res.status(200).json({

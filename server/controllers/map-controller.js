@@ -59,9 +59,11 @@ registerMap = async (req, res) => {
             published
         });
 
+        newMap.mapinfo = newMapInfo._id;
+
         //adding map to user projects
         const loggedInUser = await User.findOne({username: ownerName });
-        loggedInUser.myprojects.push(newMap._id)
+        loggedInUser.myprojects.push(newMapInfo._id)
 
 
         await MapInfo.create(newMapInfo);

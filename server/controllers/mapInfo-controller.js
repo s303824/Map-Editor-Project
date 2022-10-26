@@ -162,28 +162,33 @@ getMapInfo = async (req, res) => {
 
 getAllMapInfoByUser = async (req, res) => {
     try{
-        const {  user } = req.body;
-        if(!user){
+        const {  username } = req.body;
+        if(!username){
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
-        const cre = [user];
-        
-        MapInfo.find(({creator : cre}), function (err, docs) {
-            if (err){
-                console.log(err)
-            }
-            else{
-                console.log("Map Information: ", docs);
-                return res
-                .status(200)
-                .json({ 
-                    Message: "Map Information:-",
-                    docs 
-                });
-            }
-        })
+
+        //find user so we can find their maps
+        User.findOne({username: username}, function (err, user) {
+            console.log(user.myprojects)
+            MapInfo.find(({_id : user.myprojects}), function (err, docs) {
+                console.log(docs)
+                if (err){
+                    console.log(err)
+                }
+                else{
+                    console.log("Map Information: ", docs);
+                    return res
+                    .status(200)
+                    .json({ 
+                        Message: "Map Information:-",
+                        docs 
+                    });
+                }
+            })
+
+        });
     } catch (err){
         console.error(err);
         res.status(500).send();
