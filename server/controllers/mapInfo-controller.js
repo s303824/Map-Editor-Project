@@ -1,4 +1,5 @@
 const MapInfo = require('../model/mapInfo-model')
+const User = require('../model/user-model')
 
 registerMapInfo = async (req, res) => {
     try {
@@ -52,12 +53,18 @@ deleteMapInfo = async (req, res) => {
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
-        MapInfo.findOneAndDelete({_id: _id}, function (err, docs) {
+        MapInfo.findOneAndDelete({map_id: map_id}, function (err, docs) {
             if (err){
-                console.log(err)
+                console.log(err);
+                return err;
+                
             }
             else{
                 console.log("Deleted: ", docs);
+                return res
+                .status(200)
+                .json({ Message: "Map info Deleted." });
+                
             }
         })
     } catch (err){
@@ -70,6 +77,13 @@ updateMapInfo = async (req, res) => {
     const { map_id, name, creator, thumbnailURL, comments, likes, 
         dislikes, downloads, published } = req.body;
     const selectedMapInfo = await MapInfo.findOne({ map_id: map_id });
+    const creator_exists = await User.findOne({username: creator})
+
+    if (!creator_exists){
+        return res
+                .status(404)
+                .json({ errorMessage: "The user you entered doesn't exist" });
+    }
 
     selectedMapInfo.name = name;
     selectedMapInfo.creator = creator;
@@ -81,7 +95,7 @@ updateMapInfo = async (req, res) => {
     selectedMapInfo.downloads = downloads;
     selectedMapInfo.published = published;
 
-    MapInfo.findOneAndUpdate({_id: _id}, {
+    MapInfo.findOneAndUpdate({map_id: map_id}, {
         name : name,
         creator : creator,
         thumbnailURL : thumbnailURL,
@@ -93,10 +107,17 @@ updateMapInfo = async (req, res) => {
     }, function (err, docs) {
         if (err){
             console.log(err)
-            res.status(500).send();
+            return res.status(500).send();
         }
         else{
             console.log("Updated MapInfo: ", docs);
+            return res
+                .status(200)
+                .json({ 
+                    Message: "Map info Updated.",
+                    docs 
+                
+                });
         }
     });
 }
@@ -109,13 +130,28 @@ getMapInfo = async (req, res) => {
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
-        MapInfo.findOne({_id: _id}, function (err, docs) {
+        MapInfo.findOne({map_id: map_id}, function (err, docs) {
             if (err){
                 console.log(err)
+                
             }
             else{
+                if (docs == null){
+                    return res
+                    .status(404)
+                    .json({ 
+                        Message: "Map Information - not found!",
+                        err
+                    });
+
+                }
                 console.log("Map Information: ", docs);
-                return docs;
+                return res
+                .status(200)
+                .json({ 
+                    Message: "Map Information:-",
+                    docs 
+                });
             }
         })
     } catch (err){
@@ -132,13 +168,20 @@ getAllMapInfoByUser = async (req, res) => {
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
-        MapInfo.find({ownerName: user}, function (err, docs) {
+        const cre = [user];
+        
+        MapInfo.find(({creator : cre}), function (err, docs) {
             if (err){
                 console.log(err)
             }
             else{
                 console.log("Map Information: ", docs);
-                return docs;
+                return res
+                .status(200)
+                .json({ 
+                    Message: "Map Information:-",
+                    docs 
+                });
             }
         })
     } catch (err){

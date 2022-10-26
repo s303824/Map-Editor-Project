@@ -220,14 +220,13 @@ deleteUser = async(req, res) => {
                             user.save();
                         })  
                     }
-
                     //delete map
-                    Map.findOneAndDelete({_id: docs[i].map_id}, function(err, map) {
-                        console.log("Successfully deleted map with id " + _id)
+                    Map.findOneAndDelete({id: docs[i].map_id}, function(err, map) {
+                        console.log("Successfully deleted map with id " + id)
                     })
                     
-                    MapInfo.findOneAndDelete({_id: docs[i]._id}, function(err, mapinfo){
-                        console.log("Successfully deleted mapInfo with id " + _id)
+                    MapInfo.findOneAndDelete({id: docs[i]._id}, function(err, mapinfo){
+                        console.log("Successfully deleted mapInfo with id " + id)
                     })
                 }
 
