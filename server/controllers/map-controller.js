@@ -45,7 +45,9 @@ registerMap = async (req, res) => {
         const {name, ownerName, thumbnailURL, comments, likes, dislikes, downloads} = mapinfo
         const creator = [ownerName]
         const published = "not-published"
-        const map_id = newMap._id
+        const map_id = _id ? _id : newMap._id
+
+
 
         const newMapInfo = new MapInfo({
             name,
@@ -59,11 +61,16 @@ registerMap = async (req, res) => {
             published
         });
 
+        
         newMap.mapinfo = newMapInfo._id;
 
         //adding map to user projects
         const loggedInUser = await User.findOne({username: ownerName });
         loggedInUser.myprojects.push(newMapInfo._id)
+
+        if(_id) {
+            newMap._id = _id
+        }
 
 
         await MapInfo.create(newMapInfo);
@@ -100,17 +107,21 @@ deleteMap = async (req, res) => {
                 })
             }
             else{
-                User.findOne({username: docs.mapinfo.ownerName }, function(err, loggedInUser) { 
-                    loggedInUser.myprojects = loggedInUser.myprojects.filter(function(e) {return e !== _id})
-                    loggedInUser.save();
-                });
-
 
                 const newMap = MapInfo.findOneAndDelete({map_id: _id}, function (err, map) {
+
                     if(err) {
                         console.log("Could not find mapInfo related to map with _id " + _id);
                     }
                     console.log("Deleted MapInfo related to map with _id " + _id)
+
+                    for(var i=0; i<map.creator.length; i++) {
+                        User.findOne({username:  map.creator[i]}, function(err, loggedInUser) { 
+                            loggedInUser.myprojects = loggedInUser.myprojects.filter(function(e) {return e != map._id})
+                            loggedInUser.save();
+                        });
+                    }
+
                 })
 
                 return res.status(200).json({

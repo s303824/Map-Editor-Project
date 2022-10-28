@@ -3,7 +3,7 @@ const Tileset = require('../model/tileset-model')
 registerTileSet = async (req, res) => {
     try {
         const { 
-        backgroundcolor, columns, fillmode, firstgid, grid, image, imageheight, imagewidth, margin, name,
+        _id, backgroundcolor, columns, fillmode, firstgid, grid, image, imageheight, imagewidth, margin, name,
         objectalignment, properties, source, tilecount, tileslateversion, tileheight, tilerendersize, tiles,
         tilewidth, transparentcolor, type, version, wangsets
          } = req.body;
@@ -31,6 +31,10 @@ registerTileSet = async (req, res) => {
         objectalignment, properties, source, tilecount, tileslateversion, tileheight, tilerendersize, tiles,
         tilewidth, transparentcolor, type, version, wangsets
         });
+
+        if(_id) {
+            newTileSet._id = _id
+        }
 
         await Tileset.create(newTileSet);
         res.status(200).json({
