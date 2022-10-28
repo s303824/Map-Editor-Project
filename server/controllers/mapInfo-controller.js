@@ -223,10 +223,89 @@ getAllMapInfoByUser = async (req, res) => {
     }
 }
 
+addCreator = async (req, res) => {
+    const { _id, creator} = req.body;
+    const selectedMapInfo = await MapInfo.findOne({ _id: _id });
+    const creator_exists = await User.findOne({username: creator})
+
+    if (!creator_exists){
+        return res
+                .status(404)
+                .json({ errorMessage: "The user you entered doesn't exist" });
+    }
+
+    if(!selectedMapInfo) {
+        return res
+                .status(404)
+                .json({ errorMessage: "The mapinfo with _id:" + _id + " does not exist" });
+    }
+    
+    selectedMapInfo.creator.push(creator);
+    MapInfo.findOneAndUpdate({_id: _id}, {
+        creator : selectedMapInfo.creator
+    }, function (err, docs) {
+        if (err){
+            console.log(err)
+            return res.status(400).send();
+        }
+        else{
+            console.log("Updated MapInfo: ", docs);
+            return res
+                .status(200)
+                .json({ 
+                    Message: "Map info Updated.",
+                    mapInfo: docs 
+                
+                });
+        }
+    });
+}
+removeCreator = async (req, res) => {
+    const { _id, creator} = req.body;
+    const selectedMapInfo = await MapInfo.findOne({ _id: _id });
+    const creator_exists = await User.findOne({username: creator})
+
+    if (!creator_exists){
+        return res
+                .status(404)
+                .json({ errorMessage: "The user you entered doesn't exist" });
+    }
+
+    if(!selectedMapInfo) {
+        return res
+                .status(404)
+                .json({ errorMessage: "The mapinfo with _id:" + _id + " does not exist" });
+    }
+    
+    selectedMapInfo.creator = selectedMapInfo.creator.filter(user => user !== creator);
+    MapInfo.findOneAndUpdate({_id: _id}, {
+        creator : selectedMapInfo.creator
+    }, function (err, docs) {
+        if (err){
+            console.log(err)
+            return res.status(400).send();
+        }
+        else{
+            console.log("Updated MapInfo: ", docs);
+            return res
+                .status(200)
+                .json({ 
+                    Message: "Map info Updated.",
+                    mapInfo: docs 
+                
+                });
+        }
+    });
+}
+
+
+
 module.exports = {
     registerMapInfo,
     deleteMapInfo,
     updateMapInfo,
     getMapInfo,
-    getAllMapInfoByUser
+    getAllMapInfoByUser,
+    addCreator,
+    removeCreator
 }
