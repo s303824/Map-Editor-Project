@@ -17,7 +17,7 @@ registerMapInfo = async (req, res) => {
                 .status(400)
                 .json({
                     success: false,
-                    errorMessage: "A mapInfo with the same name already exists."
+                    errorMessage: "A mapInfo with the same _id already exists."
                 })
         }
 
@@ -37,6 +37,18 @@ registerMapInfo = async (req, res) => {
         if(_id) {
             newMapInfo._id = _id
         }
+
+        const loggedInUser = await User.findOne({username: creator[0] });
+
+        if(!loggedInUser) {
+            return res.status(400).json({
+                status:"fail",
+                message:"The creator of this map does not exist"
+            })
+        }
+
+        loggedInUser.myprojects.push(newMapInfo._id)
+        loggedInUser.save();
         
         await MapInfo.create(newMapInfo);
         return res.status(200).json({
@@ -65,6 +77,14 @@ deleteMapInfo = async (req, res) => {
                 
             }
             else{
+
+                for(var i=0; i<docs.creator.length; i++) {
+                    User.findOne({username:  docs.creator[i]}, function(err, loggedInUser) { 
+                        loggedInUser.myprojects = loggedInUser.myprojects.filter(function(e) {return e != docs._id})
+                        loggedInUser.save();
+                    });
+                }
+
                 return res
                 .status(200)
                 .json({ Message: "success!", mapInfo:docs });
