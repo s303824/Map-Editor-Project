@@ -3,6 +3,24 @@ const { MongoClient } = require('mongodb');
 const Map = require('../model/map-model')
 const _id = "635888fba27acc0f5035c2f2"
 
+const mockMap = new Map({
+    _id: _id,
+    backgroundcolor: "#100667",
+    height: 4,
+    infinite: true,
+    layers: [],
+    mapinfo:  "1",
+    nextlayerid: 2,
+    nextobjectid: 1,
+    renderorder: "right-down",
+    tiledversion: "1.0.3",
+    tileheight: 32,
+    tilesets: [{set:"1"}], 
+    tilewidth: 32,
+    version: "1",
+    width: 4
+})
+
 
 let client;
 
@@ -28,25 +46,7 @@ afterAll(async () => {
  })
 
 
-test("Create and get map", async () => {
-    const mockMap = new Map({
-        _id: _id,
-        backgroundcolor: "#100667",
-        height: 4,
-        infinite: true,
-        layers: [],
-        mapinfo:  "1",
-        nextlayerid: 2,
-        nextobjectid: 1,
-        renderorder: "right-down",
-        tiledversion: "1.0.3",
-        tileheight: 32,
-        tilesets: [{set:"1"}], 
-        tilewidth: 32,
-        version: "1",
-        width: 4
-    })
-    
+test("Create and get map", async () => {    
     await Map.create(mockMap)
     const insertedMap = await Map.findOne({_id: mockMap._id}, function(err, docs)  {
 
