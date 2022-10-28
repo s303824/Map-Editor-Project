@@ -7,7 +7,7 @@ registerMap = async (req, res) => {
         const { _id, backgroundcolor, height, infinite, layers, mapinfo, nextlayerid, 
             nextobjectid, renderorder, tiledversion, tileheight, tilesets, 
             tilewidth, version, width } = req.body;
-        if (!( backgroundcolor && height && infinite && layers && mapinfo 
+        if (!( backgroundcolor && height && infinite && layers 
             && nextlayerid && nextobjectid && renderorder && tiledversion 
             && tileheight && tilesets && tilewidth && version && width)) {
             return res
@@ -60,7 +60,6 @@ registerMap = async (req, res) => {
             map_id,
             published
         });
-
         
         newMap.mapinfo = newMapInfo._id;
 

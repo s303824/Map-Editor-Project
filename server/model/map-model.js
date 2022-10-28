@@ -18,7 +18,8 @@ const mapsSchema = new Schema(
         tilewidth: Number,              // Map grid width
         version: String,             // The JSON format version
         width: Number                  // Number of tile columns
-    }
+    }, 
+    { versionKey: false }
 )
 
 
