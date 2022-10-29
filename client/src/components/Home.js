@@ -7,17 +7,16 @@ import "../App.css"
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react'
 import AuthContext from '../auth';
+import "../literallycanvas.css"
+
+import LC from "literallycanvas";
 
 function Home() {
 
-    const { store } = useContext(GlobalStoreContext)
-    const {auth} = useContext(AuthContext)
-
-
     return (
-      <Box className="Home">
+      <Box >
 
-        Welcome to Tileslate  SFDGfgdsadfgshdfg
+        Welcome to Tileslate 
 
       </Box>
     );

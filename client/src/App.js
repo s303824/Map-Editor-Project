@@ -4,6 +4,7 @@ import Banner from "./components/Banner";
 import './App.css';
 import { GlobalStoreContextProvider } from './store'
 import { AuthContextProvider } from "./auth";
+import LiterallyCanvasTest from "./components/LiterallyCanvasTest";
 
 
 
@@ -17,6 +18,7 @@ const App = () => {
           <Banner/>
             <Routes>
               <Route path="/" element={<Home/>}/>
+              <Route path="/test" element={<LiterallyCanvasTest/>}></Route>
             </Routes>
         </GlobalStoreContextProvider>
       </AuthContextProvider>
