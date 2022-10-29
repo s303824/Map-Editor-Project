@@ -11,24 +11,14 @@ import HomeBanner from '../components/banner.component';
 import Typography from '@mui/material/Typography';
 import MapCard from '../components/map-card.component';
 import List from '@mui/material/List';
-import mapImage from '../assets/map-card.jpg'
+import mapImage from '../assets/map-card.jpg';
+
 
 function Home() {
     const { store } = useContext(GlobalStoreContext);
     const {auth} = useContext(AuthContext);
 
     const mapCardInfo = [ //to display sample data 
-      {
-        "id": 1,
-        "name": "Game1",
-        "description":"#hastag1",
-        "likes":100,
-        "dislikes":20,
-        "downloads":200,
-        "userName":"user1",
-        "email":"user1@gmail.com",
-        "imageUrl":''
-      },
       {
         "id": 2,
         "name": "Game2",
@@ -38,6 +28,8 @@ function Home() {
         "downloads":40,
         "userName":"user2",
         "email":"user2@gmail.com",
+        "editActive":null,
+        "published":"2/3/2021",
         "imageUrl": ''
       },
       {
@@ -49,6 +41,8 @@ function Home() {
         "downloads":10,
         "userName":"user3",
         "email":"user3@gmail.com",
+        "editActive":null,
+        "published":"2/3/2021",
         "imageUrl": ''
       },
       {
@@ -60,6 +54,8 @@ function Home() {
         "downloads":10,
         "userName":"user3",
         "email":"user3@gmail.com",
+        "editActive":null,
+        "published":"2/3/2021",
         "imageUrl": ''
       }
     ];
