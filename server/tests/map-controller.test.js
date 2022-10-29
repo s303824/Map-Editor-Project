@@ -3,6 +3,7 @@ const { MongoClient } = require('mongodb');
 const Map = require('../model/map-model')
 const _id = "635888fba27acc0f5035c2f2"
 
+
 const mockMap = new Map({
     _id: _id,
     backgroundcolor: "#100667",
@@ -23,6 +24,8 @@ const mockMap = new Map({
 
 
 let client;
+let connection;
+
 
 beforeAll(async () => {
     const mongoose = require('mongoose')
@@ -41,11 +44,6 @@ beforeAll(async () => {
     client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, });
 })
 
-afterAll(async () => {
-    await client.close();
- })
-
-
 test("Create and get map", async () => {    
     await Map.create(mockMap)
     const insertedMap = await Map.findOne({_id: mockMap._id}, function(err, docs)  {
@@ -60,3 +58,8 @@ test("Delete map", async () => {
         expect(JSON.stringify(docs)).toStrictEqual(JSON.stringify(mockMap));
     })
 })
+
+
+afterAll(async () => {
+    await client.close()
+ })

@@ -1,10 +1,8 @@
-
-const userController = require("../controllers/user-controller.js")
 const { MongoClient } = require('mongodb');
 
 let client;
 
-beforeAll(async () => {
+/*beforeAll(async () => {
     const mongoose = require('mongoose')
     const dotenv = require('dotenv')
     const Schema = mongoose.Schema
@@ -14,16 +12,12 @@ beforeAll(async () => {
     const db = mongoose.connect(uri)
     const connection = mongoose.connection;
 
-    connection.once("open", function() {
-    console.log("MongoDB database connection established successfully");
-    });
-
     client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 })
 
 afterAll(async () => {
     await client.close();
- })
+ })*/
 
 test("testing 2+2=4", () => {
     expect(2+2).toBe(4)

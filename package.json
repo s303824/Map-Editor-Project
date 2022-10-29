@@ -21,7 +21,7 @@
         "heroku-postbuild": "npm run install-client && npm run build",
         "start": "npm install && node index.js",
         "dev": "cd client && npm start",
-        "test": "cd server && jest --detectOpenHandles"
+        "test": "cd server && jest"
     },
     "eslintConfig": {
         "extends": [
