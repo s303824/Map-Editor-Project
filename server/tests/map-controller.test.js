@@ -1,7 +1,8 @@
 const mapController = require("../controllers/map-controller.js")
-const { MongoClient } = require('mongodb');
 const Map = require('../model/map-model')
 const _id = "635888fba27acc0f5035c2f2"
+const client = require('../tests/dbSetup.js')
+const mongoose = require('mongoose')
 
 
 const mockMap = new Map({
@@ -22,27 +23,12 @@ const mockMap = new Map({
     width: 4
 })
 
-
-let client;
-let connection;
-
-
 beforeAll(async () => {
-    const mongoose = require('mongoose')
-    const dotenv = require('dotenv')
-    const Schema = mongoose.Schema
-    dotenv.config();
-
+    await mongoose.disconnect();
     const uri = "mongodb+srv://tileslate:tileslatesbu123@tileslatecluster.zs44uh3.mongodb.net/test?retryWrites=true&w=majority";
-    const db = mongoose.connect(uri)
-    const connection = mongoose.connection;
+    await mongoose.connect(uri)
+  });
 
-    connection.once("open", function() {
-    console.log("MongoDB database connection established successfully");
-    });
-
-    client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, });
-})
 
 test("Create and get map", async () => {    
     await Map.create(mockMap)
@@ -60,6 +46,6 @@ test("Delete map", async () => {
 })
 
 
-afterAll(async () => {
-    await client.close()
+afterAll( () => {
+    () => setTimeout(() => process.exit(), 1000)
  })
