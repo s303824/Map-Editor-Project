@@ -12,9 +12,6 @@ export const SignOut = ({}) => {
         alert(`${name} was clicked`);
       };
       return (
-        <Modal
-        open={open}
-        onClose={handleClose}>
           <SignOutPage>
           <FlexRow4>
             <Text31>Log out</Text31>
@@ -31,8 +28,7 @@ export const SignOut = ({}) => {
               onClick={handleClose}
             />
           </FlexColumn1>
-        </SignOutPage> 
-        </Modal>);
+        </SignOutPage> );
 };
 
 
