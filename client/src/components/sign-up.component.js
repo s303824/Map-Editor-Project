@@ -29,7 +29,6 @@ const SignUp =() =>{
         break;
       case 'verify-input':
         if(event.target.value != Password){
-          
         }
         break;
     }
@@ -56,37 +55,37 @@ const SignUp =() =>{
             <InputSection>
               <FirstName>
                 <InputText>First name</InputText>
-                <InputField id = "first-name-input" onChange ={handleNewAccountInput} />
+                <TextField sx={InputField} id = "first-name-input" onChange ={handleNewAccountInput} />
               </FirstName>
               <LastName>
                 <InputText>Last name</InputText>
-                <InputField id = "last-name-input" onChange ={handleNewAccountInput}/>
+                <TextField sx={InputField} id = "last-name-input" onChange ={handleNewAccountInput}/>
               </LastName>
               <UserName>
                 <InputText>user name</InputText>
-                <InputField id = "username-input" onChange ={handleNewAccountInput}/>
+                <TextField sx={InputField} id = "username-input" onChange ={handleNewAccountInput}/>
               </UserName>
               <Email>
                 <InputText>email address</InputText>
-                <InputField id = "email-input" onChange ={handleNewAccountInput}/>
+                <TextField sx={InputField} id = "email-input" onChange ={handleNewAccountInput}/>
               </Email>
               <Password>
                 <InputText>Password</InputText>
-                <InputField id = "password-input" onChange ={handleNewAccountInput}/>
+                <TextField sx={InputField} id = "password-input" onChange ={handleNewAccountInput}/>
               </Password>
               <Password>
                 <InputText>verify password</InputText>
-                <InputField id = "verify-input" onChange ={handleNewAccountInput}/>
+                <TextField sx={InputField} id = "verify-input" onChange ={handleNewAccountInput}/>
               </Password>
             </InputSection>
             <BottomSection>
               <SignUpButton
-                onClick={SignUpButtonFunction}
+                onClick={handleClose}
               >
                 <CreateAnAccount>Create an account </CreateAnAccount>
               </SignUpButton>
               <Text8>
-                Already have an account? <Text9>LOG IN</Text9>
+                Already have an account? <LogInLink>LOG IN</LogInLink>
               </Text8>
             </BottomSection>
         </RightColumn>
@@ -102,28 +101,6 @@ const SignUp =() =>{
     );
   }
 
-const InputText = styled.div`
-  width: 258px;
-  height: 38px;
-  color: #ffffff;
-  font-size: 20px;
-  font-family: Bebas Neue;
-`;
-const InputField = styled.text`
-  height: 46px;
-  align-self: stretch;
-  padding: 0px;
-  border-width: 0px;
-  box-sizing: content-box;
-  background-color: transparent;
-  background-size: cover;
-  background-position: center;
-  background-image: url("https://file.rendit.io/n/xrRx7doxyy1pjROHr5wC.svg");
-  cursor: pointer;
-  &: hover {
-    box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
-  } ;
-`;
 const UserName = styled.div`
   gap: 1px;
   display: flex;
@@ -285,7 +262,7 @@ const Text8 = styled.div`
   font-family: Bebas Neue;
   white-space: pre-wrap;
 `;
-const Text9 = styled.div`
+const LogInLink = Link`
   display: contents;
   color: #1b2ee0;
   font-size: 20px;
