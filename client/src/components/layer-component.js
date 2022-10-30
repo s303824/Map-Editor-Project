@@ -15,7 +15,7 @@ const Layer =()=>{
   const imageSize = 1028;
   const tileCount = 400; 
   const tileWidth = 64;
-  
+
     return(
       <Box>
         <ImageList 
@@ -28,7 +28,7 @@ const Layer =()=>{
             marginLeft:2,
             marginRight:0,
             borderRadius:2,
-            height:"45%",
+            maxHeight:"880px",
             overflowY:'scroll', 
                 "&::-webkit-scrollbar": {
                 width: 10,},
