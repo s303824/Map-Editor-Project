@@ -1,14 +1,24 @@
 import React from "react";
 import styled from "styled-components";
+import { TextField, Link, Button, Modal } from '@mui/material';
 
 export const SignOut = ({}) => {
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
     const SignOutButtonFunction = (e, name) => {
         alert(`${name} was clicked`);
       };
-      return (<SignOutPage>
+      return (
+        <Modal
+        open={open}
+        onClose={handleClose}>
+          <SignOutPage>
           <FlexRow4>
             <Text31>Log out</Text31>
-            <X>{"   "}X</X>
+            <X onClick={handleClose}>{"   "}X</X>
           </FlexRow4>
           <Line4 src={`https://file.rendit.io/n/fmeQveZ6G5mQln1Eq5CT.svg`} />
           <Text32>are you sure you want to log out ?</Text32>
@@ -18,10 +28,11 @@ export const SignOut = ({}) => {
               log out
             </LogOut>
             <SignOutButton
-              onClick={(e) => SignOutButtonFunction(e, "SignOutButton")}
+              onClick={handleClose}
             />
           </FlexColumn1>
-        </SignOutPage> );
+        </SignOutPage> 
+        </Modal>);
 };
 
 
@@ -52,7 +63,7 @@ const Text31 = styled.div`
   font-size: 36px;
   font-family: Bebas Neue;
 `;
-const X = styled.div`
+const X = styled.Button`
   width: 50px;
   height: 41px;
   align-self: flex-end;

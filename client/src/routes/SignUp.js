@@ -36,8 +36,7 @@ const SignUp =() =>{
   }
 
     return (
-      <div>
-        <Button onClick={handleOpen}>Open modal</Button>
+        <Box className="home-container" sx={{marginLeft:'260px' }}>
         <Modal
             open={open}
             onClose={handleClose}
@@ -48,7 +47,7 @@ const SignUp =() =>{
             <TopSection>
               <FlexRow>
                 <Text1>Sign up</Text1>
-                <Button >{"   "}X</Button >
+                <Button onClick={handleClose} sx ={XClose}>{"   "}X</Button >
               </FlexRow>
               <Line src={`https://file.rendit.io/n/Tla4J7mNr348GLYcDsDm.svg`} />
             </TopSection>
@@ -97,7 +96,7 @@ const SignUp =() =>{
         </Logo>
       </PlayingComputerGame>
         </Modal>
-        </div>
+        </Box>
     );
   }
 
@@ -179,14 +178,6 @@ const Text1 = styled.div`
   color: #ffffff;
   font-size: 36px;
   font-family: Bebas Neue;
-`;
-const X = styled.div`
-  width: 50px;
-  height: 41px;
-  color: #ffffff;
-  font-size: 36px;
-  font-family: Bebas Neue;
-  white-space: pre-wrap;
 `;
 const Line = styled.img`
   width: 718px;

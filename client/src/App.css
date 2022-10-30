@@ -23,6 +23,15 @@
   background-image: url("https://file.rendit.io/n/xrRx7doxyy1pjROHr5wC.svg");
   }
 
+.XClose {
+  width: 50px;
+  height: 41px;
+  color: #ffffff;
+  font-size: 36px;
+  font-family: Bebas Neue;
+  white-space: pre-wrap;
+}
+
 .Banner {
   background-color: #282c34;
 }
