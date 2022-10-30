@@ -12,7 +12,7 @@ const SignUp =() =>{
 
   function SignUpButtonFunction(event) {
     if(FirstName!=null && LastName!=null && UserName!=null && Email!=null && Password!=null)
-      handleClose;
+      handleClose();
   }
 
   function handleNewAccountInput(event) {
@@ -65,10 +65,10 @@ const SignUp =() =>{
                 <InputText>user name</InputText>
                 <TextField sx={InputField} id = "username-input" onChange ={handleNewAccountInput}/>
               </UserName>
-              <UserName>
+              <Email>
                 <InputText>email address</InputText>
                 <TextField sx={InputField} id = "email-input" onChange ={handleNewAccountInput}/>
-              </UserName>
+              </Email>
               <Password>
                 <InputText>Password</InputText>
                 <TextField sx={InputField} id = "password-input" onChange ={handleNewAccountInput}/>
@@ -110,6 +110,14 @@ const UserName = styled.div`
   padding: 0px 0px 0px 1px;
 `;
 const Password = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0px 0px 0px 1px;
+`;
+
+const Email = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
