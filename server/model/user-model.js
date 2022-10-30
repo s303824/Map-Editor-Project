@@ -14,9 +14,9 @@ const userSchema = new Schema(
             required: true,
             maxlength: 100
         }, 
-        liked_projects: [String], //type: array - list of maps liked by the user
+        liked_projects: [{type: Schema.Types.ObjectId, ref: 'MapInfo'}], //type: array - list of maps liked by the user
     
-        myprojects: [String],  //type: array  -        list of maps created by the user 
+        myprojects: [{type: Schema.Types.ObjectId, ref: 'Map'}],  //type: array  -        list of maps created by the user 
     
         passwordHash: {               // password of the user
             type: String,
@@ -27,7 +27,7 @@ const userSchema = new Schema(
             type: String       // will be stored in the database
         },
     
-        publishedMaps: [Object],  //type: array - list of user’s published maps
+        publishedMaps: [String],  //type: array - list of user’s published maps
         
         email: {             // Email account of the user
             type: String,

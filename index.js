@@ -18,8 +18,8 @@ app.use(express.json())
 app.use(cookieParser())
 
 // SETUP OUR OWN ROUTERS AS MIDDLEWARE
-const top5listsRouter = require(__dirname +'/server/routes/gameshow-router.js')
-app.use('/api', top5listsRouter)
+const tileslateRouter = require(__dirname +'/server/routes/tileslate-router.js')
+app.use('/api', tileslateRouter)
 
 // INITIALIZE OUR DATABASE OBJECT
 const db = require(__dirname +'/server/db')
