@@ -7,10 +7,10 @@ import Home from "../src/routes/Home";
 import MapEditor from "./routes/MapEditor";
 import MapViewer from "./routes/MapViewer";
 import MyProjects from "./routes/MyProjects";
-import SignUp from "./components/sign-up.component";
-import AccountSettings from "./components/account-settings.component";
-import SignIn from "./components/sign-in.component";
-import SignOut from "./components/sign-out.component";
+import SignUp from "./routes/SignUp";
+import AccountSettings from "./routes/AccountSettings";
+import SignIn from "./routes/SignIn";
+import SignOut from "./routes/SignOut";
 
 
 
