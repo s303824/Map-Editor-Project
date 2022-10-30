@@ -75,7 +75,7 @@ const MyProjects=() =>{
 
     return (
       <Box className="home-container" sx={{marginLeft:'260px' }}>
-        <Typography variant="h4" sx={{backgroundImage: 'linear-gradient(to right,#a51916,#F83600)',boxShadow: `inset 0 0 6px rgba(0, 0, 0, 0.3)`,borderRadius:'10px',justifyContent: 'center',maxWidth:"90%",color:"white",marginTop:'1%',marginBottom:'2%',padding:'2%'}}>My Projects</Typography>
+        <Typography variant="h4" sx={{backgroundImage: 'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',boxShadow: '0 1px 1px 1px rgba(68,68,69,255)',boxShadow: 1,borderRadius:'10px',justifyContent: 'center',maxWidth:"90%",color:"grey",marginTop:'1%',marginBottom:'2%',padding:'2%'}}>My Projects</Typography>
         
         <Box 
           className="mapcard-container" 
@@ -95,8 +95,8 @@ const MyProjects=() =>{
               outline: `1px solid #ffc806`,
             }}}>
         <Box display='flex' justifyContent='space-between' >
-        <Typography variant="h4" sx={{backgroundImage: 'linear-gradient(to right, #B8B8B8,#B8B8B8)',borderRadius:'10px',justifyContent: 'center',maxWidth:"30%",color:"white",marginTop:'1%',marginBottom:'2%',padding:'1%',fontSize:22}}> Continue Editing </Typography>
-        <Typography variant="h4" sx={{backgroundImage: 'linear-gradient(to right, #B8B8B8,#B8B8B8)',borderRadius:'10px',justifyContent: 'center',maxWidth:"30%",color:"white",marginTop:'1%',marginRight:'3%',marginBottom:'2%',padding:'1%',fontSize:20}}> Create A New Project </Typography>
+        <Typography variant="h4" sx={{backgroundImage: 'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',boxShadow: '0 1px 1px 1px rgba(68,68,69,255)',boxShadow: 1,borderRadius:'10px',justifyContent: 'center',maxWidth:"30%",color:"grey",marginTop:'1%',marginBottom:'2%',padding:'1%',fontSize:22}}> Continue Editing </Typography>
+        <Typography variant="h4" sx={{backgroundImage: 'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',boxShadow: '0 1px 1px 1px rgba(68,68,69,255)',boxShadow: 1,borderRadius:'10px',justifyContent: 'center',maxWidth:"30%",color:"grey",marginTop:'1%',marginRight:'3%',marginBottom:'2%',padding:'1%',fontSize:20}}> Create A New Project + </Typography>
         </Box> 
         {mapCardInfo.filter((map) => (
             map.published == null
@@ -104,7 +104,7 @@ const MyProjects=() =>{
             <MapCard key={map.id} mapInfo={map} />
           ))}  
 
-        <Typography variant="h4" sx={{backgroundImage: 'linear-gradient(to right, #B8B8B8,#B8B8B8)',borderRadius:'10px',justifyContent: 'center',maxWidth:"30%",color:"white",marginTop:'3%',marginBottom:'2%',padding:'1%',fontSize:22}}> Published Maps </Typography>
+        <Typography variant="h4" sx={{backgroundImage: 'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',borderRadius:'10px',justifyContent: 'center',maxWidth:"25%",color:"grey",marginTop:'3%',marginBottom:'2%',padding:'1%',fontSize:22}}> Published Maps </Typography>
           {mapCardInfo.filter((map) => (
             map.published !=null
           )).map((map) => (
