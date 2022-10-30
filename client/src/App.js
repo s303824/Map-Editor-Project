@@ -7,7 +7,7 @@ import Home from "../src/routes/Home";
 import MapEditor from "./routes/MapEditor";
 import MapViewer from "./routes/MapViewer";
 import MyProjects from "./routes/MyProjects";
-import SignUp from "./components/SignUp";
+import SignUp from "./components/sign-up.component";
 
 
 
