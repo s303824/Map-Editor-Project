@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { TextField, Link, Button, Modal } from '@mui/material';
 
 export const SignIn = ({}) => {
   const SignInButtonFunction = (e, name) => {
@@ -18,30 +19,32 @@ export const SignIn = ({}) => {
     alert(`${name} was clicked`);
   };
   return (
+    <Modal
+    open={open}
+    onClose={handleClose}
+>
 <SignUpPage>
 <Element2 />
 <FlexColumn2>
   <FlexColumn3>
     <FlexRow1>
       <Text22>Sign In</Text22>
-      <X>{"   "}X</X>
+      <Button sx={XClose} onClick={handleClose}>{"   "}X</Button >
     </FlexRow1>
     <Line src={`https://file.rendit.io/n/sVQvg8Tuu1telfyMSi9P.svg`} />
   </FlexColumn3>
   <FlexColumn4>
     <FlexColumn5>
       <Text23>email address</Text23>
-      <SignInButton2
-        onClick={(e) => SignInButton2Function(e, "SignInButton2")}
+      <TextField sx={InputField} id = "email-input" 
       />
       <Text24>Password</Text24>
-      <SignInButton1
-        onClick={(e) => SignInButton1Function(e, "SignInButton1")}
+      <TextField sx={InputField} id = "password-input" 
       />
     </FlexColumn5>
     <FlexColumn6>
       <SignUpButton1
-        onClick={(e) => SignUpButton1Function(e, "SignUpButton1")}
+        onClick={handleClose}
       >
         <LoginToAccount>login to account </LoginToAccount>
       </SignUpButton1>
@@ -56,7 +59,8 @@ export const SignIn = ({}) => {
     </FlexColumn6>
   </FlexColumn4>
 </FlexColumn2>
-</SignUpPage>);};
+</SignUpPage>
+</Modal>);};
 
 const Section = styled.div`
   width: 179px;

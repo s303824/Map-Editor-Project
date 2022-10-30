@@ -8,6 +8,9 @@ import MapEditor from "./routes/MapEditor";
 import MapViewer from "./routes/MapViewer";
 import MyProjects from "./routes/MyProjects";
 import SignUp from "./components/sign-up.component";
+import AccountSettings from "./components/account-settings.component";
+import SignIn from "./components/sign-in.component";
+import SignOut from "./components/sign-out.component";
 
 
 
@@ -24,6 +27,9 @@ const App = () => {
               <Route path="/view" element={<MapViewer/>}/>
               <Route path="/projects" element={<MyProjects/>}/>
               <Route path="/signup" element={<SignUp/>}/>
+              <Route path="/accountsettings" element={<AccountSettings/>}/>
+              <Route path="/signin" element={<SignIn/>}/>
+              <Route path="/signout" element={<SignOut/>}/>
             </Routes>
         </GlobalStoreContextProvider>
       </AuthContextProvider>
