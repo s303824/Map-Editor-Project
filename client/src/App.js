@@ -7,6 +7,7 @@ import Home from "../src/routes/Home";
 import MapEditor from "./routes/MapEditor";
 import MapViewer from "./routes/MapViewer";
 import MyProjects from "./routes/MyProjects";
+import SignUp from "./components/SignUp";
 
 
 
@@ -22,6 +23,7 @@ const App = () => {
               <Route path="/editor" element={<MapEditor/>}/>
               <Route path="/view" element={<MapViewer/>}/>
               <Route path="/projects" element={<MyProjects/>}/>
+              <Route path="/signup" element={<SignUp/>}/>
             </Routes>
         </GlobalStoreContextProvider>
       </AuthContextProvider>
