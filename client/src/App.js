@@ -21,7 +21,7 @@ const App = () => {
               <Route path="/" element={<Home/>}/>
               <Route path="/editor" element={<MapEditor/>}/>
               <Route path="/view" element={<MapViewer/>}/>
-              <Route path="/projects" element={<MyProjects/>}/>
+              <Route path="/myprojects" element={<MyProjects/>}/>
             </Routes>
         </GlobalStoreContextProvider>
       </AuthContextProvider>
