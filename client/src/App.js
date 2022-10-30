@@ -5,10 +5,12 @@ import MapEditor from "../src/routes/MapEditor";
 import MapToolBar from "../src/components/map-toolbar.component";
 import MyProjects from "./routes/MyProjects";
 import MapViewer from "./routes/MapViewer";
-import SearchResults from "./routes/SearchResults";
+import Explore from "./routes/Explore";
+import Navigation from "./routes/Navigation";
 import './App.css';
 import { GlobalStoreContextProvider } from './store'
 import { AuthContextProvider } from "./auth";
+import TileSetEditor from "./routes/TilesetEditor";
  
 const App = () => {
 
@@ -16,13 +18,15 @@ const App = () => {
     <BrowserRouter>
       <AuthContextProvider>
         <GlobalStoreContextProvider>  
-          <Banner/>
+          <Navigation/>
             <Routes>
               <Route path="/" element={<Home/>}/>
               <Route path="/home" element={<Home/>}/>
               <Route path="/mapeditor" element={<MapEditor/>}/>
-              <Route path="/myprojects" element={<MyProjects/>}/>
+              <Route path="/projects" element={<MyProjects/>}/>
               <Route path="/mapviewer" element={<MapViewer/>}/>
+              <Route path="/explore" element={<Explore/>}/>
+              <Route path="/tileseteditor" element={<TileSetEditor/>}/>
             </Routes>
         </GlobalStoreContextProvider>
       </AuthContextProvider>
