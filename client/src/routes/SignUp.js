@@ -37,10 +37,6 @@ const SignUp =() =>{
 
     return (
         <Box className="home-container" sx={{marginLeft:'260px' }}>
-        <Modal
-            open={open}
-            onClose={handleClose}
-        >
         <SignUpPage>
           <LeftColumn/>
           <RightColumn>
@@ -95,7 +91,6 @@ const SignUp =() =>{
           tileslate
         </Logo>
       </PlayingComputerGame>
-        </Modal>
         </Box>
     );
   }

@@ -19,10 +19,6 @@ export const SignIn = ({}) => {
     alert(`${name} was clicked`);
   };
   return (
-    <Modal
-    open={open}
-    onClose={handleClose}
->
 <SignUpPage>
 <Element2 />
 <FlexColumn2>
@@ -60,7 +56,7 @@ export const SignIn = ({}) => {
   </FlexColumn4>
 </FlexColumn2>
 </SignUpPage>
-</Modal>);};
+);};
 
 const Section = styled.div`
   width: 179px;
