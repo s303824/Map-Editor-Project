@@ -14,6 +14,14 @@
   flex-direction: column;
 }
 
+.home-container{
+  background-color: #0e0e10;
+  padding-top: 2%;
+  padding-left:5% ;
+  padding-right:5%;
+  
+}
+
 .Creator {
   padding-top: 2%;
   text-align: center;
@@ -39,7 +47,7 @@
   word-wrap: break-word;
 }
 
-html {background-color: rgba(88, 80, 245, 0.396)} 
+html {background-color:#0e0e10} 
 
 .horizontal-list {
   display: flex;

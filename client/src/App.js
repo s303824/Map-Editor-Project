@@ -1,6 +1,6 @@
 import {BrowserRouter, BrowserRouter as Router, Route, Routes} from "react-router-dom";
-import Home from "./components/Home";
-import Banner from "./components/Banner";
+import Home from "../src/routes/Home";
+import Banner from "./components/navbar.component";
 import './App.css';
 import { GlobalStoreContextProvider } from './store'
 import { AuthContextProvider } from "./auth";
@@ -10,7 +10,6 @@ import LiterallyCanvasTest from "./components/LiterallyCanvasTest";
 
 const App = () => {
 
-
   return (
     <BrowserRouter>
       <AuthContextProvider>
@@ -18,7 +17,7 @@ const App = () => {
           <Banner/>
             <Routes>
               <Route path="/" element={<Home/>}/>
-              <Route path="/test" element={<LiterallyCanvasTest/>}></Route>
+              <Route path="/home" element={<Home/>}/>
             </Routes>
         </GlobalStoreContextProvider>
       </AuthContextProvider>
