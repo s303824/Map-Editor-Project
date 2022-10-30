@@ -4,7 +4,7 @@ const ObjectId = Schema.Types.ObjectId
 
 const PublishedSchema = new Schema(
     {
-        name: { type: String, required: true },     // tile of published map
+        name: { type: String, required: true },     // title of published map
         creator: { type: [String], required: true },      // User(s) that made the map
         thumbnailURL: { type: String, required: true },     // URL to the image
         comments: { type: [[String, String]], required: true },   // comments 

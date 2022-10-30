@@ -8,7 +8,7 @@ const mapsSchema = new Schema(
         height: Number,                // Number of tile rows
         infinite: Boolean,          // Whether the map has infinite dimensions
         layers: Array,              // Array of Layers
-        mapinfo: Object,            // Project meta-data
+        mapinfo: String,            // Project meta-data
         nextlayerid: Number,           // Auto-increments for each layer
         nextobjectid: Number,          // Auto-increments for each placed object
         renderorder: {type: String, default: "right-down"},   // right-down (the default), right-up, left-down or left-up
