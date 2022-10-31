@@ -30,9 +30,11 @@ const App = () => {
               <Route path="/tileseteditor" element={<TileSetEditor/>}/>
               <Route path="/editor" element={<MapEditor/>}/>
               <Route path="/view" element={<MapViewer/>}/>
+
               <Route path="/login" element={<SignIn/>}/>
               <Route path="/logout" element={<SignOut/>}/>
               <Route path="/signup" element={<SignUp/>}/>
+
               <Route path="/accountSettings" element={<AccountSettings/>}/>
             </Routes>
         </GlobalStoreContextProvider>
