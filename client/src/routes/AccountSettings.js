@@ -1,31 +1,7 @@
 import * as React from 'react';
 import styled from "styled-components";
 
-export const SettingsPageRoot1 = ({}) => {
-  const SignInButton8Function = (e, name) => {
-    alert(`${name} was clicked`);
-  };
-  const SignUpButton3Function = (e, name) => {
-    alert(`${name} was clicked`);
-  };
-  const SignInButton5Function = (e, name) => {
-    alert(`${name} was clicked`);
-  };
-  const SignInButton4Function = (e, name) => {
-    alert(`${name} was clicked`);
-  };
-  const SignInButton3Function = (e, name) => {
-    alert(`${name} was clicked`);
-  };
-  const SignUpButton1Function = (e, name) => {
-    alert(`${name} was clicked`);
-  };
-  const SignUpButton2Function = (e, name) => {
-    alert(`${name} was clicked`);
-  };
-  const SignInButton9Function = (e, name) => {
-    alert(`${name} was clicked`);
-  };
+export const AccountSettings = ({}) => {
   return (
     <SettingsPageRootRoot>
       <Section>
@@ -118,7 +94,7 @@ export const SettingsPageRoot1 = ({}) => {
                 </Profile2>
                 <Text14>change profile picture</Text14>
                 <SignInButton8
-                  onClick={(e) => SignInButton8Function(e, "SignInButton8")}
+          
                 >
                   <RemoveProfilePicture>
                     {"         "}
@@ -132,7 +108,7 @@ export const SettingsPageRoot1 = ({}) => {
               </FlexColumn4>
             </FlexColumn2>
             <SignUpButton3
-              onClick={(e) => SignUpButton3Function(e, "SignUpButton3")}
+              
             >
               <ChangeProfilePicture>
                 {"           "}
@@ -150,7 +126,6 @@ export const SettingsPageRoot1 = ({}) => {
             {"  "}A new user name
           </EnterANewUserName>
           <SignInButton5
-            onClick={(e) => SignInButton5Function(e, "SignInButton5")}
           />
           <FlexRow1>
             <Text17>Enter a new first name</Text17>
@@ -158,14 +133,11 @@ export const SettingsPageRoot1 = ({}) => {
           </FlexRow1>
           <FlexRow2>
             <SignInButton4
-              onClick={(e) => SignInButton4Function(e, "SignInButton4")}
             />
             <SignInButton3
-              onClick={(e) => SignInButton3Function(e, "SignInButton3")}
             />
           </FlexRow2>
           <SignUpButton1
-            onClick={(e) => SignUpButton1Function(e, "SignUpButton1")}
           >
             <Text19>save changes</Text19>
           </SignUpButton1>
@@ -179,20 +151,17 @@ export const SettingsPageRoot1 = ({}) => {
               <FlexColumn6>
                 <Text20>new email address</Text20>
                 <SignInButton4
-                  onClick={(e) => SignInButton4Function(e, "SignInButton7")}
                 />
               </FlexColumn6>
             </FlexColumn5>
             <FlexColumn7>
               <Text20>confirm new email address</Text20>
               <SignInButton4
-                onClick={(e) => SignInButton4Function(e, "SignInButton6")}
               />
             </FlexColumn7>
           </FlexRow3>
           <FlexColumn8>
             <SignUpButton2
-              onClick={(e) => SignUpButton2Function(e, "SignUpButton2")}
             />
             <Text22>save changes</Text22>
           </FlexColumn8>
@@ -203,7 +172,6 @@ export const SettingsPageRoot1 = ({}) => {
           <ChangeUserName>change password </ChangeUserName>
           <EnterANewUserName>enter current password</EnterANewUserName>
           <SignInButton5
-            onClick={(e) => SignInButton5Function(e, "SignInButton2")}
           />
           <FlexRow4>
             <Text17>new new password </Text17>
@@ -214,14 +182,11 @@ export const SettingsPageRoot1 = ({}) => {
           </FlexRow4>
           <FlexRow2>
             <SignInButton4
-              onClick={(e) => SignInButton4Function(e, "SignInButton1")}
             />
             <SignInButton3
-              onClick={(e) => SignInButton3Function(e, "SignInButton")}
             />
           </FlexRow2>
           <SignUpButton1
-            onClick={(e) => SignUpButton1Function(e, "SignUpButton")}
           >
             <Text19>save changes</Text19>
           </SignUpButton1>
@@ -258,7 +223,6 @@ export const SettingsPageRoot1 = ({}) => {
             </FlexColumn11>
           </FlexColumn10>
           <SignInButton9
-            onClick={(e) => SignInButton9Function(e, "SignInButton9")}
           >
             <RemoveProfilePicture>
               {"              "}
@@ -271,159 +235,6 @@ export const SettingsPageRoot1 = ({}) => {
   );
 };
 
-const Icon1 = styled.img`
-  width: 22px;
-  height: 22px;
-`;
-const Text5 = styled.div`
-   ;
-`;
-const RemoveProfilePicture = styled.div`
-  height: 30px;
-  color: #f93701;
-  font-size: 24px;
-  font-family: Bebas Neue;
-  white-space: pre-wrap;
-`;
-const ChangeUsername = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0px 84px 0px 0px;
-`;
-const SignUpPage1 = styled.div`
-  height: 320px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  padding: 12px 77px 11px 30px;
-  background-size: cover;
-  background-image: url("https://file.rendit.io/n/NaP82sXhX2ymqxtQzRif.svg");
-`;
-const ChangeUserName = styled.div`
-  width: 462px;
-  height: 42px;
-  margin: 0px 0px 5px 0px;
-  color: #ffffff;
-  font-size: 24px;
-  font-family: Bebas Neue;
-  white-space: pre-wrap;
-`;
-const EnterANewUserName = styled.div`
-  width: 462px;
-  height: 42px;
-  color: #ffffff;
-  font-size: 20px;
-  font-family: Bebas Neue;
-  white-space: pre-wrap;
-`;
-const SignInButton5 = styled.button`
-  width: 364px;
-  height: 46px;
-  margin: 0px 0px 18px 0px;
-  padding: 0px;
-  border-width: 0px;
-  box-sizing: content-box;
-  background-color: transparent;
-  background-size: cover;
-  background-position: center;
-  background-image: url("https://file.rendit.io/n/sJtxHOmEgUdD7ylcWtPO.svg");
-  cursor: pointer;
-  &: hover {
-    box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
-  } ;
-`;
-const Text17 = styled.div`
-  width: 462px;
-  height: 23px;
-  color: #ffffff;
-  font-size: 20px;
-  font-family: Bebas Neue;
-`;
-const FlexRow2 = styled.div`
-  height: 47px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-self: stretch;
-  align-items: flex-start;
-  margin: 0px 0px 24px 0px;
-  padding: 0px 114px 0px 0px;
-`;
-const SignInButton4 = styled.button`
-  width: 364px;
-  height: 46px;
-  padding: 0px;
-  border-width: 0px;
-  box-sizing: content-box;
-  background-color: transparent;
-  background-size: cover;
-  background-position: center;
-  background-image: url("https://file.rendit.io/n/sJtxHOmEgUdD7ylcWtPO.svg");
-  cursor: pointer;
-  &: hover {
-    box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
-  } ;
-`;
-const SignInButton3 = styled.button`
-  width: 364px;
-  height: 46px;
-  align-self: flex-end;
-  padding: 0px;
-  border-width: 0px;
-  box-sizing: content-box;
-  background-color: transparent;
-  background-size: cover;
-  background-position: center;
-  background-image: url("https://file.rendit.io/n/sJtxHOmEgUdD7ylcWtPO.svg");
-  cursor: pointer;
-  &: hover {
-    box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
-  } ;
-`;
-const SignUpButton1 = styled.button`
-  height: 49px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-self: flex-end;
-  padding: 0px;
-  padding-top: 2px;
-  padding-right: 87px;
-  padding-bottom: 2px;
-  padding-left: 87px;
-  border-width: 0px;
-  border-radius: 30px;
-  border-top-width: 1px;
-  border-right-width: 1px;
-  border-bottom-width: 1px;
-  border-left-width: 1px;
-  border-style: solid;
-  border-color: #f98026;
-  box-sizing: content-box;
-  background-color: transparent;
-  background-image: linear-gradient(90deg, #f83600 0%, #ffc806 30%);
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  cursor: pointer;
-  &: hover {
-    box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
-  } ;
-`;
-const Text19 = styled.div`
-  height: 42px;
-  color: #ffffff;
-  font-size: 24px;
-  font-family: Bebas Neue;
-`;
-const Text20 = styled.div`
-  height: 42px;
-  align-self: stretch;
-  color: #ffffff;
-  font-size: 20px;
-  font-family: Bebas Neue;
-`;
 const SettingsPageRootRoot = styled.div`
   width: 1440px;
   height: 1950px;

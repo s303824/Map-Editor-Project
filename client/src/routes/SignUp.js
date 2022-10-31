@@ -29,7 +29,6 @@ const SignUp =() =>{
         break;
       case 'verify-input':
         if(event.target.value != Password){
-          
         }
         break;
     }
@@ -37,56 +36,51 @@ const SignUp =() =>{
   }
 
     return (
-      <div>
-        <Button onClick={handleOpen}>Open modal</Button>
-        <Modal
-            open={open}
-            onClose={handleClose}
-        >
+        <Box className="home-container" sx={{marginLeft:'260px' }}>
         <SignUpPage>
           <LeftColumn/>
           <RightColumn>
             <TopSection>
               <FlexRow>
                 <Text1>Sign up</Text1>
-                <Button >{"   "}X</Button >
+                <Button onClick={handleClose} sx ={XClose}>{"   "}X</Button >
               </FlexRow>
               <Line src={`https://file.rendit.io/n/Tla4J7mNr348GLYcDsDm.svg`} />
             </TopSection>
             <InputSection>
               <FirstName>
                 <InputText>First name</InputText>
-                <InputField id = "first-name-input" onChange ={handleNewAccountInput} />
+                <TextField sx={InputField} id = "first-name-input" onChange ={handleNewAccountInput} />
               </FirstName>
               <LastName>
                 <InputText>Last name</InputText>
-                <InputField id = "last-name-input" onChange ={handleNewAccountInput}/>
+                <TextField sx={InputField} id = "last-name-input" onChange ={handleNewAccountInput}/>
               </LastName>
               <UserName>
                 <InputText>user name</InputText>
-                <InputField id = "username-input" onChange ={handleNewAccountInput}/>
+                <TextField sx={InputField} id = "username-input" onChange ={handleNewAccountInput}/>
               </UserName>
               <Email>
                 <InputText>email address</InputText>
-                <InputField id = "email-input" onChange ={handleNewAccountInput}/>
+                <TextField sx={InputField} id = "email-input" onChange ={handleNewAccountInput}/>
               </Email>
               <Password>
                 <InputText>Password</InputText>
-                <InputField id = "password-input" onChange ={handleNewAccountInput}/>
+                <TextField sx={InputField} id = "password-input" onChange ={handleNewAccountInput}/>
               </Password>
               <Password>
                 <InputText>verify password</InputText>
-                <InputField id = "verify-input" onChange ={handleNewAccountInput}/>
+                <TextField sx={InputField} id = "verify-input" onChange ={handleNewAccountInput}/>
               </Password>
             </InputSection>
             <BottomSection>
               <SignUpButton
-                onClick={SignUpButtonFunction}
+                onClick={handleClose}
               >
                 <CreateAnAccount>Create an account </CreateAnAccount>
               </SignUpButton>
               <Text8>
-                Already have an account? <Text9>LOG IN</Text9>
+                Already have an account? <LogInLink>LOG IN</LogInLink>
               </Text8>
             </BottomSection>
         </RightColumn>
@@ -97,33 +91,10 @@ const SignUp =() =>{
           tileslate
         </Logo>
       </PlayingComputerGame>
-        </Modal>
-        </div>
+        </Box>
     );
   }
 
-const InputText = styled.div`
-  width: 258px;
-  height: 38px;
-  color: #ffffff;
-  font-size: 20px;
-  font-family: Bebas Neue;
-`;
-const InputField = styled.text`
-  height: 46px;
-  align-self: stretch;
-  padding: 0px;
-  border-width: 0px;
-  box-sizing: content-box;
-  background-color: transparent;
-  background-size: cover;
-  background-position: center;
-  background-image: url("https://file.rendit.io/n/xrRx7doxyy1pjROHr5wC.svg");
-  cursor: pointer;
-  &: hover {
-    box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
-  } ;
-`;
 const UserName = styled.div`
   gap: 1px;
   display: flex;
@@ -203,14 +174,6 @@ const Text1 = styled.div`
   font-size: 36px;
   font-family: Bebas Neue;
 `;
-const X = styled.div`
-  width: 50px;
-  height: 41px;
-  color: #ffffff;
-  font-size: 36px;
-  font-family: Bebas Neue;
-  white-space: pre-wrap;
-`;
 const Line = styled.img`
   width: 718px;
   height: 1px;
@@ -285,7 +248,7 @@ const Text8 = styled.div`
   font-family: Bebas Neue;
   white-space: pre-wrap;
 `;
-const Text9 = styled.div`
+const LogInLink = Link`
   display: contents;
   color: #1b2ee0;
   font-size: 20px;
