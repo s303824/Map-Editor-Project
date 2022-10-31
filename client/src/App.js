@@ -13,7 +13,8 @@ import TileSetEditor from "./routes/TilesetEditor";
 import Home from "../src/routes/Home";
 import SignUp from "./routes/SignUp";
 import AccountSettings from "./routes/AccountSettings";
-
+import SignIn from "./routes/SignIn";
+import SignOut from "./routes/SignOut";
 
 const App = () => {
   return (
@@ -34,7 +35,7 @@ const App = () => {
               <Route path="/logout" element={<SignOut/>}/>
               <Route path="/signup" element={<SignUp/>}/>
 
-              <Route path="/accountsettings" element={<AccountSettings/>}/>
+              <Route path="/accountSettings" element={<AccountSettings/>}/>
             </Routes>
         </GlobalStoreContextProvider>
       </AuthContextProvider>
