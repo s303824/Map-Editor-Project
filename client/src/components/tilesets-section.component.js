@@ -16,7 +16,7 @@ const TilesetsSection =()=>{
     const navigate = useNavigate();
 
     const handleTileEdit = () => {
-
+        navigate("/tileseteditor", {})
     }
 
     const tilesets =[{ //to display sample data
