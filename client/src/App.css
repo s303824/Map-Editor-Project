@@ -25,6 +25,22 @@
   width:70%;
   height: 70%;
   flex-direction: row;
+  overflow-y:scroll;
+  overflow: auto;
+}
+
+.signup-box {
+  display:flex;
+  background-color:#848383;
+  border-radius: 10px;
+  position:absolute;
+  top:13%;
+  left:20%;
+  width:70%;
+  height: 77%;
+  flex-direction: row;
+  overflow-y:scroll;
+  overflow: auto;
 }
 
 .login-holder {
@@ -33,11 +49,27 @@
   width:100%;
 }
 
+.signup-field {
+  display:flex;
+  flex-direction: column;
+  justify-content: stretch;
+  width:65%;
+  color:white;
+}
+
 .login-image-holder {
   display:flex;
   flex-direction: column;
-  padding-right: 10%;
+  padding-right: 5%;
 }
+
+.signup-image-holder {
+  display:flex;
+  flex-direction: column;
+  padding-right: 5%;
+  height:100%;
+}
+
 
 .login-box-top {
   display:flex;
@@ -49,6 +81,7 @@
   width:100%;
   overflow: hidden;
 }
+
 
 .login-image-topper {
   background-color: #fc4e19;
@@ -77,6 +110,7 @@
   padding-top: 3%;
 }
 
+
 .login-email-field {
   display:flex;
   flex-direction: column;
@@ -95,12 +129,13 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width:45%;
-  padding-top: 3%;
+  width:60%;
+  padding-top: 1%;
 }
 
 .login-button-holder {
-  padding-top: 4%;
+  padding-top: 3%;
+  display: flex;
 }
 
 .login-bar {
@@ -108,7 +143,7 @@
   font-size:32px;
   color:white;
   padding-top: 1%;
-  padding-left: 1%;
+  padding-left: 0%;
   display:flex;
   flex-direction: row;
   justify-content:space-between;

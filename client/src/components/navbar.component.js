@@ -27,6 +27,10 @@ function Banner() {
     const navigate = useNavigate();
     const {auth} = useContext(AuthContext);
 
+    const handleLogin = () => {
+      navigate("/login", {})
+    }
+
     const userInfo = { //sample data 
       "id":1,
       "userName":"user4",
@@ -106,7 +110,7 @@ function Banner() {
                     size="large"
                     aria-label="account of current user"
                 > 
-                <ArrowDropDownCircleIcon sx={{fill:'#ffbf06',boxShadow: 1}}/>
+                <ArrowDropDownCircleIcon sx={{fill:'#ffbf06',boxShadow: 1}} onClick={handleLogin}/>
                 </IconButton>
             </Box>
             </Toolbar>

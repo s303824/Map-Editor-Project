@@ -11,8 +11,8 @@ const SignUp =() =>{
       navigate("/login")
     }
 
-    const handleReturnHome = () => {
-      navigate("/home")
+    const handleGoBack = () => {
+      navigate("/", {})
     }
   
     const loginImage = <Box 
@@ -26,9 +26,9 @@ const SignUp =() =>{
     return (
         <Box className="login-page-holder">
 
-        <Box className="login-box">
+        <Box className="signup-box">
   
-          <Box className="login-image-holder">
+          <Box className="signup-image-holder">
             <Box className="login-image-topper">
               <Box className="login-tileslate-text">TILESLATE</Box>
             </Box>
@@ -41,38 +41,38 @@ const SignUp =() =>{
             <Box className="login-box-top">    
                 <Box className="login-bar">
                   <Box>SIGN UP</Box>  
-                  <Button variant="contained" color="error" fontSize="32px" onClick={handleReturnHome}>X</Button>
+                  <Button variant="contained" color="error" fontSize="32px" onClick={handleGoBack}>X</Button>
                 </Box>
             </Box>
   
-            <Box className="login-box-mid">
+            <Box className="signup-box-mid">
                 
-                <Box className="login-email-field">
+                <Box className="signup-field">
                   <Typography>First Name</Typography>
                   <TextField label="First Name" className="login-textfield" variant="filled" ></TextField>
                 </Box>
   
-                <Box className="login-email-field">
+                <Box className="signup-field">
                   <Typography>Last Name</Typography>
                   <TextField label="Last Name" className="login-textfield" variant="filled" ></TextField>
                 </Box>
   
-                <Box className="login-email-field">
+                <Box className="signup-field">
                   <Typography>User Name</Typography>
                   <TextField label="User Name" className="login-textfield" variant="filled" ></TextField>
                 </Box>
 
-                <Box className="login-email-field">
+                <Box className="signup-field">
                   <Typography>Email Address</Typography>
                   <TextField label="Email Address" className="login-textfield" variant="filled"></TextField>
                 </Box>
 
-                <Box className="login-email-field">
+                <Box className="signup-field">
                   <Typography>Password</Typography>
                   <TextField label="Password" className="login-textfield" variant="filled"></TextField>
                 </Box>
         
-                <Box className="login-email-field">
+                <Box className="signup-field">
                   <Typography>Verify Password</Typography>
                   <TextField label="Verify Password" className="login-textfield" variant="filled"></TextField>
                 </Box>
@@ -81,8 +81,8 @@ const SignUp =() =>{
                   <Button variant="contained" color="warning" onClick={handleReturnHome}>CREATE AN ACCOUNT</Button>
                 </Box>
   
-                <Box className="login-bottom-text" paddingTop="10%">
-                  <Typography>Forgot your password?</Typography><Button variant="contained" onClick={handleSignIn}>Log On</Button>
+                <Box className="login-bottom-text" paddingTop="2%">
+                  <Typography>Have an account already?</Typography><Button variant="contained" onClick={handleSignIn}>Log In</Button>
                 </Box>
             </Box>
           </Box>

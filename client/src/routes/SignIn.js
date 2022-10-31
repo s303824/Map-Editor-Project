@@ -11,8 +11,8 @@ const SignIn = ({}) => {
     navigate("/signup")
   }
 
-  const handleReturnHome = () => {
-    navigate("/home")
+  const handleGoBack = () => {
+    navigate("/", {})
   }
 
   const loginImage = <Box 
@@ -41,7 +41,7 @@ const SignIn = ({}) => {
           <Box className="login-box-top">    
               <Box className="login-bar">
                 <Box>SIGN IN</Box>  
-                <Button variant="contained" color="error" fontSize="32px" onClick={handleReturnHome}>X</Button>
+                <Button variant="contained" color="error" fontSize="32px" onClick={handleGoBack}>X</Button>
               </Box>
           </Box>
 
