@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from "styled-components";
 
-export const AccountSettings = ({}) => {
+const AccountSettings = ({}) => {
   return (
     <SettingsPageRootRoot>
       <Section>
@@ -880,3 +880,4 @@ const SignInButton9 = styled.button`
     box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
   } ;
 `;
+export default AccountSettings;

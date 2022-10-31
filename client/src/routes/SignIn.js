@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-export const DesktopRoot1 = ({}) => {
+const DesktopRoot1 = ({}) => {
   const SignInButtonFunction = (e, name) => {
     alert(`${name} was clicked`);
   };
@@ -663,3 +663,4 @@ const Tileslate = styled.div`
   font-family: Bebas Neue;
   white-space: pre-wrap;
 `;
+export default SignIn;
