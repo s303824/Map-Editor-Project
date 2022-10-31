@@ -6,6 +6,7 @@ import MyProjects from "./routes/MyProjects";
 import MapViewer from "./routes/MapViewer";
 import Explore from "./routes/Explore";
 import Navigation from "./routes/Navigation";
+import LikedMaps from "./routes/LikedMaps";
 import './App.css';
 import { GlobalStoreContextProvider } from './store'
 import { AuthContextProvider } from "./auth";
@@ -29,6 +30,7 @@ const App = () => {
               <Route path="/explore" element={<Explore/>}/>
               <Route path="/tileseteditor" element={<TileSetEditor/>}/>
               <Route path="/editor" element={<MapEditor/>}/>
+              <Route path="/likedmaps" element={<LikedMaps/>}/>
               <Route path="/view" element={<MapViewer/>}/>
 
               <Route path="/login" element={<SignIn/>}/>
