@@ -12,6 +12,10 @@ const SignIn = ({}) => {
     navigate("/signup")
   }
 
+  const handleGoBack = () => {
+    navigate("/", {})
+  }
+
   const loginImage = <Box 
     component="img"
     alt="banner Image"
@@ -38,7 +42,7 @@ const SignIn = ({}) => {
           <Box className="login-box-top">    
               <Box className="login-bar">
                 <Box>SIGN IN</Box>  
-                <Button variant="contained" color="error" fontSize="32px">X</Button>
+                <Button variant="contained" color="error" fontSize="32px" onClick={handleGoBack}>X</Button>
               </Box>
           </Box>
 

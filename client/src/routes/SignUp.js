@@ -11,6 +11,10 @@ const SignUp =() =>{
     const handleSignIn = () => {
       navigate("/login")
     }
+
+    const handleGoBack = () => {
+      navigate("/", {})
+    }
   
     const loginImage = <Box 
       component="img"
@@ -25,7 +29,7 @@ const SignUp =() =>{
 
         <Box className="signup-box">
   
-          <Box className="login-image-holder">
+          <Box className="signup-image-holder">
             <Box className="login-image-topper">
               <Box className="login-tileslate-text">TILESLATE</Box>
             </Box>
@@ -38,7 +42,7 @@ const SignUp =() =>{
             <Box className="login-box-top">    
                 <Box className="login-bar">
                   <Box>SIGN UP</Box>  
-                  <Button variant="contained" color="error" fontSize="32px">X</Button>
+                  <Button variant="contained" color="error" fontSize="32px" onClick={handleGoBack}>X</Button>
                 </Box>
             </Box>
   
@@ -79,7 +83,7 @@ const SignUp =() =>{
                 </Box>
   
                 <Box className="login-bottom-text" paddingTop="2%">
-                  <Typography>Have an account already?</Typography><Button variant="contained" onClick={handleSignIn}>Log On</Button>
+                  <Typography>Have an account already?</Typography><Button variant="contained" onClick={handleSignIn}>Log In</Button>
                 </Box>
             </Box>
           </Box>
