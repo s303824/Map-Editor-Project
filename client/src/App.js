@@ -31,6 +31,7 @@ const App = () => {
               <Route path="/editor" element={<MapEditor/>}/>
               <Route path="/view" element={<MapViewer/>}/>
               <Route path="/login" element={<SignIn/>}/>
+              <Route path="/logout" element={<SignOut/>}/>
               <Route path="/signUp" element={<SignUp/>}/>
               <Route path="/accountSettings" element={<AccountSettings/>}/>
             </Routes>
