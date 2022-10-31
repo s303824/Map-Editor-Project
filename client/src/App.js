@@ -32,7 +32,7 @@ const App = () => {
               <Route path="/view" element={<MapViewer/>}/>
               <Route path="/login" element={<SignIn/>}/>
               <Route path="/logout" element={<SignOut/>}/>
-              <Route path="/signUp" element={<SignUp/>}/>
+              <Route path="/signup" element={<SignUp/>}/>
               <Route path="/accountSettings" element={<AccountSettings/>}/>
             </Routes>
         </GlobalStoreContextProvider>

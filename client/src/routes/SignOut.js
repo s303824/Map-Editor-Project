@@ -28,18 +28,9 @@ const SignOut = ({}) => {
                 <Box className="login-email-field">
                   <Typography>Are you sure you want to log out?</Typography>
                 </Box>
-  
-                <Box className="login-email-field">
-                  <Typography>Last Name</Typography>
-                  <TextField label="Last Name" className="login-textfield"></TextField>
-                </Box>
 
                 <Box className="login-button-holder">
-                  <Button variant="contained" color="warning">Logout</Button>
-                </Box>
-  
-                <Box className="login-bottom-text" paddingTop="10%">
-                  <Typography>Forgot your password?</Typography><Button variant="contained" onClick={handleReturnHome}>Log On</Button>
+                  <Button variant="contained" color="warning" onClick={handleReturnHome}>Logout</Button>
                 </Box>
             </Box>
           </Box>

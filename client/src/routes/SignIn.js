@@ -9,7 +9,7 @@ const SignIn = ({}) => {
   const navigate = useNavigate();
 
   const handleSignUp = () => {
-    navigate("/signUp")
+    navigate("/signup")
   }
 
   const loginImage = <Box 
