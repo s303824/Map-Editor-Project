@@ -27,11 +27,11 @@ const MapCard = ({mapInfo}) => {
 
     //function for handling when a user clicks "view" on a mapcard
     const handleViewMap = () => {
-        navigate("/mapviewer", {})
+        navigate("/view", {})
     }
 
     const handleEditMap = () => {
-        navigate("/mapeditor", {})
+        navigate("/editor", {})
     }
 
  const {name,description,likes,dislikes,downloads,userName,email,editActive,published,imageUrl} = mapInfo;
