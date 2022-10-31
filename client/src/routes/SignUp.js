@@ -78,7 +78,7 @@ const SignUp =() =>{
                 </Box>
 
                 <Box className="login-button-holder">
-                  <Button variant="contained" color="warning" onClick={handleReturnHome}>CREATE AN ACCOUNT</Button>
+                  <Button variant="contained" color="warning" onClick={handleGoBack}>CREATE AN ACCOUNT</Button>
                 </Box>
   
                 <Box className="login-bottom-text" paddingTop="2%">
