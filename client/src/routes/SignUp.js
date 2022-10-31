@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { TextField, Link, Button, Modal } from '@mui/material';
-import styled from "styled-components";
+import styled, { css } from 'styled-components';
 
 const SignUp =() =>{
 
