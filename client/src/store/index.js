@@ -1,12 +1,11 @@
 import { createContext, useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import DBManager from '../db/DBManager';
 
 // THIS IS THE CONTEXT WE'LL USE TO SHARE OUR STORE
 export const GlobalStoreContext = createContext({});
 
 export const GlobalStoreActionType = {
-    CHANGE_CURRENT_GAME: "CHANGE_CURRENT_GAME",
+    DEFAULT: "DEFAULT",
 }
 
 function GlobalStoreContextProvider(props) {
@@ -15,12 +14,6 @@ function GlobalStoreContextProvider(props) {
         const {type, payload} = action
 
         switch(type) {
-            case GlobalStoreActionType.CHANGE_CURRENT_GAME: {
-                return setStore({
-                    currentGame: payload.currentGame,
-                })
-            }
-
             default:
                 return store;
         }
@@ -29,42 +22,8 @@ function GlobalStoreContextProvider(props) {
 
     // THESE ARE ALL THE THINGS OUR DATA STORE WILL MANAGE
     const [store, setStore] = useState({
-        currentGame: null,
+        map: null,
     });
-
-    let db = new DBManager();
-
-    store.saveGame = function(game) {
-        db.mutationCreateGame(game);
-    }
-
-    store.getGames = function() {
-        return db.mutationGetAllGames();
-    }
-
-    store.getGameByKey = function(key) {
-        return db.queryGetGame(key);
-    }
-
-    store.getCurrentGame = function() {
-        return store.currentGame;
-    }
-
-    store.setCurrentGame = function(newGame) {
-        storeReducer({
-            type:GlobalStoreActionType.CHANGE_CURRENT_GAME,
-            payload: {currentGame: newGame}
-        })
-    }
-
-    store.deleteGame = function(gameTitle) {
-        return db.mutationDeleteGame(gameTitle);
-    }
-
-    store.registerUser = function(userData) {
-        console.log(userData)
-    }
-
 
     
     return (

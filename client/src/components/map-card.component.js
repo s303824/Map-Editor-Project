@@ -18,8 +18,21 @@ import DownloadForOfflineTwoToneIcon from '@mui/icons-material/DownloadForOfflin
 import mapImage from '../assets/map-card.jpg'
 import UserCard from './user-card.component';
 
+import { useNavigate } from 'react-router-dom';
+
 
 const MapCard = ({mapInfo}) => {
+
+    const navigate = useNavigate();
+
+    //function for handling when a user clicks "view" on a mapcard
+    const handleViewMap = () => {
+        navigate("/view", {})
+    }
+
+    const handleEditMap = () => {
+        navigate("/editor", {})
+    }
 
  const {name,description,likes,dislikes,downloads,userName,email,editActive,published,imageUrl} = mapInfo;
  let width;
@@ -63,11 +76,11 @@ const MapCard = ({mapInfo}) => {
                 <DownloadForOfflineTwoToneIcon sx={{fill:"#fda005"}}/>
                 <Typography sx={{color: 'white',fontSize:15,marginLeft:1}}>{downloads} Downloads </Typography>
             </IconButton> 
-            <Button sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginLeft:10}}>
+            <Button sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginLeft:10}} onClick={handleViewMap}>
                 VIEW
             </Button> 
             </Box> :  <Box>
-            <Button disabled={editActive} sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginTop:2}}>
+            <Button disabled={editActive} sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginTop:2}} onClick={handleEditMap}>
                 EDIT
             </Button>
             <Button disabled={editActive} sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginLeft:2 ,marginTop:2}}>

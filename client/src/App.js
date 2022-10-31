@@ -11,6 +11,7 @@ import { GlobalStoreContextProvider } from './store'
 import { AuthContextProvider } from "./auth";
 import TileSetEditor from "./routes/TilesetEditor";
 import Home from "../src/routes/Home";
+import SignUp from "./routes/SignUp";
 import AccountSettings from "./routes/AccountSettings";
 
 
@@ -28,8 +29,12 @@ const App = () => {
               <Route path="/tileseteditor" element={<TileSetEditor/>}/>
               <Route path="/editor" element={<MapEditor/>}/>
               <Route path="/view" element={<MapViewer/>}/>
-              
-              <Route path="/accountSettings" element={<AccountSettings/>}/>
+
+              <Route path="/login" element={<SignIn/>}/>
+              <Route path="/logout" element={<SignOut/>}/>
+              <Route path="/signup" element={<SignUp/>}/>
+
+              <Route path="/accountsettings" element={<AccountSettings/>}/>
             </Routes>
         </GlobalStoreContextProvider>
       </AuthContextProvider>

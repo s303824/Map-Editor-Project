@@ -10,8 +10,15 @@ import Typography from '@mui/material/Typography';
 import candles from '../assets/map-card.jpg';
 import Tileset from './tileset-cards.component';
 import map from '../assets/map-card.jpg'
+import { useNavigate } from 'react-router-dom';
 
 const TilesetsSection =()=>{
+    const navigate = useNavigate();
+
+    const handleTileEdit = () => {
+        navigate("/tileseteditor", {})
+    }
+
     const tilesets =[{ //to display sample data
         "id": 1,
         "name":"Layer1",
@@ -56,7 +63,7 @@ const TilesetsSection =()=>{
 
                             backgroundColor:'#696969',
                             width:"25px"}} />
-                        <Button variant="contained"  sx={{backgroundColor:"#d72b05" ,fontSize:12,borderRadius:1,marginLeft:-1 }}>
+                        <Button variant="contained"  sx={{backgroundColor:"#d72b05" ,fontSize:12,borderRadius:1,marginLeft:-1 }} onClick={handleTileEdit}>
                             Edit
                         </Button>
                         </Box>
