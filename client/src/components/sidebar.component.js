@@ -12,11 +12,12 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import HomeMaxIcon from '@mui/icons-material/HomeMax';
 import CoPresentIcon from '@mui/icons-material/CoPresent';
 import ExploreIcon from '@mui/icons-material/Explore';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 280;
 //This array will be used to render different ListItemIcons based on the index 
-const icons = [<HomeMaxIcon sx={{fill:'white'}}/>,<CoPresentIcon sx={{fill:'white'}}/>,<ExploreIcon sx={{fill:'white'}}/>,<SettingsIcon sx={{fill:'white'}}/>];
+const icons = [<HomeMaxIcon sx={{fill:'white'}}/>,<CoPresentIcon sx={{fill:'white'}}/>, <FavoriteIcon sx={{fill:'white'}}/>,<ExploreIcon sx={{fill:'white'}}/>,<SettingsIcon sx={{fill:'white'}}/>];
 
 export default function SideBar() {
 
@@ -31,6 +32,10 @@ export default function SideBar() {
       case "My Projects":
         navigate("/projects", {})
         break;
+
+      case "Liked Maps":
+          navigate("/likedmaps", {})
+          break;
 
       case "Explore": 
         navigate("/explore", {})
@@ -62,7 +67,7 @@ export default function SideBar() {
         <Toolbar />
         <Divider />
         <List>
-          {['Home Page', 'My Projects', 'Explore', 'Settings'].map((text, index) => (
+          {['Home Page', 'My Projects', 'Liked Maps', 'Explore', 'Settings'].map((text, index) => (
             <ListItem key={text} disablePadding>
               <ListItemButton onClick={() => handleClick(text)}>
                 <ListItemIcon>
