@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { css } from 'styled-components';
-import { TextField, Link, Button, Modal, Box} from '@mui/material';
+import { TextField, Link, Button, Modal, Box, Typography} from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import "../App.css"
 
