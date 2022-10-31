@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { TextField, Link, Button, Modal } from '@mui/material';
 
-export const SignOut = ({}) => {
+const SignOut = ({}) => {
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -116,3 +116,5 @@ const SignOutButton = styled.button`
     box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
   } ;
 `;
+
+export default SignOut;
