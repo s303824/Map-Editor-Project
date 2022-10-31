@@ -2,30 +2,6 @@ import * as React from 'react';
 import styled from "styled-components";
 
 export const AccountSettings = ({}) => {
-  const SignInButton8Function = (e, name) => {
-    alert(`${name} was clicked`);
-  };
-  const SignUpButton3Function = (e, name) => {
-    alert(`${name} was clicked`);
-  };
-  const SignInButton5Function = (e, name) => {
-    alert(`${name} was clicked`);
-  };
-  const SignInButton4Function = (e, name) => {
-    alert(`${name} was clicked`);
-  };
-  const SignInButton3Function = (e, name) => {
-    alert(`${name} was clicked`);
-  };
-  const SignUpButton1Function = (e, name) => {
-    alert(`${name} was clicked`);
-  };
-  const SignUpButton2Function = (e, name) => {
-    alert(`${name} was clicked`);
-  };
-  const SignInButton9Function = (e, name) => {
-    alert(`${name} was clicked`);
-  };
   return (
     <SettingsPageRootRoot>
       <Section>
@@ -118,7 +94,7 @@ export const AccountSettings = ({}) => {
                 </Profile2>
                 <Text14>change profile picture</Text14>
                 <SignInButton8
-                  onClick={(e) => SignInButton8Function(e, "SignInButton8")}
+          
                 >
                   <RemoveProfilePicture>
                     {"         "}
@@ -132,7 +108,7 @@ export const AccountSettings = ({}) => {
               </FlexColumn4>
             </FlexColumn2>
             <SignUpButton3
-              onClick={(e) => SignUpButton3Function(e, "SignUpButton3")}
+              
             >
               <ChangeProfilePicture>
                 {"           "}
@@ -150,7 +126,6 @@ export const AccountSettings = ({}) => {
             {"  "}A new user name
           </EnterANewUserName>
           <SignInButton5
-            onClick={(e) => SignInButton5Function(e, "SignInButton5")}
           />
           <FlexRow1>
             <Text17>Enter a new first name</Text17>
@@ -158,14 +133,11 @@ export const AccountSettings = ({}) => {
           </FlexRow1>
           <FlexRow2>
             <SignInButton4
-              onClick={(e) => SignInButton4Function(e, "SignInButton4")}
             />
             <SignInButton3
-              onClick={(e) => SignInButton3Function(e, "SignInButton3")}
             />
           </FlexRow2>
           <SignUpButton1
-            onClick={(e) => SignUpButton1Function(e, "SignUpButton1")}
           >
             <Text19>save changes</Text19>
           </SignUpButton1>
@@ -179,20 +151,17 @@ export const AccountSettings = ({}) => {
               <FlexColumn6>
                 <Text20>new email address</Text20>
                 <SignInButton4
-                  onClick={(e) => SignInButton4Function(e, "SignInButton7")}
                 />
               </FlexColumn6>
             </FlexColumn5>
             <FlexColumn7>
               <Text20>confirm new email address</Text20>
               <SignInButton4
-                onClick={(e) => SignInButton4Function(e, "SignInButton6")}
               />
             </FlexColumn7>
           </FlexRow3>
           <FlexColumn8>
             <SignUpButton2
-              onClick={(e) => SignUpButton2Function(e, "SignUpButton2")}
             />
             <Text22>save changes</Text22>
           </FlexColumn8>
@@ -203,7 +172,6 @@ export const AccountSettings = ({}) => {
           <ChangeUserName>change password </ChangeUserName>
           <EnterANewUserName>enter current password</EnterANewUserName>
           <SignInButton5
-            onClick={(e) => SignInButton5Function(e, "SignInButton2")}
           />
           <FlexRow4>
             <Text17>new new password </Text17>
@@ -214,14 +182,11 @@ export const AccountSettings = ({}) => {
           </FlexRow4>
           <FlexRow2>
             <SignInButton4
-              onClick={(e) => SignInButton4Function(e, "SignInButton1")}
             />
             <SignInButton3
-              onClick={(e) => SignInButton3Function(e, "SignInButton")}
             />
           </FlexRow2>
           <SignUpButton1
-            onClick={(e) => SignUpButton1Function(e, "SignUpButton")}
           >
             <Text19>save changes</Text19>
           </SignUpButton1>
@@ -258,7 +223,6 @@ export const AccountSettings = ({}) => {
             </FlexColumn11>
           </FlexColumn10>
           <SignInButton9
-            onClick={(e) => SignInButton9Function(e, "SignInButton9")}
           >
             <RemoveProfilePicture>
               {"              "}
