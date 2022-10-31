@@ -1,6 +1,5 @@
 import React from "react";
-import styled, { css } from 'styled-components';
-import { TextField, Link, Button, Modal, Box, Typography} from '@mui/material';
+import { TextField, Button, Box, Typography} from '@mui/material';
 import bannerImage from '../assets/login-screen-image.png'
 import { useNavigate } from "react-router-dom";
 
@@ -10,6 +9,10 @@ const SignIn = ({}) => {
 
   const handleSignUp = () => {
     navigate("/signup")
+  }
+
+  const handleReturnHome = () => {
+    navigate("/home")
   }
 
   const loginImage = <Box 
@@ -38,7 +41,7 @@ const SignIn = ({}) => {
           <Box className="login-box-top">    
               <Box className="login-bar">
                 <Box>SIGN IN</Box>  
-                <Button variant="contained" color="error" fontSize="32px">X</Button>
+                <Button variant="contained" color="error" fontSize="32px" onClick={handleReturnHome}>X</Button>
               </Box>
           </Box>
 
@@ -46,12 +49,12 @@ const SignIn = ({}) => {
               
               <Box className="login-email-field">
                 <Typography>Email</Typography>
-                <TextField label="Email" className="login-textfield"></TextField>
+                <TextField label="Email" className="login-textfield" variant="filled"></TextField>
               </Box>
 
               <Box className="login-email-field">
                 <Typography>Password</Typography>
-                <TextField label="Password" className="login-textfield"></TextField>
+                <TextField label="Password" className="login-textfield" variant="filled"></TextField>
               </Box>
 
               <Box className="login-button-holder">

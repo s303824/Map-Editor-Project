@@ -1,6 +1,5 @@
 import React from "react";
-import styled, { css } from 'styled-components';
-import { TextField, Link, Button, Modal, Box, Typography} from '@mui/material';
+import { TextField, Button, Box, Typography} from '@mui/material';
 import bannerImage from '../assets/login-screen-image.png'
 import { useNavigate } from "react-router-dom";
 import "../App.css"
@@ -10,6 +9,10 @@ const SignUp =() =>{
 
     const handleSignIn = () => {
       navigate("/login")
+    }
+
+    const handleReturnHome = () => {
+      navigate("/home")
     }
   
     const loginImage = <Box 
@@ -38,7 +41,7 @@ const SignUp =() =>{
             <Box className="login-box-top">    
                 <Box className="login-bar">
                   <Box>SIGN UP</Box>  
-                  <Button variant="contained" color="error" fontSize="32px">X</Button>
+                  <Button variant="contained" color="error" fontSize="32px" onClick={handleReturnHome}>X</Button>
                 </Box>
             </Box>
   
@@ -46,36 +49,36 @@ const SignUp =() =>{
                 
                 <Box className="login-email-field">
                   <Typography>First Name</Typography>
-                  <TextField label="First Name" className="login-textfield"></TextField>
+                  <TextField label="First Name" className="login-textfield" variant="filled" ></TextField>
                 </Box>
   
                 <Box className="login-email-field">
                   <Typography>Last Name</Typography>
-                  <TextField label="Last Name" className="login-textfield"></TextField>
+                  <TextField label="Last Name" className="login-textfield" variant="filled" ></TextField>
                 </Box>
   
                 <Box className="login-email-field">
                   <Typography>User Name</Typography>
-                  <TextField label="User Name" className="login-textfield"></TextField>
+                  <TextField label="User Name" className="login-textfield" variant="filled" ></TextField>
                 </Box>
 
                 <Box className="login-email-field">
                   <Typography>Email Address</Typography>
-                  <TextField label="Email Address" className="login-textfield"></TextField>
+                  <TextField label="Email Address" className="login-textfield" variant="filled"></TextField>
                 </Box>
 
                 <Box className="login-email-field">
                   <Typography>Password</Typography>
-                  <TextField label="Password" className="login-textfield"></TextField>
+                  <TextField label="Password" className="login-textfield" variant="filled"></TextField>
                 </Box>
         
                 <Box className="login-email-field">
                   <Typography>Verify Password</Typography>
-                  <TextField label="Verify Password" className="login-textfield"></TextField>
+                  <TextField label="Verify Password" className="login-textfield" variant="filled"></TextField>
                 </Box>
 
                 <Box className="login-button-holder">
-                  <Button variant="contained" color="warning">CREATE AN ACCOUNT</Button>
+                  <Button variant="contained" color="warning" onClick={handleReturnHome}>CREATE AN ACCOUNT</Button>
                 </Box>
   
                 <Box className="login-bottom-text" paddingTop="10%">

@@ -35,6 +35,11 @@ export default function SideBar() {
       case "Explore": 
         navigate("/explore", {})
         break;
+
+      case "Settings":
+        navigate("/accountSettings", {})
+        break;
+
     }
   }
 

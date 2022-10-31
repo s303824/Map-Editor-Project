@@ -1,5 +1,4 @@
 import React from "react";
-import styled, { css } from 'styled-components';
 import { TextField, Link, Button, Modal, Box, Typography} from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import "../App.css"
@@ -19,7 +18,7 @@ const SignOut = ({}) => {
             <Box className="login-box-top">    
                 <Box className="login-bar">
                   <Box>LOG OUT</Box>  
-                  <Button variant="contained" color="error" fontSize="32px">X</Button>
+                  <Button variant="contained" color="error" fontSize="32px" onClick={handleReturnHome}>X</Button>
                 </Box>
             </Box>
   
