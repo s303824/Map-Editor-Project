@@ -15,7 +15,6 @@ import SignOut from "./routes/SignOut";
 
 
 const App = () => {
-
   return (
     <BrowserRouter>
       <AuthContextProvider>
