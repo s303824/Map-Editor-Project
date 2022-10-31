@@ -3,38 +3,6 @@ import { TextField, Link, Button, Modal } from '@mui/material';
 import styled, { css } from 'styled-components';
 
 const SignUp =() =>{
-
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  // FirstName, LastName, UserName, Email, Password;
-
-  function SignUpButtonFunction(event) {
-    if(FirstName!=null && LastName!=null && UserName!=null && Email!=null && Password!=null)
-      handleClose();
-  }
-
-  function handleNewAccountInput(event) {
-    switch(event.id){
-      case 'first-name-input': FirstName = event.target.value;
-        break;
-      case 'last-name-input': LastName = event.target.value;
-        break;
-      case 'username-input': UserName = event.target.value;
-        break;
-      case 'email-input': Email = event.target.value;
-        break;
-      case 'password-input': Password = event.target.value;
-        break;
-      case 'verify-input':
-        if(event.target.value != Password){
-        }
-        break;
-    }
-    console.log(event.target.value);
-  }
-
     return (
         <Box className="home-container" sx={{marginLeft:'260px' }}>
         <SignUpPage>
@@ -43,7 +11,7 @@ const SignUp =() =>{
             <TopSection>
               <FlexRow>
                 <Text1>Sign up</Text1>
-                <Button onClick={handleClose} sx ={XClose}>{"   "}X</Button >
+                <Button sx ={XClose}>{"   "}X</Button >
               </FlexRow>
               <Line src={`https://file.rendit.io/n/Tla4J7mNr348GLYcDsDm.svg`} />
             </TopSection>
@@ -75,7 +43,6 @@ const SignUp =() =>{
             </InputSection>
             <BottomSection>
               <SignUpButton
-                onClick={handleClose}
               >
                 <CreateAnAccount>Create an account </CreateAnAccount>
               </SignUpButton>
