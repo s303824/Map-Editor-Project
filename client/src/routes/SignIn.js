@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { TextField, Link, Button, Modal } from '@mui/material';
 
-export const SignIn = ({}) => {
+export const DesktopRoot1 = ({}) => {
   const SignInButtonFunction = (e, name) => {
     alert(`${name} was clicked`);
   };
@@ -19,44 +18,159 @@ export const SignIn = ({}) => {
     alert(`${name} was clicked`);
   };
   return (
-<SignUpPage>
-<Element2 />
-<FlexColumn2>
-  <FlexColumn3>
-    <FlexRow1>
-      <Text22>Sign In</Text22>
-      <Button sx={XClose} onClick={handleClose}>{"   "}X</Button >
-    </FlexRow1>
-    <Line src={`https://file.rendit.io/n/sVQvg8Tuu1telfyMSi9P.svg`} />
-  </FlexColumn3>
-  <FlexColumn4>
-    <FlexColumn5>
-      <Text23>email address</Text23>
-      <TextField sx={InputField} id = "email-input" 
-      />
-      <Text24>Password</Text24>
-      <TextField sx={InputField} id = "password-input" 
-      />
-    </FlexColumn5>
-    <FlexColumn6>
-      <SignUpButton1
-        onClick={handleClose}
-      >
-        <LoginToAccount>login to account </LoginToAccount>
-      </SignUpButton1>
-      <ForgotYourPassword1>
-        forgot your{" "}
-        <ForgotYourPassword>password ?</ForgotYourPassword>
-      </ForgotYourPassword1>
-      <Text25>
-        new to tileslate?{" "}
-        <NewToTileslateSignIN>sign IN</NewToTileslateSignIN>
-      </Text25>
-    </FlexColumn6>
-  </FlexColumn4>
-</FlexColumn2>
-</SignUpPage>
-);};
+    <DesktopRootRoot>
+      <Section>
+        <Menu>
+          <Text6>
+            <Text2>
+              <Text1>
+                <Icon
+                  src={`https://file.rendit.io/n/D9HdmTt6uTFtuCSpYxrS.svg`}
+                />
+                <Text13>Dashboard</Text13>
+              </Text1>
+              <Icon src={`https://file.rendit.io/n/hOt31rJV6NtcO2Qfwd2H.svg`} />
+            </Text2>
+            <Text3>
+              <Icon2
+                src={`https://file.rendit.io/n/9CWMO7sw6vXVvKusrfYr.svg`}
+              />
+              <Text14>my projects</Text14>
+            </Text3>
+            <Text3>
+              <Icon2
+                src={`https://file.rendit.io/n/aOwFed53C6vnq1vipxDo.svg`}
+              />
+              <Text13>Settings</Text13>
+            </Text3>
+            <Text5 />
+          </Text6>
+          <Image1 src={`https://file.rendit.io/n/72m2we5sCntAeF5cty96.svg`} />
+        </Menu>
+      </Section>
+      <FlexColumn>
+        <Navbar>
+          <Section2>
+            <LogoAndSeach>
+              <Logo>
+                <Image2
+                  src={`https://file.rendit.io/n/AIr5pJ4gHTaNUpLVW1vU.png`}
+                />
+              </Logo>
+              <SearchSection>
+                <Icon2
+                  src={`https://file.rendit.io/n/qRUAq8iHSfuph5NdLI5Z.svg`}
+                />
+                <Text16>Search...</Text16>
+              </SearchSection>
+            </LogoAndSeach>
+          </Section2>
+          <FlexRow>
+            <SignInButton
+              onClick={(e) => SignInButtonFunction(e, "SignInButton")}
+            >
+              <Text17>SIgn in</Text17>
+            </SignInButton>
+            <SignUpButton
+              onClick={(e) => SignUpButtonFunction(e, "SignUpButton")}
+            >
+              <Text18>Sign up</Text18>
+            </SignUpButton>
+          </FlexRow>
+        </Navbar>
+        <Element1 />
+      </FlexColumn>
+      <FlexColumn1>
+        <ScrollBarSection>
+          <ScrollBarSection1
+            src={`https://file.rendit.io/n/ypCdncfTnmMZZ653EeKS.svg`}
+          />
+        </ScrollBarSection>
+        <ScroolBar>
+          <ScroolBar1
+            src={`https://file.rendit.io/n/z95ZRQfw1L4tX32EU1OZ.svg`}
+          />
+        </ScroolBar>
+      </FlexColumn1>
+      <Section>
+        <Menu>
+          <Text6>
+            <Text2>
+              <Text1>
+                <Icon
+                  src={`https://file.rendit.io/n/D9HdmTt6uTFtuCSpYxrS.svg`}
+                />
+                <Text13>Dashboard</Text13>
+              </Text1>
+              <Icon src={`https://file.rendit.io/n/hOt31rJV6NtcO2Qfwd2H.svg`} />
+            </Text2>
+            <Text3>
+              <Icon2
+                src={`https://file.rendit.io/n/9CWMO7sw6vXVvKusrfYr.svg`}
+              />
+              <Text14>my projects</Text14>
+            </Text3>
+            <Text3>
+              <Icon2
+                src={`https://file.rendit.io/n/aOwFed53C6vnq1vipxDo.svg`}
+              />
+              <Text13>Settings</Text13>
+            </Text3>
+            <Text5 />
+          </Text6>
+          <Image1 src={`https://file.rendit.io/n/72m2we5sCntAeF5cty96.svg`} />
+        </Menu>
+      </Section>
+      <BlurredBackground1>
+        <SignUpPage>
+          <Element2 />
+          <FlexColumn2>
+            <FlexColumn3>
+              <FlexRow1>
+                <Text22>Sign In</Text22>
+                <X>{"   "}X</X>
+              </FlexRow1>
+              <Line src={`https://file.rendit.io/n/EcPiU2CNgeBPL9r5rWYL.svg`} />
+            </FlexColumn3>
+            <FlexColumn4>
+              <FlexColumn5>
+                <Text23>email address</Text23>
+                <SignInButton2
+                  onClick={(e) => SignInButton2Function(e, "SignInButton2")}
+                />
+                <Text24>Password</Text24>
+                <SignInButton1
+                  onClick={(e) => SignInButton1Function(e, "SignInButton1")}
+                />
+              </FlexColumn5>
+              <FlexColumn6>
+                <SignUpButton1
+                  onClick={(e) => SignUpButton1Function(e, "SignUpButton1")}
+                >
+                  <LoginToAccount>login to account </LoginToAccount>
+                </SignUpButton1>
+                <ForgotYourPassword1>
+                  forgot your{" "}
+                  <ForgotYourPassword>password ?</ForgotYourPassword>
+                </ForgotYourPassword1>
+                <Text25>
+                  new to tileslate?{" "}
+                  <NewToTileslateSignIN>sign IN</NewToTileslateSignIN>
+                </Text25>
+              </FlexColumn6>
+            </FlexColumn4>
+          </FlexColumn2>
+        </SignUpPage>
+        <PlayingComputerGame>
+          <Tileslate>
+            {"          "}
+            tileslate
+          </Tileslate>
+        </PlayingComputerGame>
+      </BlurredBackground1>
+    </DesktopRootRoot>
+  );
+};
 
 const Section = styled.div`
   width: 179px;
@@ -227,7 +341,7 @@ const SignInButton = styled.button`
   box-sizing: content-box;
   background-color: transparent;
   background-size: cover;
-  background-image: url("https://file.rendit.io/n/rbwsbN0Nre5wYP9SlDuv.svg");
+  background-image: url("https://file.rendit.io/n/9hNksChUP2SbA3DW6mkl.svg");
   cursor: pointer;
   &: hover {
     box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
@@ -295,7 +409,7 @@ const ScrollBarSection = styled.div`
   flex-direction: column;
   justify-content: center;
   background-size: cover;
-  background-image: url("https://file.rendit.io/n/59qAC7boFmVYRzAEskvW.svg");
+  background-image: url("https://file.rendit.io/n/ypCdncfTnmMZZ653EeKS.svg");
 `;
 const ScrollBarSection1 = styled.img`
   width: 4px;
@@ -309,7 +423,7 @@ const ScroolBar = styled.div`
   flex-direction: column;
   justify-content: center;
   background-size: cover;
-  background-image: url("https://file.rendit.io/n/ysNcCI8e0xTMkVesJFoZ.svg");
+  background-image: url("https://file.rendit.io/n/z95ZRQfw1L4tX32EU1OZ.svg");
 `;
 const ScroolBar1 = styled.img`
   width: 16px;
@@ -336,7 +450,7 @@ const SignUpPage = styled.div`
   justify-content: flex-start;
   align-items: center;
   background-size: cover;
-  background-image: url("https://file.rendit.io/n/TWwpJSTcxVuySzAk4DpH.svg");
+  background-image: url("https://file.rendit.io/n/who7obOs0S6LVkwtYB0u.svg");
 `;
 const Element2 = styled.div`
   width: 220px;
@@ -426,7 +540,7 @@ const SignInButton2 = styled.button`
   background-color: transparent;
   background-size: cover;
   background-position: center;
-  background-image: url("https://file.rendit.io/n/cG8NvP29QBya9Flv4csw.svg");
+  background-image: url("https://file.rendit.io/n/dcN0CrKynMqdAXJ1zzi9.svg");
   cursor: pointer;
   &: hover {
     box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
@@ -449,7 +563,7 @@ const SignInButton1 = styled.button`
   background-color: transparent;
   background-size: cover;
   background-position: center;
-  background-image: url("https://file.rendit.io/n/jqmVS9VvORQzodngna09.svg");
+  background-image: url("https://file.rendit.io/n/lw9qgqLSXbaIKsWLHttP.svg");
   cursor: pointer;
   &: hover {
     box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
@@ -539,7 +653,7 @@ const PlayingComputerGame = styled.div`
   justify-content: flex-start;
   padding: 14px 4px 14px 2px;
   background-size: cover;
-  background-image: url("https://file.rendit.io/n/ucFIfhJekode66xCBOmQ.png");
+  background-image: url("https://file.rendit.io/n/cRuOu7ohO9oHRbM4QvgF.png");
 `;
 const Tileslate = styled.div`
   width: 215px;
@@ -549,4 +663,3 @@ const Tileslate = styled.div`
   font-family: Bebas Neue;
   white-space: pre-wrap;
 `;
-
