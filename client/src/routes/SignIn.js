@@ -1,22 +1,7 @@
 import React from "react";
 import styled, { css } from 'styled-components';
 
-const DesktopRoot1 = ({}) => {
-  const SignInButtonFunction = (e, name) => {
-    alert(`${name} was clicked`);
-  };
-  const SignUpButtonFunction = (e, name) => {
-    alert(`${name} was clicked`);
-  };
-  const SignInButton2Function = (e, name) => {
-    alert(`${name} was clicked`);
-  };
-  const SignInButton1Function = (e, name) => {
-    alert(`${name} was clicked`);
-  };
-  const SignUpButton1Function = (e, name) => {
-    alert(`${name} was clicked`);
-  };
+const SignIn = ({}) => {
   return (
     <DesktopRootRoot>
       <Section>
@@ -67,12 +52,10 @@ const DesktopRoot1 = ({}) => {
           </Section2>
           <FlexRow>
             <SignInButton
-              onClick={(e) => SignInButtonFunction(e, "SignInButton")}
             >
               <Text17>SIgn in</Text17>
             </SignInButton>
             <SignUpButton
-              onClick={(e) => SignUpButtonFunction(e, "SignUpButton")}
             >
               <Text18>Sign up</Text18>
             </SignUpButton>
@@ -136,16 +119,13 @@ const DesktopRoot1 = ({}) => {
               <FlexColumn5>
                 <Text23>email address</Text23>
                 <SignInButton2
-                  onClick={(e) => SignInButton2Function(e, "SignInButton2")}
                 />
                 <Text24>Password</Text24>
                 <SignInButton1
-                  onClick={(e) => SignInButton1Function(e, "SignInButton1")}
                 />
               </FlexColumn5>
               <FlexColumn6>
                 <SignUpButton1
-                  onClick={(e) => SignUpButton1Function(e, "SignUpButton1")}
                 >
                   <LoginToAccount>login to account </LoginToAccount>
                 </SignUpButton1>
