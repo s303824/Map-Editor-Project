@@ -31,6 +31,10 @@ function Banner() {
       navigate("/login", {})
     }
 
+    const handleGoHome = () => {
+      navigate("/", {})
+    }
+
     const userInfo = { //sample data 
       "id":1,
       "userName":"user4",
@@ -87,6 +91,7 @@ function Banner() {
                 sx={{ height: 60 }}
                 alt="Logo"
                 src={logo}
+                onClick={handleGoHome}
             />
             <Box  display="flex" flexDirection="row" > 
             <Search >
