@@ -3,6 +3,35 @@
   
 }
 
+.InputText {
+  width: 258px;
+  height: 38px;
+  color: #ffffff;
+  font-size: 20px;
+  font-family: Bebas Neue;
+}
+
+.InputField {
+  height: 46px;
+  align-self: stretch;
+  padding: 0px;
+  border-width: 0px;
+  box-sizing: content-box;
+  background-color: transparent;
+  background-size: cover;
+  background-position: center;
+  background-image: url("https://file.rendit.io/n/xrRx7doxyy1pjROHr5wC.svg");
+  }
+
+.XClose {
+  width: 50px;
+  height: 41px;
+  color: #ffffff;
+  font-size: 36px;
+  font-family: Bebas Neue;
+  white-space: pre-wrap;
+}
+
 .Banner {
   background-color: #282c34;
 }
