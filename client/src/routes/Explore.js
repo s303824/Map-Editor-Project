@@ -4,7 +4,7 @@ import { GlobalStoreContext } from '../store'
 import "../App.css"
 import Typography from '@mui/material/Typography';
 import MapCard from '../components/map-card.component';
-
+import AuthContext from '../auth';
 
 
 function SearchResults() {

@@ -210,6 +210,67 @@ img {
   color: #61dafb;
 }
 
+.account_setting{
+  padding-left: 30%;
+  padding-top: 10px;
+  padding-bottom: 100%;
+  background-color: #0e0e10;
+
+}
+#account_setting_title{
+  color: #ffffff;
+}
+.form-area {
+  /* background-color: #ffffff; */
+  background-image: linear-gradient(to bottom, #3d3d41, #37373a);
+  margin: 0px 10% 10px 0px;
+  padding: 15px;
+  border-radius: 15px;
+}
+#edit2 {
+  border-style: none;
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+}
+.profile-image {
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  background-color: #fff;
+}
+#profile-name{
+  margin: 0px 22px 0px 30px;
+  color: #ffffff;
+}
+#profile-email{
+  margin: 0px 22px 0px 27px;
+  color: #ffffff;
+
+}
+#change-text{
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+#accountSetting-button{
+  margin-left: 80%; 
+  
+}
+#accountSetting-button-2{
+  margin-left: 78%; 
+  
+}
+.text-field{
+  width: 280px;
+  color: #ffffff;
+}
+
+.button-color{
+  background-image: linear-gradient(to right, red , yellow);
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
