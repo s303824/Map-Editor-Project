@@ -9,7 +9,7 @@ const Navigation=() =>{
     const location = useLocation();
     const pathname = location.pathname;
     let toolbar =
-    pathname === "/mapeditor"
+    pathname === "/editor"
     ? <MapToolBar/>
     : pathname === "/tileseteditor"
     ? <TileSetToolBar/>
