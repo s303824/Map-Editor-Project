@@ -31,6 +31,10 @@ export default function SideBar() {
       case "My Projects":
         navigate("/projects", {})
         break;
+
+      case "Explore": 
+        navigate("/explore", {})
+        break;
     }
   }
 
