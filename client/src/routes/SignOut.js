@@ -59,7 +59,7 @@ const Text31 = styled.div`
   font-size: 36px;
   font-family: Bebas Neue;
 `;
-const X = styled.Button`
+const X = styled.button`
   width: 50px;
   height: 41px;
   align-self: flex-end;
