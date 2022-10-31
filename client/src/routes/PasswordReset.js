@@ -3,16 +3,12 @@ import { TextField, Button, Box, Typography} from '@mui/material';
 import bannerImage from '../assets/login-screen-image.png'
 import { useNavigate } from "react-router-dom";
 
-const SignIn = ({}) => {
+const PasswordReset = ({}) => {
 
   const navigate = useNavigate();
 
   const handleSignUp = () => {
-    navigate("/signup")
-  }
-
-  const handleForgotPassword = () => {
-    navigate("/reset")
+    navigate("/login")
   }
 
   const handleGoBack = () => {
@@ -44,14 +40,14 @@ const SignIn = ({}) => {
         <Box className="login-holder">
           <Box className="login-box-top">    
               <Box className="login-bar">
-                <Box>SIGN IN</Box>  
+                <Box>PASSWORD RESET</Box>  
                 <Button variant="contained" color="error" fontSize="32px" onClick={handleGoBack}>X</Button>
               </Box>
           </Box>
 
           <Box className="login-box-mid">
               
-              <Box className="login-email-field">
+            <Box className="login-email-field">
                 <Typography>Email</Typography>
                 <TextField label="Email" className="login-textfield" variant="filled"></TextField>
               </Box>
@@ -61,16 +57,17 @@ const SignIn = ({}) => {
                 <TextField label="Password" className="login-textfield" variant="filled"></TextField>
               </Box>
 
+              <Box className="login-email-field">
+                <Typography>Password Verify</Typography>
+                <TextField label="Verify" className="login-textfield" variant="filled"></TextField>
+              </Box>
+
               <Box className="login-button-holder">
                 <Button variant="contained" color="warning">Login</Button>
               </Box>
 
-              <Box className="login-bottom-text" paddingTop="10%">
-                <Typography>Forgot your password?</Typography><Button variant="contained" onClick={handleForgotPassword}>Reset</Button>
-              </Box>
-
               <Box className="login-bottom-text">
-              <Typography>New to Tileslate?</Typography><Button variant="contained" onClick={handleSignUp}>Sign Up</Button>
+              <Typography>Suddenly remember your password?</Typography><Button variant="contained" onClick={handleSignUp}>Sign In</Button>
               </Box>
           </Box>
         </Box>
@@ -81,4 +78,4 @@ const SignIn = ({}) => {
 };
 
 
-export default SignIn;
+export default PasswordReset;

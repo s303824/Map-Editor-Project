@@ -16,6 +16,7 @@ import SignUp from "./routes/SignUp";
 import AccountSettings from "./routes/AccountSettings";
 import SignIn from "./routes/SignIn";
 import SignOut from "./routes/SignOut";
+import PasswordReset from "./routes/PasswordReset";
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
               <Route path="/editor" element={<MapEditor/>}/>
               <Route path="/likedmaps" element={<LikedMaps/>}/>
               <Route path="/view" element={<MapViewer/>}/>
+              <Route path="/reset" element={<PasswordReset/>}/>
 
               <Route path="/login" element={<SignIn/>}/>
               <Route path="/logout" element={<SignOut/>}/>
