@@ -23,7 +23,7 @@ const SignUp =() =>{
     return (
         <Box className="login-page-holder">
 
-        <Box className="login-box">
+        <Box className="signup-box">
   
           <Box className="login-image-holder">
             <Box className="login-image-topper">
@@ -42,44 +42,44 @@ const SignUp =() =>{
                 </Box>
             </Box>
   
-            <Box className="login-box-mid">
+            <Box className="signup-box-mid">
                 
-                <Box className="login-email-field">
+                <Box className="signup-field">
                   <Typography>First Name</Typography>
                   <TextField label="First Name" className="login-textfield"></TextField>
                 </Box>
   
-                <Box className="login-email-field">
+                <Box className="signup-field">
                   <Typography>Last Name</Typography>
                   <TextField label="Last Name" className="login-textfield"></TextField>
                 </Box>
   
-                <Box className="login-email-field">
+                <Box className="signup-field">
                   <Typography>User Name</Typography>
                   <TextField label="User Name" className="login-textfield"></TextField>
                 </Box>
 
-                <Box className="login-email-field">
+                <Box className="signup-field">
                   <Typography>Email Address</Typography>
                   <TextField label="Email Address" className="login-textfield"></TextField>
                 </Box>
 
-                <Box className="login-email-field">
+                <Box className="signup-field">
                   <Typography>Password</Typography>
                   <TextField label="Password" className="login-textfield"></TextField>
                 </Box>
         
-                <Box className="login-email-field">
+                <Box className="signup-field">
                   <Typography>Verify Password</Typography>
                   <TextField label="Verify Password" className="login-textfield"></TextField>
                 </Box>
 
-                <Box className="login-button-holder">
+                <Box className="signup-field" paddingTop="1%">
                   <Button variant="contained" color="warning">CREATE AN ACCOUNT</Button>
                 </Box>
   
-                <Box className="login-bottom-text" paddingTop="10%">
-                  <Typography>Forgot your password?</Typography><Button variant="contained" onClick={handleSignIn}>Log On</Button>
+                <Box className="login-bottom-text" paddingTop="2%">
+                  <Typography>Have an account already?</Typography><Button variant="contained" onClick={handleSignIn}>Log On</Button>
                 </Box>
             </Box>
           </Box>

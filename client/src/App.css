@@ -27,10 +27,30 @@
   flex-direction: row;
 }
 
+.signup-box {
+  display:flex;
+  background-color:#848383;
+  border-radius: 10px;
+  position:absolute;
+  top:15%;
+  left:20%;
+  width:70%;
+  height: 78%;
+  flex-direction: row;
+}
+
 .login-holder {
   display:flex;
   flex-direction: column;
   width:100%;
+}
+
+.signup-field {
+  display:flex;
+  flex-direction: column;
+  justify-content: stretch;
+  width:60%;
+  color:white;
 }
 
 .login-image-holder {
@@ -77,6 +97,10 @@
   padding-top: 3%;
 }
 
+.signup-box-mid {
+
+}
+
 .login-email-field {
   display:flex;
   flex-direction: column;
@@ -95,12 +119,13 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width:45%;
-  padding-top: 3%;
+  width:60%;
+  padding-top: 1%;
 }
 
 .login-button-holder {
-  padding-top: 4%;
+  padding-top: 3%;
+  display: flex;
 }
 
 .login-bar {
