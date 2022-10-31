@@ -12,7 +12,6 @@ import Typography from '@mui/material/Typography';
 import MapCard from '../components/map-card.component';
 import List from '@mui/material/List';
 import mapImage from '../assets/map-card.jpg';
-import { useNavigate } from "react-router-dom";
 
 
 const MyProjects=() =>{ 
