@@ -22,24 +22,6 @@ export const GlobalStoreActionType = {
 }
 
 /*
-const [store, setStore] = useState({
-
-    publishedMaps:[ ],              //holds all the published maps
-    userMaps:[ ],                      //holds all the maps created by the user
-    currentMap:[ ],                    //holds the current map opened for editing
-    currentPublishedMap:[ ],     //holds the current published map opened for viewing
-    currentLayer:[ ],                 //holds the the layer that is now being modified in the map editor.       
-    currentTileSet:[ ],               //holds the the tileset that is now being displayed in the map editor.
-    currentTile:null,                 //holds the tile selected from the current tileset
-    tilesetBeingEdited:[],        //holds the tileset that is opened for editing
-    selectedMapEditTool:"",  //used to control editing actions 
-    canUndo:false,                 //used to control undo button 
-    canRedo:false,                  //used to control redo button
-    searchCriteria:"",            //controls the search results
-    openModal:"",       //used to open/close modals in the app(team manangement,settings..)
-    mapMarkedForDeletion: null,          
-    });
-
  const tps : jsTPS
 */
 
@@ -57,7 +39,20 @@ function GlobalStoreContextProvider(props) {
 
     // THESE ARE ALL THE THINGS OUR DATA STORE WILL MANAGE
     const [store, setStore] = useState({
-        map: null,
+        publishedMaps:[ ],              //holds all the published maps
+        userMaps:[ ],                      //holds all the maps created by the user
+        currentMap:[ ],                    //holds the current map opened for editing
+        currentPublishedMap:[ ],     //holds the current published map opened for viewing
+        currentLayer:[ ],                 //holds the the layer that is now being modified in the map editor.       
+        currentTileSet:[ ],               //holds the the tileset that is now being displayed in the map editor.
+        currentTile:null,                 //holds the tile selected from the current tileset
+        tilesetBeingEdited:[],        //holds the tileset that is opened for editing
+        selectedMapEditTool:"",  //used to control editing actions 
+        canUndo:false,                 //used to control undo button 
+        canRedo:false,                  //used to control redo button
+        searchCriteria:"",            //controls the search results
+        openModal:"",       //used to open/close modals in the app(team manangement,settings..)
+        mapMarkedForDeletion: null,          
     });
 
     
