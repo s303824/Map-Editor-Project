@@ -1,19 +1,21 @@
 const Map = require('../model/map-model')
+const MapInfo = require('../model/mapInfo-model')
+const User = require("../model/user-model")
 
 registerMap = async (req, res) => {
     try {
-        const { mapid, backgroundcolor, height, infinite, layers, mapInfo, nextlayerid, 
-            nextobjectid, renderorder, tileslateversion, tileheight, tilesets, 
+        const { _id, backgroundcolor, height, infinite, layers, mapinfo, nextlayerid, 
+            nextobjectid, renderorder, tiledversion, tileheight, tilesets, 
             tilewidth, version, width } = req.body;
-        if (!(mapid, backgroundcolor && height && infinite && layers && mapInfo 
-            && nextlayerid && nextobjectid && renderorder && tileslateversion 
+        if (!( backgroundcolor && height && infinite && layers 
+            && nextlayerid && nextobjectid && renderorder && tiledversion 
             && tileheight && tilesets && tilewidth && version && width)) {
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
-        const existingMap = await Map.findOne({ mapid: mapid });
-        if (existingMap) {
+        const existingMap = await Map.findOne({ _id: _id });
+        if (existingMap != null) {
             return res
                 .status(400)
                 .json({
@@ -23,7 +25,6 @@ registerMap = async (req, res) => {
         }
 
         const newMap = new Map({
-            mapid,
             backgroundcolor,    // Hex-formatted color
             height,                // Number of tile rows
             infinite,          // Whether the map has infinite dimensions
@@ -39,7 +40,49 @@ registerMap = async (req, res) => {
             version,             // The JSON format version
             width                  // Number of tile columns
         });
+
+        //creating mapinfo
+        const {name, ownerName, thumbnailURL, comments, likes, dislikes, downloads} = mapinfo
+        const creator = [ownerName]
+        const published = "not-published"
+        const map_id = _id ? _id : newMap._id
+
+
+
+        const newMapInfo = new MapInfo({
+            name,
+            creator,
+            thumbnailURL,
+            comments,
+            likes,
+            dislikes,
+            downloads,
+            map_id,
+            published
+        });
+        
+        newMap.mapinfo = newMapInfo._id;
+
+        //adding map to user projects
+        const loggedInUser = await User.findOne({username: ownerName });
+        loggedInUser.myprojects.push(newMapInfo._id)
+
+        if(_id) {
+            newMap._id = _id
+        }
+
+
+        await MapInfo.create(newMapInfo);
         await Map.create(newMap);
+        await loggedInUser.save()
+
+        return res.status(200).json({
+            success: true,
+            map: newMap,
+            mapInfo: newMapInfo,
+            user: loggedInUser,
+            message: "Map successfully created"
+        })
     } catch (err) {
         console.error(err);
         res.status(500).send();
@@ -48,20 +91,44 @@ registerMap = async (req, res) => {
 
 deleteMap = async (req, res) => {
     try{
-        const {  mapid } = req.body;
-        if(!mapid){
+        const {  _id } = req.body;
+        
+        if(!_id){
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
-        Map.findByIdAndDelete(mapid, function (err, docs) {
-            if (err){
-                console.log(err)
+        await Map.findOneAndDelete({_id: _id}, function (err, docs) {
+            if (docs==null){
+                return res.status(404).json({
+                    err,
+                    message: 'could not find the map!',
+                })
             }
             else{
-                console.log("Deleted: ", docs);
+
+                const newMap = MapInfo.findOneAndDelete({map_id: _id}, function (err, map) {
+
+                    if(err) {
+                        console.log("Could not find mapInfo related to map with _id " + _id);
+                    }
+                    console.log("Deleted MapInfo related to map with _id " + _id)
+
+                    for(var i=0; i<map.creator.length; i++) {
+                        User.findOne({username:  map.creator[i]}, function(err, loggedInUser) { 
+                            loggedInUser.myprojects = loggedInUser.myprojects.filter(function(e) {return e != map._id})
+                            loggedInUser.save();
+                        });
+                    }
+
+                })
+
+                return res.status(200).json({
+                    message: 'Map deleted!',
+                    docs
+                })
             }
-        })
+        })  
     } catch (err){
         console.error(err);
         res.status(500).send();
@@ -69,55 +136,72 @@ deleteMap = async (req, res) => {
 }
 
 updateMap = async (req, res) => {
-    const { mapid, backgroundcolor, height, infinite, layers, mapInfo, nextLayerId, 
-        nextObjectId, renderOrder, tileslateVersion, tileHeight, tilesets, 
-        tileWidth, version, width } = req.body;
-    const selectedMap = await Map.findOne({ mapid: mapid });
+    const { _id, backgroundcolor, height, infinite, layers, nextlayerid, 
+        nextobjectid, renderorder, tiledversion, tileheight, tilesets, 
+        tilewidth, version, width } = req.body;
+    const selectedMap = await Map.findOne({ _id: _id });
 
-    Map.findByIdAndUpdate(selectedMap.mapid, {
-        mapid : mapid,
+    if(selectedMap === null){
+        return res
+            .status(404)
+            .json({ errorMessage: "No map found!" });
+    }
+
+    Map.findOneAndUpdate({_id: _id}, {
         backgroundcolor : backgroundcolor,
         height : height, 
         infinite : infinite,
         layers : layers,
-        nextLayerId : nextLayerId,
-        nextObjectId : nextObjectId,
-        renderOrder : renderOrder,
-        tileslateVersion : tileslateVersion,
-        tileHeight : tileHeight,
+        nextlayerid : nextlayerid,
+        nextobjectid : nextobjectid,
+        renderorder : renderorder,
+        tiledversion : tiledversion,
+        tileheight : tileheight,
         tilesets : tilesets,
-        tileWidth : tileWidth,
+        tilewidth : tilewidth,
         version : version,
         width : width
     }, function (err, docs) {
         if (err){
-            console.log(err)
-            res.status(500).send();
+            return res.status(500).json({
+                err,
+                message: 'could not update the map!',
+            }).send();
         }
         else{
-            console.log("Updated Map: ", docs);
+            return res.status(200).json({
+                message: 'Map Updated!',
+                map: docs,
+            }).send()
         }
+        
     });
 }
 
 getMap = async (req, res) => {
     try{
-        const {  mapid } = req.body;
-        if(!mapid){
+        const {  _id } = req.body;
+        if(!_id){
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
-        Map.findById(mapid, function (err, docs) {
+        Map.findOne({_id: _id}, function (err, docs) {
             if (err){
                 console.log(err)
+                return res.status(404).json({
+                    message: "Map not found!"
+                }).send();
             }
             else{
-                console.log("Map: ", docs);
-                return docs;
+                return res.status(200).json({
+                    success:true,
+                   docs 
+                }).send();
+                
             }
         })
-    } catch (err){
+    } catch (err){ 
         console.error(err);
         res.status(500).send();
     }

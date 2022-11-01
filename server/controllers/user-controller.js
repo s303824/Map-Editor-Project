@@ -1,10 +1,12 @@
 const auth = require('../auth')
 const User = require('../model/user-model')
 const bcrypt = require('bcryptjs')
+const Map = require('../model/map-model')
+const MapInfo = require('../model/mapInfo-model')
 
 registerUser = async (req, res) => {
     try {
-        const { username, email, password, passwordVerify, first_name, last_name } = req.body;
+        const { _id, username, email, password, passwordVerify, first_name, last_name } = req.body;
         if (!email || !password || !passwordVerify || !username || !first_name || !last_name) {
             return res
                 .status(400)
@@ -46,10 +48,20 @@ registerUser = async (req, res) => {
         const saltRounds = 10;
         const salt = await bcrypt.genSalt(saltRounds);
         const passwordHash = await bcrypt.hash(password, salt);
+        
+        const liked_projects = []
+        const myprojects = []
+        const profile_picture = ""
+        const publishedMaps = []
 
         const newUser = new User({
-            username, email, passwordHash, first_name, last_name
+            username, email, passwordHash, first_name, last_name, liked_projects, myprojects, profile_picture, publishedMaps
         });
+
+        if(_id) {
+            newUser._id = _id
+        }
+
         const savedUser = await newUser.save();
 
         // LOGIN THE USER
@@ -61,10 +73,7 @@ registerUser = async (req, res) => {
             sameSite: "none"
         }).status(200).json({
             success: true,
-            user: {
-                username: savedUser.username,
-                email: savedUser.email,
-            }
+            user: savedUser
         }).send();
     } catch (err) {
         console.error(err);
@@ -95,10 +104,7 @@ login = async(req, res) => {
         sameSite: "none"
     }).status(200).json({
         success: true,
-        user: {
-            username: loggedInUser.username,
-            email: loggedInUser.email,
-        }
+        user: loggedInUser
     }).send();
 }
 
@@ -115,17 +121,12 @@ getLoggedIn = async (req, res) => {
 
         return res.status(200).json({
             loggedIn: true,
-            user: {
-                email: loggedInUser.email,
-                username: loggedInUser.username,
-            }
+            user: loggedInUser
         })
     })
 }
 
 logout = async(req, res) => {
-    console.log("hd")
-    
     const token = auth.signToken(null);
 
     res.cookie("token", token, {
@@ -140,8 +141,16 @@ logout = async(req, res) => {
 
 updateUser = async(req, res) => {
     
-    const { email, username, first_name, last_name } = req.body;
-    const loggedInUser = await User.findOne({ email: email });
+    const { email, username, first_name, last_name, id, myprojects, liked_projects, profile_picture, publishedMaps } = req.body;
+
+    if (!req.body) {
+        return res.status(400).json({
+            success: false,
+            error: 'You must provide a body to update',
+        })
+    }
+
+    const loggedInUser = await User.findOne({ _id: id });
     const body = req.body
 
     loggedInUser.first_name = first_name;
@@ -149,17 +158,10 @@ updateUser = async(req, res) => {
     loggedInUser.username = username;
     loggedInUser.email = email;
 
-    //loggedInUser.myProjects = myProjects
-    //loggedInUser.likedProjects = likedProjects
-    //loggedInUser.profilePicture = profilePicture
-    //loggedInUser.publishedMaps = publishedMaps
-
-    if (!body) {
-        return res.status(400).json({
-            success: false,
-            error: 'You must provide a body to update',
-        })
-    }
+    loggedInUser.myProjects = myprojects
+    loggedInUser.liked_projects = liked_projects
+    loggedInUser.profile_picture = profile_picture
+    loggedInUser.publishedMaps = publishedMaps
 
     if (!loggedInUser) {
         return res.status(400).json({errorMessage:"User not found"});
@@ -168,10 +170,10 @@ updateUser = async(req, res) => {
         loggedInUser
             .save()
             .then(() => {
-                console.log("SUCCESS!!!");
                 return res.status(200).json({
                     success: true,
                     username: loggedInUser.username,
+                    user: loggedInUser,
                     message: 'user updated!',
                 })
             })
@@ -182,15 +184,45 @@ updateUser = async(req, res) => {
                     message: 'user not updated!',
                 })
             })
-    
-    
+
 }
 
+deleteUser = async(req, res) => {
+
+    try{
+        const { id } = req.body;
+
+        if (!req.body) {
+            return res.status(400).json({
+                success: false,
+                error: 'You must provide an id to delete',
+            })
+        }
+
+        const loggedInUser = await User.findOne({ _id: id });
+
+        if (!loggedInUser) {
+            return res.status(404).json({errorMessage:"User not found"});
+        }
+
+        
+        const deletedUser = await User.findOneAndDelete({_id: id});
+        return res.status(200).json({
+            success:true,
+            message: "deleted user successfully!",
+            user: loggedInUser
+        })
+    }catch (err) {
+        console.error(err);
+        res.status(500).send();
+    }
+}
 
 module.exports = {
     getLoggedIn,
     registerUser,
     login,
     logout,
-    updateUser
+    updateUser,
+    deleteUser,
 }

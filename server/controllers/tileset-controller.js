@@ -3,10 +3,11 @@ const Tileset = require('../model/tileset-model')
 registerTileSet = async (req, res) => {
     try {
         const { 
-        backgroundcolor, columns, fillmode, firstgid, grid, image, imageheight, imagewidth, margin, name,
+        _id, backgroundcolor, columns, fillmode, firstgid, grid, image, imageheight, imagewidth, margin, name,
         objectalignment, properties, source, tilecount, tileslateversion, tileheight, tilerendersize, tiles,
         tilewidth, transparentcolor, type, version, wangsets
          } = req.body;
+
         if (!(backgroundcolor && columns && fillmode && firstgid && grid 
             && image && imageheight && imagewidth && margin && name && objectalignment && properties
             && source && tilecount && tileslateversion && tileheight && tilerendersize && tiles && tilewidth
@@ -31,7 +32,17 @@ registerTileSet = async (req, res) => {
         tilewidth, transparentcolor, type, version, wangsets
         });
 
+        if(_id) {
+            newTileSet._id = _id
+        }
+
         await Tileset.create(newTileSet);
+        res.status(200).json({
+            success: true,
+            tileset: newTileSet,
+            _id: newTileSet._id
+        });
+        return newTileSet;
     } catch (err) {
         console.error(err);
         res.status(500).send();
@@ -40,18 +51,21 @@ registerTileSet = async (req, res) => {
 
 deleteTileSet = async (req, res) => {
     try{
-        const {  name } = req.body;
-        if(!name){
+        const {  _id } = req.body;
+        if(!_id){
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
-        Tileset.findByIdAndDelete(name, function (err, docs) {
+        Tileset.findOneAndDelete({_id: _id}, function (err, docs) {
             if (err){
                 console.log(err)
             }
             else{
-                console.log("Deleted: ", docs);
+                return res.status(200).json({
+                    success:true,
+                    tileset: docs
+                })
             }
         })
     } catch (err){
@@ -61,12 +75,13 @@ deleteTileSet = async (req, res) => {
 }
 
 updateTileSet = async (req, res) => {
-    const { backgroundcolor, columns, fillmode, firstgid, grid, image, imageheight, imagewidth, margin, name,
+    const { _id, backgroundcolor, columns, fillmode, firstgid, grid, image, imageheight, imagewidth, margin, name,
         objectalignment, properties, source, tilecount, tileslateversion, tileheight, tilerendersize, tiles,
         tilewidth, transparentcolor, type, version, wangsets } = req.body;
-    const selectedTileSet = await Tileset.findOne({ infoId: infoId });
+    
 
-    Tileset.findByIdAndUpdate(name, {
+    Tileset.findOneAndUpdate({_id: _id}, {
+        _id: _id,
         backgroundcolor: backgroundcolor,
         columns: columns,
         fillmode: fillmode,
@@ -76,6 +91,7 @@ updateTileSet = async (req, res) => {
         imageheight: imageheight,
         imagewidth: imagewidth,
         margin: margin,
+        name: name,
         objectalignment: objectalignment,
         properties: properties,
         source: source,
@@ -95,26 +111,31 @@ updateTileSet = async (req, res) => {
             res.status(500).send();
         }
         else{
-            console.log("Updated TileSet: ", docs);
+            return res.status(200).json({
+                success:true,
+                tileset: docs
+            })
         }
     });
 }
 
 getTileSet = async (req, res) => {
     try{
-        const {  name } = req.body;
-        if(!name){
+        const {  _id } = req.body;
+        if(!_id){
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
-        Tileset.findById(name, function (err, docs) {
+        Tileset.findOne({_id: _id}, function (err, docs) {
             if (err){
                 console.log(err)
             }
             else{
-                console.log("Tileset Information: ", docs);
-                return docs;
+                return res.status(200).json({
+                    success: true,
+                    tileset: docs
+                })
             }
         })
     } catch (err){
