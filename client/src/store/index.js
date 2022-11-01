@@ -21,6 +21,7 @@ export const GlobalStoreActionType = {
     SET_THE_MAP_MARKED_FOR_DELETETION: "SET THE MAP MARKED FOR DELETETION"
 }
 
+/*
 const [store, setStore] = useState({
 
     publishedMaps:[ ],              //holds all the published maps
@@ -39,7 +40,8 @@ const [store, setStore] = useState({
     mapMarkedForDeletion: null,          
     });
 
-// const tps : jsTPS
+ const tps : jsTPS
+*/
 
 function GlobalStoreContextProvider(props) {
 
