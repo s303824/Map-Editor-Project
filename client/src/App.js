@@ -34,11 +34,9 @@ const App = () => {
               <Route path="/likedmaps" element={<LikedMaps/>}/>
               <Route path="/view" element={<MapViewer/>}/>
               <Route path="/reset" element={<PasswordReset/>}/>
-
               <Route path="/login" element={<SignIn/>}/>
               <Route path="/logout" element={<SignOut/>}/>
               <Route path="/signup" element={<SignUp/>}/>
-
               <Route path="/accountSettings" element={<AccountSettings/>}/>
             </Routes>
         </GlobalStoreContextProvider>

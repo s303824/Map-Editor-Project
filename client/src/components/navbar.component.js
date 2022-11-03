@@ -35,11 +35,19 @@ function Banner() {
       navigate("/", {})
     }
 
-    const userInfo = { //sample data 
+    let userInfo = { //sample data 
       "id":1,
       "userName":"user4",
       "email":"user4@gmail.com"
   }
+    if(auth.loggedIn) {
+      userInfo = {
+        "id":1,
+        "userName":auth.user.username,
+        "email":auth.user.email
+      }
+    }
+  
     
     const Search = styled('div')(({ theme }) => ({
         position: 'relative',

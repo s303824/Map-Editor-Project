@@ -83,13 +83,14 @@ registerUser = async (req, res) => {
 
 login = async(req, res) => {
     const { email, username, password } = req.body;
-    const loggedInUser = await User.findOne({ username: username });
+    console.log(req.body)
+    const loggedInUser = await User.findOne({ email: email });
     if (!loggedInUser) {
-        return res.status(400).json({errorMessage:"User not found"});
+        return res.status(400).json({errorMessage:"User not found, please check you have entered the correct email address and password"});
     }
     const passwordCorrect = await bcrypt.compare(password, loggedInUser.passwordHash);
     if(!passwordCorrect) {
-        return res.status(400).json({errorMessage:"Wrong password"});
+        return res.status(400).json({errorMessage:"User not found, please check you have entered the correct email address and password"});
     }
     const saltRounds = 10;
     const salt = await bcrypt.genSalt(saltRounds);
