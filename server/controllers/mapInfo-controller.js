@@ -21,6 +21,8 @@ registerMapInfo = async (req, res) => {
                 })
         }
 
+        const editActive = false;
+
         const newMapInfo = new MapInfo({
             _id:_id,
             name, 
@@ -31,7 +33,8 @@ registerMapInfo = async (req, res) => {
             dislikes, 
             downloads, 
             map_id, 
-            published
+            published,
+            editActive
         });
 
         if(_id) {

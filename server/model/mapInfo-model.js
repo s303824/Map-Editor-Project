@@ -12,7 +12,8 @@ const PublishedSchema = new Schema(
         dislikes: { type: Number, required: true }, // number of dislikes
         downloads: { type: Number, required: true }, // number of downloads
         map_id: { type: String, required: true },   // foreign key to associated Map
-        published: { type: String, required: true }   // Is the project published?
+        published: { type: String, required: true },   // Is the project published?
+        editActive: {type: Boolean, required: true}
     }
 )
 

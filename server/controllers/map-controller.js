@@ -46,8 +46,7 @@ registerMap = async (req, res) => {
         const creator = [ownerName]
         const published = "not-published"
         const map_id = _id ? _id : newMap._id
-
-
+        const editActive = false;
 
         const newMapInfo = new MapInfo({
             name,
@@ -58,7 +57,8 @@ registerMap = async (req, res) => {
             dislikes,
             downloads,
             map_id,
-            published
+            published,
+            editActive
         });
         
         newMap.mapinfo = newMapInfo._id;
