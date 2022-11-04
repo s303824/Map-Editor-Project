@@ -290,7 +290,7 @@ function GlobalStoreContextProvider(props) {
 store.loadPages(path);
 
 //Loads all the published maps so we can display them 
-store.loadPublishedMaps( ) = async function ()  {
+store.loadPublishedMaps = async function ()  {
     const response = await api.getAllPublishedMapInfo();
     if (response.status === 200) {
         storeReducer({
@@ -303,7 +303,7 @@ store.loadPublishedMaps( ) = async function ()  {
 }
 
 //Loads all the user maps so we can display them 
-store.loadUserMaps( ) = async function () {
+store.loadUserMaps = async function () {
     let response = await api.getAllMapInfoByUser(auth.user);
     if (response.status === 200) {
         storeReducer({
@@ -519,13 +519,13 @@ store.loadMapViewer= async function (mapId) {
 store.addComment= async function (mapId,comment) {}
 
 //Removes the editing permission(for currentMap) from the selected user
-store.removeTeamMember( ) = async function (userId) {}
+store.removeTeamMember = async function (userId) {}
 
 //Adds the editing permission(for currentMap) for the user
-store.addTeamMember( ) = async function (userId) {}
+store.addTeamMember = async function (userId) {}
 
 //Updates the map info based on the user input 
-store.changeMapSettings( ) = async function (mapInfo) {}
+store.changeMapSettings = async function (mapInfo) {}
 
 
     return (
