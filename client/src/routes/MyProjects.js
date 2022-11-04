@@ -31,7 +31,7 @@ const MyProjects=() =>{
         "email":"user4@gmail.com",
         "editActive":"true",
         "published":null,
-        "imageUrl":''
+        "imageUrl": mapImage
       },
       {
         "id": 2,
@@ -44,7 +44,7 @@ const MyProjects=() =>{
         "email":"user4@gmail.com",
         "editActive":null,
         "published":null,
-        "imageUrl": ''
+        "imageUrl": mapImage
       },
       {
         "id": 3,
@@ -57,7 +57,7 @@ const MyProjects=() =>{
         "email":"user4@gmail.com",
         "editActive":null,
         "published":"2/3/2021",
-        "imageUrl": ''
+        "imageUrl": mapImage
       },
       {
         "id": 4,
@@ -70,7 +70,7 @@ const MyProjects=() =>{
         "email":"user4@gmail.com",
         "editActive":null,
         "published":"2/4/2021",
-        "imageUrl": ''
+        "imageUrl": mapImage
       }
     ];
     const navigate = useNavigate();

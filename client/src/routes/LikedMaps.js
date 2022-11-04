@@ -20,7 +20,7 @@ function LikedMaps() {
         "email":"user2@gmail.com",
         "editActive":null,
         "published":"2/3/2021",
-        "imageUrl": ''
+        "imageUrl": mapImage
       },
       {
         "id": 3,
@@ -33,7 +33,7 @@ function LikedMaps() {
         "email":"user3@gmail.com",
         "editActive":null,
         "published":"2/3/2021",
-        "imageUrl": ''
+        "imageUrl": mapImage
       },
       {
         "id": 3,
@@ -46,7 +46,7 @@ function LikedMaps() {
         "email":"user3@gmail.com",
         "editActive":null,
         "published":"2/3/2021",
-        "imageUrl": ''
+        "imageUrl": mapImage
       }
     ];
 

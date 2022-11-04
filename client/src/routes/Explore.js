@@ -5,6 +5,7 @@ import "../App.css"
 import Typography from '@mui/material/Typography';
 import MapCard from '../components/map-card.component';
 import AuthContext from '../auth';
+import mapImage from '../assets/map-card.jpg'
 
 
 function SearchResults() {
@@ -23,7 +24,7 @@ function SearchResults() {
         "email":"user2@gmail.com",
         "editActive":null,
         "published":"2/3/2021",
-        "imageUrl": ''
+        "imageUrl": mapImage
       },
       {
         "id": 3,
@@ -36,7 +37,7 @@ function SearchResults() {
         "email":"user3@gmail.com",
         "editActive":null,
         "published":"2/3/2021",
-        "imageUrl": ''
+        "imageUrl": mapImage
       },
       {
         "id": 3,
@@ -49,7 +50,7 @@ function SearchResults() {
         "email":"user3@gmail.com",
         "editActive":null,
         "published":"2/3/2021",
-        "imageUrl": ''
+        "imageUrl": mapImage
       }
     ];
 

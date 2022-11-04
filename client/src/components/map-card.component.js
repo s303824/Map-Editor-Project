@@ -15,7 +15,6 @@ import userImage from '../assets/userimage.png';
 import ThumbUpTwoToneIcon from '@mui/icons-material/ThumbUpTwoTone';
 import ThumbDownTwoToneIcon from '@mui/icons-material/ThumbDownTwoTone';
 import DownloadForOfflineTwoToneIcon from '@mui/icons-material/DownloadForOfflineTwoTone';
-import mapImage from '../assets/map-card.jpg'
 import UserCard from './user-card.component';
 
 import { useNavigate } from 'react-router-dom';
@@ -61,7 +60,7 @@ const MapCard = ({mapInfo}) => {
                 <Typography variant="h5" color="white" sx={{marginTop :3}}>
                     {name}
                 </Typography>
-                <UserCard key={mapInfo.id} userName={userName} email={email} userImage={userImage} />
+                <UserCard key={mapInfo.id} userName={mapInfo.userName} email={mapInfo.email} userImage={mapInfo.userImage} />
             </Box>
             <Typography color="white" sx={{marginTop :1}}>
                   {tags}
