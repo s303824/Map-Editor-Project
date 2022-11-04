@@ -31,6 +31,9 @@ function AuthContextProvider(props) {
 
     const authReducer = (action) => {
         const {type, payload} = action;
+        if(!AuthActionType.has(type)){
+            throw new Error("Incorrect Type. Choose one of the existing action types.");
+        }
         switch (type) {
             case AuthActionType.REGISTER_USER: {
                 return setAuth({

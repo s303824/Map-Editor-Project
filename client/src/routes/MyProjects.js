@@ -23,7 +23,7 @@ const MyProjects=() =>{
       {
         "id": 1,
         "name": "Game1",
-        "description":"",
+        "description": [""],
         "likes":0,
         "dislikes":0,
         "downloads":0,
@@ -36,7 +36,7 @@ const MyProjects=() =>{
       {
         "id": 2,
         "name": "Game2",
-        "description":"",
+        "description":[""],
         "likes":0,
         "dislikes":0,
         "downloads":0,
@@ -49,7 +49,7 @@ const MyProjects=() =>{
       {
         "id": 3,
         "name": "Game3",
-        "description":"#hastag3",
+        "description":["#hastag3"],
         "likes":10,
         "dislikes":100,
         "downloads":10,
@@ -62,7 +62,7 @@ const MyProjects=() =>{
       {
         "id": 4,
         "name": "Game4",
-        "description":"#hastag3",
+        "description": ["#hastag3"],
         "likes":10,
         "dislikes":100,
         "downloads":10,
@@ -104,7 +104,7 @@ const MyProjects=() =>{
             }}}>
         <Box display='flex' justifyContent='space-between' >
         <Button variant="h4" sx={{backgroundImage: 'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',boxShadow: '0 1px 1px 1px rgba(68,68,69,255)',boxShadow: 1,borderRadius:'10px',justifyContent: 'center',maxWidth:"30%",color:"grey",marginTop:'1%',marginBottom:'2%',padding:'1%',fontSize:22}} onClick={handleEdits}> Continue Editing </Button>
-        <Button variant="h4" sx={{backgroundImage: 'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',boxShadow: '0 1px 1px 1px rgba(68,68,69,255)',boxShadow: 1,borderRadius:'10px',justifyContent: 'center',maxWidth:"30%",color:"grey",marginTop:'1%',marginRight:'3%',marginBottom:'2%',padding:'1%',fontSize:20}}onClick={handleEdits}> Create A New Project + </Button>
+        <Button variant="h4" sx={{backgroundImage: 'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',boxShadow: '0 1px 1px 1px rgba(68,68,69,255)',boxShadow: 1,borderRadius:'10px',justifyContent: 'center',maxWidth:"30%",color:"grey",marginTop:'1%',marginRight:'3%',marginBottom:'2%',padding:'1%',fontSize:20}}onClick={handleEdits}> Create New Project </Button>
         </Box> 
         {mapCardInfo.filter((map) => (
             map.published == null

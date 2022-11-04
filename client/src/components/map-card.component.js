@@ -34,8 +34,15 @@ const MapCard = ({mapInfo}) => {
         navigate("/editor", {})
     }
 
- const {name,description,likes,dislikes,downloads,userName,email,editActive,published,imageUrl} = mapInfo;
+ const {name,description,likes,dislikes,downloads,userName,email,userImage,editActive,published,imageUrl} = mapInfo;
  let width;
+
+ let tags = ""
+ for(tag in description){
+    tags += tag + " "
+ }
+    
+
  {published ? width='80%': width='60%'}
 
   return (
@@ -45,7 +52,7 @@ const MapCard = ({mapInfo}) => {
                 component="img"
                 sx={{ height: 140 }}
                  alt="map Image"
-                src={mapImage}
+                src={imageUrl}
             />
     
      <Box sx={{ display: 'flex',width:'100%',flexDirection: 'column'}}>
@@ -55,10 +62,10 @@ const MapCard = ({mapInfo}) => {
                 <Typography variant="h5" color="white" sx={{marginTop :3}}>
                     {name}
                 </Typography>
-                <UserCard key={mapInfo.id} userName={userName} email={email} />
+                <UserCard key={mapInfo.id} userName={userName} email={email} userImage={userImage} />
             </Box>
             <Typography color="white" sx={{marginTop :1}}>
-                  {description}
+                  {tags}
             </Typography>
             
             <CardActions display="flex" sx={{justifyContent: 'space-between',width:'100%'}}>

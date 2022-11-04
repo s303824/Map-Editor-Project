@@ -20,8 +20,12 @@ export const getMap = () => api.get(`/getMap/`)
 export const registerMapInfo = (payload) => api.post(`/registerMapInfo/`, payload)
 export const deleteMapInfo = () => api.delete(`/deleteMapInfo/`)
 export const updateMapInfo = (payload) => api.put(`/updateMapInfo/`, payload)
-export const updateMapgetMapInfo = () => api.get(`/updateMapgetMapInfo/`)
-export const getAllMapInfoByUser = () => api.get(`/getAllMapInfoByUser/`)
+export const getMapInfo = () => api.get(`/getMapInfo/`)
+export const getAllMapInfoByUser = (payload) => api.get(`/getAllMapInfoByUser/`, payload)
+export const getAllPublishedMapInfo = () => api.get(`/getAllPublishedMapInfo/`)
+export const addCreator = () => api.get(`/addCreator/`)
+export const removeCreator = () => api.get(`/removeCreator/`)
+
 
 export const registerTileSet = (payload) => api.post(`/registerTileSet/`, payload)
 export const deleteTileSet = () => api.delete(`/deleteTileSet/`)
@@ -42,7 +46,11 @@ const apis= {
     registerMapInfo,
     deleteMapInfo,
     updateMapInfo,
+    getMapInfo,
     getAllMapInfoByUser,
+    getAllPublishedMapInfo,
+    addCreator,
+    removeCreator,
     registerTileSet,
     deleteTileSet,
     updateTileSet,

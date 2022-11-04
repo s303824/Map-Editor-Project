@@ -22,7 +22,7 @@ function Home() {
       {
         "id": 2,
         "name": "Game2",
-        "description":"#hastag2",
+        "description":["#hastag2"],
         "likes":50,
         "dislikes":10,
         "downloads":40,
@@ -35,7 +35,7 @@ function Home() {
       {
         "id": 3,
         "name": "Game3",
-        "description":"#hastag3",
+        "description":["#hastag3"],
         "likes":10,
         "dislikes":100,
         "downloads":10,
@@ -48,7 +48,7 @@ function Home() {
       {
         "id": 3,
         "name": "Game3",
-        "description":"#hastag3",
+        "description":["#hastag3"],
         "likes":10,
         "dislikes":100,
         "downloads":10,

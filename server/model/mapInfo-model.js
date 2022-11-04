@@ -13,7 +13,8 @@ const PublishedSchema = new Schema(
         downloads: { type: Number, required: true }, // number of downloads
         map_id: { type: String, required: true },   // foreign key to associated Map
         published: { type: String, required: true },   // Is the project published?
-        editActive: {type: Boolean, required: true}
+        editActive: {type: Boolean, required: true}, // Can the map be edited?
+        description: {type: [String], required: true}      // Map tags
     }
 )
 
