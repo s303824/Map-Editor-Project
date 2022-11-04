@@ -348,7 +348,7 @@ store.updateMapLike= async function (mapId) {
     const response = api.updateMapInfo(map);
     if (response.status === 200) {
         storeReducer({
-            type: GlobalStoreActionType.,
+            type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
             payload: {
                 
             }
@@ -363,7 +363,7 @@ store.updateMapDisLike= async function (mapId) {
     const response = api.updateMapInfo(map);
     if (response.status === 200) {
         storeReducer({
-            type: GlobalStoreActionType.,
+            type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
             payload: {
                 
             }
@@ -378,7 +378,7 @@ store.downloadMap= async function (mapId) {
     const response = api.updateMapInfo(map);
     if (response.status === 200) {
         storeReducer({
-            type: GlobalStoreActionType.,
+            type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
             payload: {
                 
             }

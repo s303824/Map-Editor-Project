@@ -38,9 +38,8 @@ const MapCard = ({mapInfo}) => {
  let width;
 
  let tags = ""
- for(tag in description){
-    tags += tag + " "
- }
+ description.forEach(tag => tags += tag + " ")
+
     
 
  {published ? width='80%': width='60%'}
