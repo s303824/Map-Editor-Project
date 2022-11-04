@@ -1,9 +1,10 @@
 import { createContext, useContext, useState } from 'react'
 import { useHistory, useNavigate } from 'react-router-dom'
-// THIS IS THE CONTEXT WE'LL USE TO SHARE OUR STORE
-export const GlobalStoreContext = createContext();
 import api from '../api'
 import AuthContext from '../auth';
+
+// THIS IS THE CONTEXT WE'LL USE TO SHARE OUR STORE
+export const GlobalStoreContext = createContext();
 
 export const GlobalStoreActionType = {
     LOAD_PUBLISHED_MAPS: "LOAD_PUBLISHED_MAPS",
@@ -287,7 +288,7 @@ function GlobalStoreContextProvider(props) {
 
     //Loads different pages based on the path provided by the caller, uses useHistory() hook.
 //homepage,myprojects,explore,settings,likedmaps
-store.loadPages(path);
+//store.loadPages(path);
 
 //Loads all the published maps so we can display them 
 store.loadPublishedMaps = async function ()  {
