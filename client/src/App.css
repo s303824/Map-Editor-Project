@@ -17,7 +17,7 @@
 
 .login-box {
   display:flex;
-  background-color:#848383;
+  background-color:#3d3d41;
   border-radius: 10px;
   position:absolute;
   top:20%;
@@ -28,16 +28,29 @@
   overflow-y:scroll;
   overflow: auto;
 }
+.logout-box {
+  display:flex;
+  background-color:#3d3d41;
+  border-radius: 10px;
+  position:absolute;
+  top:30%;
+  left:25%;
+  width:55%;
+  height: 30%;
+  flex-direction: row;
+  overflow-y:scroll;
+  overflow: auto;
+}
 
 .signup-box {
   display:flex;
-  background-color:#848383;
+  background-color:#3d3d41;
   border-radius: 10px;
   position:absolute;
   top:13%;
   left:20%;
   width:70%;
-  height: 77%;
+  height: 79%;
   flex-direction: row;
   overflow-y:scroll;
   overflow: auto;
@@ -80,6 +93,7 @@
 .login-image {
   width:100%;
   overflow: hidden;
+  height: 100%;
 }
 
 
@@ -95,7 +109,7 @@
 }
 
 .login-tileslate-text {
-  padding-left: 5%;
+  padding-left: 2%;
   padding-bottom: 15%;
   font-size: 32px;
   color:white;
@@ -140,7 +154,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width:60%;
+  width:55%;
   padding-top: 1%;
   color:white;
 }
@@ -366,7 +380,7 @@ img {
 .account_setting{
   padding-left: 30%;
   padding-top: 10px;
-  padding-bottom: 100%;
+  /* padding-bottom: 100%; */
   background-color: #0e0e10;
 
 }
@@ -417,13 +431,14 @@ img {
   
 }
 .text-field{
-  width: 350px;
+  /* width: 350px; */
+  width: 21vw;
   border-radius: 5px;
   background-color: #ffffff;
 }
 
 .button-color{
-  background-image: linear-gradient(to right, red , yellow);
+  background-image: linear-gradient(to right, red , rgb(255, 222, 6));
 }
 @keyframes App-logo-spin {
   from {

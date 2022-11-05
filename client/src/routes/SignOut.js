@@ -5,6 +5,7 @@ import "../App.css"
 import bannerImage from '../assets/login-screen-image.png'
 import AuthContext from "../auth";
 import { useContext } from "react";
+import Divider from '@mui/material/Divider';
 
 const SignOut = ({}) => {
   const navigate = useNavigate();
@@ -19,40 +20,28 @@ const SignOut = ({}) => {
     navigate("/home")
   }
 
-  const loginImage = <Box 
-  component="img"
-  alt="banner Image"
-  src ={bannerImage}
-  className = "login-image"
-  />
+
       return (
         <Box className="login-page-holder">
 
-        <Box className="login-box">
-        <Box className="login-image-holder">
-          <Box className="login-image-topper">
-            <Box className="login-tileslate-text">TILESLATE</Box>
-          </Box>
-          <Box className="login-image">
-            {loginImage} 
-          </Box>
-        </Box>
-          <Box className="login-holder">
+        <Box className="logout-box">
+          <Box className="login-holder" style={{"margin": "0px 0px 0px 20px"}}>
             <Box className="login-box-top">    
                 <Box className="login-bar">
                   <Box>LOG OUT</Box>  
                   <Button variant="contained" color="error" fontSize="32px" onClick={handleReturnHome}>X</Button>
                 </Box>
             </Box>
+            <Divider variant="middle" sx={{borderBottomWidth: 4, "border-color": 'white', marginTop: '3%', marginRight: '5%'}}/>
   
             <Box className="login-box-mid">
                 
                 <Box className="login-email-field">
-                  <Typography>Are you sure you want to log out?</Typography>
+                  <Typography variant="h5" >Are you sure you want to log out?</Typography>
                 </Box>
 
-                <Box className="login-button-holder">
-                  <Button variant="contained" color="warning" onClick={handleLogout}>Logout</Button>
+                <Box className="login-button-holder" style={{position: "absolute", right: "2%", bottom: "3%"}}>
+                  <Button variant="outlined" color="error" size="large" style={{"border-radius": "10%"}} onClick={handleLogout}>Logout</Button>
                 </Box>
             </Box>
           </Box>
