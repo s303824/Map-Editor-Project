@@ -106,11 +106,12 @@ export default function SideBar() {
         <Toolbar />
         <Divider />
         <List>
-          {['Home Page', 'My Projects', 'Liked Maps', 'Explore', 'Settings', 'Log Out'].map((text, index) => (
+          {['Home Page', 'My Projects', 'Liked Maps', 'Explore', 'Settings', auth.loggedIn && 'Log Out'].map((text, index) => (
             <ListItem key={text} disablePadding>
               <ListItemButton onClick={() => handleClick(text)}>
                 <ListItemIcon>
-                  {icons[index]}
+                 {auth.loggedIn ? icons[index] && icons[index] : index !== 5 && icons[index]}
+               
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItemButton>
