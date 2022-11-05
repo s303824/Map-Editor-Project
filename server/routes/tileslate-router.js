@@ -13,6 +13,7 @@ router.post('/login', UserController.login)
 router.get('/logout', UserController.logout)
 router.put('/user', UserController.updateUser)
 router.delete('/user', UserController.deleteUser)
+router.put('/changePassword', UserController.changePassword)
 
 router.post('/registerMap', MapController.registerMap)
 router.delete('/deleteMap', MapController.deleteMap)

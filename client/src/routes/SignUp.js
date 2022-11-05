@@ -67,7 +67,8 @@ const SignUp =() =>{
         passwordVerify: passwordVerify,
         first_name: firstName,
         last_name: lastName,
-        email:email
+        email:email,
+        profile_picture: "https://res.cloudinary.com/natialemu47/image/upload/v1652196653/dnt17uj4nl9ywfq648v8.jpg"
       }
       auth.registerUser(userData)
     }

@@ -30,6 +30,9 @@ function Banner() {
     const handleLogin = () => {
       navigate("/login", {})
     }
+    const handleSignUp = () => {
+      navigate("/signup", {})
+    }
 
     const handleGoHome = () => {
       navigate("/", {})
@@ -117,7 +120,7 @@ function Banner() {
                 </Box>
             </Box>
             
-            <Box display="flex" flexDirection="row" >
+            {auth.loggedIn && <Box display="flex" flexDirection="row" >
                 <UserCard userName ={userInfo.userName} email = {userInfo.email}/>
                 <IconButton 
                     size="large"
@@ -125,7 +128,11 @@ function Banner() {
                 > 
                 <ArrowDropDownCircleIcon sx={{fill:'#ffbf06',boxShadow: 1}} onClick={handleLogin}/>
                 </IconButton>
-            </Box>
+            </Box>}
+            {!auth.loggedIn && <Box display="flex" flexDirection="row" sx={{ justifyContent: 'space-between' }} >
+                    <Button variant="outlined" size="small"  sx= {{borderColor:"white",color:"white",borderRadius:'20px',marginX: 2}} onClick={handleLogin}>Sign In</Button>
+                    <Button variant="contained" size="small" className='button-color' sx = {{borderRadius:'20px'}} onClick={handleSignUp}>Sign Up</Button>
+            </Box>}
             </Toolbar>
            </AppBar>
            <Sidebar/>
