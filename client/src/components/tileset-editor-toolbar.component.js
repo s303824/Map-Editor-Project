@@ -7,8 +7,14 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import CancelTwoToneIcon from '@mui/icons-material/CancelTwoTone';
 import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
+import { useNavigate } from 'react-router-dom';
 
 const TileSetToolBar=() =>{
+    const navigate = useNavigate();
+
+    const handleEditMap = () => {
+        navigate("/editor", {})
+    }
     return (
         <Box className='top-navbar' sx={{ display: 'flex' ,flexGrow: 1,}} >
            <AppBar position="static" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1}}>
@@ -27,7 +33,7 @@ const TileSetToolBar=() =>{
                 <SettingsTwoToneIcon sx={{fill:"#C0C0C0" ,fontSize:40}}/>
                 </IconButton>
 
-                <IconButton aria-label="close">
+                <IconButton aria-label="close" onClick={handleEditMap}>
                 <CancelTwoToneIcon sx={{fill:"#C0C0C0" ,fontSize:40}}/>
                 </IconButton>
                 

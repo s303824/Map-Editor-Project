@@ -38,19 +38,26 @@ function Banner() {
       navigate("/", {})
     }
 
-    let userInfo = { //sample data 
-      "id":1,
-      "userName":"user4",
-      "email":"user4@gmail.com"
-  }
-    if(auth.loggedIn) {
-      userInfo = {
-        "id":1,
-        "userName":auth.user.username,
-        "email":auth.user.email
-      }
+    const handleSearch = () => {
+      navigate("/explore", {})
     }
-  
+
+  let userInfo = {
+    "id":1,
+    "userName":"Guest",
+    "email": "",
+    "image": "../assets/guestImage.jpg"
+}
+
+if(auth.loggedIn) {
+  userInfo = {
+    "id":1,
+    "userName":auth.user.username,
+    "email":auth.user.email,
+    "image": auth.user.userImage
+
+  }
+}
     
     const Search = styled('div')(({ theme }) => ({
         position: 'relative',
@@ -115,8 +122,8 @@ function Banner() {
                 />
             </Search>
                 <Box display="flex" flexDirection="row" sx={{ justifyContent: 'space-between' }} >
-                    <Button variant="contained" size="small" sx = {{backgroundColor:"white" ,color:"black",borderRadius:'20px'}}>By Name</Button>
-                    <Button variant="outlined" size="small"  sx= {{borderColor:"white",color:"white",borderRadius:'20px',marginX: 2}}>By Category</Button>
+                    <Button variant="contained" size="small" sx = {{backgroundColor:"white" ,color:"black",borderRadius:'20px'}} onClick={handleSearch}>By Name</Button>
+                    <Button variant="outlined" size="small"  sx= {{borderColor:"white",color:"white",borderRadius:'20px',marginX: 2}} onClick={handleSearch}>By Category</Button>
                 </Box>
             </Box>
             

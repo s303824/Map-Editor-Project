@@ -15,15 +15,19 @@ const drawerWidth = 240;
 //This array will be used to render different ListItemIcons based on the index 
 const teamMembers = [{
     "userName":"user1",
-    "email":"user1@gmail.com"
+    "email":"user1@gmail.com",
+    "image": "../assets/userimage.png"
     },
     {
         "userName":"user2",
-        "email":"user2@gmail.com"
-    },
+        "email":"user2@gmail.com",
+        "image": "../assets/userimage.png"
+      },
     {
         "userName":"user3",
-        "email":"user3@gmail.com"
+        "email":"user3@gmail.com",
+        "image": "../assets/userimage.png"
+
     }
 
 ]
@@ -51,7 +55,7 @@ export default function RightSideBar() {
         <Typography sx={{fontSize:'20px',color: 'black',marginTop:1,padding:1,backgroundImage: 'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',boxShadow: '0 1px 1px 1px rgba(68,68,69,255)'}}> Created By </Typography>
         <List>
           {teamMembers.map((userInfo, index) => (
-            <UserCard key={index} userName={userInfo.userName} email={userInfo.email} />
+            <UserCard key={index} userName={userInfo.userName} email={userInfo.email} userImage={userInfo.image}/>
           ))}
         </List>
         <Divider />
