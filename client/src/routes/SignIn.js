@@ -5,6 +5,8 @@ import bannerImage from '../assets/login-screen-image.png'
 import { useNavigate } from "react-router-dom";
 import LoginModal from "../components/login-modal.component";
 import AuthContext from "../auth";
+import Divider from '@mui/material/Divider';
+import Link from '@mui/material/Link';
 
 const SignIn = ({}) => {
 
@@ -83,6 +85,8 @@ const SignIn = ({}) => {
               </Box>
           </Box>
 
+          <Divider variant="middle" sx={{borderBottomWidth: 4, "border-color": 'white', "margin-top": "2%", "margin-left": "-3%"}}/>
+
           <Box className="login-box-mid">
               
               <Box className="login-email-field">
@@ -92,19 +96,19 @@ const SignIn = ({}) => {
 
               <Box className="login-email-field">
                 <Typography>Password</Typography>
-                <TextField label="Password" className="login-textfield" variant="filled" onChange={handlePasswordChange} value={password}></TextField>
+                <TextField label="Password" className="login-textfield" type="password" variant="filled" onChange={handlePasswordChange} value={password}></TextField>
               </Box>
 
               <Box className="login-button-holder">
-                <Button variant="contained" color="warning" onClick={handleLogin}>Login</Button>
+                <Button variant="contained" color="warning" className='button-color' onClick={handleLogin}>Login</Button>
               </Box>
 
               <Box className="login-bottom-text" paddingTop="10%">
-                <Typography>Forgot your password?</Typography><Button variant="contained" onClick={handleForgotPassword}>Reset</Button>
+                <Typography>Forgot your password?</Typography><Link href="#" underline="hover" onClick={handleForgotPassword}>{'Reset'}</Link>
               </Box>
 
               <Box className="login-bottom-text">
-              <Typography>New to Tileslate?</Typography><Button variant="contained" onClick={handleSignUp}>Sign Up</Button>
+              <Typography>New to Tileslate?</Typography><Link href="#" underline="hover" onClick={handleSignUp}>{'Sign Up'}</Link>
               </Box>
           </Box>
         </Box>

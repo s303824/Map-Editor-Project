@@ -6,6 +6,9 @@ import { useState } from "react";
 import "../App.css"
 import LoginModal from "../components/login-modal.component";
 import AuthContext from "../auth";
+import Divider from '@mui/material/Divider';
+import Link from '@mui/material/Link';
+
 
 const SignUp =() =>{
     const [firstName, setFirstName] = useState("")
@@ -14,11 +17,22 @@ const SignUp =() =>{
     const [password, setPassword] = useState("")
     const [email, setEmail] = useState("")
     const [passwordVerify, setPasswordVerify] = useState("")
+    const [passwordModal, setPasswordModal] = React.useState(false);
+    const [emailModal, setEmailModal] = React.useState(false);
 
     const {auth} = useContext(AuthContext)
   
     const navigate = useNavigate();
-
+    
+    const handleEmailModalClose = () => {
+          setEmailModal(false)
+        }
+    const handlePasswordModalClose = () => {
+        setPasswordModal(false)
+    }
+    const password_modal = passwordModal ? <LoginModal message = "Password should have at least 1 lower, 1 upper case and 1 number. Password should also be longer than 8 characters!" onClose={handlePasswordModalClose}></LoginModal>: null;
+    const email_modal = emailModal ? <LoginModal message = "Email is invalid!" onClose={handleEmailModalClose}></LoginModal>: null;
+    
     const handleSignIn = () => {
       navigate("/login")
     }
@@ -61,6 +75,16 @@ const SignUp =() =>{
     }
 
     const handleCreateAccount = () => {
+      let mail_format = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+      let password_format = /^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9]).{8,}/;
+      if (!mail_format.test(email)) {
+        setEmailModal(true)
+        return;
+			}
+      if (!password_format.test(password)) {
+        setPasswordModal(true)
+        return;
+      }
       let userData ={
         username: username,
         password: password,
@@ -84,6 +108,9 @@ const SignUp =() =>{
   
     return (
         <Box className="login-page-holder">
+          
+        {password_modal}
+        {email_modal}
 
         <Box className="signup-box">
           {loginModal}
@@ -104,7 +131,8 @@ const SignUp =() =>{
                   <Button variant="contained" color="error" fontSize="32px" onClick={handleGoBack}>X</Button>
                 </Box>
             </Box>
-  
+            <Divider variant="middle" sx={{borderBottomWidth: 4, "border-color": 'white', "margin-top": "2%", "margin-left": "-3%", "margin-bottom": "1%"}}/>
+
             <Box className="signup-box-mid">
                 
                 <Box className="signup-field">
@@ -129,20 +157,20 @@ const SignUp =() =>{
 
                 <Box className="signup-field">
                   <Typography>Password</Typography>
-                  <TextField label="Password" className="login-textfield" variant="filled" onChange={(event) => updateField(event, "password")}></TextField>
+                  <TextField label="Password" className="login-textfield" type="password" variant="filled" onChange={(event) => updateField(event, "password")}></TextField>
                 </Box>
         
                 <Box className="signup-field">
                   <Typography>Verify Password</Typography>
-                  <TextField label="Verify Password" className="login-textfield" variant="filled" onChange={(event) => updateField(event, "passwordVerify")}></TextField>
+                  <TextField label="Verify Password" className="login-textfield" type="password" variant="filled" onChange={(event) => updateField(event, "passwordVerify")}></TextField>
                 </Box>
 
                 <Box className="login-button-holder">
-                  <Button variant="contained" color="warning" onClick={handleCreateAccount}>CREATE ACCOUNT</Button>
+                  <Button variant="contained" color="warning" className='button-color'  onClick={handleCreateAccount}>CREATE ACCOUNT</Button>
                 </Box>
   
                 <Box className="login-bottom-text" paddingTop="2%">
-                  <Typography>Have an account already?</Typography><Button variant="contained" onClick={handleSignIn}>Log In</Button>
+                  <Typography>Have an account already?</Typography><Link href="#" underline="hover" onClick={handleSignIn}>{'Log In'}</Link>
                 </Box>
             </Box>
           </Box>
