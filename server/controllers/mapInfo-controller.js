@@ -4,9 +4,9 @@ const User = require('../model/user-model')
 registerMapInfo = async (req, res) => {
     try {
         const { _id, name, creator, thumbnailURL, comments, likes, 
-            dislikes, downloads, map_id, published } = req.body;
+            dislikes, downloads, map_id, published, description } = req.body;
         if (!(_id, name && creator && thumbnailURL && comments && likes 
-            && dislikes && downloads && map_id && published)) {
+            && dislikes && downloads && map_id && published && description)) {
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
@@ -21,6 +21,8 @@ registerMapInfo = async (req, res) => {
                 })
         }
 
+        const editActive = false;
+
         const newMapInfo = new MapInfo({
             _id:_id,
             name, 
@@ -31,7 +33,9 @@ registerMapInfo = async (req, res) => {
             dislikes, 
             downloads, 
             map_id, 
-            published
+            published,
+            editActive,
+            description
         });
 
         if(_id) {
@@ -99,7 +103,7 @@ deleteMapInfo = async (req, res) => {
 
 updateMapInfo = async (req, res) => {
     const { _id, name, creator, thumbnailURL, comments, likes, 
-        dislikes, downloads, published } = req.body;
+        dislikes, downloads, published, description } = req.body;
     const selectedMapInfo = await MapInfo.findOne({ _id: _id });
     const creator_exists = await User.findOne({username: creator})
 
@@ -124,6 +128,7 @@ updateMapInfo = async (req, res) => {
     selectedMapInfo.dislikes = dislikes;
     selectedMapInfo.downloads = downloads;
     selectedMapInfo.published = published;
+    selectedMapInfo.description = description;
 
     MapInfo.findOneAndUpdate({_id: _id}, {
         name : name,
@@ -133,7 +138,8 @@ updateMapInfo = async (req, res) => {
         likes : likes,
         dislikes : dislikes,
         downloads : downloads,
-        published : published
+        published : published,
+        description : description
     }, function (err, docs) {
         if (err){
             console.log(err)
@@ -223,6 +229,29 @@ getAllMapInfoByUser = async (req, res) => {
     }
 }
 
+
+getAllPublishedMapInfo = async (req, res) => {
+    try{
+        MapInfo.find(({published}), function (err, docs) {
+            if (err){
+                console.log(err)
+            }
+            else{
+                return res
+                .status(200)
+                .json({ 
+                    Message: "success!",
+                    mapInfos: docs 
+                });
+            }
+        });
+    } catch (err){
+        console.error(err);
+        res.status(500).send();
+    }
+}
+
+
 addCreator = async (req, res) => {
     const { _id, creator} = req.body;
     const selectedMapInfo = await MapInfo.findOne({ _id: _id });
@@ -306,6 +335,7 @@ module.exports = {
     updateMapInfo,
     getMapInfo,
     getAllMapInfoByUser,
+    getAllPublishedMapInfo,
     addCreator,
     removeCreator
 }

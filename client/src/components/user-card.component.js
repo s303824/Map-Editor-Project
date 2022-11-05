@@ -1,9 +1,8 @@
 import CardHeader from '@mui/material/CardHeader';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import userImage from '../assets/userimage.png';
 
-const UserCard = ({userName,email}) =>{
+const UserCard = ({userName,email, userImage}) =>{
     return(
     <CardHeader
         avatar={

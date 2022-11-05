@@ -19,6 +19,7 @@ function AuthContextProvider(props) {
         user: null,
         loggedIn: false,
         successfulRegister: true,
+        successfulLogin: true,
         error: null,
     });
 
@@ -26,7 +27,7 @@ function AuthContextProvider(props) {
 
     useEffect(() => {
         auth.getLoggedIn();
-    }, [auth]);
+    }, []);
 
     const authReducer = (action) => {
         const {type, payload} = action;
@@ -34,7 +35,7 @@ function AuthContextProvider(props) {
             case AuthActionType.REGISTER_USER: {
                 return setAuth({
                     user: payload.user,
-                    loggedIn: payload.register,
+                    loggedIn: payload.successfulRegister,
                     successfulRegister: payload.successfulRegister,
                     successfulLogin: false,
                     error: payload.error,
@@ -71,6 +72,26 @@ function AuthContextProvider(props) {
                     error: null,
                     guest: auth.guest
                 });
+            }
+            case AuthActionType.LOGIN_RETRY: {
+                return setAuth({
+                    user: null,
+                    loggedIn: false,
+                    successfulRegister: true,
+                    successfulLogin: payload.successfulLogin,
+                    error: null,
+                    guest: auth.guest
+                });
+            }
+            case AuthActionType.REGISTER_RETRY: {
+                return setAuth({
+                    user: null,
+                    loggedIn: false,
+                    successfulRegister: true,
+                    successfulLogin: true,
+                    error: null,
+                    guest: auth.guest
+                })
             }
         }
         
@@ -156,6 +177,26 @@ function AuthContextProvider(props) {
                 }
             });
         }
+    }
+
+    auth.retryLogin = function() {
+        authReducer({
+            type: AuthActionType.LOGIN_RETRY,
+            payload: {
+                user: null,
+                successfulLogin: true
+            }
+        })
+    }
+
+    auth.retryRegister = function() {
+        authReducer({
+            type: AuthActionType.REGISTER_RETRY,
+            payload: {
+                user: null,
+                successfulRegister: true
+            }
+        })
     }
 
     return (

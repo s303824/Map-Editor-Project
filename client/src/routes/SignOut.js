@@ -3,13 +3,22 @@ import { TextField, Link, Button, Modal, Box, Typography} from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import "../App.css"
 import bannerImage from '../assets/login-screen-image.png'
+import AuthContext from "../auth";
+import { useContext } from "react";
 
 const SignOut = ({}) => {
   const navigate = useNavigate();
+  const {auth} = useContext(AuthContext)
 
   const handleReturnHome = () => {
     navigate("/home")
   }
+
+  const handleLogout = () => {
+    auth.logoutUser();
+    navigate("/home")
+  }
+
   const loginImage = <Box 
   component="img"
   alt="banner Image"
@@ -43,7 +52,7 @@ const SignOut = ({}) => {
                 </Box>
 
                 <Box className="login-button-holder">
-                  <Button variant="contained" color="warning" onClick={handleReturnHome}>Logout</Button>
+                  <Button variant="contained" color="warning" onClick={handleLogout}>Logout</Button>
                 </Box>
             </Box>
           </Box>

@@ -5,6 +5,7 @@ import "../App.css"
 import Typography from '@mui/material/Typography';
 import MapCard from '../components/map-card.component';
 import AuthContext from '../auth';
+import mapImage from '../assets/map-card.jpg'
 
 
 function SearchResults() {
@@ -15,7 +16,7 @@ function SearchResults() {
       {
         "id": 2,
         "name": "Fantasy Quest 5",
-        "description":"#medieval #fantasy #action",
+        "description":["#medieval", "#fantasy", "#action"],
         "likes":50,
         "dislikes":10,
         "downloads":40,
@@ -23,12 +24,12 @@ function SearchResults() {
         "email":"user2@gmail.com",
         "editActive":null,
         "published":"2/3/2021",
-        "imageUrl": ''
+        "imageUrl": mapImage
       },
       {
         "id": 3,
         "name": "The Fantasy Adventure",
-        "description":"#fantasy #soulslike #swordandSorcery",
+        "description":["#fantasy", "#soulslike", "#swordandSorcery"],
         "likes":10,
         "dislikes":100,
         "downloads":10,
@@ -36,12 +37,12 @@ function SearchResults() {
         "email":"user3@gmail.com",
         "editActive":null,
         "published":"2/3/2021",
-        "imageUrl": ''
+        "imageUrl": mapImage
       },
       {
         "id": 3,
         "name": "The Quest for Fantasy and Adventure",
-        "description":"#fetchQuest #EscortMission",
+        "description":["#fetchQuest", "#EscortMission"],
         "likes":10,
         "dislikes":100,
         "downloads":10,
@@ -49,7 +50,7 @@ function SearchResults() {
         "email":"user3@gmail.com",
         "editActive":null,
         "published":"2/3/2021",
-        "imageUrl": ''
+        "imageUrl": mapImage
       }
     ];
 
