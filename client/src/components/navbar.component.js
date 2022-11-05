@@ -39,7 +39,7 @@ function Banner() {
       navigate("/explore", {})
     }
 
-  const userInfo = {
+  let userInfo = {
     "id":1,
     "userName":"Guest",
     "email": "",
