@@ -23,15 +23,10 @@ function LiterallyCanvasTest() {
 
     return (
       <Box >
-        <Box display="inline">
         <LC.LiterallyCanvasReactComponent
           watermarkImage={img}
           imageURLPrefix="img">
         </LC.LiterallyCanvasReactComponent>
-        </Box>
-
-        Welcome to Tileslate  SFDGfgdsadfgshdfg
-
       </Box>
     );
   }
