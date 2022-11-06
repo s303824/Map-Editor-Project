@@ -41,6 +41,12 @@ const SignIn = ({}) => {
     setPassword(event.target.value)
   }
 
+  const handleOnKeyDown = (event) => {
+    if(event.key == 'Enter') {
+      handleLogin();
+    }
+  }
+
   const handleLogin = () => {
     let userData = {
       email: email,
@@ -91,12 +97,12 @@ const SignIn = ({}) => {
               
               <Box className="login-email-field">
                 <Typography>Email</Typography>
-                <TextField label="Email" className="login-textfield" variant="filled" onChange={handleEmailChange} value={email}></TextField>
+                <TextField label="Email" className="login-textfield" variant="filled" onChange={handleEmailChange} value={email} onKeyDown={handleOnKeyDown}></TextField>
               </Box>
 
               <Box className="login-email-field">
                 <Typography>Password</Typography>
-                <TextField label="Password" className="login-textfield" type="password" variant="filled" onChange={handlePasswordChange} value={password}></TextField>
+                <TextField label="Password" className="login-textfield" type="password" variant="filled" onChange={handlePasswordChange} value={password} onKeyDown={handleOnKeyDown}></TextField>
               </Box>
 
               <Box className="login-button-holder">

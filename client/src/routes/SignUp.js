@@ -41,6 +41,12 @@ const SignUp =() =>{
       navigate("/", {})
     }
 
+    const handleOnKeyDown = (event) => {
+      if(event.key == 'Enter') {
+        handleCreateAccount();
+      }
+    }
+
     const updateField = (event, type) => {
       switch(type){
         case "firstName":
@@ -137,32 +143,38 @@ const SignUp =() =>{
                 
                 <Box className="signup-field">
                   <Typography>First Name</Typography>
-                  <TextField label="First Name" className="login-textfield" variant="filled" onChange={(event) => updateField(event, "firstName")}></TextField>
+                  <TextField label="First Name" className="login-textfield" variant="filled" 
+                  onChange={(event) => updateField(event, "firstName")} onKeyDown={handleOnKeyDown}></TextField>
                 </Box>
   
                 <Box className="signup-field">
                   <Typography>Last Name</Typography>
-                  <TextField label="Last Name" className="login-textfield" variant="filled" onChange={(event) => updateField(event, "lastName")}></TextField>
+                  <TextField label="Last Name" className="login-textfield" variant="filled" 
+                  onChange={(event) => updateField(event, "lastName")} onKeyDown={handleOnKeyDown}></TextField>
                 </Box>
   
                 <Box className="signup-field">
                   <Typography>User Name</Typography>
-                  <TextField label="User Name" className="login-textfield" variant="filled" onChange={(event) => updateField(event, "username")}></TextField>
+                  <TextField label="User Name" className="login-textfield" variant="filled" 
+                  onChange={(event) => updateField(event, "username")} onKeyDown={handleOnKeyDown}></TextField>
                 </Box>
 
                 <Box className="signup-field">
                   <Typography>Email Address</Typography>
-                  <TextField label="Email Address" className="login-textfield" variant="filled" onChange={(event) => updateField(event, "email")}></TextField>
+                  <TextField label="Email Address" className="login-textfield" variant="filled" 
+                  onChange={(event) => updateField(event, "email")} onKeyDown={handleOnKeyDown}></TextField>
                 </Box>
 
                 <Box className="signup-field">
                   <Typography>Password</Typography>
-                  <TextField label="Password" className="login-textfield" type="password" variant="filled" onChange={(event) => updateField(event, "password")}></TextField>
+                  <TextField label="Password" className="login-textfield" type="password" variant="filled" 
+                  onChange={(event) => updateField(event, "password")} onKeyDown={handleOnKeyDown}></TextField>
                 </Box>
         
                 <Box className="signup-field">
                   <Typography>Verify Password</Typography>
-                  <TextField label="Verify Password" className="login-textfield" type="password" variant="filled" onChange={(event) => updateField(event, "passwordVerify")}></TextField>
+                  <TextField label="Verify Password" className="login-textfield" type="password" variant="filled" 
+                  onChange={(event) => updateField(event, "passwordVerify")} onKeyDown={handleOnKeyDown}></TextField>
                 </Box>
 
                 <Box className="login-button-holder">
