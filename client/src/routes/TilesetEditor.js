@@ -14,18 +14,18 @@ const TileSetEditor=() =>{
     const {auth} = useContext(AuthContext)
 
    const imageAddr =
-    "https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png";
+    "https://img.craftpix.net/2022/02/Green-Zone-Tileset-Pixel-Art2-720x480.jpg";
     var img = new Image();
     img.src = imageAddr;
 
     return (
-      <Box sx={{backgroundColor:"white" ,marginLeft:1,marginRight:1,marginTop:1}}>
-        <Box display="flex" sx={{height:"680px"}} >
-        <LC.LiterallyCanvasReactComponent
-          watermarkImage={img}
-          imageURLPrefix="img">
-        </LC.LiterallyCanvasReactComponent>
-        box
+      
+      <Box className="tileset-container">
+          <Box display="flex" sx={{height:"680px"}} >
+            <LC.LiterallyCanvasReactComponent
+              watermarkImage={img}
+              imageURLPrefix="img">
+            </LC.LiterallyCanvasReactComponent>
         </Box>
       </Box>
     );

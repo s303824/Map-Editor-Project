@@ -139,6 +139,17 @@
   border-radius: 6px;
 }
 
+.tileset-container {
+  background-color: white;
+  height:100px;
+}
+
+.literally {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
 .login-bottom-text {
   display: flex;
   flex-direction: row;
