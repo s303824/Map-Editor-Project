@@ -83,7 +83,6 @@ registerUser = async (req, res) => {
 
 login = async(req, res) => {
     const { email, username, password } = req.body;
-    console.log(req.body)
     const loggedInUser = await User.findOne({ email: email });
     if (!loggedInUser) {
         return res.status(400).json({errorMessage:"User not found, please check you have entered the correct email address and password"});

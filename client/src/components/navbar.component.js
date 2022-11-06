@@ -42,6 +42,12 @@ function Banner() {
       navigate("/explore", {})
     }
 
+    const handleEnterPress = (event) => {
+      if(event.key == "Enter") {
+        handleSearch();
+      }
+    }
+
   let userInfo = {
     "id":1,
     "userName":"Guest",
@@ -119,6 +125,7 @@ if(auth.loggedIn) {
                 <StyledInputBase
                     placeholder="Search…"
                     inputProps={{ 'aria-label': 'search' }}
+                    onKeyDown={handleEnterPress}
                 />
             </Search>
                 <Box display="flex" flexDirection="row" sx={{ justifyContent: 'space-between' }} >
@@ -129,12 +136,6 @@ if(auth.loggedIn) {
             
             {auth.loggedIn && <Box display="flex" flexDirection="row" >
                 <UserCard userName ={userInfo.userName} email = {userInfo.email}/>
-                <IconButton 
-                    size="large"
-                    aria-label="account of current user"
-                > 
-                <ArrowDropDownCircleIcon sx={{fill:'#ffbf06',boxShadow: 1}} onClick={handleLogin}/>
-                </IconButton>
             </Box>}
             {!auth.loggedIn && <Box display="flex" flexDirection="row" sx={{ justifyContent: 'space-between' }} >
                     <Button variant="outlined" size="small"  sx= {{borderColor:"white",color:"white",borderRadius:'20px',marginX: 2}} onClick={handleLogin}>Sign In</Button>

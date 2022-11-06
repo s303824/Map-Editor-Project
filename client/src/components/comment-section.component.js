@@ -41,7 +41,7 @@ const CommentSection =()=>{
 
     return(
         <Box sx={{backgroundImage: 'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',borderRadius:2, marginTop:3,
-        marginRight:2,marginBottom:3,width:"100%"}}>
+        marginRight:2,marginBottom:3,width:"100%", overflow:"auto"}}>
 
         <Typography sx={{backgroundColor: "#ffc806",boxShadow: `inset 0 0 6px rgba(0, 0, 0, 0.3)`,color:"black",fontSize:20,borderRadius:1,marginBottom:1, paddingLeft:"6%"}}>Leave A Comment</Typography>
 

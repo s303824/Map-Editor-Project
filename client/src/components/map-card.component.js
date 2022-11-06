@@ -81,7 +81,7 @@ const MapCard = ({mapInfo}) => {
                 <DownloadForOfflineTwoToneIcon sx={{fill:"#fda005"}}/>
                 <Typography sx={{color: 'white',fontSize:15,marginLeft:1}}>{downloads} Downloads </Typography>
             </IconButton> 
-            <Button sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginLeft:10}} onClick={handleViewMap}>
+            <Button sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginLeft:15}} onClick={handleViewMap}>
                 VIEW
             </Button> 
             </Box> :  <Box>
