@@ -291,14 +291,14 @@ function AccountSettings() {
                     <TextField
                     required
                     id="outlined-required"
-                    label="Required"
+                    
                     defaultValue=""
                     variant="filled"
                     helperText="Enter a unique username"
                     color="info"
                     sx={{color: 'white'}}
                     className = "text-field"
-                    value={auth.user.username}
+                    
                     onChange= {(event) => updateField(event, "username")}
                     
                     
@@ -330,7 +330,7 @@ function AccountSettings() {
                     sx={{color: 'white'}}
                     className = "text-field"
                     onChange={(event) => updateField(event, "firstName")}
-                    value = {auth.user.first_name}
+                    
                     
                     />
                     </span>
@@ -345,7 +345,7 @@ function AccountSettings() {
                     sx={{color: 'white'}}
                     className = "text-field"
                     onChange={(event) => updateField(event, "lastName")}
-                    value = {auth.user.last_name}
+                    
                     
 
                     />
@@ -376,7 +376,7 @@ function AccountSettings() {
                     sx={{color: 'white'}}
                     className = "text-field"
                     onChange={(event) => updateField(event, "email")}
-                    value = {auth.user.email}
+                    
                     
 
                 />
