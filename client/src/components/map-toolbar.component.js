@@ -17,6 +17,11 @@ import CancelTwoToneIcon from '@mui/icons-material/CancelTwoTone';
 import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
 
 const MapToolBar=() =>{
+    const navigate = useNavigate();
+    const handleGoBack = () => {
+        navigate("/projects", {})
+    }
+
     return (
         <Box className='top-navbar' sx={{ display: 'flex' ,flexGrow: 1,}} >
            <AppBar position="static" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1}}>
@@ -63,7 +68,7 @@ const MapToolBar=() =>{
                 <SettingsTwoToneIcon sx={{fill:"#C0C0C0" ,fontSize:40}}/>
                 </IconButton>
 
-                <IconButton aria-label="close">
+                <IconButton aria-label="close" onClick={handleGoBack}>
                 <CancelTwoToneIcon sx={{fill:"#C0C0C0" ,fontSize:40}}/>
                 </IconButton>
                 

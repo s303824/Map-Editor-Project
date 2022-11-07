@@ -15,14 +15,32 @@ import userImage from '../assets/userimage.png';
 import ThumbUpTwoToneIcon from '@mui/icons-material/ThumbUpTwoTone';
 import ThumbDownTwoToneIcon from '@mui/icons-material/ThumbDownTwoTone';
 import DownloadForOfflineTwoToneIcon from '@mui/icons-material/DownloadForOfflineTwoTone';
-import mapImage from '../assets/map-card.jpg'
 import UserCard from './user-card.component';
+
+import { useNavigate } from 'react-router-dom';
 
 
 const MapCard = ({mapInfo}) => {
 
- const {name,description,likes,dislikes,downloads,userName,email,editActive,published,imageUrl} = mapInfo;
+    const navigate = useNavigate();
+
+    //function for handling when a user clicks "view" on a mapcard
+    const handleViewMap = () => {
+        navigate("/view", {})
+    }
+
+    const handleEditMap = () => {
+        navigate("/editor", {})
+    }
+
+ const {name,description,likes,dislikes,downloads,userName,email,userImage,editActive,published,imageUrl} = mapInfo;
  let width;
+
+ let tags = ""
+ description.forEach(tag => tags += tag + " ")
+
+    
+
  {published ? width='80%': width='60%'}
 
   return (
@@ -32,7 +50,7 @@ const MapCard = ({mapInfo}) => {
                 component="img"
                 sx={{ height: 140 }}
                  alt="map Image"
-                src={mapImage}
+                src={imageUrl}
             />
     
      <Box sx={{ display: 'flex',width:'100%',flexDirection: 'column'}}>
@@ -42,10 +60,10 @@ const MapCard = ({mapInfo}) => {
                 <Typography variant="h5" color="white" sx={{marginTop :3}}>
                     {name}
                 </Typography>
-                <UserCard key={mapInfo.id} userName={userName} email={email} />
+                <UserCard key={mapInfo.id} userName={mapInfo.userName} email={mapInfo.email} userImage={mapInfo.userImage} />
             </Box>
             <Typography color="white" sx={{marginTop :1}}>
-                  {description}
+                  {tags}
             </Typography>
             
             <CardActions display="flex" sx={{justifyContent: 'space-between',width:'100%'}}>
@@ -63,11 +81,11 @@ const MapCard = ({mapInfo}) => {
                 <DownloadForOfflineTwoToneIcon sx={{fill:"#fda005"}}/>
                 <Typography sx={{color: 'white',fontSize:15,marginLeft:1}}>{downloads} Downloads </Typography>
             </IconButton> 
-            <Button sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginLeft:10}}>
+            <Button sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginLeft:15}} onClick={handleViewMap}>
                 VIEW
             </Button> 
             </Box> :  <Box>
-            <Button disabled={editActive} sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginTop:2}}>
+            <Button disabled={editActive} sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginTop:2}} onClick={handleEditMap}>
                 EDIT
             </Button>
             <Button disabled={editActive} sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginLeft:2 ,marginTop:2}}>

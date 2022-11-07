@@ -27,11 +27,43 @@ function Banner() {
     const navigate = useNavigate();
     const {auth} = useContext(AuthContext);
 
-    const userInfo = { //sample data 
-      "id":1,
-      "userName":"user4",
-      "email":"user4@gmail.com"
+    const handleLogin = () => {
+      navigate("/login", {})
+    }
+    const handleSignUp = () => {
+      navigate("/signup", {})
+    }
+
+    const handleGoHome = () => {
+      navigate("/", {})
+    }
+
+    const handleSearch = () => {
+      navigate("/explore", {})
+    }
+
+    const handleEnterPress = (event) => {
+      if(event.key == "Enter") {
+        handleSearch();
+      }
+    }
+
+  let userInfo = {
+    "id":1,
+    "userName":"Guest",
+    "email": "",
+    "image": "../assets/guestImage.jpg"
+}
+
+if(auth.loggedIn) {
+  userInfo = {
+    "id":1,
+    "userName":auth.user.username,
+    "email":auth.user.email,
+    "image": auth.user.userImage
+
   }
+}
     
     const Search = styled('div')(({ theme }) => ({
         position: 'relative',
@@ -83,6 +115,7 @@ function Banner() {
                 sx={{ height: 60 }}
                 alt="Logo"
                 src={logo}
+                onClick={handleGoHome}
             />
             <Box  display="flex" flexDirection="row" > 
             <Search >
@@ -92,23 +125,22 @@ function Banner() {
                 <StyledInputBase
                     placeholder="Search…"
                     inputProps={{ 'aria-label': 'search' }}
+                    onKeyDown={handleEnterPress}
                 />
             </Search>
                 <Box display="flex" flexDirection="row" sx={{ justifyContent: 'space-between' }} >
-                    <Button variant="contained" size="small" sx = {{backgroundColor:"white" ,color:"black",borderRadius:'20px'}}>By Name</Button>
-                    <Button variant="outlined" size="small"  sx= {{borderColor:"white",color:"white",borderRadius:'20px',marginX: 2}}>By Category</Button>
+                    <Button variant="contained" size="small" sx = {{backgroundColor:"white" ,color:"black",borderRadius:'20px'}} onClick={handleSearch}>By Name</Button>
+                    <Button variant="outlined" size="small"  sx= {{borderColor:"white",color:"white",borderRadius:'20px',marginX: 2}} onClick={handleSearch}>By Category</Button>
                 </Box>
             </Box>
             
-            <Box display="flex" flexDirection="row" >
+            {auth.loggedIn && <Box display="flex" flexDirection="row" >
                 <UserCard userName ={userInfo.userName} email = {userInfo.email}/>
-                <IconButton 
-                    size="large"
-                    aria-label="account of current user"
-                > 
-                <ArrowDropDownCircleIcon sx={{fill:'#ffbf06',boxShadow: 1}}/>
-                </IconButton>
-            </Box>
+            </Box>}
+            {!auth.loggedIn && <Box display="flex" flexDirection="row" sx={{ justifyContent: 'space-between' }} >
+                    <Button variant="outlined" size="small"  sx= {{borderColor:"white",color:"white",borderRadius:'20px',marginX: 2}} onClick={handleLogin}>Sign In</Button>
+                    <Button variant="contained" size="small" className='button-color' sx = {{borderRadius:'20px'}} onClick={handleSignUp}>Sign Up</Button>
+            </Box>}
             </Toolbar>
            </AppBar>
            <Sidebar/>

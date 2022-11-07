@@ -11,17 +11,15 @@ import candles from '../assets/map-card.jpg';
 
 
 const Tile =(tileInfo)=>{
-  const {id,imageSize,img,tileWidth} = tileInfo;
-  
-  const row = 10;
-  const column = 10;
-  const left = -(id % column)* tileWidth;
-  const top = -(Math.floor(id / row)) * tileWidth;
+  const {id,row,column,img,tileWidth,tileHeight} = tileInfo;
 
+  const left = -((id % column)* tileWidth);
+  const top = -((Math.floor(id / row)) * tileHeight);
+  
     return(
         <Box 
       sx={{
-      height:`${tileWidth}px`,
+      height:`${tileHeight}px`,
       width:`${tileWidth}px`,
       backgroundImage: `url(${img})`,
       backgroundPosition: `left ${left}px top ${top}px`,

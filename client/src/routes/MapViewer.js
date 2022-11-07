@@ -13,7 +13,7 @@ import MapCard from '../components/map-card.component';
 import List from '@mui/material/List';
 import mapImage from '../assets/map-card.jpg';
 import CommentSection from '../components/comment-section.component';
-import RightSideBar from '../components/right-sidebar.component';
+import RightSidebar from "../components/right-sidebar.component"
 
 const MapViewer=() =>{ 
     const { store } = useContext(GlobalStoreContext);
@@ -32,7 +32,11 @@ const MapViewer=() =>{
             />
         <CommentSection/>
         </Box>
+<<<<<<< HEAD
         <RightSideBar/>
+=======
+        <RightSidebar/>
+>>>>>>> master
       </Box>
     );
   }
