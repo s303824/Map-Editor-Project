@@ -17,17 +17,19 @@ import ThumbUpTwoToneIcon from '@mui/icons-material/ThumbUpTwoTone';
 import ThumbDownTwoToneIcon from '@mui/icons-material/ThumbDownTwoTone';
 import DownloadForOfflineTwoToneIcon from '@mui/icons-material/DownloadForOfflineTwoTone';
 import UserCard from './user-card.component';
-
+import GlobalStoreContext from '../store';
 import { useNavigate } from 'react-router-dom';
 
 
 const MapCard = ({mapInfo}) => {
     const {auth} = useContext(AuthContext)
+    const {store} = useContext(GlobalStoreContext)
 
     const navigate = useNavigate();
 
     //function for handling when a user clicks "view" on a mapcard
     const handleViewMap = () => {
+        store.loadMapViewer(mapInfo.map_id, mapInfo)
         navigate("/view", {})
     }
 

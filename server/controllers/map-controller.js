@@ -42,11 +42,18 @@ registerMap = async (req, res) => {
         });
 
         //creating mapinfo
-        const {name, ownerName, thumbnailURL, comments, likes, dislikes, downloads} = mapinfo
+        const {ownerName} = mapinfo
+        const description = " "
         const creator = [ownerName]
         const published = "false"
         const map_id = _id ? _id : newMap._id
+        const thumbnailURL = "blah"
+        const name = "Untitled Map"
         const editActive = false;
+        const downloads = 0;
+        const likes = 0;
+        const dislikes = 0;
+        const comments = [];
 
         const newMapInfo = new MapInfo({
             name,
@@ -56,6 +63,7 @@ registerMap = async (req, res) => {
             likes,
             dislikes,
             downloads,
+            description,
             map_id,
             published,
             editActive
@@ -181,7 +189,7 @@ updateMap = async (req, res) => {
 
 getMap = async (req, res) => {
     try{
-        const {  _id } = req.body;
+        const   _id  = req.query._id;
         if(!_id){
             return res
                 .status(400)
@@ -192,13 +200,13 @@ getMap = async (req, res) => {
                 console.log(err)
                 return res.status(404).json({
                     message: "Map not found!"
-                }).send();
+                })
             }
             else{
                 return res.status(200).json({
                     success:true,
-                   docs 
-                }).send();
+                    map: docs 
+                })
                 
             }
         })

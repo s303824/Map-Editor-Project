@@ -16,7 +16,7 @@ export const changePassword = (payload) => api.put(`/changePassword/`, payload)
 export const registerMap = (payload) => api.post(`/registerMap/`, payload)
 export const deleteMap = () => api.delete(`/deleteMap/`)
 export const updateMap = (payload) => api.put(`/updateMap/`, payload)
-export const getMap = () => api.get(`/getMap/`)
+export const getMap = (payload) => api.get(`/getMap/`, {params: {_id: payload}})
 
 export const registerMapInfo = (payload) => api.post(`/registerMapInfo/`, payload)
 export const deleteMapInfo = () => api.delete(`/deleteMapInfo/`)

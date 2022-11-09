@@ -19,7 +19,8 @@ export const GlobalStoreActionType = {
     SET_THE_CAN_REDO: "SET_THE_CAN_REDO",
     SET_THE_SEARCH_CRITERIA: "SET_THE_SEARCH_CRITERIA",
     SET_THE_OPEN_MODAL: "SET_THE_OPEN_MODAL",
-    SET_THE_MAP_MARKED_FOR_DELETION: "SET_THE_MAP_MARKED_FOR_DELETION"
+    SET_THE_MAP_MARKED_FOR_DELETION: "SET_THE_MAP_MARKED_FOR_DELETION",
+    UPDATE_MAP_INFO: "UPDATE_MAP_INFO"
 }
 
 /*
@@ -109,8 +110,8 @@ function GlobalStoreContextProvider(props) {
                 return setStore({
                     publishedMaps: store.publishedMaps,              
                     userMaps: store.userMaps,                      
-                    currentMap: store.currentMap,                    
-                    currentPublishedMap: store.currentPublishedMap,     
+                    currentMap: payload.currentMap,                    
+                    currentPublishedMap: payload.mapInfo,     
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
@@ -277,6 +278,23 @@ function GlobalStoreContextProvider(props) {
                     openModal: store.openModal,       
                     mapMarkedForDeletion: payload.mapMarkedForDeletion
                 })
+            case GlobalStoreActionType. UPDATE_MAP_INFO:
+                return setStore({
+                    publishedMaps: store.publishedMaps,              
+                    userMaps: store.userMaps,                      
+                    currentMap: store.currentMap,                    
+                    currentPublishedMap: payload.mapInfo,     
+                    currentLayer: store.currentLayer,       
+                    currentTileSet: store.currentTileSet,              
+                    currentTile: store.currentTile,
+                    tilesetBeingEdited: store.tilesetBeingEdited,        
+                    selectedMapEditTool: store.selectedMapEditTool,   
+                    canUndo: store.canUndo,                  
+                    canRedo: store.canRedo,                  
+                    searchCriteria: store.searchCriteria,            
+                    openModal: store.openModal,       
+                    mapMarkedForDeletion: payload.mapMarkedForDeletion
+                })
             default:
                 return store;
         }
@@ -303,7 +321,6 @@ store.loadPublishedMaps = async function ()  {
 //Loads all the user maps so we can display them 
 store.loadUserMaps = async function (username) {
     let response = await api.getAllMapInfoByUser(username)
-    console.log(response)
     if (response.status === 200) {
         storeReducer({
             type: GlobalStoreActionType.LOAD_USER_MAPS,
@@ -502,20 +519,34 @@ store.loadMapEditor= async function (mapId) {
 }
 
 //Opens the map viewer and sets the currentPublishedMap 
-store.loadMapViewer= async function (mapId) {
-    const response = api.getMap(mapId);
+store.loadMapViewer= async function (mapId, mapInfo) {
+    const response = await api.getMap(mapId);
     if (response.status === 200) {
         storeReducer({
-            type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
+            type: GlobalStoreActionType.SET_THE_CURRENT_PUBLISHED_MAP,
             payload: {
-                currentMap: response.body 
+                currentMap: response.data.map,
+                mapInfo: mapInfo, 
             }
         });
     }
 }
 
 //Adds a new comment to the map 
-store.addComment= async function (mapId,comment) {}
+store.addComment= async function (mapInfo,comment) {
+    mapInfo.comments.push(comment)
+    console.log(mapInfo)
+
+    const response = await api.updateMapInfo(mapInfo);
+    if(response.status === 200) {
+        storeReducer({
+            type: GlobalStoreActionType.UPDATE_MAP_INFO,
+            payload: {
+                mapInfo: response.data.mapInfo
+            }
+        })
+    }
+}
 
 //Removes the editing permission(for currentMap) from the selected user
 store.removeTeamMember = async function (userId) {}

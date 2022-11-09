@@ -109,7 +109,6 @@ login = async(req, res) => {
 }
 
 getLoggedIn = async (req, res) => {
-    console.log(req.userId)
     auth.verify(req, res, async function () {
         const loggedInUser = await User.findOne({ _id: req.userId });
         if(!loggedInUser) {

@@ -149,12 +149,11 @@ updateMapInfo = async (req, res) => {
             return res.status(500).send();
         }
         else{
-            console.log("Updated MapInfo: ", docs);
             return res
                 .status(200)
                 .json({ 
                     Message: "Map info Updated.",
-                    mapInfo: docs 
+                    mapInfo: selectedMapInfo 
                 
                 });
         }
