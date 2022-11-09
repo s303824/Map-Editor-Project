@@ -50,9 +50,6 @@ function GlobalStoreContextProvider(props) {
 
     const storeReducer = (action) => {
         const {type, payload} = action;
-        if(!GlobalStoreActionType.has(type)){
-            throw new Error("Incorrect Type. Choose one of the existing action types.");
-        }
         switch(type) {
             case GlobalStoreActionType.LOAD_PUBLISHED_MAPS:
                 return setStore({
@@ -304,8 +301,9 @@ store.loadPublishedMaps = async function ()  {
 }
 
 //Loads all the user maps so we can display them 
-store.loadUserMaps = async function () {
-    let response = await api.getAllMapInfoByUser(auth.user);
+store.loadUserMaps = async function (username) {
+    let response = await api.getAllMapInfoByUser(username)
+    console.log(response)
     if (response.status === 200) {
         storeReducer({
             type: GlobalStoreActionType.LOAD_USER_MAPS,

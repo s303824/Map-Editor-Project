@@ -262,6 +262,7 @@ deleteUser = async(req, res) => {
     }
 }
 
+
 module.exports = {
     getLoggedIn,
     registerUser,

@@ -44,7 +44,7 @@ registerMap = async (req, res) => {
         //creating mapinfo
         const {name, ownerName, thumbnailURL, comments, likes, dislikes, downloads} = mapinfo
         const creator = [ownerName]
-        const published = "not-published"
+        const published = "false"
         const map_id = _id ? _id : newMap._id
         const editActive = false;
 
@@ -60,7 +60,8 @@ registerMap = async (req, res) => {
             published,
             editActive
         });
-        
+
+        newMapInfo.thumbnailURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYYS6BCkllOoE3CBQP8Uh1GRp13pFm4qImPg&usqp=CAU"
         newMap.mapinfo = newMapInfo._id;
 
         //adding map to user projects

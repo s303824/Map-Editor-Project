@@ -10,7 +10,8 @@ import CardActions from '@mui/material/CardActions';
 import Avatar from '@mui/material/Avatar';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-
+import AuthContext from '../auth';
+import { useContext } from 'react';
 import userImage from '../assets/userimage.png';
 import ThumbUpTwoToneIcon from '@mui/icons-material/ThumbUpTwoTone';
 import ThumbDownTwoToneIcon from '@mui/icons-material/ThumbDownTwoTone';
@@ -21,6 +22,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 const MapCard = ({mapInfo}) => {
+    const {auth} = useContext(AuthContext)
 
     const navigate = useNavigate();
 
@@ -33,15 +35,13 @@ const MapCard = ({mapInfo}) => {
         navigate("/editor", {})
     }
 
- const {name,description,likes,dislikes,downloads,userName,email,userImage,editActive,published,imageUrl} = mapInfo;
+ const {name,description,likes,dislikes,downloads,editActive,published,thumbnailURL, creator, userImage} = mapInfo;
  let width;
 
  let tags = ""
  description.forEach(tag => tags += tag + " ")
 
-    
-
- {published ? width='80%': width='60%'}
+ {published!="false" ? width='80%': width='60%'}
 
   return (
     <Box sx={{ display:'flex' ,marginTop:"2%",width:{width},backgroundImage :'linear-gradient(to bottom, #505051, #303031)',boxShadow: '0 1px 2px 2px rgba(68,68,69,255)',borderRadius:"15px"}}>
@@ -50,7 +50,7 @@ const MapCard = ({mapInfo}) => {
                 component="img"
                 sx={{ height: 140 }}
                  alt="map Image"
-                src={imageUrl}
+                src={thumbnailURL}
             />
     
      <Box sx={{ display: 'flex',width:'100%',flexDirection: 'column'}}>
@@ -60,14 +60,14 @@ const MapCard = ({mapInfo}) => {
                 <Typography variant="h5" color="white" sx={{marginTop :3}}>
                     {name}
                 </Typography>
-                <UserCard key={mapInfo.id} userName={mapInfo.userName} email={mapInfo.email} userImage={mapInfo.userImage} />
+                <UserCard key={mapInfo.id} userName={creator[0]} userImage={userImage}/>
             </Box>
             <Typography color="white" sx={{marginTop :1}}>
                   {tags}
             </Typography>
             
             <CardActions display="flex" sx={{justifyContent: 'space-between',width:'100%'}}>
-            { published ? 
+            { published != "false" ? 
             <Box>
             <IconButton aria-label="like">
                 <ThumbUpTwoToneIcon sx={{fill:"#911510"}}/>

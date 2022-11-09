@@ -37,6 +37,9 @@ registerMapInfo = async (req, res) => {
             editActive,
             description
         });
+        if(thumbnailURL == "") {
+            newMapInfo.thumbnailURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYYS6BCkllOoE3CBQP8Uh1GRp13pFm4qImPg&usqp=CAU"
+        }
 
         if(_id) {
             newMapInfo._id = _id
@@ -198,16 +201,15 @@ getMapInfo = async (req, res) => {
 
 getAllMapInfoByUser = async (req, res) => {
     try{
-        const {  username } = req.body;
-        if(!username){
+        const {  username } = req.query.username;
+        if(!req.query){
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
-        }
+        }  
 
         //find user so we can find their maps
-        User.findOne({username: username}, function (err, user) {
-            console.log(user.myprojects)
+        User.findOne({username: req.query.username}, function (err, user) {
             MapInfo.find(({_id : user.myprojects}), function (err, docs) {
                 if (err){
                     console.log(err)

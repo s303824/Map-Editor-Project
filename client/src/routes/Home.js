@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 import MapCard from '../components/map-card.component';
 import List from '@mui/material/List';
 import mapImage from '../assets/map-card.jpg';
+import mockUserImage from '../assets/guestImage.jpg'
 
 
 function Home() {
@@ -26,11 +27,12 @@ function Home() {
         "likes":50,
         "dislikes":10,
         "downloads":40,
-        "userName":"user2",
+        "creator":["user2"],
         "email":"user2@gmail.com",
         "editActive":null,
         "published":"2/3/2021",
-        "imageUrl": mapImage
+        "thumbnailURL": mapImage,
+        "userImage":mockUserImage
       },
       {
         "id": 3,
@@ -39,11 +41,12 @@ function Home() {
         "likes":10,
         "dislikes":100,
         "downloads":10,
-        "userName":"user3",
+        "creator":["user2"],
         "email":"user3@gmail.com",
         "editActive":null,
         "published":"2/3/2021",
-        "imageUrl": mapImage
+        "thumbnailURL": mapImage,
+        "userImage":mockUserImage
       },
       {
         "id": 3,
@@ -52,11 +55,12 @@ function Home() {
         "likes":10,
         "dislikes":100,
         "downloads":10,
-        "userName":"user3",
+        "creator":["user2"],
         "email":"user3@gmail.com",
         "editActive":null,
         "published":"2/3/2021",
-        "imageUrl": mapImage
+        "thumbnailURL": mapImage,
+        "userImage":mockUserImage
       }
     ];
 

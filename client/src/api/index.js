@@ -22,7 +22,7 @@ export const registerMapInfo = (payload) => api.post(`/registerMapInfo/`, payloa
 export const deleteMapInfo = () => api.delete(`/deleteMapInfo/`)
 export const updateMapInfo = (payload) => api.put(`/updateMapInfo/`, payload)
 export const getMapInfo = () => api.get(`/getMapInfo/`)
-export const getAllMapInfoByUser = (payload) => api.get(`/getAllMapInfoByUser/`, payload)
+export const getAllMapInfoByUser = (payload) => api.get(`/getAllMapInfoByUser/`, {params: {username: payload}})
 export const getAllPublishedMapInfo = () => api.get(`/getAllPublishedMapInfo/`)
 export const addCreator = () => api.get(`/addCreator/`)
 export const removeCreator = () => api.get(`/removeCreator/`)
@@ -57,7 +57,7 @@ const apis= {
     registerTileSet,
     deleteTileSet,
     updateTileSet,
-    getTileSet
+    getTileSet,
 }
 
 export default apis;
