@@ -512,13 +512,34 @@ store.loadMapEditor= async function (mapId) {
 
 //Opens the map viewer and sets the currentPublishedMap 
 store.loadMapViewer= async function (mapId, mapInfo) {
-    const response = await api.getMap(mapId);
-    if (response.status === 200) {
+    try {
+
+        const response = await api.getMap(mapId);
+        console.log("sfdsd")
+        if (response.status === 200) {
+            storeReducer({
+                type: GlobalStoreActionType.SET_THE_CURRENT_PUBLISHED_MAP,
+                payload: {
+                    currentMap: response.data.map,
+                    mapInfo: mapInfo, 
+                }
+            });
+        }
+        else {
+            storeReducer({
+                type: GlobalStoreActionType.SET_THE_CURRENT_PUBLISHED_MAP,
+                payload: {
+                    currentMap: [],
+                    mapInfo: [], 
+                }
+            });
+        }
+    } catch (err) {
         storeReducer({
             type: GlobalStoreActionType.SET_THE_CURRENT_PUBLISHED_MAP,
             payload: {
-                currentMap: response.data.map,
-                mapInfo: mapInfo, 
+                currentMap: [],
+                mapInfo: [], 
             }
         });
     }
