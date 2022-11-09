@@ -358,30 +358,28 @@ store.searchKeyword =  function (keyword) {
 }
 
 //Updates the number of likes for the published map
-store.updateMapLike= async function (mapId) {
-    let map = api.getMapInfo(mapId)
-    map.likes = map.likes + 1
-    const response = api.updateMapInfo(map);
+store.updateMapLike= async function (mapInfo, amount) {
+    mapInfo.likes = mapInfo.likes + amount;
+    const response = await api.updateMapInfo(mapInfo);
     if (response.status === 200) {
         storeReducer({
-            type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
+            type: GlobalStoreActionType.UPDATE_MAP_INFO,
             payload: {
-                
+                mapInfo: response.data.mapInfo
             }
         });
     }
 }
 
 //Updates the number of dislikes for the published map
-store.updateMapDisLike= async function (mapId) {
-    let map = api.getMapInfo(mapId)
-    map.likes = map.dislikes - 1
-    const response = api.updateMapInfo(map);
+store.updateMapDislike= async function (mapInfo, amount) {
+    mapInfo.dislikes = mapInfo.dislikes + amount;
+    const response = await api.updateMapInfo(mapInfo);
     if (response.status === 200) {
         storeReducer({
-            type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
+            type: GlobalStoreActionType.UPDATE_MAP_INFO,
             payload: {
-                
+                mapInfo: response.data.mapInfo
             }
         });
     }
@@ -501,12 +499,6 @@ store.addDeleteTileTransaction = function (layer,index) {}
 //Add paint a layer transaction to the transaction store
 store.addPaintLayerTransaction = function (layer,tile) {} 
 
-//Updates the number of likes for the published map
-store.updateMapLike= async function (mapId) {}
-
-//Updates the number of dislikes for the published map
-store.updateMapDisLike= async function (mapId) {}
-
 //Updates the number of downloads for the published map and returns the associated json file to user
 store.downloadMap= async function (mapId) {}
 
@@ -535,8 +527,6 @@ store.loadMapViewer= async function (mapId, mapInfo) {
 //Adds a new comment to the map 
 store.addComment= async function (mapInfo,comment) {
     mapInfo.comments.push(comment)
-    console.log(mapInfo)
-
     const response = await api.updateMapInfo(mapInfo);
     if(response.status === 200) {
         storeReducer({

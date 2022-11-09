@@ -229,6 +229,32 @@ function AuthContextProvider(props) {
         
     }
 
+    auth.updateUser = async function(userData) {
+        try {
+            const response = await api.updateUser(userData);
+            if (response.status === 200) {
+                authReducer({
+                    type: AuthActionType.SET_LOGGED_IN,
+                    payload: {
+                        loggedIn: response.data.success,
+                        user: response.data.user,
+                        successfulLogin: true
+                    }
+                });
+            }
+        } catch (error) {
+            authReducer({
+                type: AuthActionType.SET_LOGGED_IN,
+                payload: {
+                    user: null,
+                    loggedIn: false,
+                    error: error.response.data.errorMessage,
+                    successfulLogin: false
+                }
+            });
+        }
+    }
+
     auth.setNewPassword = async function(userData) {     // for updating user Password
         
         try {

@@ -50,12 +50,13 @@ registerUser = async (req, res) => {
         const passwordHash = await bcrypt.hash(password, salt);
         
         const liked_projects = []
+        const disliked_projects = []
         const myprojects = []
         const profile_picture = ""
         const publishedMaps = []
 
         const newUser = new User({
-            username, email, passwordHash, first_name, last_name, liked_projects, myprojects, profile_picture, publishedMaps
+            username, email, passwordHash, first_name, last_name, liked_projects, disliked_projects, myprojects, profile_picture, publishedMaps
         });
 
         if(_id) {
@@ -140,7 +141,7 @@ logout = async(req, res) => {
 
 updateUser = async(req, res) => {
     
-    const { email, username, first_name, last_name, id, myprojects, liked_projects, profile_picture, publishedMaps } = req.body;
+    const { email, username, first_name, last_name, _id, myprojects, liked_projects, disliked_projects, profile_picture, publishedMaps } = req.body;
 
     if (!req.body) {
         return res.status(400).json({
@@ -149,7 +150,7 @@ updateUser = async(req, res) => {
         })
     }
 
-    const loggedInUser = await User.findOne({ _id: id });
+    const loggedInUser = await User.findOne({ _id: _id });
     const body = req.body
 
     loggedInUser.first_name = first_name;
@@ -159,6 +160,8 @@ updateUser = async(req, res) => {
 
     loggedInUser.myProjects = myprojects
     loggedInUser.liked_projects = liked_projects
+    loggedInUser.disliked_projects = disliked_projects
+    
     loggedInUser.profile_picture = profile_picture
     loggedInUser.publishedMaps = publishedMaps
 
