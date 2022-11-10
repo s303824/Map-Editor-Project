@@ -40,7 +40,7 @@ const HomeBanner =() =>{
             />
         <Box  m={3} flexDirection="column" sx={{marginX: 7}} >
             <Typography variant="h3"  color="white"  sx= {{marginY: 3 ,fontWeight:'bold'}}> TILESLATE</Typography>
-            <Typography color="white" > FIRST WEB APP IN THE WORLD IN WHICH <br/>GAME DEVELOPERS AND ARTISTS COLLECTIVELY  <br/>BRING THEIR VISIONS TO LIFE.</Typography>
+            <Typography color="white" > FIRST WEB APP IN THE WORLD<br/>WHERE GAME DEVELOPERS<br/>AND ARTISTS COLLECTIVELY<br/>BRING THEIR VISIONS TO LIFE.</Typography>
             <Button variant="outlined" size="large"  sx= {{borderColor:"white",color:"white",borderRadius:'10px',marginY: 3,fontSize:"17px"}} onClick={handleSignUp}>JOIN OUR COMMUNITY </Button>
         </Box>
         </Box>

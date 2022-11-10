@@ -67,7 +67,7 @@ function Home() {
     return (
       <Box className="home-container" sx={{marginLeft:'260px' }}>
         <HomeBanner/>
-        <Typography variant="h4" sx={{color:"white",marginTop:'3%',marginBottom:'2%'}}>Most Popular Maps</Typography>
+        <Typography variant="h4" sx={{color:"fffcfc",font:'Bebas Neue',marginTop:'3%',marginBottom:'2%'}}>Most Popular Maps</Typography>
 
         <Box 
           className="mapcard-container" 

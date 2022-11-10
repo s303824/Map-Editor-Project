@@ -189,7 +189,7 @@ updateMap = async (req, res) => {
 
 getMap = async (req, res) => {
     try{
-        const   _id  = req.query._id;
+        const {_id}  = req.data;
         if(!_id){
             return res
                 .status(400)

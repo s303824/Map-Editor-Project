@@ -58,7 +58,7 @@ function LikedMaps() {
     return (
       <Box className="home-container" sx={{marginLeft:'260px' }}>
 
-        <Typography variant="h4" sx={{color:"white",marginTop:'1%',marginBottom:'2%'}}>Maps Liked By You</Typography>
+        <Typography variant="h4" sx={{color:"fffcfc",marginTop:'1%',marginBottom:'2%', font: 'Bebas Neue'}}>Maps Liked By You</Typography>
 
         <Box 
           className="mapcard-container" 
