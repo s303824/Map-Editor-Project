@@ -54,7 +54,7 @@ const MyProjects=() =>{
   
     return (
       <Box className="home-container" sx={{marginLeft:'260px' }}>
-        <Typography variant="h4" sx={{borderRadius:'10px',justifyContent: 'center',maxWidth:"90%",color:"fffcfc",marginTop:'1%',marginBottom:'2%',padding:'2%',font: 'Bebas Neue'}}>My Projects</Typography>
+        <Typography variant="h4" sx={{borderRadius:'10px',justifyContent: 'center',maxWidth:"90%",color:"white",marginTop:'1%',marginBottom:'2%',padding:'2%',font: 'Bebas Neue'}}>My Projects</Typography>
         <Box 
           className="mapcard-container" 
           sx={{ 
