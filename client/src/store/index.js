@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 import { useHistory, useNavigate } from 'react-router-dom'
 import api from '../api'
 import AuthContext from '../auth';
@@ -33,7 +33,7 @@ function GlobalStoreContextProvider(props) {
     const [store, setStore] = useState({
         publishedMaps: [ ],              //holds all the published maps
         userMaps: [ ],                      //holds all the maps created by the user
-        currentMap: [ ],                    //holds the current map opened for editing
+        currentMap: {},                    //holds the current map opened for editing
         currentPublishedMap:[ ],     //holds the current published map opened for viewing
         currentLayer: [ ],                 //holds the the layer that is now being modified in the map editor.       
         currentTileSet: [ ],               //holds the the tileset that is now being displayed in the map editor.
@@ -56,7 +56,7 @@ function GlobalStoreContextProvider(props) {
                 return setStore({
                     publishedMaps: payload,              
                     userMaps: [ ],                      
-                    currentMap: [ ],                    
+                    currentMap: {},                    
                     currentPublishedMap:[ ],     
                     currentLayer: [ ],       
                     currentTileSet: [ ],              
@@ -400,6 +400,35 @@ store.downloadMap= async function (mapId) {
     }
 }
 
+// Creates a map
+store.setNewMap = async function(mapData){
+    let response;
+    
+    try {
+        response = await api.registerMap(mapData);
+        if (response.status === 200) {
+            storeReducer({
+            type: GlobalStoreActionType.LOAD_USER_MAPS,
+                payload: {
+                userMaps: [...this.userMaps, response.data.map],
+                currentMap: response.data.map
+
+            }});
+        
+            history("/editor", [])
+        }
+    }
+    catch(error){
+    storeReducer({
+        type: GlobalStoreActionType.REGISTER_USER,
+        payload: {
+            currentMap: {}
+        }
+    });
+    }
+}
+
+
 //Deletes the selected map 
 store.deleteMap= async function (mapId) {
     const response = api.deleteMap(mapId);
@@ -506,8 +535,36 @@ store.downloadMap= async function (mapId) {}
 store.setopenModal =  function (modalType) {} 
 
 //Opens the map editor and sets the currentMap
-store.loadMapEditor= async function (mapId) {
-
+store.loadMapEditor= async function (mapId, mapInfo) {
+    try {
+        const response = await api.getMap(mapId);
+        if (response.status === 200) {
+            storeReducer({
+                type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
+                payload: {
+                    currentMap: response.data.map,
+                    // mapInfo: mapInfo, 
+                }
+            });
+        }
+        else {
+            storeReducer({
+                type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
+                payload: {
+                    currentMap: {},
+                    mapInfo: {}, 
+                }
+            });
+        }
+    } catch (err) {
+        storeReducer({
+            type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
+            payload: {
+                currentMap: {},
+                mapInfo: {}, 
+            }
+        });
+    }
 }
 
 //Opens the map viewer and sets the currentPublishedMap 
@@ -529,8 +586,8 @@ store.loadMapViewer= async function (mapId, mapInfo) {
             storeReducer({
                 type: GlobalStoreActionType.SET_THE_CURRENT_PUBLISHED_MAP,
                 payload: {
-                    currentMap: [],
-                    mapInfo: [], 
+                    currentMap: {},
+                    mapInfo: {}, 
                 }
             });
         }
@@ -538,8 +595,8 @@ store.loadMapViewer= async function (mapId, mapInfo) {
         storeReducer({
             type: GlobalStoreActionType.SET_THE_CURRENT_PUBLISHED_MAP,
             payload: {
-                currentMap: [],
-                mapInfo: [], 
+                currentMap: {},
+                mapInfo: {}, 
             }
         });
     }

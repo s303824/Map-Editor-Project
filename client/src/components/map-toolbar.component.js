@@ -15,15 +15,110 @@ import FormatColorFillTwoToneIcon from '@mui/icons-material/FormatColorFillTwoTo
 import AutoFixNormalSharpIcon from '@mui/icons-material/AutoFixNormalSharp';
 import CancelTwoToneIcon from '@mui/icons-material/CancelTwoTone';
 import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
+import { GlobalStoreContext } from '../store'
+import * as React from 'react';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
+import Grow from '@mui/material/Grow';
+import Paper from '@mui/material/Paper';
+import Popper from '@mui/material/Popper';
+import MenuItem from '@mui/material/MenuItem';
+import MenuList from '@mui/material/MenuList';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
+
+
 
 const MapToolBar=() =>{
+    const { store } = useContext(GlobalStoreContext);
+    const {auth} = useContext(AuthContext);
+
     const navigate = useNavigate();
     const handleGoBack = () => {
         navigate("/projects", {})
     }
 
+    const [open, setOpen] = React.useState(false);    
+    const [dialogopen, setDialogOpen] = React.useState(false);
+
+    const anchorRef = React.useRef(null);
+
+    const handleClickOpen = () => {
+      setDialogOpen(true);
+    };
+  
+    const handleDialogClose = () => {
+      setDialogOpen(false);
+    };
+  
+
+    const handleToggle = () => {
+        setOpen((prevOpen) => !prevOpen);
+    };
+
+    const handleClose = (event) => {
+        if (anchorRef.current && anchorRef.current.contains(event.target)) {
+            return;
+        }
+        setOpen(false);
+    };
+
+    function handleListKeyDown(event) {
+        if (event.key === 'Tab') {
+            event.preventDefault();
+            setOpen(false);
+        } else if (event.key === 'Escape') {
+            setOpen(false);
+        }
+    }
+
+    const handleDeleteMap = () => {
+        console.log(store.userMaps)
+        console.log(auth.user)
+        console.log(store.currentMap)
+        // handleGoBack()
+    }
+
+    // return focus to the button when we transitioned from !open -> open
+    const prevOpen = React.useRef(open);
+    React.useEffect(() => {
+    if (prevOpen.current === true && open === false) {
+        anchorRef.current.focus();
+        }
+        prevOpen.current = open;
+    }, [open]);
+
+    const deleteModalBox = 
+        <Dialog
+            open={dialogopen}
+            onClose={handleDialogClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+        >
+            <DialogTitle id="alert-dialog-title">
+            {"Delete Map?"}
+            </DialogTitle>
+            <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+                Are you sure you want to delete? Map will be permanently Deleted
+            </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+            <Button onClick={handleDialogClose}>No</Button>
+            <Button onClick={handleDeleteMap} autoFocus>
+                Yes
+            </Button>
+            </DialogActions>
+        </Dialog>
+
     return (
+        
         <Box className='top-navbar' sx={{ display: 'flex' ,flexGrow: 1,}} >
+            {deleteModalBox}
+
            <AppBar position="static" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1}}>
               <Toolbar sx={{boxShadow: 1 ,backgroundColor:'#1E1E1E',boxShadow: '0 1px 1px 1px rgba(68,68,69,255)',justifyContent: 'space-between'}}> 
             <Box>
@@ -52,7 +147,7 @@ const MapToolBar=() =>{
                 </IconButton>
             </Box>
             <Box >
-            <Button sx = {{backgroundImage: 'linear-gradient(to right,#a51916,#F83600)',borderRadius:'10px',color:"white",fontWeight:"bold",fontSize:15,marginX:1}}>
+                <Button sx = {{backgroundImage: 'linear-gradient(to right,#a51916,#F83600)',borderRadius:'10px',color:"white",fontWeight:"bold",fontSize:15,marginX:1}}>
                     Export
                 </Button>
 
@@ -64,9 +159,52 @@ const MapToolBar=() =>{
                     Publish
                 </Button>
 
-                <IconButton aria-label="settings">
-                <SettingsTwoToneIcon sx={{fill:"#C0C0C0" ,fontSize:40}}/>
+               
+                <IconButton aria-label="settings"
+                    ref={anchorRef}
+                    id="composition-button"
+                    aria-controls={open ? 'composition-menu' : undefined}
+                    aria-expanded={open ? 'true' : undefined}
+                    aria-haspopup="true"
+                    onClick={handleToggle}
+                >
+                     <SettingsTwoToneIcon sx={{fill:"#C0C0C0" ,fontSize:40}}/> 
                 </IconButton>
+                <Popper
+                    open={open}
+                    anchorEl={anchorRef.current}
+                    role={undefined}
+                    placement="bottom-start"
+                    transition
+                    disablePortal
+                >
+                    {({ TransitionProps, placement }) => (
+                        <Grow
+                            {...TransitionProps}
+                            style={{
+                                transformOrigin:
+                                placement === 'bottom-start' ? 'left top' : 'left bottom',
+                            }}
+                            >
+                            <Paper>
+                                <ClickAwayListener onClickAway={handleClose}>
+                                    <MenuList
+                                        autoFocusItem={open}
+                                        id="composition-menu"
+                                        aria-labelledby="composition-button"
+                                        onKeyDown={handleListKeyDown}
+                                    >
+                                        {/* add settings to the settings menu-bar here  */}
+                                        <MenuItem onClick={handleClose}>andom map settings</MenuItem>    
+                                        <MenuItem onClick={handleClose}>random map settings2</MenuItem>  
+                                        <MenuItem onClick={handleClickOpen}>Delete Map</MenuItem>
+                                    </MenuList>
+                                </ClickAwayListener>
+                            </Paper>
+                        </Grow>
+                    )}
+                </Popper>
+               
 
                 <IconButton aria-label="close" onClick={handleGoBack}>
                 <CancelTwoToneIcon sx={{fill:"#C0C0C0" ,fontSize:40}}/>
