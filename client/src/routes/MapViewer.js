@@ -32,11 +32,7 @@ const MapViewer=() =>{
             />
         <CommentSection/>
         </Box>
-<<<<<<< HEAD
-        <RightSideBar/>
-=======
         <RightSidebar/>
->>>>>>> master
       </Box>
     );
   }

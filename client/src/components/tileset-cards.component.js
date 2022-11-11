@@ -15,13 +15,14 @@ import { useContext } from 'react';
 const Tileset =()=>{
   const {store} = useContext(GlobalStoreContext);
   const tileset = store.currentTileSet;
-  
+
   const column = tileset.imagewidth/tileset.tilewidth;
   const row = tileset.imageheight/tileset.tileheight;
   
     return(
       <Box>
         <ImageList 
+          className='tileset-section'
           cols={column} 
           gap={0} 
           sx={{

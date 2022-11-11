@@ -3,6 +3,7 @@ import { useHistory, useNavigate } from 'react-router-dom'
 import api from '../api'
 import AuthContext from '../auth';
 
+
 // THIS IS THE CONTEXT WE'LL USE TO SHARE OUR STORE
 export const GlobalStoreContext = createContext();
 
@@ -50,9 +51,6 @@ function GlobalStoreContextProvider(props) {
 
     const storeReducer = (action) => {
         const {type, payload} = action;
-        if(!GlobalStoreActionType.has(type)){
-            throw new Error("Incorrect Type. Choose one of the existing action types.");
-        }
         switch(type) {
             case GlobalStoreActionType.LOAD_PUBLISHED_MAPS:
                 return setStore({
@@ -149,7 +147,7 @@ function GlobalStoreContextProvider(props) {
                     currentMap: store.currentMap,                    
                     currentPublishedMap: store.currentPublishedMap,     
                     currentLayer: store.currentLayer,       
-                    currentTileSet: store.currentTileSet,              
+                    currentTileSet: payload.currentTileSet,          
                     currentTile: store.currentTile,
                     tilesetBeingEdited: store.tilesetBeingEdited,        
                     selectedMapEditTool: store.selectedMapEditTool,   
@@ -186,7 +184,7 @@ function GlobalStoreContextProvider(props) {
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
                     tilesetBeingEdited: store.tilesetBeingEdited,        
-                    selectedMapEditTool: store.selectedMapEditTool,   
+                    selectedMapEditTool: payload.selectedMapEditTool,   
                     canUndo: store.canUndo,                  
                     canRedo: store.canRedo,                  
                     searchCriteria: store.searchCriteria,            
@@ -427,16 +425,81 @@ store.openTilesetForEditing= function (id) {}
 store.importNewTileset = async function (id, source) {}
 
 // Sets the current tile that is selected from the current tileset
-store.setCurrentTile = function (id) {}
+store.setCurrentTile = function (id) {
+    console.log("id",id);
+    storeReducer({
+        type: GlobalStoreActionType.SET_THE_CURRENT_TILE,
+        payload: {
+            currentTile : id
+        }
+    });
+}
 
 // Sets the current tileset
-store.setCurrentTileset = function (id) {}
+store.setCurrentTileset = function (id) {
+    storeReducer({
+        type: GlobalStoreActionType.SET_THE_CURRENT_TILESET,
+        payload: {
+            currentTileSet : {
+                _id: 1,
+                backgroundcolor: "#d31313",
+                columns : 1, 
+                fillmode: "stretch", 
+                firstgid: 1 , 
+                grid: {}, 
+                image: '../assets/map-card.jpg', 
+                imageheight: "960", 
+                imagewidth: "1440", 
+                margin: 2, 
+                name: "tileset 2",
+                objectalignment: "top", 
+                properties:[
+                                {
+                                name:"myProperty2",
+                                type:"string",
+                                value:"myProperty2_value"
+                                }],
+                source : "tilelsate", 
+                tilecount: "225", 
+                tileslateversion: "1.0.1", 
+                tileheight: "64", 
+                tilerendersize: "10", 
+                tiles : [],
+                tilewidth:"96", 
+                transparentcolor :  "#000000", 
+                type : "tileset", 
+                version : "1.1", 
+                wangsets: [] 
+            }
+        }
+    });
+    
+
+}
+
+store.handleMapAction = function (id) {
+    if(store.selectedMapEditTool == "stamp"){
+        store.paintTile(id);
+    }else if(store.selectedMapEditTool == "paint"){
+        store.paintLayer();
+    }else if (store.selectedMapEditTool == "eraser"){
+        store.deleteTile(id);
+    }
+}
 
 // Sets the current layer being edited
 store.setCurrentLayer = function (id) {}
 
 // Sets the current map editing tool 
-store.setCurrentMapEditingTool = function (selectedTool) {}
+store.setCurrentMapEditingTool = function (selectedTool) {
+    console.log(selectedTool);
+    storeReducer({
+        type: GlobalStoreActionType.SET_THE_SELECTED_MAP_EDIT_TOOL,
+        payload: {
+            selectedMapEditTool : selectedTool
+        }
+    });
+}
 
  //Undo the latest transaction 
 store.undoUserEdit = function () {}
@@ -445,7 +508,10 @@ store.undoUserEdit = function () {}
 store.redoUserEdit = function () {}
 
 //Paints the selected currentlayer's tile with the "currentTile" 
-store.paintTile = function () {}
+store.paintTile = function (id) {
+
+
+}
 
 //Deletes the selected tile from the current layer 
 store.deleteTile = function (tileToBeDeleted) {} 

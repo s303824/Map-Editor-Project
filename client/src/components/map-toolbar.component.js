@@ -15,11 +15,26 @@ import FormatColorFillTwoToneIcon from '@mui/icons-material/FormatColorFillTwoTo
 import AutoFixNormalSharpIcon from '@mui/icons-material/AutoFixNormalSharp';
 import CancelTwoToneIcon from '@mui/icons-material/CancelTwoTone';
 import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
+import GlobalStoreContext from '../store';
+
 
 const MapToolBar=() =>{
+    const {store} = useContext(GlobalStoreContext);
     const navigate = useNavigate();
     const handleGoBack = () => {
         navigate("/projects", {})
+    }
+
+    const handleStampClick = (event) =>{
+        store.setCurrentMapEditingTool("stamp");
+    }
+
+    const handlePaintClick = (event) =>{
+        store.setCurrentMapEditingTool("paint");
+    }
+
+    const handleEraserClick = (event) =>{
+        store.setCurrentMapEditingTool("eraser");
     }
 
     return (
@@ -31,23 +46,23 @@ const MapToolBar=() =>{
                     Manage Team
                 </Button>
 
-               <IconButton aria-label="undo">
+               <IconButton key={1} aria-label="undo">
                 <UndoIcon sx={{fill:"white" ,fontSize:40}}/>
                 </IconButton>
 
-                <IconButton aria-label="redo">
+                <IconButton id={2} ariaLabel="redo" >
                 <RedoTwoToneIcon sx={{fill:"white" ,fontSize:40}}/>
                 </IconButton>
 
-                <IconButton aria-label="stamp">
+                <IconButton key={3} aria-label="stamp" onClick ={handleStampClick}>
                 <ApprovalTwoToneIcon sx={{fill:"white" ,fontSize:40}}/>
                 </IconButton>
 
-                <IconButton aria-label="paint">
+                <IconButton key={4} aria-label="paint" onClick={handlePaintClick}>
                 <FormatColorFillTwoToneIcon sx={{fill:"white" ,fontSize:40}}/>
                 </IconButton>
 
-                <IconButton aria-label="delete">
+                <IconButton key={5} aria-label="delete" onClick={handleEraserClick}>
                 <AutoFixNormalSharpIcon sx={{fill:"white" ,fontSize:40}}/>
                 </IconButton>
             </Box>

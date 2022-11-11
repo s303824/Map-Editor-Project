@@ -11,10 +11,10 @@ import { useNavigate } from 'react-router-dom';
 
 const TileSetToolBar=() =>{
     const navigate = useNavigate();
-
     const handleEditMap = () => {
         navigate("/editor", {})
     }
+
     return (
         <Box className='top-navbar' sx={{ display: 'flex' ,flexGrow: 1,}} >
            <AppBar position="static" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1}}>
@@ -28,7 +28,7 @@ const TileSetToolBar=() =>{
                 <Button sx = {{backgroundImage: 'linear-gradient(to right,#fa5a01,#fe9f05)',borderRadius:'10px',color:"white",fontWeight:"bold",fontSize:15,marginX:1}}>
                     Save 
                 </Button>
-
+                
                 <IconButton aria-label="settings">
                 <SettingsTwoToneIcon sx={{fill:"#C0C0C0" ,fontSize:40}}/>
                 </IconButton>

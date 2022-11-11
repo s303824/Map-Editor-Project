@@ -11,11 +11,10 @@ import Tile from './tile.component';
 import LayerTileBackround from "../assets/layer-backround.jpg";
 
 const Layer =()=>{
-
   const imageSize = 1028;
   const tileCount = 400; 
   const tileWidth = 64;
-
+  
     return(
       <Box>
         <ImageList 
@@ -40,7 +39,7 @@ const Layer =()=>{
                 outline: `1px solid #ffc806`,
             }}}>
           {Array.from({ length: tileCount }, (_, i) => (
-          <Tile id={i} imageSize={imageSize} img={LayerTileBackround} tileWidth = {tileWidth}/>
+          <Tile id={i} row={200} column={200} img={LayerTileBackround} tileWidth = {tileWidth} tileHeight={64}/>
       ))}
       </ImageList>
     </Box>

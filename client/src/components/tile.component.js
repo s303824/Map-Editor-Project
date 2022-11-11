@@ -1,23 +1,30 @@
-import { imageListClasses, List, ListItem} from '@mui/material';
-import { Button, IconButton } from '@mui/material';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
-import LayerCard from './layer-card.component';
-import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
-import ArrowCircleDownTwoToneIcon from '@mui/icons-material/ArrowCircleDownTwoTone';
-import ArrowCircleUpTwoToneIcon from '@mui/icons-material/ArrowCircleUpTwoTone';
-import Typography from '@mui/material/Typography';
-import candles from '../assets/map-card.jpg';
+import { useContext } from 'react';
+import GlobalStoreContext from '../store';
+
 
 
 const Tile =(tileInfo)=>{
   const {id,row,column,img,tileWidth,tileHeight} = tileInfo;
+  const {store} = useContext(GlobalStoreContext);
 
   const left = -((id % column)* tileWidth);
   const top = -((Math.floor(id / row)) * tileHeight);
+
+
+  const handleTileClick = (event) => {
+    event.preventDefault();
+
+    if(event.target.parentElement.className.includes('tileset-section')){
+      store.setCurrentTile(event.target.id);
+    }else{
+      store.handleMapAction(event.target.id);
+    }
+  } 
   
     return(
         <Box 
+      id={id}
       sx={{
       height:`${tileHeight}px`,
       width:`${tileWidth}px`,
@@ -26,6 +33,7 @@ const Tile =(tileInfo)=>{
       border:"solid",
       margin:'0px'
     }}
+    onClick = {handleTileClick}
       />   
         
     );
