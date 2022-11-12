@@ -60,7 +60,7 @@ if(auth.loggedIn) {
     "id":1,
     "userName":auth.user.username,
     "email":auth.user.email,
-    "image": auth.user.userImage
+    "image": auth.user.profile_picture
 
   }
 }
@@ -135,7 +135,7 @@ if(auth.loggedIn) {
             </Box>
             
             {auth.loggedIn && <Box display="flex" flexDirection="row" >
-                <UserCard userName ={userInfo.userName} email = {userInfo.email}/>
+                <UserCard userName ={userInfo.userName} email = {userInfo.email} userImage={userInfo.image}/>
             </Box>}
             {!auth.loggedIn && <Box display="flex" flexDirection="row" sx={{ justifyContent: 'space-between' }} >
                     <Button variant="outlined" size="small"  sx= {{borderColor:"white",color:"white",borderRadius:'20px',marginX: 2}} onClick={handleLogin}>Sign In</Button>

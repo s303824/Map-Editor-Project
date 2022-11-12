@@ -29,7 +29,7 @@ const MapCard = ({mapInfo}) => {
 
     //function for handling when a user clicks "view" on a mapcard
     const handleViewMap = () => {
-        store.loadMapViewer(mapInfo.id, mapInfo)
+        store.loadMapViewer(mapInfo.map_id, mapInfo)
         navigate("/view", {})
     }
 
@@ -63,7 +63,7 @@ const MapCard = ({mapInfo}) => {
                 <Typography variant="h5" color="white" sx={{marginTop :3}}>
                     {name}
                 </Typography>
-                <UserCard key={mapInfo.id} userName={creator[0].creator || creator} email={creator.email} userImage={userImage || creator.profile_picture}/>
+                <UserCard key={mapInfo.id} userName={creator[0].creator || creator} email={creator[0].email} userImage={creator[0].profile_picture}/>
             </Box>
             <Typography color="white" sx={{marginTop :1}}>
                   {tagsList}

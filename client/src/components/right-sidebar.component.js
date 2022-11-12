@@ -24,8 +24,9 @@ export default function RightSideBar(mapInfo) {
     return null;
   }
 
-  let likeColor = auth.user.liked_projects.includes(store.currentPublishedMap._id) ? "yellow" : "lightgrey"
-  let dislikeColor = auth.user.disliked_projects.includes(store.currentPublishedMap._id) ? "yellow" : "lightgrey"
+
+  let likeColor = auth.user ? auth.user.liked_projects.includes(store.currentPublishedMap._id) ? "yellow" : "lightgrey" : "lightgrey"
+  let dislikeColor = auth.user ? auth.user.disliked_projects.includes(store.currentPublishedMap._id) ? "yellow" : "lightgrey" : "lightgrey"
 
   const handleLike = () => {
     //if user DISLIKED map, dont allow liking

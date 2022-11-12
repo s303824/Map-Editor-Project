@@ -11,7 +11,7 @@ const UserCard = ({userName,email, userImage}) =>{
         avatar={
           <Avatar 
             sx ={{border:2 ,borderRadius: '50%', borderColor:"#fb7603"}}
-            src= {!userImage  ? auth.user.profile_picture: userImage } 
+            src= {userImage} 
             aria-label="userImage" />    
         }
         title= {userName}

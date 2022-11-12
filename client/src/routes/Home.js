@@ -20,10 +20,8 @@ function Home() {
     const {auth} = useContext(AuthContext);
 
     useEffect(() => {
-      if (auth.user !== null){
-        store.getMapInfosSortedByLikes();
-      }
-    }, [auth.user])
+      store.getMapInfosSortedByLikes();
+    }, [])
 
     return (
       <Box className="home-container" sx={{marginLeft:'260px' }}>
@@ -48,7 +46,7 @@ function Home() {
               outline: `1px solid #ffc806`,
             }}}>
           {store.publishedMaps.map((map) => (
-            <MapCard key={map.id} mapInfo={map} />
+            <MapCard key={map._id} mapInfo={map} />
           ))}
         </Box>
       </Box>
