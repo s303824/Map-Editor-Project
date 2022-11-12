@@ -57,6 +57,7 @@ export default function SideBar() {
           setModalActive(true)
           break;
         }
+        store.loadMapInfosByIds(auth.user.liked_projects);
         navigate("/likedmaps", {})
         break;
 

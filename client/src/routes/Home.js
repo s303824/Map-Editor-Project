@@ -19,50 +19,11 @@ function Home() {
     const { store } = useContext(GlobalStoreContext);
     const {auth} = useContext(AuthContext);
 
-    const mapCardInfo = [ //to display sample data 
-      {
-        "id": 2,
-        "name": "Game2",
-        "description":["#hastag2"],
-        "likes":50,
-        "dislikes":10,
-        "downloads":40,
-        "creator":["user2"],
-        "email":"user2@gmail.com",
-        "editActive":null,
-        "published":"2/3/2021",
-        "thumbnailURL": mapImage,
-        "userImage":mockUserImage
-      },
-      {
-        "id": 3,
-        "name": "Game3",
-        "description":["#hastag3"],
-        "likes":10,
-        "dislikes":100,
-        "downloads":10,
-        "creator":["user2"],
-        "email":"user3@gmail.com",
-        "editActive":null,
-        "published":"2/3/2021",
-        "thumbnailURL": mapImage,
-        "userImage":mockUserImage
-      },
-      {
-        "id": 3,
-        "name": "Game3",
-        "description":["#hastag3"],
-        "likes":10,
-        "dislikes":100,
-        "downloads":10,
-        "creator":["user2"],
-        "email":"user3@gmail.com",
-        "editActive":null,
-        "published":"2/3/2021",
-        "thumbnailURL": mapImage,
-        "userImage":mockUserImage
+    useEffect(() => {
+      if (auth.user !== null){
+        store.getMapInfosSortedByLikes();
       }
-    ];
+    }, [auth.user])
 
     return (
       <Box className="home-container" sx={{marginLeft:'260px' }}>
@@ -86,7 +47,7 @@ function Home() {
               backgroundColor: "#ffc806",
               outline: `1px solid #ffc806`,
             }}}>
-          {mapCardInfo.map((map) => (
+          {store.publishedMaps.map((map) => (
             <MapCard key={map.id} mapInfo={map} />
           ))}
         </Box>

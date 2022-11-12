@@ -27,6 +27,7 @@ router.get('/getMapInfo', MapInfoController.getMapInfo)
 router.get('/getAllMapInfoByUser', MapInfoController.getAllMapInfoByUser)
 router.get('/getAllPublishedMapInfo',MapInfoController.getAllPublishedMapInfo)
 router.get('/getMapInfoByListOfIds', MapInfoController.getMapInfoByListOfIds)
+router.get('/getAllMapInfoSortedByLikes', MapInfoController.getAllMapInfoSortedByLikes)
 
 router.put('/addCreator', MapInfoController.addCreator)
 router.put('/removeCreator', MapInfoController.removeCreator)

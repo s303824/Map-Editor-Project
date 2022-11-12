@@ -69,8 +69,8 @@ export default function RightSideBar(mapInfo) {
 
 
   let teamMembers = <List>
-    {store.currentPublishedMap.creator.map((name, index) => (
-      <UserCard key={index} userName={name}  userImage={"../assets/userimage.png"}/>
+    {store.currentPublishedMap.creator.map((creator, index) => (
+      <UserCard key={index} userName={creator.creator}  userImage={creator.profile_picture}/>
     ))}
   </List>;
 

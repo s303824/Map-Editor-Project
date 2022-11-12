@@ -27,6 +27,7 @@ export const getAllPublishedMapInfo = () => api.get(`/getAllPublishedMapInfo/`)
 export const addCreator = () => api.get(`/addCreator/`)
 export const removeCreator = () => api.get(`/removeCreator/`)
 export const getMapInfoByListOfIds = (payload) => api.get(`/getMapInfoByListOfIds/`, {params: {idList: payload}})
+export const getAllMapInfoSortedByLikes = () => api.get(`getAllMapInfoSortedByLikes/`)
 
 
 export const registerTileSet = (payload) => api.post(`/registerTileSet/`, payload)
@@ -60,6 +61,7 @@ const apis= {
     updateTileSet,
     getTileSet,
     getMapInfoByListOfIds,
+    getAllMapInfoSortedByLikes,
 }
 
 export default apis;

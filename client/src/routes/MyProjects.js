@@ -19,17 +19,10 @@ const MyProjects=() =>{
     const { store } = useContext(GlobalStoreContext);
     const {auth} = useContext(AuthContext);
     const navigate = useNavigate();
-    console.log(auth.user.myprojects)
 
     useEffect(() => {
       auth.getLoggedIn();      
     }, []);
-
-    useEffect(() => {
-      if (auth.user !== null){
-        store.loadUserMaps(auth.user.username);
-      }
-    }, [auth.user])
 
 
     const handleCreateNewProject = async () => {   

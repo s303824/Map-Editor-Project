@@ -332,6 +332,7 @@ store.loadUserMaps = async function (username) {
 }
 
 store.loadMapInfosByIds = async function(idList) {
+    console.log(idList)
     if(idList.length == 0) {
         storeReducer({
             type: GlobalStoreActionType.LOAD_PUBLISHED_MAPS,
@@ -343,6 +344,18 @@ store.loadMapInfosByIds = async function(idList) {
     }
 
     let response = await api.getMapInfoByListOfIds(idList)
+    if(response.status === 200) {
+        storeReducer({
+            type: GlobalStoreActionType.LOAD_PUBLISHED_MAPS,
+            payload: {
+                publishedMaps: response.data.mapInfos
+            }
+        })
+    }
+}
+
+store.getMapInfosSortedByLikes = async function() {
+    let response = await api.getAllMapInfoSortedByLikes()
     if(response.status === 200) {
         storeReducer({
             type: GlobalStoreActionType.LOAD_PUBLISHED_MAPS,
@@ -597,7 +610,6 @@ store.loadMapViewer= async function (mapId, mapInfo) {
     try {
 
         const response = await api.getMap(mapId);
-        console.log("sfdsd")
         if (response.status === 200) {
             storeReducer({
                 type: GlobalStoreActionType.SET_THE_CURRENT_PUBLISHED_MAP,

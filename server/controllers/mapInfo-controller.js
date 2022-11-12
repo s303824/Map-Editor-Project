@@ -108,13 +108,6 @@ updateMapInfo = async (req, res) => {
     const { _id, name, creator, thumbnailURL, comments, likes, 
         dislikes, downloads, published, description } = req.body;
     const selectedMapInfo = await MapInfo.findOne({ _id: _id });
-    const creator_exists = await User.findOne({username: creator})
-
-    if (!creator_exists){
-        return res
-                .status(404)
-                .json({ errorMessage: "The user you entered doesn't exist" });
-    }
 
     if(!selectedMapInfo) {
         return res
@@ -283,8 +276,25 @@ getAllPublishedMapInfo = async (req, res) => {
     }
 }
 
-getMapInfoSortedByLikes = async (req, res) => {
-    
+getAllMapInfoSortedByLikes = async (req, res) => {
+    try{
+        MapInfo.find(({published: {$ne: "false"}})).sort({likes: -1}).limit(10).exec(function (err, docs) {
+            if (err){
+                console.log(err)
+            }
+            else{
+                return res
+                .status(200)
+                .json({ 
+                    Message: "success!",
+                    mapInfos: docs 
+                });
+            }
+        });
+    } catch (err){
+        console.error(err);
+        res.status(500).send();
+    }
 }
 
 
@@ -374,5 +384,6 @@ module.exports = {
     getAllPublishedMapInfo,
     addCreator,
     removeCreator,
-    getMapInfoByListOfIds
+    getMapInfoByListOfIds,
+    getAllMapInfoSortedByLikes
 }
