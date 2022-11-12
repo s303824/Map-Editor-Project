@@ -44,7 +44,7 @@ const MapCard = ({mapInfo}) => {
  let tagsList = ""
  tagsList.length !== 0 && tags.forEach(tag => tagsList += tag + " ")
 
- {published!="false" ? width='80%': width='60%'}
+ {published!=null ? width='80%': width='60%'}
 
   return (
     <Box sx={{ display:'flex' ,marginTop:"2%",width:{width},backgroundImage :'linear-gradient(to bottom, #505051, #303031)',boxShadow: '0 1px 2px 2px rgba(68,68,69,255)',borderRadius:"15px"}}>

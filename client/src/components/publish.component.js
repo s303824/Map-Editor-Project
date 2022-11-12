@@ -36,7 +36,6 @@ const PublishMap = ({onClose}) => {
         p: 4,
       };
       const [title, setTitle] = useState(store.currentMap.title)            // For title input field 
-      const [publish, setPublish] = useState(store.currentMap.creators)        // For creators input field 
   
     const handlePublish = async () => {
         await store.publishCurrentMap(store.currentMap.mapinfo);

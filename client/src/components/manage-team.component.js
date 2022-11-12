@@ -38,7 +38,10 @@ const MapTeams = ({onClose}) => {
         await store.addTeamMember(store.currentMap.mapinfo, creators);
         onClose();
     }
-
+    
+    let team = ""
+    team.length !== 0 && creators.forEach(creator => team += creator + " ")
+   
     return(
         <Box>
         <Modal
@@ -51,7 +54,7 @@ const MapTeams = ({onClose}) => {
             <Typography fontSize="20px">
                 <Box className="qmodal-text">{title}</Box>
                 <Box className="qmodal-text">Creators</Box>
-                <Box className="qmodal-text">{creators.map((creator)=>{creator})}</Box>
+                <Box className="qmodal-text">{team}</Box>
                 <TextField
                 required
                 id="outlined-tags-input"
