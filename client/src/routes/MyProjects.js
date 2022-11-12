@@ -19,6 +19,7 @@ const MyProjects=() =>{
     const { store } = useContext(GlobalStoreContext);
     const {auth} = useContext(AuthContext);
     const navigate = useNavigate();
+    console.log(auth.user.myprojects)
 
     useEffect(() => {
       auth.getLoggedIn();      
@@ -110,7 +111,6 @@ const MyProjects=() =>{
     if(store.userMaps.length == 0) {
       mapList = null;
     }
-
 
   
   

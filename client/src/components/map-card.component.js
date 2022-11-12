@@ -63,7 +63,7 @@ const MapCard = ({mapInfo}) => {
                 <Typography variant="h5" color="white" sx={{marginTop :3}}>
                     {name}
                 </Typography>
-                <UserCard key={mapInfo.id} userName={creator[0]} userImage={userImage}/>
+                <UserCard key={mapInfo.id} userName={creator[0].creator || creator} email={creator.email} userImage={userImage || creator.profile_picture}/>
             </Box>
             <Typography color="white" sx={{marginTop :1}}>
                   {tags}

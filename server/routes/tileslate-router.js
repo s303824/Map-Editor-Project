@@ -26,6 +26,7 @@ router.put('/updateMapInfo', MapInfoController.updateMapInfo)
 router.get('/getMapInfo', MapInfoController.getMapInfo)
 router.get('/getAllMapInfoByUser', MapInfoController.getAllMapInfoByUser)
 router.get('/getAllPublishedMapInfo',MapInfoController.getAllPublishedMapInfo)
+router.get('/getMapInfoByListOfIds', MapInfoController.getMapInfoByListOfIds)
 
 router.put('/addCreator', MapInfoController.addCreator)
 router.put('/removeCreator', MapInfoController.removeCreator)

@@ -331,6 +331,28 @@ store.loadUserMaps = async function (username) {
     }    
 }
 
+store.loadMapInfosByIds = async function(idList) {
+    if(idList.length == 0) {
+        storeReducer({
+            type: GlobalStoreActionType.LOAD_PUBLISHED_MAPS,
+            payload: {
+                publishedMaps: []
+            }
+        })
+        return;
+    }
+
+    let response = await api.getMapInfoByListOfIds(idList)
+    if(response.status === 200) {
+        storeReducer({
+            type: GlobalStoreActionType.LOAD_PUBLISHED_MAPS,
+            payload: {
+                publishedMaps: response.data.mapInfos
+            }
+        })
+    }
+}
+
 //called when search is entered by the user
 store.SearchButtonHelper = function () {
     const response = api.getMapInfo();
@@ -540,6 +562,7 @@ store.setopenModal =  function (modalType) {}
 store.loadMapEditor= async function (mapId, mapInfo) {
     try {
         const response = await api.getMap(mapId);
+        console.log(response)
         if (response.status === 200) {
             storeReducer({
                 type: GlobalStoreActionType.SET_THE_CURRENT_MAP,

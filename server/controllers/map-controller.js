@@ -47,9 +47,9 @@ registerMap = async (req, res) => {
         });
 
         //creating mapinfo
-        const {ownerName} = mapinfo
+        const {ownerName, email, profile_picture} = mapinfo
         const description = " "
-        const creator = [ownerName]
+        const creator = [{creator:ownerName, email:email, profile_picture:profile_picture}]
         const published = "false"
         const map_id = _id ? _id : newMap._id
         const thumbnailURL = "blah"
@@ -106,6 +106,7 @@ registerMap = async (req, res) => {
 deleteMap = async (req, res) => {
     try{
         const {  _id } = req.body;
+        console.log(req.body)
 
         if(!_id){
             return res
@@ -194,13 +195,13 @@ updateMap = async (req, res) => {
 
 getMap = async (req, res) => {
     try{
-        const {_id}  = req.data;
-        if(!_id){
+        const {_id}  = req.query._id;
+        if(!req.query._id){
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
-        Map.findOne({_id: _id}, function (err, docs) {
+        Map.findOne({_id: req.query._id}, function (err, docs) {
             if (err){
                 console.log(err)
                 return res.status(404).json({

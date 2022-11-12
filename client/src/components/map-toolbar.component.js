@@ -78,26 +78,14 @@ const MapToolBar=() =>{
             setOpen(false);
         }
     }
+    console.log(store.currentMap)
     
     const handleDeleteMap = async () => {
         // console.log(store.userMaps)
         // console.log(auth.user)
         // console.log(store.currentMap)
-        console.log(auth.user)
-        let userData = {
-            username: auth.user.username,
-            _id: auth.user._id,
-            email: auth.user.email, 
-            first_name: auth.user.first_name,
-            last_name: auth.user.last_name, 
-            myprojects: auth.user.myprojects.filter(mapinfo => mapinfo !== store.currentMap.mapinfo), 
-            liked_projects: auth.user.liked_projects, 
-            profile_picture: auth.user.profile_picture,
-            publishedMaps: auth.user.publishedMaps
-        }
         
         await store.deleteMap(store.currentMap._id)
-        await auth.updateUser(userData)
         handleGoBack()
     }
  

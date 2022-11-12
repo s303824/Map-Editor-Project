@@ -160,6 +160,37 @@ updateMapInfo = async (req, res) => {
     });
 }
 
+getMapInfoByListOfIds = async (req, res) => {
+    if(!req.query.idList) {
+        return res
+                .status(400)
+                .json({ errorMessage: "Please enter all required fields." });
+    }
+    MapInfo.find({_id: req.query.idList}, function (err, docs) {
+        if(err) {
+
+        }
+        else {
+            if(docs == null) {
+                return res
+                .status(400)
+                .json({
+                    message: "no maps found!",
+                    mapInfo: null
+                })
+            }
+            else {
+                return res
+                .status(200)
+                .json({ 
+                    Message: "success!",
+                    mapInfos: docs 
+                });
+            }
+        }
+    })
+}
+
 getMapInfo = async (req, res) => {
     try{
         const {  _id } = req.body;
@@ -209,7 +240,7 @@ getAllMapInfoByUser = async (req, res) => {
 
         //find user so we can find their maps
         User.findOne({username: req.query.username}, function (err, user) {
-            MapInfo.find(({_id : user.myprojects}), function (err, docs) {
+            MapInfo.find(({_id : {$in: user.myprojects}}), function (err, docs) {
                 if (err){
                     console.log(err)
                 }
@@ -250,6 +281,10 @@ getAllPublishedMapInfo = async (req, res) => {
         console.error(err);
         res.status(500).send();
     }
+}
+
+getMapInfoSortedByLikes = async (req, res) => {
+    
 }
 
 
@@ -338,5 +373,6 @@ module.exports = {
     getAllMapInfoByUser,
     getAllPublishedMapInfo,
     addCreator,
-    removeCreator
+    removeCreator,
+    getMapInfoByListOfIds
 }
