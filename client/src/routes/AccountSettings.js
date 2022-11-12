@@ -254,7 +254,7 @@ function AccountSettings() {
             {email_modal}
 
             <div>
-                <h1 id='account_setting_title'>Account Settings</h1>
+                <h1 id='account_setting_title' sx={{font: 'Bebas Neue'}}>Account Settings</h1>
             </div>
             
             <div className='form-area'>
@@ -420,13 +420,9 @@ function AccountSettings() {
                 autoComplete="current-password"
                 helperText={
                     <>
-                        Must be more than 8 characters
+                        Must be more than 8 characters and include
                         <br />
-                        Inclue special characters
-                        <br />
-                        Include numbers 
-                        <br/>
-                        Inclue upper/lower case characters
+                        uppercase, lowercase, and numbers
                     </>
                 }
                 sx = {{borderColor: 'white'}}
