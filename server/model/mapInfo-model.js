@@ -15,7 +15,7 @@ const PublishedSchema = new Schema(
         map_id: { type: Schema.Types.ObjectId, ref: 'MapInfo', required: true },   // foreign key to associated Map
         published: { type: String, required: true },   // Is the project published?
         editActive: {type: Boolean, required: true}, // Can the map be edited?
-        description: {type: [String], required: true}      // Map tags
+        tags: {type: [String], required: true}      // Map tags
     }
 )
 

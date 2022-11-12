@@ -29,7 +29,7 @@ const MapCard = ({mapInfo}) => {
 
     //function for handling when a user clicks "view" on a mapcard
     const handleViewMap = () => {
-        store.loadMapViewer(mapInfo.map_id, mapInfo)
+        store.loadMapViewer(mapInfo.id, mapInfo)
         navigate("/view", {})
     }
 
@@ -38,11 +38,11 @@ const MapCard = ({mapInfo}) => {
         navigate("/editor", {})
     }
 
- const {name,description,likes,dislikes,downloads,editActive,published,thumbnailURL, creator, userImage} = mapInfo;
+ const {name,description,likes,dislikes,downloads,editActive,published,thumbnailURL, creator, userImage, tags} = mapInfo;
  let width;
 
- let tags = ""
- tags.length !== 0 && description.forEach(tag => tags += tag + " ")
+ let tagsList = ""
+ tagsList.length !== 0 && tags.forEach(tag => tagsList += tag + " ")
 
  {published!="false" ? width='80%': width='60%'}
 
@@ -66,7 +66,7 @@ const MapCard = ({mapInfo}) => {
                 <UserCard key={mapInfo.id} userName={creator[0].creator || creator} email={creator.email} userImage={userImage || creator.profile_picture}/>
             </Box>
             <Typography color="white" sx={{marginTop :1}}>
-                  {tags}
+                  {tagsList}
             </Typography>
             
             <CardActions display="flex" sx={{justifyContent: 'space-between',width:'100%'}}>

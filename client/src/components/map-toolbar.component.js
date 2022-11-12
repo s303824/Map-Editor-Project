@@ -29,8 +29,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { compareSync } from 'bcryptjs';
-
-
+import ManageTeam from './manage-team.component';
+import MapSettings from './map-settings.component';
+import PublishMap from './publish.component';
 
 
 const MapToolBar=() =>{
@@ -45,11 +46,17 @@ const MapToolBar=() =>{
 
     const [open, setOpen] = React.useState(false);    
     const [dialogopen, setDialogOpen] = React.useState(false);
-    
+    const [settings, setSettings] = React.useState(false);
     const anchorRef = React.useRef(null);
 
-    const handleClickOpen = () => {
-        setDialogOpen(true);
+    const handleClickOpen = (type) => {
+        switch(type){
+            case 'delete':
+                setDialogOpen(true);
+            case 'settings':
+                setSettings(true);
+
+        }
     };
   
     const handleDialogClose = () => {
@@ -98,6 +105,8 @@ const MapToolBar=() =>{
         prevOpen.current = open;
     }, [open]);
 
+    const settingsModal = settings ? <MapSettings  onClose={setSettings(false)}></MapSettings> : null;
+
     const deleteModalBox = 
         <Dialog
             open={dialogopen}
@@ -110,7 +119,7 @@ const MapToolBar=() =>{
             </DialogTitle>
             <DialogContent>
             <DialogContentText id="alert-dialog-description">
-                Are you sure you want to delete? Map will be permanently Deleted
+                Are you sure you want to delete? This map will be permanently deleted.
             </DialogContentText>
             </DialogContent>
             <DialogActions>
@@ -124,7 +133,7 @@ const MapToolBar=() =>{
     return (
         
         <Box className='top-navbar' sx={{ display: 'flex' ,flexGrow: 1,}} >
-            {deleteModalBox}
+            {[settingsModal, deleteModalBox]}
 
            <AppBar position="static" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1}}>
               <Toolbar sx={{boxShadow: 1 ,backgroundColor:'#1E1E1E',boxShadow: '0 1px 1px 1px rgba(68,68,69,255)',justifyContent: 'space-between'}}> 
@@ -202,8 +211,7 @@ const MapToolBar=() =>{
                                         onKeyDown={handleListKeyDown}
                                     >
                                         {/* add settings to the settings menu-bar here  */}
-                                        <MenuItem onClick={handleClose}>random map settings</MenuItem>    
-                                        <MenuItem onClick={handleClose}>random map settings2</MenuItem>  
+                                        <MenuItem onClick={handleClose}>Update Map Settings</MenuItem>    
                                         <MenuItem onClick={handleClickOpen}>Delete Map</MenuItem>
                                     </MenuList>
                                 </ClickAwayListener>
@@ -213,7 +221,8 @@ const MapToolBar=() =>{
                 </Popper>
                
 
-                <IconButton aria-label="close" onClick={handleGoBack}>
+   
+             <IconButton aria-label="close" onClick={handleGoBack}>
                 <CancelTwoToneIcon sx={{fill:"#C0C0C0" ,fontSize:40}}/>
                 </IconButton>
                 

@@ -3,10 +3,30 @@ const User = require('../model/user-model')
 
 registerMapInfo = async (req, res) => {
     try {
-        const { _id, name, creator, thumbnailURL, comments, likes, 
-            dislikes, downloads, map_id, published, description } = req.body;
-        if (!(_id, name && creator && thumbnailURL && comments && likes 
-            && dislikes && downloads && map_id && published && description)) {
+        const { _id, name,
+            creator,
+            thumbnailURL,
+            comments,
+            likes, 
+            dislikes, 
+            downloads,
+            description, 
+            map_id, 
+            published, 
+            editActive, 
+            tags } = req.body;
+        if (!(_id, name &&
+            creator &&
+            thumbnailURL &&
+            comments &&
+            likes &&
+            dislikes && 
+            downloads &&
+            description && 
+            map_id &&
+            published && 
+            editActive &&
+            tags)) {
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
@@ -21,21 +41,20 @@ registerMapInfo = async (req, res) => {
                 })
         }
 
-        const editActive = false;
-
         const newMapInfo = new MapInfo({
             _id:_id,
             name, 
             creator: creator, 
-            thumbnailURL, 
-            comments, 
+            thumbnailURL,
+            comments,
             likes, 
             dislikes, 
-            downloads, 
+            downloads,
+            description, 
             map_id, 
-            published,
-            editActive,
-            description
+            published, 
+            editActive, 
+            tags
         });
         if(thumbnailURL == "") {
             newMapInfo.thumbnailURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYYS6BCkllOoE3CBQP8Uh1GRp13pFm4qImPg&usqp=CAU"
@@ -105,8 +124,17 @@ deleteMapInfo = async (req, res) => {
 }
 
 updateMapInfo = async (req, res) => {
-    const { _id, name, creator, thumbnailURL, comments, likes, 
-        dislikes, downloads, published, description } = req.body;
+    const { _id, name,
+        creator,
+        thumbnailURL,
+        comments,
+        likes, 
+        dislikes, 
+        downloads,
+        description, 
+        published, 
+        editActive, 
+        tags } = req.body;
     const selectedMapInfo = await MapInfo.findOne({ _id: _id });
 
     if(!selectedMapInfo) {
@@ -125,6 +153,7 @@ updateMapInfo = async (req, res) => {
     selectedMapInfo.downloads = downloads;
     selectedMapInfo.published = published;
     selectedMapInfo.description = description;
+    selectedMapInfo.tags = tags;
 
     MapInfo.findOneAndUpdate({_id: _id}, {
         name : name,
@@ -135,7 +164,10 @@ updateMapInfo = async (req, res) => {
         dislikes : dislikes,
         downloads : downloads,
         published : published,
-        description : description
+        description : description,
+        published : published, 
+        editActive : editActive, 
+        tags : tags
     }, function (err, docs) {
         if (err){
             console.log(err)

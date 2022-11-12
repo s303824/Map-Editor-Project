@@ -65,13 +65,14 @@ registerMap = async (req, res) => {
             creator,
             thumbnailURL,
             comments,
-            likes,
-            dislikes,
+            likes, 
+            dislikes, 
             downloads,
-            description,
-            map_id,
-            published,
-            editActive
+            description, 
+            map_id, 
+            published, 
+            editActive, 
+            tags
         });
 
         newMapInfo.thumbnailURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYYS6BCkllOoE3CBQP8Uh1GRp13pFm4qImPg&usqp=CAU"
@@ -195,8 +196,8 @@ updateMap = async (req, res) => {
 
 getMap = async (req, res) => {
     try{
-        const {_id}  = req.query._id;
-        if(!req.query._id){
+        const   _id  = req.query._id;
+        if(!_id){
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });

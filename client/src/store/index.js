@@ -23,10 +23,6 @@ export const GlobalStoreActionType = {
     UPDATE_MAP_INFO: "UPDATE_MAP_INFO"
 }
 
-/*
- const tps : jsTPS
-*/
-
 function GlobalStoreContextProvider(props) {
 
     // THESE ARE ALL THE THINGS OUR DATA STORE WILL MANAGE
@@ -536,7 +532,22 @@ store.paintLayer= function () {}
 store.saveCurrentMap = async function () {}
 
 //Saves the current map and adds it to the publishedMaps  
-store.publishCurrentMap = async function () {}
+store.publishCurrentMap = async function (mapInfo) {
+    mapInfo.publish = True;
+    const response = await api.updateMapInfo(mapInfo);
+    let newUserInfo = auth.user;
+    newUserInfo.publishedMaps.push(mapInfo);
+    const response2 = await auth.updateUser(newUserInfo);
+    if(response.status === 200 && response2.status === 200) {
+        storeReducer({
+            type: GlobalStoreActionType.UPDATE_MAP_INFO,
+            payload: {
+                mapInfo: response.data.mapInfo
+            }
+        })
+    }
+
+}
 
 //Saves the current map and exports the json map data.  
 store.exportCurrentMap = async function () {}
@@ -654,13 +665,53 @@ store.addComment= async function (mapInfo,comment) {
 }
 
 //Removes the editing permission(for currentMap) from the selected user
-store.removeTeamMember = async function (userId) {}
+store.removeTeamMember = async function (mapInfo, userId) {
+    mapInfo.creators.filter(creator => !(creator==userId))
+    // TO DO: PREVENT USERS FROM REMOVING NONEXISTING USERS
+    const response = await api.updateMapInfo(mapInfo);
+    if(response.status === 200) {
+        storeReducer({
+            type: GlobalStoreActionType.UPDATE_MAP_INFO,
+            payload: {
+                mapInfo: response.data.mapInfo
+            }
+        })
+    }
+
+}
 
 //Adds the editing permission(for currentMap) for the user
-store.addTeamMember = async function (userId) {}
+store.addTeamMember = async function (mapInfo,userId) {
+    mapInfo.creators.push(userId)
+    // TO DO: PREVENT USERS FROM ADDING NONEXISTING USERS
+    const response = await api.updateMapInfo(mapInfo);
+    if(response.status === 200) {
+        storeReducer({
+            type: GlobalStoreActionType.UPDATE_MAP_INFO,
+            payload: {
+                mapInfo: response.data.mapInfo
+            }
+        })
+    }
+
+}
 
 //Updates the map info based on the user input 
-store.changeMapSettings = async function (mapInfo) {}
+store.changeMapSettings = async function (mapInfo, title, description, tags) {
+    mapInfo.title = title;
+    mapInfo.description = description;
+    mapInfo.tags = tags;
+    const response = await api.updateMapInfo(mapInfo);
+    if(response.status === 200) {
+        storeReducer({
+            type: GlobalStoreActionType.UPDATE_MAP_INFO,
+            payload: {
+                mapInfo: response.data.mapInfo
+            }
+        })
+    }
+
+}
 
 
     return (
