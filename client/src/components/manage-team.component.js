@@ -36,7 +36,6 @@ const MapTeams = ({onClose}) => {
 
     const handleUpdateTeams = async () => {
         await store.addTeamMember(store.currentMap.mapinfo, creators);
-        onClose();
     }
     
     let team = ""

@@ -39,7 +39,6 @@ const PublishMap = ({onClose}) => {
   
     const handlePublish = async () => {
         await store.publishCurrentMap(store.currentMap.mapinfo);
-        onClose();
     }
 
 

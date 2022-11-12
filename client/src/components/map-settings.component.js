@@ -47,7 +47,6 @@ const MapSettings = ({onClose}) => {
 
     const handleUpdateSettings = async () => {
         await store.changeMapSettings(store.currentMap.mapinfo, title, description, tags);
-        onClose();
     }
 
 
