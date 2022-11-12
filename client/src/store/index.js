@@ -533,7 +533,7 @@ store.saveCurrentMap = async function () {}
 
 //Saves the current map and adds it to the publishedMaps  
 store.publishCurrentMap = async function (mapInfo) {
-    mapInfo.publish = True;
+    mapInfo.published = new Date();
     const response = await api.updateMapInfo(mapInfo);
     let newUserInfo = auth.user;
     newUserInfo.publishedMaps.push(mapInfo);

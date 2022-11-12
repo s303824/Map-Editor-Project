@@ -16,6 +16,9 @@ import FormatColorFillTwoToneIcon from '@mui/icons-material/FormatColorFillTwoTo
 import AutoFixNormalSharpIcon from '@mui/icons-material/AutoFixNormalSharp';
 import CancelTwoToneIcon from '@mui/icons-material/CancelTwoTone';
 import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
+import Modal from '@mui/material/Modal';
+import Typography from '@mui/material/Typography';
+
 import GlobalStoreContext from '../store';
 
 const PublishMap = ({onClose}) => {
@@ -35,9 +38,11 @@ const PublishMap = ({onClose}) => {
       const [title, setTitle] = useState(store.currentMap.title)            // For title input field 
       const [publish, setPublish] = useState(store.currentMap.creators)        // For creators input field 
   
-      const updateField = (event) => {    
-        setCreators(event.target.value)
-    }  
+    const handlePublish = async () => {
+        await store.publishCurrentMap(store.currentMap.mapinfo);
+        onClose();
+    }
+
 
     return(
         <Box>
@@ -50,18 +55,9 @@ const PublishMap = ({onClose}) => {
 
             <Typography fontSize="20px">
                 <Box className="qmodal-text">{title}</Box>
-                <Box className="qmodal-text">Creators</Box>
-                <TextField
-                required
-                id="outlined-tags-input"
-                label="Tags"
-                type="tags"
-                variant="filled"
-                autoComplete="current-tags"
-                className = "text-field"
-                onChange={(event) => updateField(event)}
-                />
+                <Box className="qmodal-text">{title}</Box>
             </Typography>
+            <Button variant="contained" onClick={handlePublish}>Publish</Button>
             <Button variant="contained" onClick={onClose}>Close</Button>
 
             </Box>
@@ -69,4 +65,4 @@ const PublishMap = ({onClose}) => {
         </Box> 
     )}
 
-export default MapTeams;
+export default PublishMap;

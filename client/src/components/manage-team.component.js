@@ -8,14 +8,9 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
-import UndoIcon from '@mui/icons-material/Undo';
-import RedoTwoToneIcon from '@mui/icons-material/RedoTwoTone';
-import ApprovalTwoToneIcon from '@mui/icons-material/ApprovalTwoTone';
-import FormatColorFillTwoToneIcon from '@mui/icons-material/FormatColorFillTwoTone';
-import AutoFixNormalSharpIcon from '@mui/icons-material/AutoFixNormalSharp';
-import CancelTwoToneIcon from '@mui/icons-material/CancelTwoTone';
-import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
+import Modal from '@mui/material/Modal';
+import Typography from '@mui/material/Typography';
+
 import GlobalStoreContext from '../store';
 
 const MapTeams = ({onClose}) => {
@@ -56,7 +51,7 @@ const MapTeams = ({onClose}) => {
             <Typography fontSize="20px">
                 <Box className="qmodal-text">{title}</Box>
                 <Box className="qmodal-text">Creators</Box>
-                <Box className="qmodal-text">Current Team: {creators.map((creator)=>{creator})}</Box>
+                <Box className="qmodal-text">{creators.map((creator)=>{creator})}</Box>
                 <TextField
                 required
                 id="outlined-tags-input"
