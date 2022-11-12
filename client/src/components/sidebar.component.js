@@ -16,6 +16,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../auth';
+import { GlobalStoreContext } from '../store'
 import { useContext } from 'react';
 import LoginModal from './login-modal.component';
 
@@ -32,6 +33,7 @@ export default function SideBar() {
 
   const [modalActive, setModalActive] = React.useState(false);
   const {auth} = useContext(AuthContext)
+  const { store } = useContext(GlobalStoreContext);
 
   const navigate = useNavigate();
 
@@ -46,6 +48,7 @@ export default function SideBar() {
           setModalActive(true)
           break;
         }
+        store.loadUserMaps(auth.user.username);
         navigate("/projects", {})
         break;
 
