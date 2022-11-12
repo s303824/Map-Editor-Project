@@ -106,7 +106,7 @@ registerMap = async (req, res) => {
 deleteMap = async (req, res) => {
     try{
         const {  _id } = req.body;
-        
+
         if(!_id){
             return res
                 .status(400)

@@ -152,40 +152,40 @@ updateUser = async(req, res) => {
 
     const loggedInUser = await User.findOne({ _id: _id });
     const body = req.body
+    if (!loggedInUser) {
+        return res.status(400).json({errorMessage:"User not found"});
+    }
 
     loggedInUser.first_name = first_name;
     loggedInUser.last_name = last_name;
     loggedInUser.username = username;
     loggedInUser.email = email;
 
-    loggedInUser.myProjects = myprojects
+    loggedInUser.myprojects = myprojects
     loggedInUser.liked_projects = liked_projects
     loggedInUser.disliked_projects = disliked_projects
     
     loggedInUser.profile_picture = profile_picture
     loggedInUser.publishedMaps = publishedMaps
 
-    if (!loggedInUser) {
-        return res.status(400).json({errorMessage:"User not found"});
-    }
-
-        loggedInUser
-            .save()
-            .then(() => {
-                return res.status(200).json({
-                    success: true,
-                    username: loggedInUser.username,
-                    user: loggedInUser,
-                    message: 'user updated!',
-                })
+    
+    loggedInUser
+        .save()
+        .then(() => {
+            return res.status(200).json({
+                success: true,
+                username: loggedInUser.username,
+                user: loggedInUser,
+                message: 'user updated!',
             })
-            .catch(error => {
-                console.log((error));
-                return res.status(404).json({
-                    error,
-                    message: 'user not updated!',
-                })
+        })
+        .catch(error => {
+            console.log((error));
+            return res.status(404).json({
+                error,
+                message: 'user not updated!',
             })
+        })
 
 }
 

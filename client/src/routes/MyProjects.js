@@ -20,16 +20,18 @@ const MyProjects=() =>{
     const {auth} = useContext(AuthContext);
     const navigate = useNavigate();
 
-    if(auth.user == null) {
-      return null;
-    }
-    store.loadUserMaps(auth.user.username);
-    // useEffect(() => {
-    //   store.loadUserMaps(auth.user.username);
-    // }, []);
+    useEffect(() => {
+      auth.getLoggedIn();      
+    }, []);
+
+    useEffect(() => {
+      if (auth.user !== null){
+        store.loadUserMaps(auth.user.username);
+      }
+    }, [auth.user])
 
 
-    const handleCreateNewProject = () => {   
+    const handleCreateNewProject = async () => {   
 
       let mapData = {
             compressionlevel: -1,
@@ -85,10 +87,8 @@ const MyProjects=() =>{
             version: "1.9",
             width: 30
         }
-      store.setNewMap(mapData)
-
-
-      // navigate("/editor")
+      await store.setNewMap(mapData)
+      navigate("/editor")
     }
 
     let mapList = 

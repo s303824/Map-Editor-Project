@@ -31,12 +31,12 @@ function GlobalStoreContextProvider(props) {
 
     // THESE ARE ALL THE THINGS OUR DATA STORE WILL MANAGE
     const [store, setStore] = useState({
-        publishedMaps: [ ],              //holds all the published maps
-        userMaps: [ ],                      //holds all the maps created by the user
+        publishedMaps: [],              //holds all the published maps
+        userMaps: [],                      //holds all the maps created by the user
         currentMap: {},                    //holds the current map opened for editing
-        currentPublishedMap:[ ],     //holds the current published map opened for viewing
-        currentLayer: [ ],                 //holds the the layer that is now being modified in the map editor.       
-        currentTileSet: [ ],               //holds the the tileset that is now being displayed in the map editor.
+        currentPublishedMap:[],     //holds the current published map opened for viewing
+        currentLayer: [],                 //holds the the layer that is now being modified in the map editor.       
+        currentTileSet: [],               //holds the the tileset that is now being displayed in the map editor.
         currentTile: null,                 //holds the tile selected from the current tileset
         tilesetBeingEdited: [],        //holds the tileset that is opened for editing
         selectedMapEditTool: "",  //used to control editing actions 
@@ -54,20 +54,20 @@ function GlobalStoreContextProvider(props) {
         switch(type) {
             case GlobalStoreActionType.LOAD_PUBLISHED_MAPS:
                 return setStore({
-                    publishedMaps: payload,              
-                    userMaps: [ ],                      
-                    currentMap: {},                    
-                    currentPublishedMap:[ ],     
-                    currentLayer: [ ],       
-                    currentTileSet: [ ],              
-                    currentTile: null,
-                    tilesetBeingEdited: [],        
-                    selectedMapEditTool: "",   
-                    canUndo: false,                  
-                    canRedo: false,                  
-                    searchCriteria: "",            
-                    openModal: "",       
-                    mapMarkedForDeletion: null
+                    publishedMaps: payload.publishedMaps,              
+                    userMaps: store.userMaps,                      
+                    currentMap: store.currentMap,                    
+                    currentPublishedMap: store.currentPublishedMap,     
+                    currentLayer: store.currentLayer,       
+                    currentTileSet: store.currentTileSet,              
+                    currentTile: store.currentTile,
+                    tilesetBeingEdited: store.tilesetBeingEdited,        
+                    selectedMapEditTool: store.selectedMapEditTool,   
+                    canUndo: store.canUndo,                  
+                    canRedo: store.canRedo,                  
+                    searchCriteria: store.searchCriteria,            
+                    openModal: store.openModal,       
+                    mapMarkedForDeletion: store.mapMarkedForDeletion
                 })
             
             case GlobalStoreActionType.LOAD_USER_MAPS:
@@ -110,7 +110,7 @@ function GlobalStoreContextProvider(props) {
                 return setStore({
                     publishedMaps: store.publishedMaps,              
                     userMaps: store.userMaps,                      
-                    currentMap: payload.currentMap,                    
+                    currentMap: store.currentMap,                    
                     currentPublishedMap: payload.mapInfo,     
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
@@ -261,7 +261,7 @@ function GlobalStoreContextProvider(props) {
                     openModal: store.openModal,       
                     mapMarkedForDeletion: store.mapMarkedForDeletion
                 })
-            case GlobalStoreActionType.SET_THE_MAP_MARKED_FOR_DELETETION:
+            case GlobalStoreActionType.SET_THE_MAP_MARKED_FOR_DELETION:
                 return setStore({
                     publishedMaps: store.publishedMaps,              
                     userMaps: store.userMaps,                      
@@ -415,7 +415,6 @@ store.setNewMap = async function(mapData){
 
             }});
         
-            history("/editor", [])
         }
     }
     catch(error){
@@ -431,6 +430,9 @@ store.setNewMap = async function(mapData){
 
 //Deletes the selected map 
 store.deleteMap= async function (mapId) {
+    console.log("mapIdmapIdmapId")
+    console.log(mapId)
+    console.log("mapIdmapIdmapId")
     const response = api.deleteMap(mapId);
     if (response.status === 200) {
         storeReducer({
@@ -543,7 +545,7 @@ store.loadMapEditor= async function (mapId, mapInfo) {
                 type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                 payload: {
                     currentMap: response.data.map,
-                    // mapInfo: mapInfo, 
+                    mapInfo: mapInfo, 
                 }
             });
         }

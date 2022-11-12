@@ -57,7 +57,7 @@ function AccountSettings() {
         }
         let userData = {
             username: username,
-            id: auth.user._id,
+            _id: auth.user._id,
             email: auth.user.email, 
             first_name: auth.user.first_name,
             last_name: auth.user.last_name, 
@@ -75,7 +75,7 @@ function AccountSettings() {
         }
         let userData = {
             username: auth.user.username,
-            id: auth.user._id,
+            _id: auth.user._id,
             email: auth.user.email, 
             first_name: firstName,
             last_name: lastName, 
@@ -100,7 +100,7 @@ function AccountSettings() {
         }
         let userData = {
             username: auth.user.username,
-            id: auth.user._id,
+            _id: auth.user._id,
             email: email, 
             first_name: auth.user.first_name,
             last_name: auth.user.last_name, 
@@ -175,7 +175,7 @@ function AccountSettings() {
              
                 let userData = {
                     username: auth.user.username,
-                    id: auth.user._id,
+                    _id: auth.user._id,
                     email: auth.user.email, 
                     first_name: auth.user.first_name,
                     last_name: auth.user.last_name, 
@@ -198,7 +198,7 @@ function AccountSettings() {
     const handleRemoveProfilePicture = () => {      // handles request for removing the profile picture of the user
         let userData = {
             username: auth.user.username,
-            id: auth.user._id,
+            _id: auth.user._id,
             email: auth.user.email, 
             first_name: auth.user.first_name,
             last_name: auth.user.last_name, 
@@ -291,7 +291,7 @@ function AccountSettings() {
                     <TextField
                     required
                     id="outlined-required"
-                    
+                    label="Required"
                     defaultValue=""
                     variant="filled"
                     helperText="Enter a unique username"

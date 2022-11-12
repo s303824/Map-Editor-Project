@@ -20,10 +20,6 @@ const MapEditor=() =>{
     const { store } = useContext(GlobalStoreContext);
     const {auth} = useContext(AuthContext);
 
-    if(auth.user == null) {
-        return null;
-    }
-    store.loadUserMaps(auth.user.username);
     return(
         <Box className="map-editor-container" >
           <Grid container spacing={1}>

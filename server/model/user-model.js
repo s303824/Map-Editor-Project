@@ -17,7 +17,7 @@ const userSchema = new Schema(
         liked_projects: [{type: Schema.Types.ObjectId, ref: 'MapInfo'}], //type: array - list of maps liked by the user\
         disliked_projects: [{type: Schema.Types.ObjectId, ref: 'MapInfo'}], //type: array - list of maps disliked by the user
     
-        myprojects: [{type: Schema.Types.ObjectId, ref: 'Map'}],  //type: array  -        list of maps created by the user 
+        myprojects: [{type: Schema.Types.ObjectId, ref: 'MapInfo'}],  //type: array  -        list of maps created by the user 
     
         passwordHash: {               // password of the user
             type: String,

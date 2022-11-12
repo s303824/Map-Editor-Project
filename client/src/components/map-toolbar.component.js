@@ -28,6 +28,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { compareSync } from 'bcryptjs';
 
 
 
@@ -35,19 +36,20 @@ import DialogTitle from '@mui/material/DialogTitle';
 const MapToolBar=() =>{
     const { store } = useContext(GlobalStoreContext);
     const {auth} = useContext(AuthContext);
-
     const navigate = useNavigate();
-    const handleGoBack = () => {
-        navigate("/projects", {})
+    const handleGoBack = async () => {
+        await auth.getLoggedIn()
+        await store.loadUserMaps(auth.user.username)
+        navigate("/projects", {});
     }
 
     const [open, setOpen] = React.useState(false);    
     const [dialogopen, setDialogOpen] = React.useState(false);
-
+    
     const anchorRef = React.useRef(null);
 
     const handleClickOpen = () => {
-      setDialogOpen(true);
+        setDialogOpen(true);
     };
   
     const handleDialogClose = () => {
@@ -56,6 +58,8 @@ const MapToolBar=() =>{
   
 
     const handleToggle = () => {
+        console.log(store.currentMap)
+        console.log(auth.user)
         setOpen((prevOpen) => !prevOpen);
     };
 
@@ -74,14 +78,29 @@ const MapToolBar=() =>{
             setOpen(false);
         }
     }
-
-    const handleDeleteMap = () => {
-        console.log(store.userMaps)
+    
+    const handleDeleteMap = async () => {
+        // console.log(store.userMaps)
+        // console.log(auth.user)
+        // console.log(store.currentMap)
         console.log(auth.user)
-        console.log(store.currentMap)
-        // handleGoBack()
+        let userData = {
+            username: auth.user.username,
+            _id: auth.user._id,
+            email: auth.user.email, 
+            first_name: auth.user.first_name,
+            last_name: auth.user.last_name, 
+            myprojects: auth.user.myprojects.filter(mapinfo => mapinfo !== store.currentMap.mapinfo), 
+            liked_projects: auth.user.liked_projects, 
+            profile_picture: auth.user.profile_picture,
+            publishedMaps: auth.user.publishedMaps
+        }
+        
+        await store.deleteMap(store.currentMap._id)
+        await auth.updateUser(userData)
+        handleGoBack()
     }
-
+ 
     // return focus to the button when we transitioned from !open -> open
     const prevOpen = React.useRef(open);
     React.useEffect(() => {
@@ -195,7 +214,7 @@ const MapToolBar=() =>{
                                         onKeyDown={handleListKeyDown}
                                     >
                                         {/* add settings to the settings menu-bar here  */}
-                                        <MenuItem onClick={handleClose}>andom map settings</MenuItem>    
+                                        <MenuItem onClick={handleClose}>random map settings</MenuItem>    
                                         <MenuItem onClick={handleClose}>random map settings2</MenuItem>  
                                         <MenuItem onClick={handleClickOpen}>Delete Map</MenuItem>
                                     </MenuList>
