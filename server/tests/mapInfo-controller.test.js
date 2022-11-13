@@ -7,39 +7,52 @@ const mongoose = require('mongoose')
 const filter = { _id: _id };
 const update = {
                 name: "Thrid Map",
-                likes: 100, 
-                dislikes: 20, 
+                likes: 1, 
+                dislikes: 0, 
                 downloads: 1000
                 };
 
+
 const mockMapInfo = new MapInfo({
-    _id: _id,
-    name: "Second Map", 
-    creator: ["silonyx2"], 
-    comments: ["",""],
-    thumbnailURL: "none",
-    likes: 10, 
-    dislikes: 2, 
-    downloads: 100, 
-    map_id:"635888fba27acc0f5035c2f2",
-    published: true,
-    editActive: false
+    _id: _id, 
+    name: "Untitled Map",
+    creator: [{
+        creator: "user1",
+        email: "user1@gmail.com",
+        profile_picture: "profile_pic_URL"
+    }],
+    thumbnailURL: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYYS6BCkllOoE3CBQP8Uh1GRp13pFm4qImPg&usqp=CAU",
+    comments: [],
+    likes: 0, 
+    dislikes: 0, 
+    downloads: 0,
+    description: " ", 
+    map_id: "635888fba27acc0f5035c2f2", 
+    published: "false", 
+    editActive: false, 
+    tags: []
+
 })
 
 const mockUpdateMapInfo = new MapInfo({
     _id: _id,
+    creator: [{
+        creator: "user1",
+        email: "user1@gmail.com",
+        profile_picture: "profile_pic_URL"
+    }],
+    comments: [],
+    tags: [],
     name: "Thrid Map",
-    creator: ["silonyx2"], 
-    comments: ["",""],
-    thumbnailURL: "none",
-    likes: 100, 
-    dislikes: 20, 
-    downloads: 1000, 
-    map_id:"635888fba27acc0f5035c2f2",
-    published: true,
+    thumbnailURL: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYYS6BCkllOoE3CBQP8Uh1GRp13pFm4qImPg&usqp=CAU",
+    likes: 1,
+    dislikes: 0,
+    downloads: 1000,
+    description: " ",
+    map_id: "635888fba27acc0f5035c2f2",
+    published: "false",
     editActive: false,
-    __v: 0,
-
+    __v: 0
 })
 
 beforeAll(async () => {
