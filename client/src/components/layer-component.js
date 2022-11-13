@@ -9,16 +9,28 @@ import ArrowCircleUpTwoToneIcon from '@mui/icons-material/ArrowCircleUpTwoTone';
 import Typography from '@mui/material/Typography';
 import Tile from './tile.component';
 import LayerTileBackround from "../assets/layer-backround.jpg";
+import { useContext } from 'react';
+import { GlobalStoreContext } from '../store';
 
 const Layer =()=>{
-  const imageSize = 1028;
-  const tileCount = 400; 
+  const {store} = useContext(GlobalStoreContext);
+  let currentLayer = store.currentLayer[0];
+  console.log("current",currentLayer.data)
+  const tileCount = currentLayer.height * currentLayer.width;
   const tileWidth = 64;
-  
+
+  let tilesets = store.tilesets;
+
+  const findTileImage = () => {
+
+  }
+  //should have the total tile count in the 
+  //should just render layer.data array
+
     return(
       <Box>
         <ImageList 
-          cols={20} 
+          cols={currentLayer.width} 
           gap={0} 
           sx={{
             backgroundColor:'#B8B8B8',
@@ -38,9 +50,9 @@ const Layer =()=>{
                 backgroundColor: "#ffc806",
                 outline: `1px solid #ffc806`,
             }}}>
-          {Array.from({ length: tileCount }, (_, i) => (
-          <Tile id={i} row={200} column={200} img={LayerTileBackround} tileWidth = {tileWidth} tileHeight={64}/>
-      ))}
+          {Array.from({ length:tileCount }, (_, i) => (
+          <Tile id={i}  value={currentLayer.data[i]} row={currentLayer.height} column={currentLayer.width} img={LayerTileBackround} tileWidth = {tileWidth} tileHeight={64} next={findTileImage}/>
+      ))} 
       </ImageList>
     </Box>
      
