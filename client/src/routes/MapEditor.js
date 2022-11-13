@@ -20,6 +20,12 @@ const MapEditor=() =>{
     const { store } = useContext(GlobalStoreContext);
     const {auth} = useContext(AuthContext);
 
+    useEffect(() => {
+        if (store.currentPublishedMap.length == 0){
+          store.loadMapById(window.location.pathname.split("/")[2]);
+        }
+      }, [store])
+
     return(
         <Box className="map-editor-container" >
           <Grid container spacing={1}>

@@ -30,12 +30,12 @@ const MapCard = ({mapInfo}) => {
     //function for handling when a user clicks "view" on a mapcard
     const handleViewMap = () => {
         store.loadMapViewer(mapInfo.map_id, mapInfo)
-        navigate("/view", {})
+        navigate("/view/"+mapInfo._id, {})
     }
 
     const handleEditMap = () => {
         store.loadMapEditor(mapInfo.map_id, mapInfo)
-        navigate("/editor", {})
+        navigate("/editor/"+mapInfo._id, {})
     }
 
  const {name,description,likes,dislikes,downloads,editActive,published,thumbnailURL, creator, userImage, tags} = mapInfo;
@@ -90,9 +90,6 @@ const MapCard = ({mapInfo}) => {
             </Box> :  <Box>
                 <Button disabled={editActive} sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginTop:2}} onClick={handleEditMap}>
                     EDIT
-                </Button>
-                <Button disabled={editActive} sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginLeft:2 ,marginTop:2}}>
-                    PUBLISH
                 </Button>
             </Box>
             }

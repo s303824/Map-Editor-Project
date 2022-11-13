@@ -1,23 +1,21 @@
-import { Button, Grid } from '@mui/material';
 import Box from '@mui/material/Box';
-import { Link } from 'react-router-dom';
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { GlobalStoreContext } from '../store'
 import "../App.css"
-import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react'
-import AuthContext from '../auth';
-import HomeBanner from '../components/banner.component';
 import Typography from '@mui/material/Typography';
-import MapCard from '../components/map-card.component';
-import List from '@mui/material/List';
 import mapImage from '../assets/map-card.jpg';
 import CommentSection from '../components/comment-section.component';
 import RightSidebar from "../components/right-sidebar.component"
 
 const MapViewer=() =>{ 
     const { store } = useContext(GlobalStoreContext);
-    const {auth} = useContext(AuthContext);
+    const [mapInfo_id, setMapInfo_id] = useState("")
+    
+    useEffect(() => {
+      if (store.currentPublishedMap.length == 0){
+        store.loadMapById(window.location.pathname.split("/")[2]);
+      }
+    }, [store])
 
     return (
       <Box className="home-container" sx={{marginLeft:'260px' }}>

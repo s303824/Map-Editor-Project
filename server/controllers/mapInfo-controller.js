@@ -218,13 +218,12 @@ getMapInfoByListOfIds = async (req, res) => {
 
 getMapInfo = async (req, res) => {
     try{
-        const {  _id } = req.body;
-        if(!_id){
+        if(!req.query._id){
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
-        MapInfo.findOne({_id: _id}, function (err, docs) {
+        MapInfo.findOne({_id: req.query._id}, function (err, docs) {
             if (err){
                 console.log(err)
                 
@@ -239,7 +238,6 @@ getMapInfo = async (req, res) => {
                     });
 
                 }
-                console.log("Map Information: ", docs);
                 return res
                 .status(200)
                 .json({ 

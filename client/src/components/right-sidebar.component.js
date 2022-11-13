@@ -12,8 +12,6 @@ import UserCard from './user-card.component';
 import GlobalStoreContext from '../store';
 import { useContext, useState } from 'react';
 import AuthContext from '../auth';
-
-import CancelTwoToneIcon from '@mui/icons-material/CancelTwoTone';
 import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import Grow from '@mui/material/Grow';
@@ -22,6 +20,7 @@ import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import UnpublishMap from './unpublish.component';
+import ReportModal from './report-modal.component';
 
 
 const drawerWidth = 240;
@@ -32,7 +31,11 @@ export default function RightSideBar(mapInfo) {
   const anchorRef = React.useRef(null);
   const [open, setOpen] = React.useState(false);
   const [settings, setSettings] = useState(false);
+  const [reportOpen, setReportOpen] = useState(false);
   
+  const handleOpenReport = () => {
+    setReportOpen(true)
+  }
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -72,6 +75,8 @@ function handleListKeyDown(event) {
 
   //HERE FOR MAKING THE UNPUBLISH MODAL
   let unpublishModal = settings ? <UnpublishMap onClose={() => setSettings(false)}></UnpublishMap> : null
+
+  let reportModal = reportOpen ? <ReportModal onClose={() => {setReportOpen(false)}}></ReportModal> : null
 
 
 
@@ -127,7 +132,7 @@ function handleListKeyDown(event) {
 
 
 
-  let creatorSettings = <Box>
+  let creatorSettings = <Box marginLeft={22.5}>
         <IconButton aria-label="settings"
         ref={anchorRef}
         id="composition-button"
@@ -183,6 +188,7 @@ if(auth.user) {
   return (
     <Box className ='sidebar' position="fixed">
       {unpublishModal}
+      {reportModal}
       <Drawer  
         sx={{
           width: drawerWidth,
@@ -221,6 +227,10 @@ if(auth.user) {
         </Box>
         <Button sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginTop:5}}>
                 Download
+            </Button>
+
+            <Button onClick={handleOpenReport}sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc400)',borderRadius:'5px',color:"white",fontWeight:"bold",marginTop:5, marginLeft:16, width:100}}>
+                Report
             </Button>
           {creatorSettings}
       </Drawer>

@@ -4,12 +4,15 @@ import {Route, Link, Routes, useLocation} from 'react-router-dom';
 import MapToolBar from '../components/map-toolbar.component';
 import Banner from '../components/navbar.component';
 import TileSetToolBar from '../components/tileset-editor-toolbar.component';
+import { useContext } from 'react';
+import GlobalStoreContext from '../store';
 
 const Navigation=() =>{ 
+  const {store} = useContext(GlobalStoreContext)
     const location = useLocation();
     const pathname = location.pathname;
     let toolbar =
-    pathname === "/editor"
+    pathname.split("/")[1] === "editor"
     ? <MapToolBar/>
     : pathname === "/tileseteditor"
     ? <TileSetToolBar/>

@@ -574,7 +574,7 @@ store.publishCurrentMap = async function () {
                 }
             })
         }
-
+        navigate("/projects")
     }
 
 }
@@ -664,6 +664,25 @@ store.loadMapEditor= async function (mapId, mapInfo) {
                 mapInfo: {}, 
             }
         });
+    }
+}
+
+store.loadMapById = async function(mapInfo_id) {
+    const response = await api.getMapInfo(mapInfo_id)
+    if(response.status===200) {
+
+        const response2 = await api.getMap(response.data.mapInfo.map_id)
+        
+        if(response2.status === 200) {
+            storeReducer({
+                type: GlobalStoreActionType.SET_THE_CURRENT_PUBLISHED_MAP,
+                payload: {
+                    currentMap: response.data.map,
+                    mapInfo: response.data.mapInfo, 
+                }
+            });
+        }
+
     }
 }
 
@@ -762,6 +781,14 @@ store.changeMapSettings = async function (_id, title, description, tags) {
         })
     }
 
+}
+
+store.sendReport = async function(report) {
+    console.log(store.currentPublishedMap._id)
+    const response = await api.sendReport({report:report, mapInfo_id:store.currentPublishedMap._id})
+    if(response.status === 200) {
+        return true;
+    }
 }
 
 

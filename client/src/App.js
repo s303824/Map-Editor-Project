@@ -30,9 +30,9 @@ const App = () => {
               <Route path="/projects" element={<MyProjects/>}/>
               <Route path="/explore" element={<Explore/>}/>
               <Route path="/tileseteditor" element={<TileSetEditor/>}/>
-              <Route path="/editor" element={<MapEditor/>}/>
+              <Route path="/editor/:id" element={<MapEditor/>}/>
               <Route path="/likedmaps" element={<LikedMaps/>}/>
-              <Route path="/view" element={<MapViewer/>}/>
+              <Route path="/view/:id" element={<MapViewer/>}/>
               <Route path="/reset" element={<PasswordReset/>}/>
               <Route path="/login" element={<SignIn/>}/>
               <Route path="/logout" element={<SignOut/>}/>

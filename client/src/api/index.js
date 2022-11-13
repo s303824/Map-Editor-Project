@@ -21,7 +21,7 @@ export const getMap = (payload) => api.get(`/getMap/`, {params: {_id: payload}})
 export const registerMapInfo = (payload) => api.post(`/registerMapInfo/`, payload)
 export const deleteMapInfo = () => api.delete(`/deleteMapInfo/`)
 export const updateMapInfo = (payload) => api.put(`/updateMapInfo/`, payload)
-export const getMapInfo = () => api.get(`/getMapInfo/`)
+export const getMapInfo = (payload) => api.get(`/getMapInfo/`, {params: {_id: payload}})
 export const getAllMapInfoByUser = (payload) => api.get(`/getAllMapInfoByUser/`, {params: {username: payload}})
 export const getAllPublishedMapInfo = () => api.get(`/getAllPublishedMapInfo/`)
 export const addCreator = () => api.get(`/addCreator/`)
@@ -34,6 +34,8 @@ export const registerTileSet = (payload) => api.post(`/registerTileSet/`, payloa
 export const deleteTileSet = () => api.delete(`/deleteTileSet/`)
 export const updateTileSet = (payload) => api.put(`/updateTileSet/`, payload)
 export const getTileSet = () => api.get(`/getTileSet/`)
+
+export const sendReport = (payload) => api.post(`/report/`, payload)
 
 
 const apis= {
@@ -62,6 +64,7 @@ const apis= {
     getTileSet,
     getMapInfoByListOfIds,
     getAllMapInfoSortedByLikes,
+    sendReport,
 }
 
 export default apis;

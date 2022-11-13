@@ -4,6 +4,7 @@ const UserController = require('../controllers/user-controller')
 const MapController = require('../controllers/map-controller')
 const MapInfoController = require('../controllers/mapInfo-controller')
 const TileSetController = require('../controllers/tileset-controller')
+const ReportController = require('../controllers/report-controller')
 
 const router = express.Router()
 
@@ -36,5 +37,7 @@ router.post('/registerTileSet', TileSetController.registerTileSet)
 router.delete('/deleteTileSet', TileSetController.deleteTileSet)
 router.put('/updateTileSet', TileSetController.updateTileSet)
 router.get('/getTileSet', TileSetController.getTileSet)
+
+router.post('/report', ReportController.sendReport)
 
 module.exports = router

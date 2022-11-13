@@ -29,9 +29,9 @@ const MapSettings = ({onClose}) => {
         boxShadow: 24,
         p: 4,
       };
-      const [title, setTitle] = useState(store.currentMapInfo.name)            // For title input field 
-      const [description, setDescription] = useState(store.currentMapInfo.description)                                 // For tags input field 
-      const [tags, setTags] = useState(store.currentMapInfo.tags)                                 // For tags input field 
+      const [title, setTitle] = useState(store.currentPublishedMap.name)            // For title input field 
+      const [description, setDescription] = useState(store.currentPublishedMap.description)                                 // For tags input field 
+      const [tags, setTags] = useState(store.currentPublishedMap.tags)                                 // For tags input field 
 
       const updateField = (event, type) => {
         switch(type){
@@ -61,7 +61,8 @@ const MapSettings = ({onClose}) => {
     tagsList.length !== 0 && tags.forEach(tag => tagsList += tag + " ")
 
     let modal = modalOpen ? <LoginModal message="Successfully updated!" onClose={handleCloseModal}></LoginModal> : null
-   
+    console.log(store.currentPublishedMap)
+
     return(
         <Box>
             {modal}
