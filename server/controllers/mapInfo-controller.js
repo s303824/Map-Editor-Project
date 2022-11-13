@@ -3,10 +3,30 @@ const User = require('../model/user-model')
 
 registerMapInfo = async (req, res) => {
     try {
-        const { _id, name, creator, thumbnailURL, comments, likes, 
-            dislikes, downloads, map_id, published, description } = req.body;
-        if (!(_id, name && creator && thumbnailURL && comments && likes 
-            && dislikes && downloads && map_id && published && description)) {
+        const { _id, name,
+            creator,
+            thumbnailURL,
+            comments,
+            likes, 
+            dislikes, 
+            downloads,
+            description, 
+            map_id, 
+            published, 
+            editActive, 
+            tags } = req.body;
+        if (!(_id, name &&
+            creator &&
+            thumbnailURL &&
+            comments &&
+            likes &&
+            dislikes && 
+            downloads &&
+            description && 
+            map_id &&
+            published && 
+            editActive &&
+            tags)) {
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
@@ -21,22 +41,24 @@ registerMapInfo = async (req, res) => {
                 })
         }
 
-        const editActive = false;
-
         const newMapInfo = new MapInfo({
             _id:_id,
             name, 
             creator: creator, 
-            thumbnailURL, 
-            comments, 
+            thumbnailURL,
+            comments,
             likes, 
             dislikes, 
-            downloads, 
+            downloads,
+            description, 
             map_id, 
-            published,
-            editActive,
-            description
+            published, 
+            editActive, 
+            tags
         });
+        if(thumbnailURL == "") {
+            newMapInfo.thumbnailURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYYS6BCkllOoE3CBQP8Uh1GRp13pFm4qImPg&usqp=CAU"
+        }
 
         if(_id) {
             newMapInfo._id = _id
@@ -102,16 +124,18 @@ deleteMapInfo = async (req, res) => {
 }
 
 updateMapInfo = async (req, res) => {
-    const { _id, name, creator, thumbnailURL, comments, likes, 
-        dislikes, downloads, published, description } = req.body;
+    const { _id, name,
+        creator,
+        thumbnailURL,
+        comments,
+        likes, 
+        dislikes, 
+        downloads,
+        description, 
+        published, 
+        editActive, 
+        tags } = req.body;
     const selectedMapInfo = await MapInfo.findOne({ _id: _id });
-    const creator_exists = await User.findOne({username: creator})
-
-    if (!creator_exists){
-        return res
-                .status(404)
-                .json({ errorMessage: "The user you entered doesn't exist" });
-    }
 
     if(!selectedMapInfo) {
         return res
@@ -129,6 +153,7 @@ updateMapInfo = async (req, res) => {
     selectedMapInfo.downloads = downloads;
     selectedMapInfo.published = published;
     selectedMapInfo.description = description;
+    selectedMapInfo.tags = tags;
 
     MapInfo.findOneAndUpdate({_id: _id}, {
         name : name,
@@ -139,34 +164,66 @@ updateMapInfo = async (req, res) => {
         dislikes : dislikes,
         downloads : downloads,
         published : published,
-        description : description
+        description : description,
+        published : published, 
+        editActive : editActive, 
+        tags : tags
     }, function (err, docs) {
         if (err){
             console.log(err)
             return res.status(500).send();
         }
         else{
-            console.log("Updated MapInfo: ", docs);
             return res
                 .status(200)
                 .json({ 
                     Message: "Map info Updated.",
-                    mapInfo: docs 
+                    mapInfo: selectedMapInfo 
                 
                 });
         }
     });
 }
 
+getMapInfoByListOfIds = async (req, res) => {
+    if(!req.query.idList) {
+        return res
+                .status(400)
+                .json({ errorMessage: "Please enter all required fields." });
+    }
+    MapInfo.find({_id: req.query.idList}, function (err, docs) {
+        if(err) {
+
+        }
+        else {
+            if(docs == null) {
+                return res
+                .status(400)
+                .json({
+                    message: "no maps found!",
+                    mapInfo: null
+                })
+            }
+            else {
+                return res
+                .status(200)
+                .json({ 
+                    Message: "success!",
+                    mapInfos: docs 
+                });
+            }
+        }
+    })
+}
+
 getMapInfo = async (req, res) => {
     try{
-        const {  _id } = req.body;
-        if(!_id){
+        if(!req.query._id){
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
-        MapInfo.findOne({_id: _id}, function (err, docs) {
+        MapInfo.findOne({_id: req.query._id}, function (err, docs) {
             if (err){
                 console.log(err)
                 
@@ -181,7 +238,6 @@ getMapInfo = async (req, res) => {
                     });
 
                 }
-                console.log("Map Information: ", docs);
                 return res
                 .status(200)
                 .json({ 
@@ -198,17 +254,16 @@ getMapInfo = async (req, res) => {
 
 getAllMapInfoByUser = async (req, res) => {
     try{
-        const {  username } = req.body;
-        if(!username){
+        const {  username } = req.query.username;
+        if(!req.query){
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
-        }
+        }  
 
         //find user so we can find their maps
-        User.findOne({username: username}, function (err, user) {
-            console.log(user.myprojects)
-            MapInfo.find(({_id : user.myprojects}), function (err, docs) {
+        User.findOne({username: req.query.username}, function (err, user) {
+            MapInfo.find(({_id : {$in: user.myprojects}}), function (err, docs) {
                 if (err){
                     console.log(err)
                 }
@@ -233,6 +288,27 @@ getAllMapInfoByUser = async (req, res) => {
 getAllPublishedMapInfo = async (req, res) => {
     try{
         MapInfo.find(({published}), function (err, docs) {
+            if (err){
+                console.log(err)
+            }
+            else{
+                return res
+                .status(200)
+                .json({ 
+                    Message: "success!",
+                    mapInfos: docs 
+                });
+            }
+        });
+    } catch (err){
+        console.error(err);
+        res.status(500).send();
+    }
+}
+
+getAllMapInfoSortedByLikes = async (req, res) => {
+    try{
+        MapInfo.find(({published: {$ne: "false"}})).sort({likes: -1}).limit(10).exec(function (err, docs) {
             if (err){
                 console.log(err)
             }
@@ -337,5 +413,7 @@ module.exports = {
     getAllMapInfoByUser,
     getAllPublishedMapInfo,
     addCreator,
-    removeCreator
+    removeCreator,
+    getMapInfoByListOfIds,
+    getAllMapInfoSortedByLikes
 }

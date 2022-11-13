@@ -1,3 +1,4 @@
+import React, { Component, useState  } from 'react';
 import { List, ListItem,Tabs,Tab} from '@mui/material';
 import { Button, IconButton } from '@mui/material';
 import Box from '@mui/material/Box';
@@ -17,7 +18,7 @@ import { useContext } from 'react';
 const TilesetsSection =()=>{
     const navigate = useNavigate();
     const {store} =useContext(GlobalStoreContext);
-
+    const [value, setValue] = React.useState(0);
     const handleTileEdit = () => {
         navigate("/tileseteditor", {})
     }
@@ -56,6 +57,7 @@ const TilesetsSection =()=>{
                 </Box>
 
                 <Tabs
+                value={value}
                 variant="scrollable"
                 scrollButtons={false}
                 aria-label="scrollable prevent tabs example"

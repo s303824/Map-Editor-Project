@@ -4,16 +4,18 @@ const User = require("../model/user-model")
 
 registerMap = async (req, res) => {
     try {
-        const { _id, backgroundcolor, height, infinite, layers, mapinfo, nextlayerid, 
-            nextobjectid, renderorder, tiledversion, tileheight, tilesets, 
-            tilewidth, version, width } = req.body;
-        if (!( backgroundcolor && height && infinite && layers 
-            && nextlayerid && nextobjectid && renderorder && tiledversion 
-            && tileheight && tilesets && tilewidth && version && width)) {
+        const { _id, compressionlevel, backgroundcolor, height, infinite, layers, mapinfo, nextlayerid, 
+            nextobjectid, orientation, renderorder, tiledversion, tileheight, tilesets, 
+            tilewidth, type, version, width } = req.body;
+
+        if (!( compressionlevel && backgroundcolor && height && infinite!==null && layers && mapinfo
+            && nextlayerid && nextobjectid && orientation && renderorder && tiledversion 
+            && tileheight && tilesets && tilewidth && type && version && width)) {
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
+    
         const existingMap = await Map.findOne({ _id: _id });
         if (existingMap != null) {
             return res
@@ -25,6 +27,7 @@ registerMap = async (req, res) => {
         }
 
         const newMap = new Map({
+            compressionlevel,
             backgroundcolor,    // Hex-formatted color
             height,                // Number of tile rows
             infinite,          // Whether the map has infinite dimensions
@@ -32,35 +35,48 @@ registerMap = async (req, res) => {
             mapinfo,            // Project meta-data
             nextlayerid,           // Auto-increments for each layer
             nextobjectid,          // Auto-increments for each placed object
+            orientation,
             renderorder,   // right-down (the default), right-up, left-down or left-up
             tiledversion,        // The Tiled version used to save the file
             tileheight,             // Map grid height
             tilesets,             // Array of Tilesets
             tilewidth,              // Map grid width
+            type,
             version,             // The JSON format version
             width                  // Number of tile columns
         });
 
         //creating mapinfo
-        const {name, ownerName, thumbnailURL, comments, likes, dislikes, downloads} = mapinfo
-        const creator = [ownerName]
-        const published = "not-published"
+        const {ownerName, email, profile_picture} = mapinfo
+        const description = " "
+        const creator = [{creator:ownerName, email:email, profile_picture:profile_picture}]
+        const published = "false"
         const map_id = _id ? _id : newMap._id
+        const thumbnailURL = "blah"
+        const name = "Untitled Map"
         const editActive = false;
+        const downloads = 0;
+        const likes = 0;
+        const dislikes = 0;
+        const comments = [];
+        const tags = ""
 
         const newMapInfo = new MapInfo({
             name,
             creator,
             thumbnailURL,
             comments,
-            likes,
-            dislikes,
+            likes, 
+            dislikes, 
             downloads,
-            map_id,
-            published,
-            editActive
+            description, 
+            map_id, 
+            published, 
+            editActive, 
+            tags
         });
-        
+
+        newMapInfo.thumbnailURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYYS6BCkllOoE3CBQP8Uh1GRp13pFm4qImPg&usqp=CAU"
         newMap.mapinfo = newMapInfo._id;
 
         //adding map to user projects
@@ -92,7 +108,8 @@ registerMap = async (req, res) => {
 deleteMap = async (req, res) => {
     try{
         const {  _id } = req.body;
-        
+        console.log(req.body)
+
         if(!_id){
             return res
                 .status(400)
@@ -108,6 +125,7 @@ deleteMap = async (req, res) => {
             else{
 
                 const newMap = MapInfo.findOneAndDelete({map_id: _id}, function (err, map) {
+                    console.log(map)
 
                     if(err) {
                         console.log("Could not find mapInfo related to map with _id " + _id);
@@ -115,9 +133,9 @@ deleteMap = async (req, res) => {
                     console.log("Deleted MapInfo related to map with _id " + _id)
 
                     for(var i=0; i<map.creator.length; i++) {
-                        User.findOne({username:  map.creator[i]}, function(err, loggedInUser) { 
+                        User.findOne({username:  map.creator[i].creator}, function(err, loggedInUser) { 
                             loggedInUser.myprojects = loggedInUser.myprojects.filter(function(e) {return e != map._id})
-                            loggedInUser.save();
+                            //loggedInUser.save();
                         });
                     }
 
@@ -180,24 +198,24 @@ updateMap = async (req, res) => {
 
 getMap = async (req, res) => {
     try{
-        const {  _id } = req.body;
+        const   _id  = req.query._id;
         if(!_id){
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
-        Map.findOne({_id: _id}, function (err, docs) {
+        Map.findOne({_id: req.query._id}, function (err, docs) {
             if (err){
                 console.log(err)
                 return res.status(404).json({
                     message: "Map not found!"
-                }).send();
+                })
             }
             else{
                 return res.status(200).json({
                     success:true,
-                   docs 
-                }).send();
+                    map: docs 
+                })
                 
             }
         })

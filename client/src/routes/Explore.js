@@ -6,58 +6,23 @@ import Typography from '@mui/material/Typography';
 import MapCard from '../components/map-card.component';
 import AuthContext from '../auth';
 import mapImage from '../assets/map-card.jpg'
+import mockUserImage from '../assets/guestImage.jpg'
 
 
 function SearchResults() {
     const { store } = useContext(GlobalStoreContext);
     const {auth} = useContext(AuthContext);
-    
-    const mapCardInfo = [ //to display sample data 
-      {
-        "id": 2,
-        "name": "Fantasy Quest 5",
-        "description":["#medieval", "#fantasy", "#action"],
-        "likes":50,
-        "dislikes":10,
-        "downloads":40,
-        "userName":"user2",
-        "email":"user2@gmail.com",
-        "editActive":null,
-        "published":"2/3/2021",
-        "imageUrl": mapImage
-      },
-      {
-        "id": 3,
-        "name": "The Fantasy Adventure",
-        "description":["#fantasy", "#soulslike", "#swordandSorcery"],
-        "likes":10,
-        "dislikes":100,
-        "downloads":10,
-        "userName":"user3",
-        "email":"user3@gmail.com",
-        "editActive":null,
-        "published":"2/3/2021",
-        "imageUrl": mapImage
-      },
-      {
-        "id": 3,
-        "name": "The Quest for Fantasy and Adventure",
-        "description":["#fetchQuest", "#EscortMission"],
-        "likes":10,
-        "dislikes":100,
-        "downloads":10,
-        "userName":"user3",
-        "email":"user3@gmail.com",
-        "editActive":null,
-        "published":"2/3/2021",
-        "imageUrl": mapImage
-      }
-    ];
+
+
+    let maps = false ?
+    null
+    : 
+    <Typography color="white" fontSize={24}>There are no maps matching your current search</Typography>
 
     return (
       <Box className="home-container" sx={{marginLeft:'260px' }}>
 
-        <Typography variant="h4" sx={{color:"white",marginTop:'1%',marginBottom:'2%'}}>Search Results for Fantasy</Typography>
+        <Typography variant="h4" sx={{color:"white",font:'Bebas Neue',marginTop:'1%',marginBottom:'2%'}}>Search Results for Fantasy</Typography>
 
         <Box 
           className="mapcard-container" 
@@ -76,10 +41,7 @@ function SearchResults() {
               backgroundColor: "#ffc806",
               outline: `1px solid #ffc806`,
             }}}>
-
-          {mapCardInfo.map((map) => (
-            <MapCard key={map.id} mapInfo={map} />
-          ))}
+              {maps}
         </Box>
       </Box>
     );

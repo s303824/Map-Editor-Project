@@ -18,17 +18,23 @@ function AccountSettings() {
     const [modalActive, setModalActive] = React.useState(false);                 // Modal for when the user trys to update account info without an inputs
     const [passwordModal, setPasswordModal] = React.useState(false);             // Modal for checking if password & Verify password match
     const [passwordFormatModal, setPasswordFormatModal] = React.useState(false); // For checking if password format is correct
-    const [emailModal, setEmailModal] = React.useState(false);                   // For checking if email format is correct       
+    const [emailModal, setEmailModal] = React.useState(false);                   // For checking if email format is correct     
+    const [errorModal, setErrorModal] = useState(auth.error != null);                         // Modal for when there is an error updating a field  
 
-    const [firstName, setFirstName] = useState("")                               // For first name input field 
-    const [lastName, setLastName] = useState("")                                 // For last name input field 
-    const [username, setUsername] = useState("")                                 // For username input filed
-    const [email, setEmail] = useState("")                                       // For email input field
+    const [firstName, setFirstName] = useState(auth.user.first_name)                               // For first name input field 
+    const [lastName, setLastName] = useState(auth.user.last_name)                                 // For last name input field 
+    const [username, setUsername] = useState(auth.user.username)                                 // For username input filed
+    const [email, setEmail] = useState(auth.user.email)                                       // For email input field
     const [currentPassword, setCurrentPassword] = useState("")                   // For current password input field 
     const [password, setPassword] = useState("")                                 // For password input field
     const [passwordVerify, setPasswordVerify] = useState("")                     // For password verify input field 
     const [checked, setChecked] = useState(false);                               // For checking if user agreed to conditions before deleting account
 
+    useEffect(() => {
+        if (auth.user){
+          setErrorModal(auth.error != null);
+        }
+      }, [auth])
 
     const default_image = "https://res.cloudinary.com/natialemu47/image/upload/v1652196653/dnt17uj4nl9ywfq648v8.jpg";
 
@@ -44,11 +50,17 @@ function AccountSettings() {
     const handlePasswordFormatModalClose = () => { // For closing modal
         setPasswordFormatModal(false)
     }
+    const handleErrorModalClose = () => {
+        setErrorModal(false)
+        auth.resetError()
+    }
     const password_Format_modal = passwordFormatModal ? <LoginModal message = "Password should have at least 1 lower, 1 upper case and 1 number. Password should also be longer than 8 characters!" onClose={handlePasswordFormatModalClose}></LoginModal>: null;
     const email_modal = emailModal ? <LoginModal message = "Email is invalid!" onClose={handleEmailModalClose}></LoginModal>: null;
   
     const modal = modalActive ? <LoginModal message= "Enter the required field first!" onClose={handleModalClose}> </LoginModal>: null;
     const delete_modal = passwordModal ? <LoginModal message = "Passwords do not match!" onClose={handlePasswordModalClose}></LoginModal>: null;
+
+    const error_modal = errorModal ? <LoginModal message={auth.error} onClose={handleErrorModalClose}></LoginModal> : null
     
     const handleChangeUsername = () => {  // handles request for changing user name 
         if (username === ""){
@@ -57,7 +69,7 @@ function AccountSettings() {
         }
         let userData = {
             username: username,
-            id: auth.user._id,
+            _id: auth.user._id,
             email: auth.user.email, 
             first_name: auth.user.first_name,
             last_name: auth.user.last_name, 
@@ -75,7 +87,7 @@ function AccountSettings() {
         }
         let userData = {
             username: auth.user.username,
-            id: auth.user._id,
+            _id: auth.user._id,
             email: auth.user.email, 
             first_name: firstName,
             last_name: lastName, 
@@ -100,7 +112,7 @@ function AccountSettings() {
         }
         let userData = {
             username: auth.user.username,
-            id: auth.user._id,
+            _id: auth.user._id,
             email: email, 
             first_name: auth.user.first_name,
             last_name: auth.user.last_name, 
@@ -175,7 +187,7 @@ function AccountSettings() {
              
                 let userData = {
                     username: auth.user.username,
-                    id: auth.user._id,
+                    _id: auth.user._id,
                     email: auth.user.email, 
                     first_name: auth.user.first_name,
                     last_name: auth.user.last_name, 
@@ -198,7 +210,7 @@ function AccountSettings() {
     const handleRemoveProfilePicture = () => {      // handles request for removing the profile picture of the user
         let userData = {
             username: auth.user.username,
-            id: auth.user._id,
+            _id: auth.user._id,
             email: auth.user.email, 
             first_name: auth.user.first_name,
             last_name: auth.user.last_name, 
@@ -243,18 +255,17 @@ function AccountSettings() {
         }
   
       }
-  
 
-    
     return(
         <div className='account_setting'>
             {modal}
             {delete_modal}
             {password_Format_modal}
             {email_modal}
+            {error_modal}
 
             <div>
-                <h1 id='account_setting_title'>Account Settings</h1>
+                <h1 id='account_setting_title' sx={{font: 'Bebas Neue'}}>Account Settings</h1>
             </div>
             
             <div className='form-area'>
@@ -264,7 +275,7 @@ function AccountSettings() {
                 
                 <div id="edit2">
                     <div>
-                    {auth.loggedIn && <img className="profile-image" src={auth.user.profile_picture} alt="Profile-image" />}
+                    {auth.loggedIn && <img className="profile-image" src={auth.user.profile_picture} />}
                     {auth.loggedIn && <h5 id ='profile-name'>{auth.user.username}</h5>}
                     {auth.loggedIn && <h6 id = 'profile-email'>{auth.user.email}</h6>}
                     </div>
@@ -292,13 +303,13 @@ function AccountSettings() {
                     required
                     id="outlined-required"
                     label="Required"
-                    defaultValue=""
+                    value={username}
                     variant="filled"
                     helperText="Enter a unique username"
                     color="info"
                     sx={{color: 'white'}}
                     className = "text-field"
-                    value={auth.user.username}
+                    
                     onChange= {(event) => updateField(event, "username")}
                     
                     
@@ -322,30 +333,30 @@ function AccountSettings() {
                     <span>
                     <TextField
                     required
+                    value={firstName}
                     id="outlined-required"
                     label="First Name"
-                    defaultValue=""
                     variant="filled"
                     color="info"
                     sx={{color: 'white'}}
                     className = "text-field"
                     onChange={(event) => updateField(event, "firstName")}
-                    value = {auth.user.first_name}
+                    
                     
                     />
                     </span>
                     <span>
                     <TextField
                     required
+                    value={lastName}
                     id="outlined-required"
                     label="Last Name"
-                    defaultValue=""
                     variant="filled"
                     color="info"
                     sx={{color: 'white'}}
                     className = "text-field"
                     onChange={(event) => updateField(event, "lastName")}
-                    value = {auth.user.last_name}
+                    
                     
 
                     />
@@ -369,14 +380,14 @@ function AccountSettings() {
                     required
                     id="outlined-required"
                     label="Required"
-                    defaultValue=""
+                    value={email}
                     variant="filled"
                     helperText="Enter a unique email address"
                     color="info"
                     sx={{color: 'white'}}
                     className = "text-field"
                     onChange={(event) => updateField(event, "email")}
-                    value = {auth.user.email}
+                    
                     
 
                 />
@@ -420,13 +431,9 @@ function AccountSettings() {
                 autoComplete="current-password"
                 helperText={
                     <>
-                        Must be more than 8 characters
+                        Must be more than 8 characters and include
                         <br />
-                        Inclue special characters
-                        <br />
-                        Include numbers 
-                        <br/>
-                        Inclue upper/lower case characters
+                        uppercase, lowercase, and numbers
                     </>
                 }
                 sx = {{borderColor: 'white'}}

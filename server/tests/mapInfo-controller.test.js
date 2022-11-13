@@ -22,7 +22,8 @@ const mockMapInfo = new MapInfo({
     dislikes: 2, 
     downloads: 100, 
     map_id:"635888fba27acc0f5035c2f2",
-    published: true
+    published: true,
+    editActive: false
 })
 
 const mockUpdateMapInfo = new MapInfo({
@@ -36,7 +37,8 @@ const mockUpdateMapInfo = new MapInfo({
     downloads: 1000, 
     map_id:"635888fba27acc0f5035c2f2",
     published: true,
-    __v: 0 
+    editActive: false,
+    __v: 0,
 
 })
 

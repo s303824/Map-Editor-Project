@@ -1,5 +1,6 @@
-import { createContext, useContext, useState } from 'react'
-import { useHistory, useNavigate } from 'react-router-dom'
+import { breadcrumbsClasses } from '@mui/material';
+import { createContext, useContext, useEffect, useState } from 'react'
+import { Navigate, useHistory, useNavigate } from 'react-router-dom'
 import api from '../api'
 import AuthContext from '../auth';
 
@@ -20,23 +21,21 @@ export const GlobalStoreActionType = {
     SET_THE_CAN_REDO: "SET_THE_CAN_REDO",
     SET_THE_SEARCH_CRITERIA: "SET_THE_SEARCH_CRITERIA",
     SET_THE_OPEN_MODAL: "SET_THE_OPEN_MODAL",
-    SET_THE_MAP_MARKED_FOR_DELETION: "SET_THE_MAP_MARKED_FOR_DELETION"
+    SET_THE_MAP_MARKED_FOR_DELETION: "SET_THE_MAP_MARKED_FOR_DELETION",
+    UPDATE_MAP_INFO: "UPDATE_MAP_INFO"
 }
-
-/*
- const tps : jsTPS
-*/
 
 function GlobalStoreContextProvider(props) {
 
     // THESE ARE ALL THE THINGS OUR DATA STORE WILL MANAGE
     const [store, setStore] = useState({
-        publishedMaps: [ ],              //holds all the published maps
-        userMaps: [ ],                      //holds all the maps created by the user
-        currentMap: [ ],                    //holds the current map opened for editing
-        currentPublishedMap:[ ],     //holds the current published map opened for viewing
-        currentLayer: [ ],                 //holds the the layer that is now being modified in the map editor.       
-        currentTileSet: [ ],               //holds the the tileset that is now being displayed in the map editor.
+        publishedMaps: [],              //holds all the published maps
+        userMaps: [],                      //holds all the maps created by the user
+        currentMap: {},                    //holds the current map opened for editing
+        currentPublishedMap:[],     //holds the current published map opened for viewing
+        currentMapInfo:[],             //current open map mapInfo
+        currentLayer: [],                 //holds the the layer that is now being modified in the map editor.       
+        currentTileSet: [],               //holds the the tileset that is now being displayed in the map editor.
         currentTile: null,                 //holds the tile selected from the current tileset
         tilesetBeingEdited: [],        //holds the tileset that is opened for editing
         selectedMapEditTool: "",  //used to control editing actions 
@@ -48,26 +47,28 @@ function GlobalStoreContextProvider(props) {
     });
     const history = useNavigate();
     const {auth} = useContext(AuthContext);
+    const navigate= useNavigate();
 
     const storeReducer = (action) => {
         const {type, payload} = action;
         switch(type) {
             case GlobalStoreActionType.LOAD_PUBLISHED_MAPS:
                 return setStore({
-                    publishedMaps: payload,              
-                    userMaps: [ ],                      
-                    currentMap: [ ],                    
-                    currentPublishedMap:[ ],     
-                    currentLayer: [ ],       
-                    currentTileSet: [ ],              
-                    currentTile: null,
-                    tilesetBeingEdited: [],        
-                    selectedMapEditTool: "",   
-                    canUndo: false,                  
-                    canRedo: false,                  
-                    searchCriteria: "",            
-                    openModal: "",       
-                    mapMarkedForDeletion: null
+                    publishedMaps: payload.publishedMaps,              
+                    userMaps: store.userMaps,                      
+                    currentMap: store.currentMap,                    
+                    currentPublishedMap: store.currentPublishedMap,
+                    currentMapInfo:store.currentMapInfo,     
+                    currentLayer: store.currentLayer,       
+                    currentTileSet: store.currentTileSet,              
+                    currentTile: store.currentTile,
+                    tilesetBeingEdited: store.tilesetBeingEdited,        
+                    selectedMapEditTool: store.selectedMapEditTool,   
+                    canUndo: store.canUndo,                  
+                    canRedo: store.canRedo,                  
+                    searchCriteria: store.searchCriteria,            
+                    openModal: store.openModal,       
+                    mapMarkedForDeletion: store.mapMarkedForDeletion
                 })
             
             case GlobalStoreActionType.LOAD_USER_MAPS:
@@ -75,7 +76,8 @@ function GlobalStoreContextProvider(props) {
                     publishedMaps: store.publishedMaps,              
                     userMaps: payload.userMaps,                      
                     currentMap: store.currentMap,                    
-                    currentPublishedMap: store.currentPublishedMap,     
+                    currentPublishedMap: store.currentPublishedMap,
+                    currentMapInfo:store.currentMapInfo, 
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
@@ -93,7 +95,8 @@ function GlobalStoreContextProvider(props) {
                     publishedMaps: store.publishedMaps,              
                     userMaps: store.userMaps,                      
                     currentMap: payload.currentMap,                    
-                    currentPublishedMap: store.currentPublishedMap,     
+                    currentPublishedMap: store.currentPublishedMap,
+                    currentMapInfo:payload.mapInfo,      
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
@@ -111,7 +114,8 @@ function GlobalStoreContextProvider(props) {
                     publishedMaps: store.publishedMaps,              
                     userMaps: store.userMaps,                      
                     currentMap: store.currentMap,                    
-                    currentPublishedMap: store.currentPublishedMap,     
+                    currentPublishedMap: payload.mapInfo, 
+                    currentMapInfo:store.currentMapInfo,     
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
@@ -128,7 +132,8 @@ function GlobalStoreContextProvider(props) {
                     publishedMaps: store.publishedMaps,              
                     userMaps: store.userMaps,                      
                     currentMap: store.currentMap,                    
-                    currentPublishedMap: store.currentPublishedMap,     
+                    currentPublishedMap: store.currentPublishedMap,
+                    currentMapInfo:store.currentMapInfo,      
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
@@ -145,7 +150,8 @@ function GlobalStoreContextProvider(props) {
                     publishedMaps: store.publishedMaps,              
                     userMaps: store.userMaps,                      
                     currentMap: store.currentMap,                    
-                    currentPublishedMap: store.currentPublishedMap,     
+                    currentPublishedMap: store.currentPublishedMap,
+                    currentMapInfo:store.currentMapInfo,      
                     currentLayer: store.currentLayer,       
                     currentTileSet: payload.currentTileSet,          
                     currentTile: store.currentTile,
@@ -162,7 +168,8 @@ function GlobalStoreContextProvider(props) {
                     publishedMaps: store.publishedMaps,              
                     userMaps: store.userMaps,                      
                     currentMap: store.currentMap,                    
-                    currentPublishedMap: store.currentPublishedMap,     
+                    currentPublishedMap: store.currentPublishedMap,
+                    currentMapInfo:store.currentMapInfo,      
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
@@ -179,7 +186,8 @@ function GlobalStoreContextProvider(props) {
                     publishedMaps: store.publishedMaps,              
                     userMaps: store.userMaps,                      
                     currentMap: store.currentMap,                    
-                    currentPublishedMap: store.currentPublishedMap,     
+                    currentPublishedMap: store.currentPublishedMap,
+                    currentMapInfo:store.currentMapInfo,      
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
@@ -197,7 +205,8 @@ function GlobalStoreContextProvider(props) {
                     publishedMaps: store.publishedMaps,              
                     userMaps: store.userMaps,                      
                     currentMap: store.currentMap,                    
-                    currentPublishedMap: store.currentPublishedMap,     
+                    currentPublishedMap: store.currentPublishedMap,
+                    currentMapInfo:store.currentMapInfo,      
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
@@ -214,7 +223,8 @@ function GlobalStoreContextProvider(props) {
                     publishedMaps: store.publishedMaps,              
                     userMaps: store.userMaps,                      
                     currentMap: store.currentMap,                    
-                    currentPublishedMap: store.currentPublishedMap,     
+                    currentPublishedMap: store.currentPublishedMap,
+                    currentMapInfo:store.currentMapInfo,      
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
@@ -231,7 +241,8 @@ function GlobalStoreContextProvider(props) {
                     publishedMaps: store.publishedMaps,              
                     userMaps: store.userMaps,                      
                     currentMap: store.currentMap,                    
-                    currentPublishedMap: store.currentPublishedMap,     
+                    currentPublishedMap: store.currentPublishedMap,
+                    currentMapInfo:store.currentMapInfo,      
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
@@ -249,7 +260,8 @@ function GlobalStoreContextProvider(props) {
                     publishedMaps: store.publishedMaps,              
                     userMaps: store.userMaps,                      
                     currentMap: store.currentMap,                    
-                    currentPublishedMap: store.currentPublishedMap,     
+                    currentPublishedMap: store.currentPublishedMap,
+                    currentMapInfo:store.currentMapInfo,      
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
@@ -261,12 +273,31 @@ function GlobalStoreContextProvider(props) {
                     openModal: store.openModal,       
                     mapMarkedForDeletion: store.mapMarkedForDeletion
                 })
-            case GlobalStoreActionType.SET_THE_MAP_MARKED_FOR_DELETETION:
+            case GlobalStoreActionType.SET_THE_MAP_MARKED_FOR_DELETION:
                 return setStore({
                     publishedMaps: store.publishedMaps,              
                     userMaps: store.userMaps,                      
                     currentMap: store.currentMap,                    
-                    currentPublishedMap: store.currentPublishedMap,     
+                    currentPublishedMap: store.currentPublishedMap, 
+                    currentMapInfo:store.currentMapInfo,     
+                    currentLayer: store.currentLayer,       
+                    currentTileSet: store.currentTileSet,              
+                    currentTile: store.currentTile,
+                    tilesetBeingEdited: store.tilesetBeingEdited,        
+                    selectedMapEditTool: store.selectedMapEditTool,   
+                    canUndo: store.canUndo,                  
+                    canRedo: store.canRedo,                  
+                    searchCriteria: store.searchCriteria,            
+                    openModal: store.openModal,       
+                    mapMarkedForDeletion: payload.mapMarkedForDeletion
+                })
+            case GlobalStoreActionType. UPDATE_MAP_INFO:
+                return setStore({
+                    publishedMaps: store.publishedMaps,              
+                    userMaps: store.userMaps,                      
+                    currentMap: store.currentMap,                    
+                    currentPublishedMap: store.currentPublishedMap, 
+                    currentMapInfo:payload.mapInfo,     
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
@@ -302,8 +333,8 @@ store.loadPublishedMaps = async function ()  {
 }
 
 //Loads all the user maps so we can display them 
-store.loadUserMaps = async function () {
-    let response = await api.getAllMapInfoByUser(auth.user);
+store.loadUserMaps = async function (username) {
+    let response = await api.getAllMapInfoByUser(username)
     if (response.status === 200) {
         storeReducer({
             type: GlobalStoreActionType.LOAD_USER_MAPS,
@@ -312,6 +343,41 @@ store.loadUserMaps = async function () {
             }
         });
     }    
+}
+
+store.loadMapInfosByIds = async function(idList) {
+    console.log(idList)
+    if(idList.length == 0) {
+        storeReducer({
+            type: GlobalStoreActionType.LOAD_PUBLISHED_MAPS,
+            payload: {
+                publishedMaps: []
+            }
+        })
+        return;
+    }
+
+    let response = await api.getMapInfoByListOfIds(idList)
+    if(response.status === 200) {
+        storeReducer({
+            type: GlobalStoreActionType.LOAD_PUBLISHED_MAPS,
+            payload: {
+                publishedMaps: response.data.mapInfos
+            }
+        })
+    }
+}
+
+store.getMapInfosSortedByLikes = async function() {
+    let response = await api.getAllMapInfoSortedByLikes()
+    if(response.status === 200) {
+        storeReducer({
+            type: GlobalStoreActionType.LOAD_PUBLISHED_MAPS,
+            payload: {
+                publishedMaps: response.data.mapInfos
+            }
+        })
+    }
 }
 
 //called when search is entered by the user
@@ -341,30 +407,28 @@ store.searchKeyword =  function (keyword) {
 }
 
 //Updates the number of likes for the published map
-store.updateMapLike= async function (mapId) {
-    let map = api.getMapInfo(mapId)
-    map.likes = map.likes + 1
-    const response = api.updateMapInfo(map);
+store.updateMapLike= async function (mapInfo, amount) {
+    mapInfo.likes = mapInfo.likes + amount;
+    const response = await api.updateMapInfo(mapInfo);
     if (response.status === 200) {
         storeReducer({
-            type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
+            type: GlobalStoreActionType.UPDATE_MAP_INFO,
             payload: {
-                
+                mapInfo: response.data.mapInfo
             }
         });
     }
 }
 
 //Updates the number of dislikes for the published map
-store.updateMapDisLike= async function (mapId) {
-    let map = api.getMapInfo(mapId)
-    map.likes = map.dislikes - 1
-    const response = api.updateMapInfo(map);
+store.updateMapDislike= async function (mapInfo, amount) {
+    mapInfo.dislikes = mapInfo.dislikes + amount;
+    const response = await api.updateMapInfo(mapInfo);
     if (response.status === 200) {
         storeReducer({
-            type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
+            type: GlobalStoreActionType.UPDATE_MAP_INFO,
             payload: {
-                
+                mapInfo: response.data.mapInfo
             }
         });
     }
@@ -385,8 +449,39 @@ store.downloadMap= async function (mapId) {
     }
 }
 
+// Creates a map
+store.setNewMap = async function(mapData){
+    let response;
+    
+    try {
+        response = await api.registerMap(mapData);
+        if (response.status === 200) {
+            storeReducer({
+            type: GlobalStoreActionType.LOAD_USER_MAPS,
+                payload: {
+                userMaps: [...this.userMaps, response.data.map],
+                currentMap: response.data.map
+
+            }});
+        navigate("/editor/"+response.data.map._id)
+        }
+    }
+    catch(error){
+    storeReducer({
+        type: GlobalStoreActionType.REGISTER_USER,
+        payload: {
+            currentMap: {}
+        }
+    });
+    }
+}
+
+
 //Deletes the selected map 
 store.deleteMap= async function (mapId) {
+    console.log("mapIdmapIdmapId")
+    console.log(mapId)
+    console.log("mapIdmapIdmapId")
     const response = api.deleteMap(mapId);
     if (response.status === 200) {
         storeReducer({
@@ -395,6 +490,21 @@ store.deleteMap= async function (mapId) {
                 mapMarkedForDeletion : response.body
             }
         });
+    }
+}
+
+store.searchByType = async function (type) {
+    switch(type) {
+
+        case "NAME":
+            break;
+
+        case "CATEGORY":
+            break;
+        
+        case "USER":
+            break;
+
     }
 }
 
@@ -523,7 +633,58 @@ store.paintLayer= function () {}
 store.saveCurrentMap = async function () {}
 
 //Saves the current map and adds it to the publishedMaps  
-store.publishCurrentMap = async function () {}
+store.publishCurrentMap = async function () {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    let mm = today.getMonth() + 1; // Months start at 0!
+    let dd = today.getDate();
+
+    if (dd < 10) dd = '0' + dd;
+    if (mm < 10) mm = '0' + mm;
+
+    const formattedToday = mm + '/' + dd + '/' + yyyy;
+
+    store.currentMapInfo.published = formattedToday;
+    const response = await api.updateMapInfo(store.currentMapInfo);
+
+    if(response.status === 200) {
+
+        auth.user.publishedMaps.push(store.currentMapInfo._id);
+        const response2 = await api.updateUser(auth.user);
+        if(response2.status === 200) {
+            storeReducer({
+                type: GlobalStoreActionType.UPDATE_MAP_INFO,
+                payload: {
+                    mapInfo: response.data.mapInfo
+                }
+            })
+        }
+        navigate("/projects")
+    }
+
+}
+
+store.unpublishCurrentMap = async function () {
+    store.currentPublishedMap.published = "false";
+    
+    const response = await api.updateMapInfo(store.currentPublishedMap);
+
+    if(response.status === 200) {
+
+        auth.user.publishedMaps = auth.user.publishedMaps.filter(function(e) {return e != store.currentPublishedMap._id})
+        const response2 = await api.updateUser(auth.user);
+        if(response2.status === 200) {
+            storeReducer({
+                type: GlobalStoreActionType.UPDATE_MAP_INFO,
+                payload: {
+                    mapInfo: response.data.mapInfo
+                }
+            })
+            navigate("/projects")
+        }
+
+    }
+}
 
 //Saves the current map and exports the json map data.  
 store.exportCurrentMap = async function () {}
@@ -552,12 +713,6 @@ store.addDeleteTileTransaction = function (layer,index) {}
 //Add paint a layer transaction to the transaction store
 store.addPaintLayerTransaction = function (layer,tile) {} 
 
-//Updates the number of likes for the published map
-store.updateMapLike= async function (mapId) {}
-
-//Updates the number of dislikes for the published map
-store.updateMapDisLike= async function (mapId) {}
-
 //Updates the number of downloads for the published map and returns the associated json file to user
 store.downloadMap= async function (mapId) {}
 
@@ -565,34 +720,161 @@ store.downloadMap= async function (mapId) {}
 store.setopenModal =  function (modalType) {} 
 
 //Opens the map editor and sets the currentMap
-store.loadMapEditor= async function (mapId) {
-
-}
-
-//Opens the map viewer and sets the currentPublishedMap 
-store.loadMapViewer= async function (mapId) {
-    const response = api.getMap(mapId);
-    if (response.status === 200) {
+store.loadMapEditor= async function (mapId, mapInfo) {
+    try {
+        const response = await api.getMap(mapId);
+        if (response.status === 200) {
+            storeReducer({
+                type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
+                payload: {
+                    currentMap: response.data.map,
+                    mapInfo: mapInfo, 
+                }
+            });
+        }
+        else {
+            storeReducer({
+                type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
+                payload: {
+                    currentMap: {},
+                    mapInfo: {}, 
+                }
+            });
+        }
+    } catch (err) {
         storeReducer({
             type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
             payload: {
-                currentMap: response.body 
+                currentMap: {},
+                mapInfo: {}, 
+            }
+        });
+    }
+}
+
+store.loadMapById = async function(mapInfo_id) {
+    const response = await api.getMapInfo(mapInfo_id)
+    if(response.status===200) {
+
+        const response2 = await api.getMap(response.data.mapInfo.map_id)
+        
+        if(response2.status === 200) {
+            storeReducer({
+                type: GlobalStoreActionType.SET_THE_CURRENT_PUBLISHED_MAP,
+                payload: {
+                    currentMap: response.data.map,
+                    mapInfo: response.data.mapInfo, 
+                }
+            });
+        }
+
+    }
+}
+
+//Opens the map viewer and sets the currentPublishedMap 
+store.loadMapViewer= async function (mapId, mapInfo) {
+    try {
+
+        const response = await api.getMap(mapId);
+        if (response.status === 200) {
+            storeReducer({
+                type: GlobalStoreActionType.SET_THE_CURRENT_PUBLISHED_MAP,
+                payload: {
+                    currentMap: response.data.map,
+                    mapInfo: mapInfo, 
+                }
+            });
+        }
+        else {
+            storeReducer({
+                type: GlobalStoreActionType.SET_THE_CURRENT_PUBLISHED_MAP,
+                payload: {
+                    currentMap: {},
+                    mapInfo: {}, 
+                }
+            });
+        }
+    } catch (err) {
+        storeReducer({
+            type: GlobalStoreActionType.SET_THE_CURRENT_PUBLISHED_MAP,
+            payload: {
+                currentMap: {},
+                mapInfo: {}, 
             }
         });
     }
 }
 
 //Adds a new comment to the map 
-store.addComment= async function (mapId,comment) {}
+store.addComment= async function (mapInfo,comment) {
+    mapInfo.comments.push(comment)
+    const response = await api.updateMapInfo(mapInfo);
+    if(response.status === 200) {
+        storeReducer({
+            type: GlobalStoreActionType.UPDATE_MAP_INFO,
+            payload: {
+                mapInfo: response.data.mapInfo
+            }
+        })
+    }
+}
 
 //Removes the editing permission(for currentMap) from the selected user
-store.removeTeamMember = async function (userId) {}
+store.removeTeamMember = async function (mapInfo, userId) {
+    mapInfo.creators.filter(creator => !(creator==userId))
+    // TO DO: PREVENT USERS FROM REMOVING NONEXISTING USERS
+    const response = await api.updateMapInfo(mapInfo);
+    if(response.status === 200) {
+        storeReducer({
+            type: GlobalStoreActionType.UPDATE_MAP_INFO,
+            payload: {
+                mapInfo: response.data.mapInfo
+            }
+        })
+    }
+
+}
 
 //Adds the editing permission(for currentMap) for the user
-store.addTeamMember = async function (userId) {}
+store.addTeamMember = async function (mapInfo,userId) {
+    mapInfo.creators.push(userId)
+    // TO DO: PREVENT USERS FROM ADDING NONEXISTING USERS
+    const response = await api.updateMapInfo(mapInfo);
+    if(response.status === 200) {
+        storeReducer({
+            type: GlobalStoreActionType.UPDATE_MAP_INFO,
+            payload: {
+                mapInfo: response.data.mapInfo
+            }
+        })
+    }
+
+}
 
 //Updates the map info based on the user input 
-store.changeMapSettings = async function (mapInfo) {}
+store.changeMapSettings = async function (_id, title, description, tags) {
+    store.currentMapInfo.name = title;
+    store.currentMapInfo.description = description;
+    store.currentMapInfo.tags = tags;
+    const response = await api.updateMapInfo(store.currentMapInfo);
+    if(response.status === 200) {
+        storeReducer({
+            type: GlobalStoreActionType.UPDATE_MAP_INFO,
+            payload: {
+                mapInfo: response.data.mapInfo
+            }
+        })
+    }
+
+}
+
+store.sendReport = async function(report) {
+    console.log(store.currentPublishedMap._id)
+    const response = await api.sendReport({report:report, mapInfo_id:store.currentPublishedMap._id})
+    if(response.status === 200) {
+        return true;
+    }
+}
 
 
     return (

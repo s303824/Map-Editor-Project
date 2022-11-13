@@ -50,12 +50,13 @@ registerUser = async (req, res) => {
         const passwordHash = await bcrypt.hash(password, salt);
         
         const liked_projects = []
+        const disliked_projects = []
         const myprojects = []
         const profile_picture = ""
         const publishedMaps = []
 
         const newUser = new User({
-            username, email, passwordHash, first_name, last_name, liked_projects, myprojects, profile_picture, publishedMaps
+            username, email, passwordHash, first_name, last_name, liked_projects, disliked_projects, myprojects, profile_picture, publishedMaps
         });
 
         if(_id) {
@@ -109,7 +110,6 @@ login = async(req, res) => {
 }
 
 getLoggedIn = async (req, res) => {
-    console.log(req.userId)
     auth.verify(req, res, async function () {
         const loggedInUser = await User.findOne({ _id: req.userId });
         if(!loggedInUser) {
@@ -141,7 +141,7 @@ logout = async(req, res) => {
 
 updateUser = async(req, res) => {
     
-    const { email, username, first_name, last_name, id, myprojects, liked_projects, profile_picture, publishedMaps } = req.body;
+    const { email, username, first_name, last_name, _id, myprojects, liked_projects, disliked_projects, profile_picture, publishedMaps } = req.body;
 
     if (!req.body) {
         return res.status(400).json({
@@ -150,40 +150,56 @@ updateUser = async(req, res) => {
         })
     }
 
-    const loggedInUser = await User.findOne({ _id: id });
+    const loggedInUser = await User.findOne({ _id: _id });
     const body = req.body
+    if (!loggedInUser) {
+        return res.status(400).json({errorMessage:"User not found"});
+    }
+
+    if(loggedInUser.username != username) {
+        const sameName = await User.findOne({username: username})
+        if(sameName) {
+            return res.status(400).json({errorMessage: "Username already taken!"})
+        }
+    }
+
+    if(loggedInUser.email != email) {
+        const sameName = await User.findOne({email: email})
+        if(sameName) {
+            return res.status(400).json({errorMessage: "Email already taken!"})
+        }
+    }
 
     loggedInUser.first_name = first_name;
     loggedInUser.last_name = last_name;
     loggedInUser.username = username;
     loggedInUser.email = email;
 
-    loggedInUser.myProjects = myprojects
+    loggedInUser.myprojects = myprojects
     loggedInUser.liked_projects = liked_projects
+    loggedInUser.disliked_projects = disliked_projects
+    
     loggedInUser.profile_picture = profile_picture
     loggedInUser.publishedMaps = publishedMaps
 
-    if (!loggedInUser) {
-        return res.status(400).json({errorMessage:"User not found"});
-    }
-
-        loggedInUser
-            .save()
-            .then(() => {
-                return res.status(200).json({
-                    success: true,
-                    username: loggedInUser.username,
-                    user: loggedInUser,
-                    message: 'user updated!',
-                })
+    
+    loggedInUser
+        .save()
+        .then(() => {
+            return res.status(200).json({
+                success: true,
+                username: loggedInUser.username,
+                user: loggedInUser,
+                message: 'user updated!',
             })
-            .catch(error => {
-                console.log((error));
-                return res.status(404).json({
-                    error,
-                    message: 'user not updated!',
-                })
+        })
+        .catch(error => {
+            console.log((error));
+            return res.status(404).json({
+                error,
+                message: 'user not updated!',
             })
+        })
 
 }
 
@@ -261,6 +277,7 @@ deleteUser = async(req, res) => {
         res.status(500).send();
     }
 }
+
 
 module.exports = {
     getLoggedIn,

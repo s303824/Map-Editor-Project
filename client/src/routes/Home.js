@@ -12,58 +12,21 @@ import Typography from '@mui/material/Typography';
 import MapCard from '../components/map-card.component';
 import List from '@mui/material/List';
 import mapImage from '../assets/map-card.jpg';
+import mockUserImage from '../assets/guestImage.jpg'
 
 
 function Home() {
     const { store } = useContext(GlobalStoreContext);
     const {auth} = useContext(AuthContext);
 
-    const mapCardInfo = [ //to display sample data 
-      {
-        "id": 2,
-        "name": "Game2",
-        "description":["#hastag2"],
-        "likes":50,
-        "dislikes":10,
-        "downloads":40,
-        "userName":"user2",
-        "email":"user2@gmail.com",
-        "editActive":null,
-        "published":"2/3/2021",
-        "imageUrl": mapImage
-      },
-      {
-        "id": 3,
-        "name": "Game3",
-        "description":["#hastag3"],
-        "likes":10,
-        "dislikes":100,
-        "downloads":10,
-        "userName":"user3",
-        "email":"user3@gmail.com",
-        "editActive":null,
-        "published":"2/3/2021",
-        "imageUrl": mapImage
-      },
-      {
-        "id": 3,
-        "name": "Game3",
-        "description":["#hastag3"],
-        "likes":10,
-        "dislikes":100,
-        "downloads":10,
-        "userName":"user3",
-        "email":"user3@gmail.com",
-        "editActive":null,
-        "published":"2/3/2021",
-        "imageUrl": mapImage
-      }
-    ];
+    useEffect(() => {
+      store.getMapInfosSortedByLikes();
+    }, [])
 
     return (
       <Box className="home-container" sx={{marginLeft:'260px' }}>
         <HomeBanner/>
-        <Typography variant="h4" sx={{color:"white",marginTop:'3%',marginBottom:'2%'}}>Most Popular Maps</Typography>
+        <Typography variant="h4" sx={{color:"white",font:'Bebas Neue',marginTop:'3%',marginBottom:'2%'}}>Most Popular Maps</Typography>
 
         <Box 
           className="mapcard-container" 
@@ -82,8 +45,8 @@ function Home() {
               backgroundColor: "#ffc806",
               outline: `1px solid #ffc806`,
             }}}>
-          {mapCardInfo.map((map) => (
-            <MapCard key={map.id} mapInfo={map} />
+          {store.publishedMaps.map((map) => (
+            <MapCard key={map._id} mapInfo={map} />
           ))}
         </Box>
       </Box>
