@@ -462,7 +462,7 @@ store.setNewMap = async function(mapData){
                 currentMap: response.data.map
 
             }});
-        
+        navigate("/editor/"+response.data.map._id)
         }
     }
     catch(error){

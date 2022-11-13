@@ -125,6 +125,7 @@ deleteMap = async (req, res) => {
             else{
 
                 const newMap = MapInfo.findOneAndDelete({map_id: _id}, function (err, map) {
+                    console.log(map)
 
                     if(err) {
                         console.log("Could not find mapInfo related to map with _id " + _id);
@@ -132,9 +133,9 @@ deleteMap = async (req, res) => {
                     console.log("Deleted MapInfo related to map with _id " + _id)
 
                     for(var i=0; i<map.creator.length; i++) {
-                        User.findOne({username:  map.creator[i]}, function(err, loggedInUser) { 
+                        User.findOne({username:  map.creator[i].creator}, function(err, loggedInUser) { 
                             loggedInUser.myprojects = loggedInUser.myprojects.filter(function(e) {return e != map._id})
-                            loggedInUser.save();
+                            //loggedInUser.save();
                         });
                     }
 

@@ -88,7 +88,6 @@ const MyProjects=() =>{
             width: 30
         }
       await store.setNewMap(mapData)
-      navigate("/editor")
     }
 
     let mapList = 
