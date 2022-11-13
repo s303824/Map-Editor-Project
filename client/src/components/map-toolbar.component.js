@@ -44,6 +44,17 @@ const MapToolBar=() =>{
         navigate("/projects", {});
     }
 
+    const handleStampClick = (event) =>{
+        store.setCurrentMapEditingTool("stamp");
+    }
+
+    const handlePaintClick = (event) =>{
+        store.setCurrentMapEditingTool("paint");
+    }
+
+    const handleEraserClick = (event) =>{
+        store.setCurrentMapEditingTool("eraser");
+    }
     const [open, setOpen] = React.useState(false);    
     const [dialogopen, setDialogOpen] = React.useState(false);
     const [settings, setSettings] = useState(false);

@@ -48,7 +48,6 @@ const mockUpdateMap = new Map({
     tilewidth: 32,
     version: "2",
     width: 4
-
 })
 
 beforeAll(async () => {

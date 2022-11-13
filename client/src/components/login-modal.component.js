@@ -18,8 +18,6 @@ const LoginModal = ({message, onClose}) => {
         p: 4,
       };
 
-
-
     return(
         <Box>
         <Modal
