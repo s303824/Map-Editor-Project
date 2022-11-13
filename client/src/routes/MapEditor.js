@@ -21,10 +21,10 @@ const MapEditor=() =>{
     const {auth} = useContext(AuthContext);
 
     useEffect(() => {
-        if (store.currentPublishedMap.length == 0){
+        if (store.currentMap.mapinfo == null){
           store.loadMapById(window.location.pathname.split("/")[2]);
         }
-      }, [store])
+      }, [])
       console.log(store.currentMap)
 
     return(

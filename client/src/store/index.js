@@ -112,9 +112,9 @@ function GlobalStoreContextProvider(props) {
                 return setStore({
                     publishedMaps: store.publishedMaps,              
                     userMaps: store.userMaps,                      
-                    currentMap: store.currentMap,                    
+                    currentMap: payload.currentMap ? payload.currentMap : store.currentMap,                    
                     currentPublishedMap: payload.mapInfo, 
-                    currentMapInfo:store.currentMapInfo,     
+                    currentMapInfo:payload.mapInfo,     
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
@@ -684,21 +684,26 @@ store.loadMapEditor= async function (mapId, mapInfo) {
 }
 
 store.loadMapById = async function(mapInfo_id) {
-    const response = await api.getMapInfo(mapInfo_id)
-    if(response.status===200) {
+    try{
 
-        const response2 = await api.getMap(response.data.mapInfo.map_id)
-        
-        if(response2.status === 200) {
-            storeReducer({
-                type: GlobalStoreActionType.SET_THE_CURRENT_PUBLISHED_MAP,
-                payload: {
-                    currentMap: response.data.map,
-                    mapInfo: response.data.mapInfo, 
-                }
-            });
+    
+        const response = await api.getMapInfo(mapInfo_id)
+        if(response.status===200) {
+
+            const response2 = await api.getMap(response.data.mapInfo.map_id)
+            if(response2.status === 200) {
+                storeReducer({
+                    type: GlobalStoreActionType.SET_THE_CURRENT_PUBLISHED_MAP,
+                    payload: {
+                        currentMap: response2.data.map,
+                        mapInfo: response.data.mapInfo, 
+                    }
+                });
+            }
+
         }
-
+    } catch(err) {
+        console.log("something went wrong")
     }
 }
 
