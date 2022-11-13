@@ -172,7 +172,7 @@ function GlobalStoreContextProvider(props) {
                     currentMapInfo:store.currentMapInfo,      
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
-                    currentTile: store.currentTile,
+                    currentTile: payload.currentTile,
                     tilesetBeingEdited: store.tilesetBeingEdited,        
                     selectedMapEditTool: store.selectedMapEditTool,   
                     canUndo: store.canUndo,                  
@@ -461,7 +461,6 @@ store.setNewMap = async function(mapData){
                 payload: {
                 userMaps: [...this.userMaps, response.data.map],
                 currentMap: response.data.map
-
             }});
         navigate("/editor/"+response.data.map._id)
         }
@@ -587,9 +586,9 @@ store.setCurrentTileset = function (id) {
 
 }
 
-store.handleMapAction = function (id) {
+store.handleMapAction = function (id,value) {
     if(store.selectedMapEditTool == "stamp"){
-        store.paintTile(id);
+        store.paintTile(id,value);
     }else if(store.selectedMapEditTool == "paint"){
         store.paintLayer();
     }else if (store.selectedMapEditTool == "eraser"){
@@ -598,7 +597,46 @@ store.handleMapAction = function (id) {
 }
 
 // Sets the current layer being edited
-store.setCurrentLayer = function (id) {}
+store.setCurrentLayer = function (id) {
+    storeReducer({
+        type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
+        payload: {
+            currentLayer: [
+                {
+                 "data":[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                 "height":20,
+                 "id":1,
+                 "name":"Tile Layer 1",
+                 "opacity":1,
+                 "type":"tilelayer",
+                 "visible":true,
+                 "width":30,
+                 "x":0,
+                 "y":0
+                }]
+        }
+    });
+
+}
 
 // Sets the current map editing tool 
 store.setCurrentMapEditingTool = function (selectedTool) {
@@ -606,7 +644,7 @@ store.setCurrentMapEditingTool = function (selectedTool) {
     storeReducer({
         type: GlobalStoreActionType.SET_THE_SELECTED_MAP_EDIT_TOOL,
         payload: {
-            selectedMapEditTool : selectedTool
+            selectedMapEditTool : selectedTool,
         }
     });
 }
@@ -618,17 +656,40 @@ store.undoUserEdit = function () {}
 store.redoUserEdit = function () {}
 
 //Paints the selected currentlayer's tile with the "currentTile" 
-store.paintTile = function (id) {
-
-
+store.paintTile = function (id,value) {
+    store.currentLayer[0].data[id]=(parseInt(store.currentTile.id)+ parseInt(store.currentTileSet.firstgid));
+    storeReducer({
+        type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
+        payload: {
+            currentLayer:store.currentLayer
+        }
+    });
 }
 
 //Deletes the selected tile from the current layer 
-store.deleteTile = function (tileToBeDeleted) {} 
+store.deleteTile = function (id) {
+    store.currentLayer[0].data[id]=0;
+    storeReducer({
+        type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
+        payload: {
+            currentLayer:store.currentLayer
+        }
+    });
+} 
 
 //Paints all tiles in the current layer with the "currentTile" 
-store.paintLayer= function () {}
-
+store.paintLayer= function () {
+    let data = store.currentLayer[0].data;
+    data.forEach((element, index) => {
+        data[index] = (parseInt(store.currentTile.id)+ parseInt(store.currentTileSet.firstgid));
+      })
+    storeReducer({
+        type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
+        payload: {
+            currentLayer:store.currentLayer
+        }
+    });
+}
 //Saves the "currentMap" to database with the edits made by user
 store.saveCurrentMap = async function () {}
 
@@ -776,12 +837,14 @@ store.loadMapViewer= async function (mapId, mapInfo) {
     try {
 
         const response = await api.getMap(mapId);
+        console.log("response",response);
         if (response.status === 200) {
             storeReducer({
                 type: GlobalStoreActionType.SET_THE_CURRENT_PUBLISHED_MAP,
                 payload: {
                     currentMap: response.data.map,
                     mapInfo: mapInfo, 
+                   
                 }
             });
         }
