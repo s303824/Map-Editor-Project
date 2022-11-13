@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import { useHistory, useNavigate } from 'react-router-dom'
+import { Navigate, useHistory, useNavigate } from 'react-router-dom'
 import api from '../api'
 import AuthContext from '../auth';
 
@@ -45,6 +45,7 @@ function GlobalStoreContextProvider(props) {
     });
     const history = useNavigate();
     const {auth} = useContext(AuthContext);
+    const navigate= useNavigate();
 
     const storeReducer = (action) => {
         const {type, payload} = action;
@@ -576,6 +577,28 @@ store.publishCurrentMap = async function () {
 
     }
 
+}
+
+store.unpublishCurrentMap = async function () {
+    store.currentPublishedMap.published = "false";
+    
+    const response = await api.updateMapInfo(store.currentPublishedMap);
+
+    if(response.status === 200) {
+
+        auth.user.publishedMaps = auth.user.publishedMaps.filter(function(e) {return e != store.currentPublishedMap._id})
+        const response2 = await api.updateUser(auth.user);
+        if(response2.status === 200) {
+            storeReducer({
+                type: GlobalStoreActionType.UPDATE_MAP_INFO,
+                payload: {
+                    mapInfo: response.data.mapInfo
+                }
+            })
+            navigate("/projects")
+        }
+
+    }
 }
 
 //Saves the current map and exports the json map data.  
