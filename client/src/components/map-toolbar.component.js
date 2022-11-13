@@ -46,17 +46,12 @@ const MapToolBar=() =>{
 
     const [open, setOpen] = React.useState(false);    
     const [dialogopen, setDialogOpen] = React.useState(false);
-    const [settings, setSettings] = React.useState(false);
+    const [settings, setSettings] = useState(false);
+    const [publishModalOpen, setPublishModalOpen] = useState(false);
     const anchorRef = React.useRef(null);
 
-    const handleClickOpen = (type) => {
-        switch(type){
-            case 'delete':
-                setDialogOpen(true);
-            case 'settings':
-                setSettings(true);
-
-        }
+    const handleClickOpen = () => {
+        setDialogOpen(true);
     };
   
     const handleDialogClose = () => {
@@ -65,8 +60,6 @@ const MapToolBar=() =>{
   
 
     const handleToggle = () => {
-        console.log(store.currentMap)
-        console.log(auth.user)
         setOpen((prevOpen) => !prevOpen);
     };
 
@@ -77,6 +70,11 @@ const MapToolBar=() =>{
         setOpen(false);
     };
 
+    const handleOpenSettings = () => {
+        setSettings(true)
+        setOpen(false)
+    }
+
     function handleListKeyDown(event) {
         if (event.key === 'Tab') {
             event.preventDefault();
@@ -85,7 +83,10 @@ const MapToolBar=() =>{
             setOpen(false);
         }
     }
-    console.log(store.currentMap)
+
+    const handlePublishModal = async () => {
+        setPublishModalOpen(true)
+    }
     
     const handleDeleteMap = async () => {
         // console.log(store.userMaps)
@@ -104,8 +105,9 @@ const MapToolBar=() =>{
         }
         prevOpen.current = open;
     }, [open]);
-
-    const settingsModal = settings ? <MapSettings  onClose={setSettings(false)}></MapSettings> : null;
+    
+    const settingsModal = settings ? <MapSettings  onClose={() => setSettings(false)}></MapSettings> : null;
+    const publishModal = publishModalOpen ? <PublishMap onClose={() => setPublishModalOpen(false)}></PublishMap> : null;
 
     const deleteModalBox = 
         <Dialog
@@ -133,7 +135,7 @@ const MapToolBar=() =>{
     return (
         
         <Box className='top-navbar' sx={{ display: 'flex' ,flexGrow: 1,}} >
-            {[settingsModal, deleteModalBox]}
+            {[settingsModal, deleteModalBox, publishModal]}
 
            <AppBar position="static" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1}}>
               <Toolbar sx={{boxShadow: 1 ,backgroundColor:'#1E1E1E',boxShadow: '0 1px 1px 1px rgba(68,68,69,255)',justifyContent: 'space-between'}}> 
@@ -171,7 +173,7 @@ const MapToolBar=() =>{
                     Save 
                 </Button>
 
-                <Button sx = {{backgroundImage: 'linear-gradient(to right,#fda204,#ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",fontSize:15,marginX:1}}>
+                <Button onClick={handlePublishModal} sx = {{backgroundImage: 'linear-gradient(to right,#fda204,#ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",fontSize:15,marginX:1}}>
                     Publish
                 </Button>
 
@@ -211,7 +213,7 @@ const MapToolBar=() =>{
                                         onKeyDown={handleListKeyDown}
                                     >
                                         {/* add settings to the settings menu-bar here  */}
-                                        <MenuItem onClick={handleClose}>Update Map Settings</MenuItem>    
+                                        <MenuItem onClick={handleOpenSettings}>Update Map Settings</MenuItem>    
                                         <MenuItem onClick={handleClickOpen}>Delete Map</MenuItem>
                                     </MenuList>
                                 </ClickAwayListener>

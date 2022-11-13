@@ -59,6 +59,7 @@ registerMap = async (req, res) => {
         const likes = 0;
         const dislikes = 0;
         const comments = [];
+        const tags = ""
 
         const newMapInfo = new MapInfo({
             name,

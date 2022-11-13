@@ -13,7 +13,11 @@ function LikedMaps() {
   const {auth} = useContext(AuthContext);
   const {store} = useContext(GlobalStoreContext)
     
-
+  useEffect(() => {
+    if (auth.user !== null){
+      store.loadMapInfosByIds(auth.user.liked_projects);
+    }
+  }, [auth.user])
 
   let mapList = <Box 
     className="mapcard-container" 

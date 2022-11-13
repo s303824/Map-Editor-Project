@@ -10,11 +10,13 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
+import LoginModal from "../components/login-modal.component";
 
 import GlobalStoreContext from '../store';
 
 const MapSettings = ({onClose}) => {
     const {store} = useContext(GlobalStoreContext)
+    const [modalOpen, setModalOpen] = useState(false);
 
     const style = {
         position: 'absolute',
@@ -27,9 +29,9 @@ const MapSettings = ({onClose}) => {
         boxShadow: 24,
         p: 4,
       };
-      const [title, setTitle] = useState(store.currentMap.mapinfo.title)            // For title input field 
-      const [description, setDescription] = useState(store.currentMap.mapinfo.description)                                 // For tags input field 
-      const [tags, setTags] = useState(store.currentMap.mapinfo.tags)                                 // For tags input field 
+      const [title, setTitle] = useState(store.currentMapInfo.name)            // For title input field 
+      const [description, setDescription] = useState(store.currentMapInfo.description)                                 // For tags input field 
+      const [tags, setTags] = useState(store.currentMapInfo.tags)                                 // For tags input field 
 
       const updateField = (event, type) => {
         switch(type){
@@ -46,15 +48,23 @@ const MapSettings = ({onClose}) => {
     }  
 
     const handleUpdateSettings = async () => {
-        await store.changeMapSettings(store.currentMap.mapinfo, title, description, tags);
+        store.changeMapSettings(store.currentMap.mapinfo, title, description, tags);
+        setModalOpen(true);
+    }
+
+    const handleCloseModal = () => {
+        setModalOpen(false);
     }
 
 
     let tagsList = ""
     tagsList.length !== 0 && tags.forEach(tag => tagsList += tag + " ")
+
+    let modal = modalOpen ? <LoginModal message="Successfully updated!" onClose={handleCloseModal}></LoginModal> : null
    
     return(
         <Box>
+            {modal}
         <Modal
             open={true}
             aria-labelledby="modal-modal-title"
@@ -63,45 +73,50 @@ const MapSettings = ({onClose}) => {
             <Box sx={style}>
 
             <Typography fontSize="20px">
+
                 <Box className="qmodal-text">Title</Box>
-                <Box className="qmodal-text">{title}</Box>
                 <TextField
                 required
+                value={title}
                 id="outlined-title-input"
                 label="Title"
                 type="title"
                 variant="filled"
                 autoComplete="current-title"
-                className = "text-field"
+                className = "settings-modal-textfield"
                 onChange={(event) => updateField(event, "title")}
                 />
+
                 <Box className="qmodal-text">Description</Box>
-                <Box className="qmodal-text">{description}</Box>
                 <TextField
                 required
+                value = {description}
                 id="outlined-title-input"
-                label="Title"
+                label="Description"
                 type="title"
                 variant="filled"
                 autoComplete="current-title"
-                className = "text-field"
+                className = "settings-modal-textfield"
                 onChange={(event) => updateField(event, "description")}
                 />
-                <Box className="qmodal-text">Tags</Box>
-                <Box className="qmodal-text">{tagsList}</Box>
-                <TextField
-                required
-                id="outlined-tags-input"
-                label="Tags"
-                type="tags"
-                variant="filled"
-                autoComplete="current-tags"
-                className = "text-field"
-                onChange={(event) => updateField(event, "tags")}
-                />
+                <Box paddingBottom={3}>
+                    <Box className="qmodal-text">Tags</Box>
+                    <TextField
+                    required
+                    value = {tags}
+                    id="outlined-tags-input"
+                    label="Tags"
+                    variant="filled"
+                    
+                    className = "settings-modal-textfield"
+                    onChange={(event) => updateField(event, "tags")}
+                    />
+                </Box>
             </Typography>
-            <Button variant="contained" onClick={handleUpdateSettings}>Update Map</Button>
-            <Button variant="contained" onClick={onClose}>Close</Button>
+            <Box display="flex" justifyContent="space-between">
+                <Button variant="contained" onClick={handleUpdateSettings} paddingRight={2}>Update Map</Button>
+                <Button variant="contained" onClick={onClose} marginLeft={3}>Close</Button>
+            </Box>
             </Box>
         </Modal>
         </Box> 

@@ -35,10 +35,10 @@ const PublishMap = ({onClose}) => {
         boxShadow: 24,
         p: 4,
       };
-      const [title, setTitle] = useState(store.currentMap.title)            // For title input field 
+      const [title, setTitle] = useState(store.currentMapInfo.name)            // For title input field 
   
     const handlePublish = async () => {
-        await store.publishCurrentMap(store.currentMap.mapinfo);
+        store.publishCurrentMap(store.currentMapInfo);
     }
 
 
@@ -53,10 +53,12 @@ const PublishMap = ({onClose}) => {
 
             <Typography fontSize="20px">
                 <Box className="qmodal-text">{title}</Box>
-                <Box className="qmodal-text">{title}</Box>
+                <Box className="qmodal-text">Are you sure you want to publish this map?</Box>
             </Typography>
-            <Button variant="contained" onClick={handlePublish}>Publish</Button>
-            <Button variant="contained" onClick={onClose}>Close</Button>
+            <Box paddingTop={3} display="flex" justifyContent="space-between">
+                <Button variant="contained" onClick={handlePublish}>Publish</Button>
+                <Button variant="contained" onClick={onClose}>Close</Button>
+            </Box>
 
             </Box>
         </Modal>

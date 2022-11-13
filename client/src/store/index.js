@@ -31,6 +31,7 @@ function GlobalStoreContextProvider(props) {
         userMaps: [],                      //holds all the maps created by the user
         currentMap: {},                    //holds the current map opened for editing
         currentPublishedMap:[],     //holds the current published map opened for viewing
+        currentMapInfo:[],             //current open map mapInfo
         currentLayer: [],                 //holds the the layer that is now being modified in the map editor.       
         currentTileSet: [],               //holds the the tileset that is now being displayed in the map editor.
         currentTile: null,                 //holds the tile selected from the current tileset
@@ -53,7 +54,8 @@ function GlobalStoreContextProvider(props) {
                     publishedMaps: payload.publishedMaps,              
                     userMaps: store.userMaps,                      
                     currentMap: store.currentMap,                    
-                    currentPublishedMap: store.currentPublishedMap,     
+                    currentPublishedMap: store.currentPublishedMap,
+                    currentMapInfo:store.currentMapInfo,     
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
@@ -71,7 +73,8 @@ function GlobalStoreContextProvider(props) {
                     publishedMaps: store.publishedMaps,              
                     userMaps: payload.userMaps,                      
                     currentMap: store.currentMap,                    
-                    currentPublishedMap: store.currentPublishedMap,     
+                    currentPublishedMap: store.currentPublishedMap,
+                    currentMapInfo:store.currentMapInfo, 
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
@@ -89,7 +92,8 @@ function GlobalStoreContextProvider(props) {
                     publishedMaps: store.publishedMaps,              
                     userMaps: store.userMaps,                      
                     currentMap: payload.currentMap,                    
-                    currentPublishedMap: store.currentPublishedMap,     
+                    currentPublishedMap: store.currentPublishedMap,
+                    currentMapInfo:payload.mapInfo,      
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
@@ -107,7 +111,8 @@ function GlobalStoreContextProvider(props) {
                     publishedMaps: store.publishedMaps,              
                     userMaps: store.userMaps,                      
                     currentMap: store.currentMap,                    
-                    currentPublishedMap: payload.mapInfo,     
+                    currentPublishedMap: payload.mapInfo, 
+                    currentMapInfo:store.currentMapInfo,     
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
@@ -124,7 +129,8 @@ function GlobalStoreContextProvider(props) {
                     publishedMaps: store.publishedMaps,              
                     userMaps: store.userMaps,                      
                     currentMap: store.currentMap,                    
-                    currentPublishedMap: store.currentPublishedMap,     
+                    currentPublishedMap: store.currentPublishedMap,
+                    currentMapInfo:store.currentMapInfo,      
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
@@ -141,7 +147,8 @@ function GlobalStoreContextProvider(props) {
                     publishedMaps: store.publishedMaps,              
                     userMaps: store.userMaps,                      
                     currentMap: store.currentMap,                    
-                    currentPublishedMap: store.currentPublishedMap,     
+                    currentPublishedMap: store.currentPublishedMap,
+                    currentMapInfo:store.currentMapInfo,      
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
@@ -158,7 +165,8 @@ function GlobalStoreContextProvider(props) {
                     publishedMaps: store.publishedMaps,              
                     userMaps: store.userMaps,                      
                     currentMap: store.currentMap,                    
-                    currentPublishedMap: store.currentPublishedMap,     
+                    currentPublishedMap: store.currentPublishedMap,
+                    currentMapInfo:store.currentMapInfo,      
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
@@ -175,7 +183,8 @@ function GlobalStoreContextProvider(props) {
                     publishedMaps: store.publishedMaps,              
                     userMaps: store.userMaps,                      
                     currentMap: store.currentMap,                    
-                    currentPublishedMap: store.currentPublishedMap,     
+                    currentPublishedMap: store.currentPublishedMap,
+                    currentMapInfo:store.currentMapInfo,      
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
@@ -193,7 +202,8 @@ function GlobalStoreContextProvider(props) {
                     publishedMaps: store.publishedMaps,              
                     userMaps: store.userMaps,                      
                     currentMap: store.currentMap,                    
-                    currentPublishedMap: store.currentPublishedMap,     
+                    currentPublishedMap: store.currentPublishedMap,
+                    currentMapInfo:store.currentMapInfo,      
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
@@ -210,7 +220,8 @@ function GlobalStoreContextProvider(props) {
                     publishedMaps: store.publishedMaps,              
                     userMaps: store.userMaps,                      
                     currentMap: store.currentMap,                    
-                    currentPublishedMap: store.currentPublishedMap,     
+                    currentPublishedMap: store.currentPublishedMap,
+                    currentMapInfo:store.currentMapInfo,      
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
@@ -227,7 +238,8 @@ function GlobalStoreContextProvider(props) {
                     publishedMaps: store.publishedMaps,              
                     userMaps: store.userMaps,                      
                     currentMap: store.currentMap,                    
-                    currentPublishedMap: store.currentPublishedMap,     
+                    currentPublishedMap: store.currentPublishedMap,
+                    currentMapInfo:store.currentMapInfo,      
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
@@ -245,7 +257,8 @@ function GlobalStoreContextProvider(props) {
                     publishedMaps: store.publishedMaps,              
                     userMaps: store.userMaps,                      
                     currentMap: store.currentMap,                    
-                    currentPublishedMap: store.currentPublishedMap,     
+                    currentPublishedMap: store.currentPublishedMap,
+                    currentMapInfo:store.currentMapInfo,      
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
@@ -262,7 +275,8 @@ function GlobalStoreContextProvider(props) {
                     publishedMaps: store.publishedMaps,              
                     userMaps: store.userMaps,                      
                     currentMap: store.currentMap,                    
-                    currentPublishedMap: store.currentPublishedMap,     
+                    currentPublishedMap: store.currentPublishedMap, 
+                    currentMapInfo:store.currentMapInfo,     
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
@@ -279,7 +293,8 @@ function GlobalStoreContextProvider(props) {
                     publishedMaps: store.publishedMaps,              
                     userMaps: store.userMaps,                      
                     currentMap: store.currentMap,                    
-                    currentPublishedMap: payload.mapInfo,     
+                    currentPublishedMap: store.currentPublishedMap, 
+                    currentMapInfo:payload.mapInfo,     
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
@@ -532,19 +547,33 @@ store.paintLayer= function () {}
 store.saveCurrentMap = async function () {}
 
 //Saves the current map and adds it to the publishedMaps  
-store.publishCurrentMap = async function (mapInfo) {
-    mapInfo.published = new Date();
-    const response = await api.updateMapInfo(mapInfo);
-    let newUserInfo = auth.user;
-    newUserInfo.publishedMaps.push(mapInfo);
-    const response2 = await auth.updateUser(newUserInfo);
-    if(response.status === 200 && response2.status === 200) {
-        storeReducer({
-            type: GlobalStoreActionType.UPDATE_MAP_INFO,
-            payload: {
-                mapInfo: response.data.mapInfo
-            }
-        })
+store.publishCurrentMap = async function () {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    let mm = today.getMonth() + 1; // Months start at 0!
+    let dd = today.getDate();
+
+    if (dd < 10) dd = '0' + dd;
+    if (mm < 10) mm = '0' + mm;
+
+    const formattedToday = mm + '/' + dd + '/' + yyyy;
+
+    store.currentMapInfo.published = formattedToday;
+    const response = await api.updateMapInfo(store.currentMapInfo);
+
+    if(response.status === 200) {
+
+        auth.user.publishedMaps.push(store.currentMapInfo._id);
+        const response2 = await api.updateUser(auth.user);
+        if(response2.status === 200) {
+            storeReducer({
+                type: GlobalStoreActionType.UPDATE_MAP_INFO,
+                payload: {
+                    mapInfo: response.data.mapInfo
+                }
+            })
+        }
+
     }
 
 }
@@ -586,7 +615,6 @@ store.setopenModal =  function (modalType) {}
 store.loadMapEditor= async function (mapId, mapInfo) {
     try {
         const response = await api.getMap(mapId);
-        console.log(response)
         if (response.status === 200) {
             storeReducer({
                 type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
@@ -697,11 +725,11 @@ store.addTeamMember = async function (mapInfo,userId) {
 }
 
 //Updates the map info based on the user input 
-store.changeMapSettings = async function (mapInfo, title, description, tags) {
-    mapInfo.title = title;
-    mapInfo.description = description;
-    mapInfo.tags = tags;
-    const response = await api.updateMapInfo(mapInfo);
+store.changeMapSettings = async function (_id, title, description, tags) {
+    store.currentMapInfo.name = title;
+    store.currentMapInfo.description = description;
+    store.currentMapInfo.tags = tags;
+    const response = await api.updateMapInfo(store.currentMapInfo);
     if(response.status === 200) {
         storeReducer({
             type: GlobalStoreActionType.UPDATE_MAP_INFO,

@@ -24,6 +24,12 @@ const MyProjects=() =>{
       auth.getLoggedIn();      
     }, []);
 
+    useEffect(() => {
+      if (auth.user !== null){
+        store.loadUserMaps(auth.user.username);
+      }
+    }, [auth.user])
+
 
     const handleCreateNewProject = async () => {   
 
@@ -90,14 +96,14 @@ const MyProjects=() =>{
       {store.userMaps.filter((map) => (
           map.published == "false"
         )).map((map) => (
-          <MapCard key={map.id} mapInfo={map} />
+          <MapCard key={map._id} mapInfo={map} />
         ))}  
 
       <Typography variant="h4" sx={{backgroundImage: 'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',borderRadius:'10px',justifyContent: 'center',maxWidth:"25%",color:"grey",marginTop:'3%',marginBottom:'2%',padding:'1%',fontSize:22}}> Published Maps </Typography>
         {store.userMaps.filter((map) => (
           map.published != "false"
         )).map((map) => (
-          <MapCard key={map.id} mapInfo={map} />
+          <MapCard key={map._id} mapInfo={map} />
         ))}
     </Box>
 

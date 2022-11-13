@@ -11,9 +11,9 @@ const PublishedSchema = new Schema(
         likes: { type: Number, required: true },    // number of likes  
         dislikes: { type: Number, required: true }, // number of dislikes
         downloads: { type: Number, required: true }, // number of downloads
-        description: {Type: String, required: true}, //description of map
+        description: {type: String, required: true}, //description of map
         map_id: { type: Schema.Types.ObjectId, ref: 'MapInfo', required: true },   // foreign key to associated Map
-        published: { type: Date, required: false },   // Is the project published?
+        published: { type: String, required: true },   // Is the project published?
         editActive: {type: Boolean, required: true}, // Can the map be edited?
         tags: {type: [String], required: true}      // Map tags
     }

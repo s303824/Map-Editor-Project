@@ -40,8 +40,8 @@ const Tileset =()=>{
                 backgroundColor: "#ffc806",
                 outline: `1px solid #ffc806`,
             }}}>
-          {Array.from({ length: tileCount }, (_, i) => (
-          <Tile id={i} imageSize={imageSize} img={map} tileWidth = {tileWidth}/>
+          {Array.from({ length: tileCount }, (_, index) => (
+          <Tile id={index} imageSize={imageSize} img={map} tileWidth = {tileWidth}/>
       ))}
       </ImageList>
     </Box>
