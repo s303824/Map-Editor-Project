@@ -75,7 +75,7 @@ function GlobalStoreContextProvider(props) {
                 return setStore({
                     publishedMaps: store.publishedMaps,              
                     userMaps: payload.userMaps,                      
-                    currentMap: store.currentMap,                    
+                    currentMap: payload.currentMap ? payload.currentMap : store.currentMap,                    
                     currentPublishedMap: store.currentPublishedMap,
                     currentMapInfo:store.currentMapInfo, 
                     currentLayer: store.currentLayer,       
