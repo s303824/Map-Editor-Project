@@ -11,6 +11,7 @@ export const AuthActionType = {
     LOGOUT: "LOGOUT",
     REGISTER_RETRY: "REGISTER_RETRY",
     LOGIN_RETRY: "LOGIN_RETRY",
+    RESET_ERROR: "RESET_ERROR",
 }
 
 function AuthContextProvider(props) {
@@ -87,6 +88,16 @@ function AuthContextProvider(props) {
                 return setAuth({
                     user: null,
                     loggedIn: false,
+                    successfulRegister: true,
+                    successfulLogin: true,
+                    error: null,
+                    guest: auth.guest
+                })
+            }
+            case AuthActionType.RESET_ERROR: {
+                return setAuth({
+                    user: auth.user,
+                    loggedIn: auth.loggedIn,
                     successfulRegister: true,
                     successfulLogin: true,
                     error: null,
@@ -203,7 +214,6 @@ function AuthContextProvider(props) {
        
         try {
             const response = await api.updateUser(userData);
-            console.log(response.data.user);
             if (response.status === 200) {
                 authReducer({
                     type: AuthActionType.SET_LOGGED_IN,
@@ -219,8 +229,8 @@ function AuthContextProvider(props) {
             authReducer({
                 type: AuthActionType.SET_LOGGED_IN,
                 payload: {
-                    user: null,
-                    loggedIn: false,
+                    user: auth.user,
+                    loggedIn: true,
                     error: error.response.data.errorMessage,
                     successfulLogin: false
                 }
@@ -312,6 +322,13 @@ function AuthContextProvider(props) {
         }
 
 
+    }
+
+    auth.resetError = async function(userData) {
+        authReducer({
+            type: AuthActionType.RESET_ERROR,
+            payload: {}
+        })
     }
 
     return (

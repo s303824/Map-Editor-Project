@@ -20,12 +20,17 @@ import logo from '../assets/tileslate_logo.png'
 import userImage from '../assets/userimage.png'
 import Sidebar from './sidebar.component'
 import UserCard from './user-card.component';
+import GlobalStoreContext from '../store';
 
 
 function Banner() {
 
     const navigate = useNavigate();
     const {auth} = useContext(AuthContext);
+    const {store} = useContext(GlobalStoreContext)
+
+    const [searchType, setSearchType] = useState("NAME")
+    const [searchText, setSearchText] = useState("")
 
     const handleLogin = () => {
       navigate("/login", {})
@@ -39,7 +44,17 @@ function Banner() {
     }
 
     const handleSearch = () => {
-      navigate("/explore", {})
+      store.searchByType(searchType)
+      console.log("Searching by type: " + searchType +"    Search Value: " + searchText);
+      //navigate("/explore", {})
+    }
+
+    const handleSearchText = (event) => {
+      setSearchText(event.target.value)
+    }
+
+    const handleSelectSearchType = (type) => {
+      setSearchType(type);
     }
 
     const handleEnterPress = (event) => {
@@ -105,6 +120,10 @@ if(auth.loggedIn) {
         },
       }));
 
+    let nameButtonColor = searchType == "NAME" ? "contained" : "outlined"
+    let categoryButtonColor = searchType == "CATEGORY" ? "contained" : "outlined"
+    let userButtonColor = searchType == "USER" ? "contained" : "outlined"
+
     return (
         <Box className='top-navbar' sx={{ display: 'flex' ,flexGrow: 1}} >
            <CssBaseline/>
@@ -118,19 +137,24 @@ if(auth.loggedIn) {
                 onClick={handleGoHome}
             />
             <Box  display="flex" flexDirection="row" > 
-            <Search >
-                <SearchIconWrapper style = {{borderRadius:'10%'}}>
-                    <SearchIcon />
+            <Search>
+                <SearchIconWrapper style = {{borderRadius:'10%'}} >
+                    <SearchIcon onClick={handleSearch}/>
                 </SearchIconWrapper>
                 <StyledInputBase
+                    autoFocus="autoFocus"
+                    key = "search"
                     placeholder="Search…"
                     inputProps={{ 'aria-label': 'search' }}
                     onKeyDown={handleEnterPress}
+                    onChange={(event) => handleSearchText(event)}
+                    value = {searchText}
                 />
             </Search>
                 <Box display="flex" flexDirection="row" sx={{ justifyContent: 'space-between' }} >
-                    <Button variant="contained" size="small" sx = {{backgroundColor:"white" ,color:"black",borderRadius:'20px'}} onClick={handleSearch}>By Name</Button>
-                    <Button variant="outlined" size="small"  sx= {{borderColor:"white",color:"white",borderRadius:'20px',marginX: 2}} onClick={handleSearch}>By Category</Button>
+                    <Button variant={nameButtonColor} size="small" sx = {{color:"white",borderRadius:'20px'}} onClick={() => handleSelectSearchType("NAME")}>By Name</Button>
+                    <Button variant={categoryButtonColor} size="small"  sx= {{color:"white",borderRadius:'20px',marginX: 1}} onClick={() => handleSelectSearchType("CATEGORY")}>By Category</Button>
+                    <Button variant={userButtonColor} size="small"  sx= {{color:"white",borderRadius:'20px',marginX: 0}} onClick={() => handleSelectSearchType("USER")}>By User</Button>
                 </Box>
             </Box>
             

@@ -156,6 +156,20 @@ updateUser = async(req, res) => {
         return res.status(400).json({errorMessage:"User not found"});
     }
 
+    if(loggedInUser.username != username) {
+        const sameName = await User.findOne({username: username})
+        if(sameName) {
+            return res.status(400).json({errorMessage: "Username already taken!"})
+        }
+    }
+
+    if(loggedInUser.email != email) {
+        const sameName = await User.findOne({email: email})
+        if(sameName) {
+            return res.status(400).json({errorMessage: "Email already taken!"})
+        }
+    }
+
     loggedInUser.first_name = first_name;
     loggedInUser.last_name = last_name;
     loggedInUser.username = username;

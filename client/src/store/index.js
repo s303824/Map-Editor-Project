@@ -1,3 +1,4 @@
+import { breadcrumbsClasses } from '@mui/material';
 import { createContext, useContext, useEffect, useState } from 'react'
 import { Navigate, useHistory, useNavigate } from 'react-router-dom'
 import api from '../api'
@@ -488,6 +489,21 @@ store.deleteMap= async function (mapId) {
                 mapMarkedForDeletion : response.body
             }
         });
+    }
+}
+
+store.searchByType = async function (type) {
+    switch(type) {
+
+        case "NAME":
+            break;
+
+        case "CATEGORY":
+            break;
+        
+        case "USER":
+            break;
+
     }
 }
 
