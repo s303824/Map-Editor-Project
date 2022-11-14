@@ -17,7 +17,7 @@ const Layer =()=>{
   if(store.currentLayer.height == null) {
     return;
   }
-  let currentLayer = store.currentLayer;
+  let currentLayer = store.currentLayer[0];
   console.log(store.currentLayer)
   const tileCount = currentLayer.height * currentLayer.width;
   const tileWidth = 64;
