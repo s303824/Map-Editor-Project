@@ -20,6 +20,7 @@ import ListItemText from '@mui/material/ListItemText';
 
 const MapTeams = ({onClose}) => {
     const {store} = useContext(GlobalStoreContext)
+    const [modalOpen, setModalOpen] = useState(false);
 
     const style = {
         position: 'absolute',
@@ -34,26 +35,36 @@ const MapTeams = ({onClose}) => {
       };
       const [title, setTitle] = useState(store.currentPublishedMap.name)            // For title input field 
       const [creators, setCreators] = useState(store.currentPublishedMap.creators)        // For creators input field 
-      const [newCreators, setNewCreators] = useState([])
+      const [newCreators, setNewCreators] = useState("")
       const [removedCreators, setRemovedCreators] = useState([])
 
     const addTeam = (event) => {  
-        additionalMembers = event.target.value.split(" ")  
-        let additionalMembers = newCreators.push(event.target.value)
-        setNewCreators(additionalMembers)
+        setNewCreators(event.target.value)
     }  
 
     const removeTeam = (event, member) => {    
-        let lessMembers = removedCreators.push(member)
-        setRemovedCreators(lessMembers)
-    }  
+        removedCreators.push(member)
+        setRemovedCreators(removedCreators)
+        creators.pop(member)
+        setCreators(creators)
+        }  
 
     const handleUpdateTeams = async () => {
-        store.addTeamMember(store.currentPublishedMap, newCreators);
+        memberList = newCreators.split(" ")
+        store.addTeamMember(store.currentPublishedMap, memberList);
         store.removeTeamMember(store.currentPublishedMap, removedCreators);
+        setModalOpen(true);
     }
+
+    const handleCloseModal = () => {
+        setModalOpen(false);
+    }
+
+    let modal = modalOpen ? <LoginModal message="Successfully updated!" onClose={handleCloseModal}></LoginModal> : null
+
     return(
         <Box>
+        {modal}
         <Modal
             open={true}
             aria-labelledby="modal-modal-title"

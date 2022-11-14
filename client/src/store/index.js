@@ -781,10 +781,8 @@ store.removeTeamMember = async function (mapInfo, removedUsers) {
 }
 
 //Adds the editing permission(for currentMap) for the user
-store.addTeamMember = async function (mapInfo, newUsers) {
-    newUsers.forEach(element => {
-        mapInfo.creators.push(element)
-    });
+store.addTeamMember = async function (mapInfo, newUserId) {
+    mapInfo.creators.push(newUserId)
     const response = await api.updateMapInfo(mapInfo);
     if(response.status === 200) {
         storeReducer({

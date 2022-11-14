@@ -29,9 +29,13 @@ const MapSettings = ({onClose}) => {
         boxShadow: 24,
         p: 4,
       };
+      let initialTags = ""
+      initialTags.length !== 0 && store.currentPublishedMap.tags.forEach(tag => initialTags += tag + " ")
+  
+
       const [title, setTitle] = useState(store.currentPublishedMap.name)            // For title input field 
       const [description, setDescription] = useState(store.currentPublishedMap.description)                                 // For tags input field 
-      const [tags, setTags] = useState(store.currentPublishedMap.tags)                                 // For tags input field 
+      const [tags, setTags] = useState(initialTags)                                 // For tags input field 
 
       const updateField = (event, type) => {
         switch(type){
@@ -42,24 +46,20 @@ const MapSettings = ({onClose}) => {
                 setDescription(event.target.value)
                 break;
             case "tags":
-                let newTags = event.target.value.split(" ")
-                setTags(newTags)
+                setTags(event.target.value)
                 break;
         }
     }  
 
     const handleUpdateSettings = async () => {
-        store.changeMapSettings(store.currentMap.mapinfo, title, description, tags);
+        let tagList = tags.split(" ")
+        store.changeMapSettings(store.currentMap.mapinfo, title, description, tagList);
         setModalOpen(true);
     }
 
     const handleCloseModal = () => {
         setModalOpen(false);
     }
-
-
-    let tagsList = ""
-    tagsList.length !== 0 && tags.forEach(tag => tagsList += tag + " ")
 
     let modal = modalOpen ? <LoginModal message="Successfully updated!" onClose={handleCloseModal}></LoginModal> : null
     console.log(store.currentPublishedMap)
@@ -105,7 +105,7 @@ const MapSettings = ({onClose}) => {
                     <Box className="qmodal-text">Tags</Box>
                     <TextField
                     required
-                    value = {tagsList}
+                    value = {tags}
                     id="outlined-tags-input"
                     label="Tags"
                     variant="filled"
