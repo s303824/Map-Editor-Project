@@ -47,6 +47,7 @@ const MapToolBar=() =>{
     const [open, setOpen] = React.useState(false);    
     const [dialogopen, setDialogOpen] = React.useState(false);
     const [settings, setSettings] = useState(false);
+    const [teams, setTeams] = useState(false);
     const [publishModalOpen, setPublishModalOpen] = useState(false);
     const anchorRef = React.useRef(null);
 
@@ -87,7 +88,11 @@ const MapToolBar=() =>{
     const handlePublishModal = async () => {
         setPublishModalOpen(true)
     }
-    
+
+    const handleTeamsModal = async () => {
+        setTeams(true)
+    }
+
     const handleDeleteMap = async () => {
         // console.log(store.userMaps)
         // console.log(auth.user)
@@ -108,7 +113,7 @@ const MapToolBar=() =>{
     
     const settingsModal = settings ? <MapSettings  onClose={() => setSettings(false)}></MapSettings> : null;
     const publishModal = publishModalOpen ? <PublishMap onClose={() => setPublishModalOpen(false)}></PublishMap> : null;
-
+    const teamsModal = teams ? <ManageTeam onClose={() => setTeams(false)}></ManageTeam> : null;
     const deleteModalBox = 
         <Dialog
             open={dialogopen}
@@ -135,12 +140,12 @@ const MapToolBar=() =>{
     return (
         
         <Box className='top-navbar' sx={{ display: 'flex' ,flexGrow: 1,}} >
-            {[settingsModal, deleteModalBox, publishModal]}
+            {[settingsModal, deleteModalBox, publishModal, teamsModal]}
 
            <AppBar position="static" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1}}>
               <Toolbar sx={{boxShadow: 1 ,backgroundColor:'#1E1E1E',boxShadow: '0 1px 1px 1px rgba(68,68,69,255)',justifyContent: 'space-between'}}> 
             <Box>
-                <Button sx = {{backgroundImage: 'linear-gradient(to right,#a51916,#F83600)',borderRadius:'10px',color:"white",fontWeight:"bold",marginX:1}}>
+                <Button onClick={handleTeamsModal} sx = {{backgroundImage: 'linear-gradient(to right,#a51916,#F83600)',borderRadius:'10px',color:"white",fontWeight:"bold",marginX:1}}>
                     Manage Team
                 </Button>
 
