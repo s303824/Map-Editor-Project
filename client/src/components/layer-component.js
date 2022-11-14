@@ -54,7 +54,7 @@ const Layer =()=>{
                 outline: `1px solid #ffc806`,
             }}}>
           {Array.from({ length:tileCount }, (_, i) => (
-          <Tile id={i}  value={currentLayer.data[i]} row={currentLayer.height} column={currentLayer.width} img={LayerTileBackround} tileWidth = {tileWidth} tileHeight={64} next={findTileImage}/>
+          <Tile key={i}  value={currentLayer.data[i]} row={currentLayer.height} column={currentLayer.width} img={LayerTileBackround} tileWidth = {tileWidth} tileHeight={64} next={findTileImage}/>
       ))} 
       </ImageList>
     </Box>

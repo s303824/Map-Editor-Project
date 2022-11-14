@@ -130,8 +130,8 @@ const MapToolBar=() =>{
             </DialogContentText>
             </DialogContent>
             <DialogActions>
-            <Button onClick={handleDialogClose}>No</Button>
-            <Button onClick={handleDeleteMap} autoFocus>
+            <Button key={1} onClick={handleDialogClose}>No</Button>
+            <Button key={2} onClick={handleDeleteMap} autoFocus>
                 Yes
             </Button>
             </DialogActions>
