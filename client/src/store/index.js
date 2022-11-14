@@ -34,7 +34,7 @@ function GlobalStoreContextProvider(props) {
         currentMap: {},                    //holds the current map opened for editing
         currentPublishedMap:[],     //holds the current published map opened for viewing
         currentMapInfo:[],             //current open map mapInfo
-        currentLayer: [],                 //holds the the layer that is now being modified in the map editor.       
+        currentLayer: {},                 //holds the the layer that is now being modified in the map editor.       
         currentTileSet: [],               //holds the the tileset that is now being displayed in the map editor.
         currentTile: null,                 //holds the tile selected from the current tileset
         tilesetBeingEdited: [],        //holds the tileset that is opened for editing
@@ -51,9 +51,6 @@ function GlobalStoreContextProvider(props) {
 
     const storeReducer = (action) => {
         const {type, payload} = action;
-        if(payload.currentMap) {
-            console.log(payload.currentMap.layers[0])
-        }
         switch(type) {
             case GlobalStoreActionType.LOAD_PUBLISHED_MAPS:
                 return setStore({
@@ -137,7 +134,7 @@ function GlobalStoreContextProvider(props) {
                     currentMap: store.currentMap,                    
                     currentPublishedMap: store.currentPublishedMap,
                     currentMapInfo:store.currentMapInfo,      
-                    currentLayer: payload.currentLayer,       
+                    currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
                     tilesetBeingEdited: store.tilesetBeingEdited,        
@@ -175,7 +172,7 @@ function GlobalStoreContextProvider(props) {
                     currentMapInfo:store.currentMapInfo,      
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
-                    currentTile: payload.currentTile,
+                    currentTile: store.currentTile,
                     tilesetBeingEdited: store.tilesetBeingEdited,        
                     selectedMapEditTool: store.selectedMapEditTool,   
                     canUndo: store.canUndo,                  
@@ -464,6 +461,7 @@ store.setNewMap = async function(mapData){
                 payload: {
                 userMaps: [...this.userMaps, response.data.map],
                 currentMap: response.data.map
+
             }});
         navigate("/editor/"+response.data.map._id)
         }
@@ -537,12 +535,12 @@ store.openTilesetForEditing= function (id) {}
 store.importNewTileset = async function (id, source) {}
 
 // Sets the current tile that is selected from the current tileset
-store.setCurrentTile = function (id,value) {
+store.setCurrentTile = function (id) {
     console.log("id",id);
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_TILE,
         payload: {
-            currentTile : {id,value}
+            currentTile : id
         }
     });
 }
@@ -561,7 +559,7 @@ store.setCurrentTileset = function (id) {
                 grid: {}, 
                 image: '../assets/map-card.jpg', 
                 imageheight: "960", 
-                imagewidth: "960", 
+                imagewidth: "1440", 
                 margin: 2, 
                 name: "tileset 2",
                 objectalignment: "top", 
@@ -577,7 +575,7 @@ store.setCurrentTileset = function (id) {
                 tileheight: "64", 
                 tilerendersize: "10", 
                 tiles : [],
-                tilewidth:"64", 
+                tilewidth:"96", 
                 transparentcolor :  "#000000", 
                 type : "tileset", 
                 version : "1.1", 
@@ -589,9 +587,9 @@ store.setCurrentTileset = function (id) {
 
 }
 
-store.handleMapAction = function (id,value) {
+store.handleMapAction = function (id) {
     if(store.selectedMapEditTool == "stamp"){
-        store.paintTile(id,value);
+        store.paintTile(id);
     }else if(store.selectedMapEditTool == "paint"){
         store.paintLayer();
     }else if (store.selectedMapEditTool == "eraser"){
@@ -600,47 +598,7 @@ store.handleMapAction = function (id,value) {
 }
 
 // Sets the current layer being edited
-store.setCurrentLayer = function (id) {
-    console.log("currentLater");
-    storeReducer({
-        type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
-        payload: {
-            currentLayer: [
-                {
-                 "data":[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                 "height":20,
-                 "id":1,
-                 "name":"Tile Layer 1",
-                 "opacity":1,
-                 "type":"tilelayer",
-                 "visible":true,
-                 "width":30,
-                 "x":0,
-                 "y":0
-                }]
-        }
-    });
-
-}
+store.setCurrentLayer = function (id) {}
 
 // Sets the current map editing tool 
 store.setCurrentMapEditingTool = function (selectedTool) {
@@ -648,7 +606,7 @@ store.setCurrentMapEditingTool = function (selectedTool) {
     storeReducer({
         type: GlobalStoreActionType.SET_THE_SELECTED_MAP_EDIT_TOOL,
         payload: {
-            selectedMapEditTool : selectedTool,
+            selectedMapEditTool : selectedTool
         }
     });
 }
@@ -660,41 +618,17 @@ store.undoUserEdit = function () {}
 store.redoUserEdit = function () {}
 
 //Paints the selected currentlayer's tile with the "currentTile" 
-store.paintTile = function (id,value) {
-    store.currentLayer[0].data[id]=(parseInt(store.currentTile.id)+ parseInt(store.currentTileSet.firstgid));
-    storeReducer({
-        type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
-        payload: {
-            currentLayer:store.currentLayer
-        }
-    });
+store.paintTile = function (id) {
+
+
 }
 
 //Deletes the selected tile from the current layer 
-store.deleteTile = function (id) {
-    store.currentLayer[0].data[id]=0;
-    storeReducer({
-        type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
-        payload: {
-            currentLayer:store.currentLayer
-        }
-    });
-} 
+store.deleteTile = function (tileToBeDeleted) {} 
 
 //Paints all tiles in the current layer with the "currentTile" 
-store.paintLayer= function () {
-    let data = store.currentLayer[0].data;
-    data.forEach((element, index) => {
-        data[index] = (parseInt(store.currentTile.id)+ parseInt(store.currentTileSet.firstgid));
-      })
-    console.log("paint",store.currentLayer);
-    storeReducer({
-        type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
-        payload: {
-            currentLayer:store.currentLayer
-        }
-    });
-}
+store.paintLayer= function () {}
+
 //Saves the "currentMap" to database with the edits made by user
 store.saveCurrentMap = async function () {}
 
@@ -790,47 +724,13 @@ store.loadMapEditor= async function (mapId, mapInfo) {
     try {
         const response = await api.getMap(mapId);
         if (response.status === 200) {
-
             storeReducer({
                 type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                 payload: {
                     currentMap: response.data.map,
                     mapInfo: mapInfo, 
-                    currentLayer: [
-                        {
-                         "data":[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                         "height":20,
-                         "id":1,
-                         "name":"Tile Layer 1",
-                         "opacity":1,
-                         "type":"tilelayer",
-                         "visible":true,
-                         "width":30,
-                         "x":0,
-                         "y":0
-                        }]
-                    
                 }
-            }); 
+            });
         }
         else {
             storeReducer({
@@ -838,7 +738,6 @@ store.loadMapEditor= async function (mapId, mapInfo) {
                 payload: {
                     currentMap: {},
                     mapInfo: {}, 
-                    currentLayer:[]
                 }
             });
         }
@@ -848,81 +747,46 @@ store.loadMapEditor= async function (mapId, mapInfo) {
             payload: {
                 currentMap: {},
                 mapInfo: {}, 
-                currentLayer:[]
             }
         });
     }
-     
 }
 
 store.loadMapById = async function(mapInfo_id) {
-    
     try{
+
+    
         const response = await api.getMapInfo(mapInfo_id)
         if(response.status===200) {
+
             const response2 = await api.getMap(response.data.mapInfo.map_id)
             if(response2.status === 200) {
                 storeReducer({
                     type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                     payload: {
                         currentMap: response2.data.map,
-                        mapInfo: response.data.mapInfo,
-                        currentLayer: [
-                            {
-                             "data":[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                             "height":20,
-                             "id":1,
-                             "name":"Tile Layer 1",
-                             "opacity":1,
-                             "type":"tilelayer",
-                             "visible":true,
-                             "width":30,
-                             "x":0,
-                             "y":0
-                            }]
+                        mapInfo: response.data.mapInfo, 
                     }
                 });
             }
 
-        } 
+        }
     } catch(err) {
         console.log("something went wrong")
     }
-    
 }
 
 //Opens the map viewer and sets the currentPublishedMap 
 store.loadMapViewer= async function (mapId, mapInfo) {
-
     try {
+
         const response = await api.getMap(mapId);
-        console.log("response",response);
         if (response.status === 200) {
             storeReducer({
                 type: GlobalStoreActionType.SET_THE_CURRENT_PUBLISHED_MAP,
                 payload: {
                     currentMap: response.data.map,
                     mapInfo: mapInfo, 
-                   
                 }
             });
         }
@@ -1021,7 +885,6 @@ store.sendReport = async function(report) {
         return true;
     }
 }
-
 
     return (
         <GlobalStoreContext.Provider value={{store}}>
