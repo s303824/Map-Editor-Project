@@ -17,9 +17,12 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import LoginModal from "../components/login-modal.component";
+import Divider from '@mui/material/Divider';
 
 const MapTeams = ({onClose}) => {
     const {store} = useContext(GlobalStoreContext)
+    const [modalOpen, setModalOpen] = useState(false);
 
     const style = {
         position: 'absolute',
@@ -32,27 +35,38 @@ const MapTeams = ({onClose}) => {
         boxShadow: 24,
         p: 4,
       };
-      const [title, setTitle] = useState(store.currentMap.mapinfo.title)            // For title input field 
-      const [creators, setCreators] = useState(store.currentMap.mapinfo.creators)        // For creators input field 
-      const [newCreators, setNewCreators] = useState([])
+      const [title, setTitle] = useState(store.currentMapInfo.name)            // For title input field 
+      const [creators, setCreators] = useState(store.currentMapInfo.creator)        // For creators input field 
+      const [newCreators, setNewCreators] = useState("")
       const [removedCreators, setRemovedCreators] = useState([])
 
-    const addTeam = (event) => {    
-        let additionalMembers = newCreators.push(event.target.value)
-        setNewCreators(additionalMembers)
+    const addTeam = (event) => {  
+        //setNewCreators(event.target.value)
     }  
 
     const removeTeam = (event, member) => {    
-        let lessMembers = removedCreators.push(member)
-        setRemovedCreators(lessMembers)
-    }  
+        // removedCreators.push(member)
+        // setRemovedCreators(removedCreators)
+        // creators.pop(member)
+        // setCreators(creators)
+        }  
 
     const handleUpdateTeams = async () => {
-        await store.removeTeamMember(store.currentMap.mapinfo, removedCreators);
-        await store.addTeamMember(store.currentMap.mapinfo, newCreators);
+        /*let memberList = newCreators.split(" ")
+        store.addTeamMember(store.currentPublishedMap, memberList);
+        store.removeTeamMember(store.currentPublishedMap, removedCreators);
+        setModalOpen(true);*/
     }
+
+    const handleCloseModal = () => {
+        setModalOpen(false);
+    }
+
+    let modal = modalOpen ? <LoginModal message="Successfully updated!" onClose={handleCloseModal}></LoginModal> : null
+
     return(
         <Box>
+        {modal}
         <Modal
             open={true}
             aria-labelledby="modal-modal-title"
@@ -61,25 +75,25 @@ const MapTeams = ({onClose}) => {
             <Box sx={style}>
 
             <Typography fontSize="20px">
-                <Box className="qmodal-text">{title}</Box>
-                <Box className="qmodal-text">Creators</Box>
+                <Box className="qmodal-text">{`Creators of ${title}`}</Box>
+                <Divider />
                 <List>
                 {creators.map((member) => (
                     <ListItem disablePadding>
-                    <ListItemText primary={member.username} />
-                    <ListItemButton onClick={removeTeam(member)}>
-                        <ListItemIcon>
-                        {CancelIcon}
-                        </ListItemIcon>
-                    </ListItemButton>
+                        <ListItemText primary={member.creator} />
+                        <ListItemButton onClick={removeTeam(member)}>
+                            <Button variant="contained">Remove</Button>
+                        </ListItemButton>
+                        <Divider />
                     </ListItem>
+                    
                 ))}
                 </List>
                 <Box className="qmodal-text">Add Team Member</Box>
                 <TextField
                 required
                 id="outlined-tags-input"
-                label="Tags"
+                label="Username"
                 type="tags"
                 variant="filled"
                 autoComplete="current-tags"
@@ -87,8 +101,11 @@ const MapTeams = ({onClose}) => {
                 onChange={(event) => addTeam(event)}
                 />
             </Typography>
-            <Button variant="contained" onClick={handleUpdateTeams}>Update Team</Button>
-            <Button variant="contained" onClick={onClose}>Close</Button>
+            <Box paddingTop={3} display="flex" justifyContent="space-between">
+                <Button variant="contained" onClick={handleUpdateTeams}>Update Team</Button>
+                <Button variant="contained" onClick={onClose}>Close</Button>
+            </Box>
+
 
             </Box>
         </Modal>

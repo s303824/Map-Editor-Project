@@ -12,17 +12,19 @@ import LayerTileBackround from "../assets/layer-backround.jpg";
 import { useContext } from 'react';
 import { GlobalStoreContext } from '../store';
 
+
 const Layer =()=>{
   const {store} = useContext(GlobalStoreContext);
-  console.log("u",store.currentLayer);
+
+  if(store.currentLayer.height == null) {
+    return;
+  }
   let currentLayer = store.currentLayer;
-  let layer = store.currentLayer;
-  const tileCount = currentLayer[0].height * currentLayer[0].width;
-  console.log("count",tileCount);
+  console.log("currentLayer",store.currentLayer);
+  const tileCount = currentLayer.height * currentLayer.width;
   const tileWidth = 64;
   let tilesets = store.tilesets;
-
-
+  
   //should have the total tile count in the 
   //should just render layer.data array
 

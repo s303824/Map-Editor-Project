@@ -35,8 +35,8 @@ import PublishMap from './publish.component';
 
 
 const MapToolBar=() =>{
-    const { store } = useContext(GlobalStoreContext);
-    const {auth} = useContext(AuthContext);
+    const {store} = useContext(GlobalStoreContext);
+    const {auth} = useContext(AuthContext)
     const navigate = useNavigate();
     const handleGoBack = async () => {
         await auth.getLoggedIn()
@@ -44,17 +44,6 @@ const MapToolBar=() =>{
         navigate("/projects", {});
     }
 
-    const handleStampClick = (event) =>{
-        store.setCurrentMapEditingTool("stamp");
-    }
-
-    const handlePaintClick = (event) =>{
-        store.setCurrentMapEditingTool("paint");
-    }
-
-    const handleEraserClick = (event) =>{
-        store.setCurrentMapEditingTool("eraser");
-    }
     const [open, setOpen] = React.useState(false);    
     const [dialogopen, setDialogOpen] = React.useState(false);
     const [settings, setSettings] = useState(false);
@@ -141,12 +130,24 @@ const MapToolBar=() =>{
             </DialogContentText>
             </DialogContent>
             <DialogActions>
-            <Button onClick={handleDialogClose}>No</Button>
-            <Button onClick={handleDeleteMap} autoFocus>
+            <Button key={1} onClick={handleDialogClose}>No</Button>
+            <Button key={2} onClick={handleDeleteMap} autoFocus>
                 Yes
             </Button>
             </DialogActions>
         </Dialog>
+
+    const handleStampClick = (event) =>{
+        store.setCurrentMapEditingTool("stamp");
+    }
+
+    const handlePaintClick = (event) =>{
+        store.setCurrentMapEditingTool("paint");
+    }
+
+    const handleEraserClick = (event) =>{
+        store.setCurrentMapEditingTool("eraser");
+    }
 
     return (
         

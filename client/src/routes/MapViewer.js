@@ -12,10 +12,10 @@ const MapViewer=() =>{
     const [mapInfo_id, setMapInfo_id] = useState("")
     
     useEffect(() => {
-      if (store.currentPublishedMap.length == 0){
+      if (store.currentMap.name == null){
         store.loadMapById(window.location.pathname.split("/")[2]);
       }
-    }, [store])
+    }, [])
 
     return (
       <Box className="home-container" sx={{marginLeft:'260px' }}>
