@@ -13,10 +13,11 @@ const Tile =(tileInfo)=>{
 
   if(value != -1){
     if(value!=0){
-    let set = store.currentMap.tilesets.filter( tileset => value < (tileset.tilecount+tileset.firstgid ));
+   //let set = store.currentMap.tilesets.filter( tileset => value < (tileset.tilecount+tileset.firstgid ));
+    let set = store.currentTileSet;
     newImg = map; 
-    left = -(((value-(set[0].firstgid)) % (set[0].imagewidth/set[0].tilewidth))* tileWidth);
-    top = -((Math.floor((value-(set[0].firstgid)) / (set[0].imageheight/set[0].tileheight))) * tileHeight);
+    left = -(((value-(set.firstgid)) % (set.imagewidth/set.tilewidth))* tileWidth);
+    top = -((Math.floor((value-(set.firstgid)) / (set.imageheight/set.tileheight))) * tileHeight);
   }
   }else{
     left = -((id % column)* tileWidth);
@@ -27,9 +28,11 @@ const Tile =(tileInfo)=>{
   const handleTileClick = (event) => {
     event.preventDefault();
     //to differentiate click coming from a tileset or a map container 
+    
     if(event.target.parentElement.className.includes('tileset-section')){
       store.setCurrentTile(event.target.id,value);
     }else{
+      console.log("target",event);
       store.handleMapAction(event.target.id,value);
     }
   } 
@@ -52,4 +55,4 @@ const Tile =(tileInfo)=>{
 
 }
 
-export default Tile;
+export default Tile

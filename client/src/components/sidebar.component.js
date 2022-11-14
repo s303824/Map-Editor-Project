@@ -16,32 +16,24 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../auth';
-import { GlobalStoreContext } from '../store'
 import { useContext } from 'react';
 import LoginModal from './login-modal.component';
 
 const drawerWidth = 280;
 //This array will be used to render different ListItemIcons based on the index 
+const icons = [<HomeMaxIcon sx={{fill:'white'}}/>,
+<CoPresentIcon sx={{fill:'white'}}/>, 
+<FavoriteIcon sx={{fill:'white'}}/>,
+<ExploreIcon sx={{fill:'white'}}/>,
+<SettingsIcon sx={{fill:'white'}}/>,
+ <LogoutIcon sx={{fill:'white'}}/>];
 
 export default function SideBar() {
 
   const [modalActive, setModalActive] = React.useState(false);
   const {auth} = useContext(AuthContext)
-  const { store } = useContext(GlobalStoreContext);
 
   const navigate = useNavigate();
-
-  const icons = auth.user ? [
-  <HomeMaxIcon sx={{fill:'white'}}/>,
-  <CoPresentIcon sx={{fill:'white'}}/>, 
-  <FavoriteIcon sx={{fill:'white'}}/>,
-  <ExploreIcon sx={{fill:'white'}}/>,
-  <SettingsIcon sx={{fill:'white'}}/>,
-  <LogoutIcon sx={{fill:'white'}}/>]
-  :
-  [<HomeMaxIcon sx={{fill:'white'}}/>,
-  <ExploreIcon sx={{fill:'white'}}/>,]
- ;
 
   const handleClick = (text) => {
     switch(text) {
@@ -50,12 +42,18 @@ export default function SideBar() {
         break;
 
       case "My Projects":
-        store.loadUserMaps(auth.user.username);
+        if(!auth.loggedIn) {
+          setModalActive(true)
+          break;
+        }
         navigate("/projects", {})
         break;
 
       case "Liked Maps":
-        store.loadMapInfosByIds(auth.user.liked_projects);
+        if(!auth.loggedIn) {
+          setModalActive(true)
+          break;
+        }
         navigate("/likedmaps", {})
         break;
 
@@ -64,10 +62,19 @@ export default function SideBar() {
         break;
 
       case "Settings":
+        if(!auth.loggedIn) {
+          setModalActive(true)
+          break;
+        } 
         navigate("/accountSettings", {})
         break;
       
       case "Log Out":
+
+        if(!auth.loggedIn) {
+          setModalActive(true)
+          break;
+        }
         navigate("/logout", {})
         break;
     }
@@ -76,13 +83,9 @@ export default function SideBar() {
   const handleModalClose = () => {
     setModalActive(false)
   }
-  
+
   const modal = modalActive ? <LoginModal message="You must be logged in to use this feature!" onClose={handleModalClose}></LoginModal> : null;
-
-  let buttons = auth.user ? 
-  ['Home Page', 'My Projects', 'Liked Maps', 'Explore', 'Settings', 'Log Out'] :
-  ['Home Page', 'Explore']
-
+  
   return (
     <Box className ='sidebar' position="fixed">
       {modal}
@@ -103,11 +106,11 @@ export default function SideBar() {
         <Toolbar />
         <Divider />
         <List>
-          {buttons.map((text, index) => (
-            <ListItem key={index} disablePadding>
+          {['Home Page', 'My Projects', 'Liked Maps', 'Explore', 'Settings', auth.loggedIn && 'Log Out'].map((text, index) => (
+            <ListItem key={text} disablePadding>
               <ListItemButton onClick={() => handleClick(text)}>
                 <ListItemIcon>
-                 {auth.loggedIn ? icons[index] && icons[index] : index !== 2 && icons[index]}
+                 {auth.loggedIn ? icons[index] && icons[index] : index !== 5 && icons[index]}
                
                 </ListItemIcon>
                 <ListItemText primary={text} />

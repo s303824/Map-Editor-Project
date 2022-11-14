@@ -12,7 +12,7 @@ const LayerCard =({layerInfo})=>{
         event.preventDefault();
         store.setCurrentLayer(event.target);
     }
-
+    
     return(
         <Grid container spacing={2} 
         sx={{backgroundImage:'linear-gradient(to right,#feaf06,#ffc806,#F7D24F)',
