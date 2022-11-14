@@ -12,17 +12,14 @@ import LayerTileBackround from "../assets/layer-backround.jpg";
 import { useContext } from 'react';
 import { GlobalStoreContext } from '../store';
 
-
 const Layer =()=>{
   const {store} = useContext(GlobalStoreContext);
-  if(store.currentLayer[0] == null) {
-    return false;
-  }
   let currentLayer = store.currentLayer[0];
   const tileCount = currentLayer.height * currentLayer.width;
   const tileWidth = 64;
+
   let tilesets = store.tilesets;
-  console.log(store.currentLayer[0])
+ 
 
   const findTileImage = () => {
 
@@ -54,7 +51,7 @@ const Layer =()=>{
                 outline: `1px solid #ffc806`,
             }}}>
           {Array.from({ length:tileCount }, (_, i) => (
-          <Tile id={i}  value={currentLayer[0].data[i]} row={currentLayer[0].height} column={currentLayer[0].width} img={LayerTileBackround} tileWidth = {tileWidth} tileHeight={64} />
+          <Tile id={i}  value={currentLayer.data[i]} row={currentLayer.height} column={currentLayer.width} img={LayerTileBackround} tileWidth = {tileWidth} tileHeight={64} next={findTileImage}/>
       ))} 
       </ImageList>
     </Box>
