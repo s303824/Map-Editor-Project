@@ -32,12 +32,13 @@ const MapTeams = ({onClose}) => {
         boxShadow: 24,
         p: 4,
       };
-      const [title, setTitle] = useState(store.currentMap.mapinfo.title)            // For title input field 
-      const [creators, setCreators] = useState(store.currentMap.mapinfo.creators)        // For creators input field 
+      const [title, setTitle] = useState(store.currentPublishedMap.name)            // For title input field 
+      const [creators, setCreators] = useState(store.currentPublishedMap.creators)        // For creators input field 
       const [newCreators, setNewCreators] = useState([])
       const [removedCreators, setRemovedCreators] = useState([])
 
-    const addTeam = (event) => {    
+    const addTeam = (event) => {  
+        additionalMembers = event.target.value.split(" ")  
         let additionalMembers = newCreators.push(event.target.value)
         setNewCreators(additionalMembers)
     }  
@@ -48,8 +49,8 @@ const MapTeams = ({onClose}) => {
     }  
 
     const handleUpdateTeams = async () => {
-        await store.removeTeamMember(store.currentMap.mapinfo, removedCreators);
-        await store.addTeamMember(store.currentMap.mapinfo, newCreators);
+        store.addTeamMember(store.currentPublishedMap, newCreators);
+        store.removeTeamMember(store.currentPublishedMap, removedCreators);
     }
     return(
         <Box>
@@ -66,12 +67,12 @@ const MapTeams = ({onClose}) => {
                 <List>
                 {creators.map((member) => (
                     <ListItem disablePadding>
-                    <ListItemText primary={member.username} />
-                    <ListItemButton onClick={removeTeam(member)}>
-                        <ListItemIcon>
-                        {CancelIcon}
-                        </ListItemIcon>
-                    </ListItemButton>
+                        <ListItemText primary={member.username} />
+                        <ListItemButton onClick={removeTeam(member)}>
+                            <ListItemIcon>
+                            {CancelIcon}
+                            </ListItemIcon>
+                        </ListItemButton>
                     </ListItem>
                 ))}
                 </List>
