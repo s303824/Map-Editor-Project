@@ -341,15 +341,16 @@ addCreator = async (req, res) => {
     }
 
     newMembers = []
-    addedCreators.forEach(async creator => {
-        const creator_exists = await User.findOne({username: creator})
-        newMembers.push(creator_exists)
+    addedCreators.forEach(async maker => {
+        const creator_exists = await User.findOne({username: maker.creator})
         if (!creator_exists){
             return res
                     .status(404)
-                    .json({ errorMessage: "The user you entered doesn't exist" });
+                    .json({ errorMessage: `The user ${creator} doesn't exist` });
         }
-    
+        else{
+            newMembers.push(creator_exists)
+        }
     });
     
     selectedMapInfo.creator.push(newMembers);

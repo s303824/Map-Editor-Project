@@ -45,18 +45,18 @@ const MapTeams = ({onClose}) => {
     }  
 
     const removeTeam = (event, member) => {    
-        const newList = creators.filter((maker) => maker.creator !== member.creator);
-        setCreators(newList)        // updates the displayed users 
+        // const newList = creators.filter((maker) => maker.creator !== member.creator);
+        // setCreators(newList)        // updates the displayed users 
 
-        const lessMembers = removedCreators
-        lessMembers.push(member.creator)
-        setRemovedCreators(lessMembers)     // updates the usernames of members that will be removed
+        // const lessMembers = removedCreators
+        // lessMembers.push(member.creator)
+        // setRemovedCreators(lessMembers)     // updates the usernames of members that will be removed
         }  
 
     const handleUpdateTeams = async () => {
         const memberList = newCreators.split(" ")           // parses the info of new users
         // await store.removeTeamMember(store.currentMapInfo, removedCreators);
-        await store.addTeamMember(store.currentMapInfo, memberList);
+        store.addTeamMember(store.currentMapInfo, memberList);
     }
 
     console.log(store.currentMapInfo)
