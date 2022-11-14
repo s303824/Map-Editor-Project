@@ -1,33 +1,51 @@
-import { imageListClasses, List, ListItem} from '@mui/material';
-import { Button, IconButton } from '@mui/material';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
-import LayerCard from './layer-card.component';
-import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
-import ArrowCircleDownTwoToneIcon from '@mui/icons-material/ArrowCircleDownTwoTone';
-import ArrowCircleUpTwoToneIcon from '@mui/icons-material/ArrowCircleUpTwoTone';
-import Typography from '@mui/material/Typography';
-import candles from '../assets/map-card.jpg';
-
+import { useContext } from 'react';
+import GlobalStoreContext from '../store';
+import map from '../assets/map-card-7.jpg';
 
 const Tile =(tileInfo)=>{
-  const {id,imageSize,img,tileWidth} = tileInfo;
-  
-  const row = 10;
-  const column = 10;
-  const left = -(id % column)* tileWidth;
-  const top = -(Math.floor(id / row)) * tileWidth;
+  const {id,value,row,column,img,tileWidth,tileHeight} = tileInfo;
+  const {store} = useContext(GlobalStoreContext);
 
+  let left =0;
+  let top = 0;
+  let newImg = img;
+
+  if(value != -1){
+    if(value!=0){
+    let set = store.currentMap.tilesets.filter( tileset => value < (tileset.tilecount+tileset.firstgid ));
+    newImg = map; 
+    left = -(((value-(set[0].firstgid)) % (set[0].imagewidth/set[0].tilewidth))* tileWidth);
+    top = -((Math.floor((value-(set[0].firstgid)) / (set[0].imageheight/set[0].tileheight))) * tileHeight);
+  }
+  }else{
+    left = -((id % column)* tileWidth);
+    top = -((Math.floor(id / row)) * tileHeight); 
+  }
+
+  
+  const handleTileClick = (event) => {
+    event.preventDefault();
+    //to differentiate click coming from a tileset or a map container 
+    if(event.target.parentElement.className.includes('tileset-section')){
+      store.setCurrentTile(event.target.id,value);
+    }else{
+      store.handleMapAction(event.target.id,value);
+    }
+  } 
+ 
     return(
         <Box 
+      id={id}
       sx={{
-      height:`${tileWidth}px`,
+      height:`${tileHeight}px`,
       width:`${tileWidth}px`,
-      backgroundImage: `url(${img})`,
-      backgroundPosition: `left ${left}px top ${top}px`,
+      backgroundImage: `url(${newImg})`,
+      backgroundPosition:`left ${left}px top ${top}px`,
       border:"solid",
       margin:'0px'
     }}
+    onClick = {handleTileClick}
       />   
         
     );

@@ -12,9 +12,12 @@ import candles from '../assets/map-card.jpg';
 import Tileset from './tileset-cards.component';
 import map from '../assets/map-card.jpg'
 import { useNavigate } from 'react-router-dom';
+import GlobalStoreContext from '../store';
+import { useContext } from 'react';
 
 const TilesetsSection =()=>{
     const navigate = useNavigate();
+    const {store} =useContext(GlobalStoreContext);
     const [value, setValue] = React.useState(0);
     const handleTileEdit = () => {
         navigate("/tileseteditor", {})
@@ -35,8 +38,13 @@ const TilesetsSection =()=>{
         "name":"Layer3",
         "precedence":3,
       }
-    
     ]
+
+    const handleTileSetDisplay = (event)=>{
+        event.preventDefault();
+        console.log(event.target.id);
+        store.setCurrentTileset(event.target.id);
+    };
 
     return(
         <Grid sx={{backgroundImage :'linear-gradient(to left, #505051, #303031)',boxShadow: '0 1px 2px 2px rgba(68,68,69,255)',borderRadius:2}}>
@@ -58,13 +66,15 @@ const TilesetsSection =()=>{
                 marginTop:2,
                 borderRadius:1,}}
                 >
-                
                     {tilesets.map((layer) => (
                         <Box display='flex' sx={{backgroundImage:'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',borderRadius:2,width:"145px",marginRight:1.5}}>
-                        <Tab label={layer.id} sx={{
-
+                        <Tab 
+                            sx={{
                             backgroundColor:'#696969',
-                            width:"25px"}} />
+                            width:"25px"}}
+                            id={layer.id} 
+                            onClick = {handleTileSetDisplay}
+                            />
                         <Button variant="contained"  sx={{backgroundColor:"#d72b05" ,fontSize:12,borderRadius:1,marginLeft:-1 }} onClick={handleTileEdit}>
                             Edit
                         </Button>
