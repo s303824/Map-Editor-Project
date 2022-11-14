@@ -25,6 +25,7 @@ const MapEditor=() =>{
           store.loadMapById(window.location.pathname.split("/")[2]);
         }
       }, [])
+      console.log(store.currentMap)
       console.log(store.currentMapInfo)
 
     return(

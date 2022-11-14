@@ -825,6 +825,7 @@ store.loadMapEditor= async function (mapId, mapInfo) {
         console.log(mapId)
         const response = await api.getMap(mapId);
         if (response.status === 200) {
+            console.log(response.data)
             storeReducer({
                 type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                 payload: {

@@ -146,8 +146,12 @@ deleteMap = async (req, res) => {
                     console.log(docs.mapinfo)
                     console.log(_id)
 
-                    MapInfo.deleteOne({_id: docs.mapinfo})
-                    Map.deleteOne({_id: _id})
+                    MapInfo.findByIdAndDelete({_id: docs.mapinfo}, function(err, test) {
+                        console.log(test)
+                    })
+                    Map.findByIdAndDelete({_id: _id}, function(err, test) {
+                        console.log(test)
+                    })
 
                 })
 
@@ -210,11 +214,12 @@ updateMap = async (req, res) => {
 getMap = async (req, res) => {
     try{
         const   _id  = req.query._id;
-        if(!_id){
+        if(!req.query._id){
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
+        console.log("map get:" +req.query._id )
         Map.findOne({_id: req.query._id}, function (err, docs) {
             if (err){
                 console.log(err)
