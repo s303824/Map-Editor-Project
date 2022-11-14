@@ -342,14 +342,15 @@ addCreator = async (req, res) => {
 
     newMembers = []
     addedCreators.forEach(async maker => {
-        const creator_exists = await User.findOne({username: maker.creator})
+        const creator_exists = await User.findOne({username: maker})
         if (!creator_exists){
             return res
                     .status(404)
                     .json({ errorMessage: `The user ${creator} doesn't exist` });
         }
         else{
-            newMembers.push(creator_exists)
+            const newPerson = [{creator:creator_exists.username, email:creator_exists.email, profile_picture:creator_exists.profile_picture}]
+            newMembers.push(newPerson)
         }
     });
     
