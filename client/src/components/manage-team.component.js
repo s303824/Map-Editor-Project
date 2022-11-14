@@ -34,27 +34,27 @@ const MapTeams = ({onClose}) => {
         boxShadow: 24,
         p: 4,
       };
-      const [title, setTitle] = useState(store.currentPublishedMap.name)            // For title input field 
-      const [creators, setCreators] = useState(store.currentPublishedMap.creators)        // For creators input field 
+      const [title, setTitle] = useState(store.currentMapInfo.name)            // For title input field 
+      const [creators, setCreators] = useState(store.currentMapInfo.creator)        // For creators input field 
       const [newCreators, setNewCreators] = useState("")
       const [removedCreators, setRemovedCreators] = useState([])
 
     const addTeam = (event) => {  
-        setNewCreators(event.target.value)
+        //setNewCreators(event.target.value)
     }  
 
     const removeTeam = (event, member) => {    
-        removedCreators.push(member)
-        setRemovedCreators(removedCreators)
-        creators.pop(member)
-        setCreators(creators)
+        // removedCreators.push(member)
+        // setRemovedCreators(removedCreators)
+        // creators.pop(member)
+        // setCreators(creators)
         }  
 
     const handleUpdateTeams = async () => {
-        let memberList = newCreators.split(" ")
+        /*let memberList = newCreators.split(" ")
         store.addTeamMember(store.currentPublishedMap, memberList);
         store.removeTeamMember(store.currentPublishedMap, removedCreators);
-        setModalOpen(true);
+        setModalOpen(true);*/
     }
 
     const handleCloseModal = () => {
@@ -62,6 +62,7 @@ const MapTeams = ({onClose}) => {
     }
 
     let modal = modalOpen ? <LoginModal message="Successfully updated!" onClose={handleCloseModal}></LoginModal> : null
+
 
     return(
         <Box>
@@ -79,11 +80,9 @@ const MapTeams = ({onClose}) => {
                 <List>
                 {creators.map((member) => (
                     <ListItem disablePadding>
-                        <ListItemText primary={member.username} />
+                        <ListItemText primary={member.creator} />
                         <ListItemButton onClick={removeTeam(member)}>
-                            <ListItemIcon>
-                            {CancelIcon}
-                            </ListItemIcon>
+                            <Button>Remove</Button>
                         </ListItemButton>
                     </ListItem>
                 ))}
@@ -92,7 +91,7 @@ const MapTeams = ({onClose}) => {
                 <TextField
                 required
                 id="outlined-tags-input"
-                label="Tags"
+                label="Username"
                 type="tags"
                 variant="filled"
                 autoComplete="current-tags"
