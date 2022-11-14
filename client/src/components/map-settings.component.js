@@ -42,7 +42,7 @@ const MapSettings = ({onClose}) => {
                 setDescription(event.target.value)
                 break;
             case "tags":
-                setTags(event.target.value)
+                setTags(event.target.value.split(" "))
                 break;
         }
     }  

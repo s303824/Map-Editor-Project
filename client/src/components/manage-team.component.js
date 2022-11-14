@@ -10,8 +10,12 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
-
+import CancelIcon from '@mui/icons-material/Cancel';
 import GlobalStoreContext from '../store';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 
 const MapTeams = ({onClose}) => {
     const {store} = useContext(GlobalStoreContext)
@@ -29,18 +33,23 @@ const MapTeams = ({onClose}) => {
       };
       const [title, setTitle] = useState(store.currentMap.mapinfo.title)            // For title input field 
       const [creators, setCreators] = useState(store.currentMap.mapinfo.creators)        // For creators input field 
-  
-      const updateField = (event) => {    
-        setCreators(event.target.value)
+      const [newCreators, setNewCreators] = useState([])
+      const [removedCreators, setRemovedCreators] = useState([])
+
+    const addTeam = (event) => {    
+        let additionalMembers = newCreators.push(event.target.value)
+        setNewCreators(additionalMembers)
+    }  
+
+    const removeTeam = (event, member) => {    
+        let lessMembers = removedCreators.push(member)
+        setRemovedCreators(lessMembers)
     }  
 
     const handleUpdateTeams = async () => {
-        await store.addTeamMember(store.currentMap.mapinfo, creators);
+        await store.removeTeamMember(store.currentMap.mapinfo, removedCreators);
+        await store.addTeamMember(store.currentMap.mapinfo, newCreators);
     }
-    
-    let team = ""
-    team.length !== 0 && creators.forEach(creator => team += creator + " ")
-   
     return(
         <Box>
         <Modal
@@ -53,7 +62,19 @@ const MapTeams = ({onClose}) => {
             <Typography fontSize="20px">
                 <Box className="qmodal-text">{title}</Box>
                 <Box className="qmodal-text">Creators</Box>
-                <Box className="qmodal-text">{team}</Box>
+                <List>
+                {creators.map((member) => (
+                    <ListItem disablePadding>
+                    <ListItemText primary={member.username} />
+                    <ListItemButton onClick={removeTeam(member)}>
+                        <ListItemIcon>
+                        {CancelIcon}
+                        </ListItemIcon>
+                    </ListItemButton>
+                    </ListItem>
+                ))}
+                </List>
+                <Box className="qmodal-text">Add Team Member</Box>
                 <TextField
                 required
                 id="outlined-tags-input"
@@ -62,10 +83,10 @@ const MapTeams = ({onClose}) => {
                 variant="filled"
                 autoComplete="current-tags"
                 className = "text-field"
-                onChange={(event) => updateField(event)}
+                onChange={(event) => addTeam(event)}
                 />
             </Typography>
-            <Button variant="contained" onClick={handleUpdateTeams}>Add Team Member</Button>
+            <Button variant="contained" onClick={handleUpdateTeams}>Update Team</Button>
             <Button variant="contained" onClick={onClose}>Close</Button>
 
             </Box>
