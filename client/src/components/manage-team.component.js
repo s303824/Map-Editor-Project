@@ -52,9 +52,9 @@ const MapTeams = ({onClose}) => {
         }  
 
     const handleUpdateTeams = async () => {
-        await store.removeTeamMember(store.currentMapInfo, removedCreators);
-        const memberList = newCreators.split(" ")           // parses the info of new users
-        await store.addTeamMember(store.currentMapInfo, memberList);
+        //const memberList = newCreators.split(" ")           // parses the info of new users
+        //await store.removeTeamMember(store.currentMapInfo, removedCreators);
+        //await store.addTeamMember(store.currentMapInfo, memberList);
     }
 
     console.log(store.currentMapInfo)
