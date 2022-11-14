@@ -51,12 +51,9 @@ function GlobalStoreContextProvider(props) {
 
     const storeReducer = (action) => {
         const {type, payload} = action;
-<<<<<<<<< Temporary merge branch 1
-=========
         if(payload.currentMap) {
             console.log(payload.currentMap.layers[0])
         }
->>>>>>>>> Temporary merge branch 2
         switch(type) {
             case GlobalStoreActionType.LOAD_PUBLISHED_MAPS:
                 return setStore({
@@ -103,7 +100,7 @@ function GlobalStoreContextProvider(props) {
                     currentMap: payload.currentMap,                    
                     currentPublishedMap: payload.mapInfo ? payload.mapInfo : store.currentPublishedMap,
                     currentMapInfo:payload.mapInfo,      
-                    currentLayer:payload.currentLayer,       
+                    currentLayer: payload.currentMap ? [payload.currentMap.layers[0]] : store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
                     tilesetBeingEdited: store.tilesetBeingEdited,        
@@ -122,7 +119,7 @@ function GlobalStoreContextProvider(props) {
                     currentMap: payload.currentMap ? payload.currentMap : store.currentMap,                    
                     currentPublishedMap: payload.mapInfo, 
                     currentMapInfo:payload.mapInfo,     
-                    currentLayer: payload.currentMap ? payload.currentMap.layers[0] : store.currentLayer,       
+                    currentLayer: payload.currentMap ? [payload.currentMap.layers[0]] : store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
                     tilesetBeingEdited: store.tilesetBeingEdited,        
