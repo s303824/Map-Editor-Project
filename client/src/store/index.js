@@ -67,9 +67,6 @@ function GlobalStoreContextProvider(props) {
         currentMap: {},                    //holds the current map opened for editing
         currentPublishedMap:[],     //holds the current published map opened for viewing
         currentMapInfo:[],             //current open map mapInfo
-<<<<<<< HEAD
-        currentLayer: layer,                 //holds the the layer that is now being modified in the map editor.       
-=======
         currentLayer:[
             {
              "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -102,7 +99,6 @@ function GlobalStoreContextProvider(props) {
              "x":0,
              "y":0
             }],                 //holds the the layer that is now being modified in the map editor.       
->>>>>>> burcu
         currentTileSet: [],               //holds the the tileset that is now being displayed in the map editor.
         currentTile: null,                 //holds the tile selected from the current tileset
         tilesetBeingEdited: [],        //holds the tileset that is opened for editing
@@ -165,11 +161,7 @@ function GlobalStoreContextProvider(props) {
                     currentMap: payload.currentMap,                    
                     currentPublishedMap: payload.mapInfo ? payload.mapInfo : store.currentPublishedMap,
                     currentMapInfo:payload.mapInfo,      
-<<<<<<< HEAD
-                    currentLayer: store.currentLayer,       
-=======
                     currentLayer:store.currentLayer,       
->>>>>>> burcu
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
                     tilesetBeingEdited: store.tilesetBeingEdited,        
@@ -188,11 +180,7 @@ function GlobalStoreContextProvider(props) {
                     currentMap: payload.currentMap ? payload.currentMap : store.currentMap,                    
                     currentPublishedMap: payload.mapInfo, 
                     currentMapInfo:payload.mapInfo,     
-<<<<<<< HEAD
-                    currentLayer: store.currentLayer,       
-=======
                     currentLayer:store.currentLayer,       
->>>>>>> burcu
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
                     tilesetBeingEdited: store.tilesetBeingEdited,        
