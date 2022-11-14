@@ -14,7 +14,7 @@ import { GlobalStoreContext } from '../store';
 
 const Layer =()=>{
   const {store} = useContext(GlobalStoreContext);
-  if(store.currentLayer[0].height == null) {
+  if(store.currentLayer[0] == null) {
     return false;
   }
   let currentLayer = store.currentLayer[0];
