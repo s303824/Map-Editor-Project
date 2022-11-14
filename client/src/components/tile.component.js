@@ -1,23 +1,23 @@
 import Box from '@mui/material/Box';
 import { useContext } from 'react';
 import GlobalStoreContext from '../store';
-import map from '../assets/map-card.jpg';
+import map from '../assets/map-card-7.jpg';
 
 const Tile =(tileInfo)=>{
   const {id,value,row,column,img,tileWidth,tileHeight} = tileInfo;
   const {store} = useContext(GlobalStoreContext);
-  console.log("info",tileInfo);
+
   let left =0;
   let top = 0;
   let newImg = img;
 
   if(value != -1){
     if(value!=0){
-    let set = store.currentMap.tilesets.filter( tileset => value < (tileset.tilecount+tileset.firstgid ));
+   //let set = store.currentMap.tilesets.filter( tileset => value < (tileset.tilecount+tileset.firstgid ));
+    let set = store.currentTileSet;
     newImg = map; 
-    console.log("IMG",newImg);
-    left = -(((value-(set[0].firstgid)) % (set[0].imagewidth/set[0].tilewidth))* tileWidth);
-    top = -((Math.floor((value-(set[0].firstgid)) / (set[0].imageheight/set[0].tileheight))) * tileHeight);
+    left = -(((value-(set.firstgid)) % (set.imagewidth/set.tilewidth))* tileWidth);
+    top = -((Math.floor((value-(set.firstgid)) / (set.imageheight/set.tileheight))) * tileHeight);
   }
   }else{
     left = -((id % column)* tileWidth);
@@ -28,10 +28,12 @@ const Tile =(tileInfo)=>{
   const handleTileClick = (event) => {
     event.preventDefault();
     //to differentiate click coming from a tileset or a map container 
+    
     if(event.target.parentElement.className.includes('tileset-section')){
-      store.setCurrentTile(id,value);
+      store.setCurrentTile(event.target.id,value);
     }else{
-      store.handleMapAction(id,value);
+      console.log("target",event);
+      store.handleMapAction(event.target.id,value);
     }
   } 
  
@@ -53,4 +55,4 @@ const Tile =(tileInfo)=>{
 
 }
 
-export default Tile;
+export default Tile
