@@ -17,6 +17,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import LoginModal from "../components/login-modal.component";
 
 const MapTeams = ({onClose}) => {
     const {store} = useContext(GlobalStoreContext)
@@ -50,7 +51,7 @@ const MapTeams = ({onClose}) => {
         }  
 
     const handleUpdateTeams = async () => {
-        memberList = newCreators.split(" ")
+        let memberList = newCreators.split(" ")
         store.addTeamMember(store.currentPublishedMap, memberList);
         store.removeTeamMember(store.currentPublishedMap, removedCreators);
         setModalOpen(true);
