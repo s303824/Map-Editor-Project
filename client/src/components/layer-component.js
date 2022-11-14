@@ -14,11 +14,10 @@ import { GlobalStoreContext } from '../store';
 
 const Layer =()=>{
   const {store} = useContext(GlobalStoreContext);
-  let currentLayer = store.currentLayer[0];
-  console.log("current",currentLayer.data)
+  let currentLayer = store.currentMap;
+  console.log("current",currentLayer);
   const tileCount = currentLayer.height * currentLayer.width;
   const tileWidth = 64;
-
   let tilesets = store.tilesets;
 
 

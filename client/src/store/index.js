@@ -134,7 +134,7 @@ function GlobalStoreContextProvider(props) {
                     currentMap: store.currentMap,                    
                     currentPublishedMap: store.currentPublishedMap,
                     currentMapInfo:store.currentMapInfo,      
-                    currentLayer: store.currentLayer,       
+                    currentLayer: payload.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
                     tilesetBeingEdited: store.tilesetBeingEdited,        
@@ -598,6 +598,7 @@ store.handleMapAction = function (id,value) {
 
 // Sets the current layer being edited
 store.setCurrentLayer = function (id) {
+    console.log("currentLater");
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
         payload: {
@@ -785,13 +786,16 @@ store.loadMapEditor= async function (mapId, mapInfo) {
     try {
         const response = await api.getMap(mapId);
         if (response.status === 200) {
+            
             storeReducer({
                 type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                 payload: {
                     currentMap: response.data.map,
                     mapInfo: mapInfo, 
+                    
                 }
             });
+            
         }
         else {
             storeReducer({
@@ -819,7 +823,6 @@ store.loadMapById = async function(mapInfo_id) {
     
         const response = await api.getMapInfo(mapInfo_id)
         if(response.status===200) {
-
             const response2 = await api.getMap(response.data.mapInfo.map_id)
             if(response2.status === 200) {
                 storeReducer({

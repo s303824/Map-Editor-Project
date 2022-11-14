@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import { useContext } from 'react';
 import GlobalStoreContext from '../store';
-import map from '../assets/map-card-7.jpg';
+import map from '../assets/map-card.jpg';
 
 const Tile =(tileInfo)=>{
   const {id,value,row,column,img,tileWidth,tileHeight} = tileInfo;

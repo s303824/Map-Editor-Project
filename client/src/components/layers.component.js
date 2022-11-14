@@ -7,9 +7,11 @@ import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
 import ArrowCircleDownTwoToneIcon from '@mui/icons-material/ArrowCircleDownTwoTone';
 import ArrowCircleUpTwoToneIcon from '@mui/icons-material/ArrowCircleUpTwoTone';
 import Typography from '@mui/material/Typography';
-
+import { useContext } from 'react';
+import { GlobalStoreContext } from '../store';
 
 const LayersSection =()=>{
+    const {store} = useContext(GlobalStoreContext);
     const layers =[{ //to display sample data
         "id": 1,
         "name":"Layer1",
@@ -38,6 +40,11 @@ const LayersSection =()=>{
     
     ]
 
+    const handleSelectLayer = (event) => {
+        event.preventDefault();
+        store.setCurrentLayer(event.target.id);
+    }
+
     return(
         <Grid sx={{backgroundImage :'linear-gradient(to left, #505051, #303031)',boxShadow: '0 1px 2px 2px rgba(68,68,69,255)',borderRadius:2}}>
             <Grid >
@@ -65,6 +72,7 @@ const LayersSection =()=>{
                         key={layer._id}
                         layerInfo={layer}
                         selected={false}
+                        onClick ={handleSelectLayer}
                         />))}
                  </List>
                 </Grid>
