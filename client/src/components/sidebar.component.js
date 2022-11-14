@@ -21,17 +21,16 @@ import LoginModal from './login-modal.component';
 
 const drawerWidth = 280;
 //This array will be used to render different ListItemIcons based on the index 
-const icons = [<HomeMaxIcon sx={{fill:'white'}}/>,
-<CoPresentIcon sx={{fill:'white'}}/>, 
-<FavoriteIcon sx={{fill:'white'}}/>,
-<ExploreIcon sx={{fill:'white'}}/>,
-<SettingsIcon sx={{fill:'white'}}/>,
- <LogoutIcon sx={{fill:'white'}}/>];
-
 export default function SideBar() {
-
   const [modalActive, setModalActive] = React.useState(false);
   const {auth} = useContext(AuthContext)
+
+  let icons = [<HomeMaxIcon sx={{fill:'white'}}/>,
+  auth.loggedIn ? <CoPresentIcon sx={{fill:'white'}}/> : null, 
+  auth.loggedIn ? <FavoriteIcon sx={{fill:'white'}}/> : null,
+ <ExploreIcon sx={{fill:'white'}}/>,
+ auth.loggedIn ? <SettingsIcon sx={{fill:'white'}}/> : null,
+  <LogoutIcon sx={{fill:'white'}}/>];
 
   const navigate = useNavigate();
 
@@ -42,18 +41,10 @@ export default function SideBar() {
         break;
 
       case "My Projects":
-        if(!auth.loggedIn) {
-          setModalActive(true)
-          break;
-        }
         navigate("/projects", {})
         break;
 
       case "Liked Maps":
-        if(!auth.loggedIn) {
-          setModalActive(true)
-          break;
-        }
         navigate("/likedmaps", {})
         break;
 
@@ -85,6 +76,16 @@ export default function SideBar() {
   }
 
   const modal = modalActive ? <LoginModal message="You must be logged in to use this feature!" onClose={handleModalClose}></LoginModal> : null;
+
+  let sideList =  ['Home Page', 
+  auth.loggedIn && 'My Projects', 
+  auth.loggedIn && 'Liked Maps', 
+  'Explore', 
+  auth.loggedIn && 'Settings', 
+  auth.loggedIn && 'Log Out']
+  sideList = sideList.filter(e => e!=false)
+  icons = icons.filter( e=> e!= null)
+  console.log(sideList)
   
   return (
     <Box className ='sidebar' position="fixed">
@@ -106,11 +107,11 @@ export default function SideBar() {
         <Toolbar />
         <Divider />
         <List>
-          {['Home Page', 'My Projects', 'Liked Maps', 'Explore', 'Settings', auth.loggedIn && 'Log Out'].map((text, index) => (
+          {sideList.map((text, index) => (
             <ListItem key={text} disablePadding>
               <ListItemButton onClick={() => handleClick(text)}>
                 <ListItemIcon>
-                 {auth.loggedIn ? icons[index] && icons[index] : index !== 5 && icons[index]}
+                 {auth.loggedIn ? icons[index] : index !== 5 && icons[index]}
                
                 </ListItemIcon>
                 <ListItemText primary={text} />
