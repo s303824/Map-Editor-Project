@@ -18,6 +18,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import LoginModal from "../components/login-modal.component";
+import Divider from '@mui/material/Divider';
 
 const MapTeams = ({onClose}) => {
     const {store} = useContext(GlobalStoreContext)
@@ -63,7 +64,6 @@ const MapTeams = ({onClose}) => {
 
     let modal = modalOpen ? <LoginModal message="Successfully updated!" onClose={handleCloseModal}></LoginModal> : null
 
-
     return(
         <Box>
         {modal}
@@ -75,16 +75,18 @@ const MapTeams = ({onClose}) => {
             <Box sx={style}>
 
             <Typography fontSize="20px">
-                <Box className="qmodal-text">{title}</Box>
-                <Box className="qmodal-text">Creators</Box>
+                <Box className="qmodal-text">{`Creators of ${title}`}</Box>
+                <Divider />
                 <List>
                 {creators.map((member) => (
                     <ListItem disablePadding>
                         <ListItemText primary={member.creator} />
                         <ListItemButton onClick={removeTeam(member)}>
-                            <Button>Remove</Button>
+                            <Button variant="contained">Remove</Button>
                         </ListItemButton>
+                        <Divider />
                     </ListItem>
+                    
                 ))}
                 </List>
                 <Box className="qmodal-text">Add Team Member</Box>
@@ -99,8 +101,11 @@ const MapTeams = ({onClose}) => {
                 onChange={(event) => addTeam(event)}
                 />
             </Typography>
-            <Button variant="contained" onClick={handleUpdateTeams}>Update Team</Button>
-            <Button variant="contained" onClick={onClose}>Close</Button>
+            <Box paddingTop={3} display="flex" justifyContent="space-between">
+                <Button variant="contained" onClick={handleUpdateTeams}>Update Team</Button>
+                <Button variant="contained" onClick={onClose}>Close</Button>
+            </Box>
+
 
             </Box>
         </Modal>

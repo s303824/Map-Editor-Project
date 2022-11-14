@@ -52,7 +52,7 @@ const PublishMap = ({onClose}) => {
             <Box sx={style}>
 
             <Typography fontSize="20px">
-                <Box className="qmodal-text">{title}</Box>
+                <Box className="qmodal-text">{`Publish ${title}?`}</Box>
                 <Box className="qmodal-text">Are you sure you want to publish this map?</Box>
             </Typography>
             <Box paddingTop={3} display="flex" justifyContent="space-between">
