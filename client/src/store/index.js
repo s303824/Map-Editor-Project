@@ -34,7 +34,7 @@ function GlobalStoreContextProvider(props) {
         currentMap: {},                    //holds the current map opened for editing
         currentPublishedMap:[],     //holds the current published map opened for viewing
         currentMapInfo:[],             //current open map mapInfo
-        currentLayer: [],                 //holds the the layer that is now being modified in the map editor.       
+        currentLayer: {},                 //holds the the layer that is now being modified in the map editor.       
         currentTileSet: [],               //holds the the tileset that is now being displayed in the map editor.
         currentTile: null,                 //holds the tile selected from the current tileset
         tilesetBeingEdited: [],        //holds the tileset that is opened for editing
@@ -51,6 +51,9 @@ function GlobalStoreContextProvider(props) {
 
     const storeReducer = (action) => {
         const {type, payload} = action;
+        if(payload.currentMap) {
+            console.log(payload.currentMap.layers[0])
+        }
         switch(type) {
             case GlobalStoreActionType.LOAD_PUBLISHED_MAPS:
                 return setStore({
@@ -97,7 +100,7 @@ function GlobalStoreContextProvider(props) {
                     currentMap: payload.currentMap,                    
                     currentPublishedMap: store.currentPublishedMap,
                     currentMapInfo:payload.mapInfo,      
-                    currentLayer: store.currentLayer,       
+                    currentLayer: payload.currentMap ? payload.currentMap.layers[0] : store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
                     tilesetBeingEdited: store.tilesetBeingEdited,        
@@ -116,7 +119,7 @@ function GlobalStoreContextProvider(props) {
                     currentMap: payload.currentMap ? payload.currentMap : store.currentMap,                    
                     currentPublishedMap: payload.mapInfo, 
                     currentMapInfo:payload.mapInfo,     
-                    currentLayer: store.currentLayer,       
+                    currentLayer: payload.currentMap ? payload.currentMap.layers[0] : store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
                     tilesetBeingEdited: store.tilesetBeingEdited,        
@@ -826,7 +829,7 @@ store.loadMapById = async function(mapInfo_id) {
             const response2 = await api.getMap(response.data.mapInfo.map_id)
             if(response2.status === 200) {
                 storeReducer({
-                    type: GlobalStoreActionType.SET_THE_CURRENT_PUBLISHED_MAP,
+                    type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                     payload: {
                         currentMap: response2.data.map,
                         mapInfo: response.data.mapInfo, 
