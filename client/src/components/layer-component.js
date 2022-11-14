@@ -22,6 +22,7 @@ const Layer =()=>{
   const tileWidth = 64;
 
   let tilesets = store.tilesets;
+  console.log(store.currentLayer[0])
 
   const findTileImage = () => {
 
