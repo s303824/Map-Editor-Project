@@ -20,7 +20,7 @@ const MapViewer=() =>{
     return (
       <Box className="home-container" sx={{marginLeft:'260px' }}>
         <Typography variant="h4" sx={{backgroundImage: 'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',boxShadow: '0 1px 1px 1px rgba(68,68,69,255)',boxShadow: 1,borderRadius:'10px',justifyContent: 'center',maxWidth:"80%",color:"grey",marginBottom:'2%',padding:'2%'}}>
-          {store.currentPublishedMap.name ? store.currentPublishedMap.name : "error"}
+          {store.currentMapInfo.name ? store.currentMapInfo.name : "error"}
         </Typography>
         <Box display="flex" sx={{backgroundImage :'linear-gradient(to bottom, #505051, #303031)',boxShadow: '0 1px 2px 2px rgba(68,68,69,255)',marginRight:27,marginTop:5}}>
         <Box 

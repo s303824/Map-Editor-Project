@@ -115,6 +115,7 @@ function GlobalStoreContextProvider(props) {
 
     const storeReducer = (action) => {
         const {type, payload} = action;
+        console.log(payload)
         switch(type) {
             case GlobalStoreActionType.LOAD_PUBLISHED_MAPS:
                 return setStore({
@@ -141,7 +142,7 @@ function GlobalStoreContextProvider(props) {
                     userMaps: payload.userMaps,                      
                     currentMap: payload.currentMap ? payload.currentMap : store.currentMap,                    
                     currentPublishedMap: store.currentPublishedMap,
-                    currentMapInfo:store.currentMapInfo, 
+                    currentMapInfo:payload.mapInfo ? payload.mapInfo : store.currentMapInfo, 
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
@@ -159,7 +160,7 @@ function GlobalStoreContextProvider(props) {
                     publishedMaps: store.publishedMaps,              
                     userMaps: store.userMaps,                      
                     currentMap: payload.currentMap,                    
-                    currentPublishedMap: payload.mapInfo ? payload.mapInfo : store.currentPublishedMap,
+                    currentPublishedMap: store.currentPublishedMap,
                     currentMapInfo:payload.mapInfo,      
                     currentLayer:store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
@@ -341,9 +342,9 @@ function GlobalStoreContextProvider(props) {
                 return setStore({
                     publishedMaps: store.publishedMaps,              
                     userMaps: store.userMaps,                      
-                    currentMap: store.currentMap,                    
-                    currentPublishedMap: store.currentPublishedMap, 
-                    currentMapInfo:store.currentMapInfo,     
+                    currentMap: [],                    
+                    currentPublishedMap: [], 
+                    currentMapInfo:[],     
                     currentLayer: store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
@@ -520,11 +521,12 @@ store.setNewMap = async function(mapData){
     try {
         response = await api.registerMap(mapData);
         if (response.status === 200) {
+            console.log(response.data)
             storeReducer({
-            type: GlobalStoreActionType.LOAD_USER_MAPS,
+            type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                 payload: {
-                userMaps: [...this.userMaps, response.data.map],
-                currentMap: response.data.map
+                currentMap: response.data.map,
+                mapInfo: response.data.mapInfo
 
             }});
         navigate("/editor/"+response.data.map._id)
@@ -543,17 +545,20 @@ store.setNewMap = async function(mapData){
 
 //Deletes the selected map 
 store.deleteMap= async function (mapId) {
-    console.log("mapIdmapIdmapId")
-    console.log(mapId)
-    console.log("mapIdmapIdmapId")
-    const response = api.deleteMap(mapId);
-    if (response.status === 200) {
-        storeReducer({
-            type: GlobalStoreActionType.SET_THE_MAP_MARKED_FOR_DELETION,
-            payload: {
-                mapMarkedForDeletion : response.body
-            }
-        });
+    console.log("MAPID FOR DELETE:" + mapId)
+        try {
+            const response = api.deleteMap(mapId);
+        if (response.status === 200) {
+            storeReducer({
+                type: GlobalStoreActionType.SET_THE_MAP_MARKED_FOR_DELETION,
+                payload: {
+                    mapMarkedForDeletion : response.body
+                }
+            });
+        }
+    }
+    catch(err) {
+        console.log(err)
     }
 }
 
@@ -849,8 +854,11 @@ store.setopenModal =  function (modalType) {}
 //Opens the map editor and sets the currentMap
 store.loadMapEditor= async function (mapId, mapInfo) {
     try {
+        console.log(mapInfo)
+        console.log(mapId)
         const response = await api.getMap(mapId);
         if (response.status === 200) {
+            console.log(response.data)
             storeReducer({
                 type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                 payload: {
@@ -879,25 +887,27 @@ store.loadMapEditor= async function (mapId, mapInfo) {
     }
 }
 
-store.loadMapById = async function(mapInfo_id) {
+store.loadMapById = async function(_id) {
     try{
-        const response = await api.getMapInfo(mapInfo_id)
+        console.log(_id)
+        const response = await api.getMapInfo(_id)
         if(response.status===200) {
 
             const response2 = await api.getMap(response.data.mapInfo.map_id)
             if(response2.status === 200) {
+                console.log(response2.data)
                 storeReducer({
                     type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                     payload: {
-                        currentMap: response2.data.map,
-                        mapInfo: response.data.mapInfo, 
+                        mapInfo: response.data.mapInfo,
+                        currentMap: response2.data.map, 
                     }
                 });
             }
 
         }
     } catch(err) {
-        console.log("something went wrong")
+        console.log(err)
     }
 }
 

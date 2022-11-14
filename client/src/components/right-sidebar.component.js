@@ -48,7 +48,7 @@ export default function RightSideBar(mapInfo) {
         prevOpen.current = open;
     }, [open]);
 
-  if(store.currentPublishedMap.length ==0) {
+  if(store.currentMapInfo.length ==0) {
     return null;
   }
 
@@ -80,52 +80,52 @@ function handleListKeyDown(event) {
 
 
 
-  let likeColor = auth.user ? auth.user.liked_projects.includes(store.currentPublishedMap._id) ? "yellow" : "lightgrey" : "lightgrey"
-  let dislikeColor = auth.user ? auth.user.disliked_projects.includes(store.currentPublishedMap._id) ? "yellow" : "lightgrey" : "lightgrey"
+  let likeColor = auth.user ? auth.user.liked_projects.includes(store.currentMapInfo._id) ? "yellow" : "lightgrey" : "lightgrey"
+  let dislikeColor = auth.user ? auth.user.disliked_projects.includes(store.currentMapInfo._id) ? "yellow" : "lightgrey" : "lightgrey"
 
   const handleLike = () => {
     //if user DISLIKED map, dont allow liking
-    if(auth.user.disliked_projects.includes(store.currentPublishedMap._id)) {
+    if(auth.user.disliked_projects.includes(store.currentMapInfo._id)) {
       //TODO: add modal for this
       return;
     }
 
     //if user already liked map, then dislike it
-    if(auth.user.liked_projects.includes(store.currentPublishedMap._id)) {
-      store.updateMapLike(store.currentPublishedMap, -1)
-      auth.user.liked_projects = auth.user.liked_projects.filter(_id => _id!=store.currentPublishedMap._id)
+    if(auth.user.liked_projects.includes(store.currentMapInfo._id)) {
+      store.updateMapLike(store.currentMapInfo, -1)
+      auth.user.liked_projects = auth.user.liked_projects.filter(_id => _id!=store.currentMapInfo._id)
       auth.updateUser(auth.user);
       return;
     }
 
-    store.updateMapLike(store.currentPublishedMap, 1)
-    auth.user.liked_projects.push(store.currentPublishedMap._id)
+    store.updateMapLike(store.currentMapInfo, 1)
+    auth.user.liked_projects.push(store.currentMapInfo._id)
     auth.updateUser(auth.user);
   }
 
   const handleDislike = () => {
     //if user LIKED map, dont allow disliking
-    if(auth.user.liked_projects.includes(store.currentPublishedMap._id)) {
+    if(auth.user.liked_projects.includes(store.currentMapInfo._id)) {
       //TODO: add modal for this
       return;
     }
 
     //if user already disliked map, add 1 like and remove from dislike list
-    if(auth.user.disliked_projects.includes(store.currentPublishedMap._id)) {
-      store.updateMapDislike(store.currentPublishedMap, -1)
-      auth.user.disliked_projects = auth.user.disliked_projects.filter(_id => _id!=store.currentPublishedMap._id)
+    if(auth.user.disliked_projects.includes(store.currentMapInfo._id)) {
+      store.updateMapDislike(store.currentMapInfo, -1)
+      auth.user.disliked_projects = auth.user.disliked_projects.filter(_id => _id!=store.currentMapInfo._id)
       auth.updateUser(auth.user);
       return;
     }
 
-    store.updateMapDislike(store.currentPublishedMap, 1)
-    auth.user.disliked_projects.push(store.currentPublishedMap._id)
+    store.updateMapDislike(store.currentMapInfo, 1)
+    auth.user.disliked_projects.push(store.currentMapInfo._id)
     auth.updateUser(auth.user);
   }
 
 
   let teamMembers = <List>
-    {store.currentPublishedMap.creator.map((creator, index) => (
+    {store.currentMapInfo.creator.map((creator, index) => (
       <UserCard key={index} userName={creator.creator}  userImage={creator.profile_picture}/>
     ))}
   </List>;
@@ -178,8 +178,8 @@ function handleListKeyDown(event) {
 </Box>
 
 if(auth.user) {
-  for(let i=0; i<store.currentPublishedMap.creator.length; i++)
-    if(auth.user.username != store.currentPublishedMap.creator[i].creator) {
+  for(let i=0; i<store.currentMapInfo.creator.length; i++)
+    if(auth.user.username != store.currentMapInfo.creator[i].creator) {
       creatorSettings = null;
       break;
     }
@@ -210,20 +210,20 @@ if(auth.user) {
         {teamMembers}
         <Divider />
         <Typography sx={{fontSize:'20px',color: 'black',marginTop:0,padding:1,backgroundImage: 'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',boxShadow: '0 1px 1px 1px rgba(68,68,69,255)'}}> Description </Typography>
-        <Typography sx={{fontSize:'15px',color: 'white',marginTop:2,marginLeft:3,marginBottom:3}}> {store.currentPublishedMap.description} </Typography>
+        <Typography sx={{fontSize:'15px',color: 'white',marginTop:2,marginLeft:3,marginBottom:3}}> {store.currentMapInfo.description} </Typography>
         <Divider />
         <Typography sx={{fontSize:'20px',color: 'black',marginTop:0,padding:1,backgroundImage: 'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',boxShadow: '0 1px 1px 1px rgba(68,68,69,255)'}}> Statistics </Typography>
         <Box display="flex" sx={{marginLeft:1,marginTop:2}}>
                 <ThumbUpTwoToneIcon sx={{fill:likeColor}} onClick={handleLike}/>
-                <Typography sx={{color: 'white',fontSize:15,marginLeft:1}}>{store.currentPublishedMap.likes} Likes</Typography>
+                <Typography sx={{color: 'white',fontSize:15,marginLeft:1}}>{store.currentMapInfo.likes} Likes</Typography>
             </Box>
         <Box display="flex" sx={{marginLeft:1,marginTop:2}}>
                 <ThumbDownTwoToneIcon sx={{fill:dislikeColor}} onClick={handleDislike}/>
-                <Typography sx={{color: 'white',fontSize:15,marginLeft:1}}>{store.currentPublishedMap.dislikes} Dislikes</Typography>
+                <Typography sx={{color: 'white',fontSize:15,marginLeft:1}}>{store.currentMapInfo.dislikes} Dislikes</Typography>
         </Box>
         <Box display="flex" sx={{marginLeft:1,marginTop:2}}>
                 <DownloadForOfflineTwoToneIcon sx={{fill:"lightgrey"}}/>
-                <Typography sx={{color: 'white',fontSize:15,marginLeft:1}}>{store.currentPublishedMap.downloads} Downloads </Typography>
+                <Typography sx={{color: 'white',fontSize:15,marginLeft:1}}>{store.currentMapInfo.downloads} Downloads </Typography>
         </Box>
         <Button sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginTop:5}}>
                 Download
