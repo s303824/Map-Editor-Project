@@ -332,23 +332,27 @@ getAllMapInfoSortedByLikes = async (req, res) => {
 
 
 addCreator = async (req, res) => {
-    const { _id, creator} = req.body;
+    const { _id, addedCreators} = req.body;
     const selectedMapInfo = await MapInfo.findOne({ _id: _id });
-    const creator_exists = await User.findOne({username: creator})
-
-    if (!creator_exists){
-        return res
-                .status(404)
-                .json({ errorMessage: "The user you entered doesn't exist" });
-    }
-
     if(!selectedMapInfo) {
         return res
                 .status(404)
                 .json({ errorMessage: "The mapinfo with _id:" + _id + " does not exist" });
     }
+
+    newMembers = []
+    addedCreators.forEach(async creator => {
+        const creator_exists = await User.findOne({username: creator})
+        newMembers.push(creator_exists)
+        if (!creator_exists){
+            return res
+                    .status(404)
+                    .json({ errorMessage: "The user you entered doesn't exist" });
+        }
     
-    selectedMapInfo.creator.push(creator);
+    });
+    
+    selectedMapInfo.creator.push(newMembers);
     MapInfo.findOneAndUpdate({_id: _id}, {
         creator : selectedMapInfo.creator
     }, function (err, docs) {
@@ -369,23 +373,26 @@ addCreator = async (req, res) => {
     });
 }
 removeCreator = async (req, res) => {
-    const { _id, creator} = req.body;
+    const { _id, removedCreators} = req.body;
     const selectedMapInfo = await MapInfo.findOne({ _id: _id });
-    const creator_exists = await User.findOne({username: creator})
-
-    if (!creator_exists){
-        return res
-                .status(404)
-                .json({ errorMessage: "The user you entered doesn't exist" });
-    }
-
+    
     if(!selectedMapInfo) {
         return res
                 .status(404)
                 .json({ errorMessage: "The mapinfo with _id:" + _id + " does not exist" });
     }
+
+    removedCreators.forEach(async creator => {
+        const creator_exists = await User.findOne({username: creator})
+        if (!creator_exists){
+            return res
+                    .status(404)
+                    .json({ errorMessage: "The user you entered doesn't exist" });
+        }
     
-    selectedMapInfo.creator = selectedMapInfo.creator.filter(user => user !== creator);
+    });
+    
+    selectedMapInfo.creator = selectedMapInfo.creator.filter(user => !removedCreators.include(user.creator));
     MapInfo.findOneAndUpdate({_id: _id}, {
         creator : selectedMapInfo.creator
     }, function (err, docs) {

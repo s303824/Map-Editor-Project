@@ -962,9 +962,7 @@ store.addComment= async function (mapInfo,comment) {
 
 //Removes the editing permission(for currentMap) from the selected user
 store.removeTeamMember = async function (mapInfo, removedUsers) {
-    let newTeam = mapInfo.creators.filter((item) => !removedUsers.includes(item.username));
-    mapInfo.creators = newTeam;
-    const response = await api.updateMapInfo(mapInfo);
+    const response = await api.removeCreator(mapInfo._id, removedUsers);
     if(response.status === 200) {
         storeReducer({
             type: GlobalStoreActionType.UPDATE_MAP_INFO,
@@ -976,9 +974,8 @@ store.removeTeamMember = async function (mapInfo, removedUsers) {
 }
 
 //Adds the editing permission(for currentMap) for the user
-store.addTeamMember = async function (mapInfo, newUserId) {
-    mapInfo.creators.push(newUserId)
-    const response = await api.updateMapInfo(mapInfo);
+store.addTeamMember = async function (mapInfo, addedUsers) {
+    const response = await api.addCreator(mapInfo._id, addedUsers);
     if(response.status === 200) {
         storeReducer({
             type: GlobalStoreActionType.UPDATE_MAP_INFO,

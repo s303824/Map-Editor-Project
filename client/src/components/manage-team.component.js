@@ -35,28 +35,29 @@ const MapTeams = ({onClose}) => {
       };
       const [title, setTitle] = useState(store.currentMapInfo.name)            // For title input field 
       const [creators, setCreators] = useState(store.currentMapInfo.creator)        // For creators input field 
-      const [newCreators, setNewCreators] = useState("")
-      const [removedCreators, setRemovedCreators] = useState([])
+      const [newCreators, setNewCreators] = useState("")                // string of users marked for addition
+      const [removedCreators, setRemovedCreators] = useState([])        // string array of users marked for removal
 
     const addTeam = (event) => {  
-        //setNewCreators(event.target.value)
+        setNewCreators(event.target.value)
     }  
 
     const removeTeam = (event, member) => {    
-        const newList = creators.filter((maker) => maker.username !== member);
+        const newList = creators.filter((maker) => maker.creator !== member.creator);
         setCreators(newList)
+
         const lessMembers = removedCreators
-        lessMembers.push(member)
+        lessMembers.push(member.creator)
         setRemovedCreators(lessMembers)
         }  
 
     const handleUpdateTeams = async () => {
-        store.removeTeamMember(store.currentPublishedMap, removedCreators);
-        /*let memberList = newCreators.split(" ")
-        store.addTeamMember(store.currentPublishedMap, memberList);
-        store.removeTeamMember(store.currentPublishedMap, removedCreators);
-        */
+        await store.removeTeamMember(store.currentMapInfo, removedCreators);
+        const memberList = newCreators.split(" ")           // parses the info of new users
+        await store.addTeamMember(store.currentMapInfo, memberList);
     }
+
+    console.log(store.currentMapInfo)
 
     return(
         <Box>
@@ -72,9 +73,9 @@ const MapTeams = ({onClose}) => {
                 <Divider />
                 <List>
                 {creators.map((member) => (
-                    <ListItem key={member.username}>
-                        <ListItemText primary={member.username} />
-                        <ListItemButton onClick={removeTeam(member.username)}>
+                    <ListItem key={member.creator}>
+                        <ListItemText primary={member.creator} />
+                        <ListItemButton onClick={removeTeam(member)}>
                             <Button variant="contained"><CancelIcon/></Button>
                         </ListItemButton>
                         <Divider />
