@@ -758,10 +758,17 @@ store.addComment= async function (mapInfo,comment) {
     }
 }
 
+
 //Removes the editing permission(for currentMap) from the selected user
-store.removeTeamMember = async function (mapInfo, userId) {
-    mapInfo.creators.filter(creator => !(creator==userId))
-    // TO DO: PREVENT USERS FROM REMOVING NONEXISTING USERS
+store.removeTeamMember = async function (mapInfo, removedUsers) {
+    let oldCreators = mapInfo.creators;
+    let newCreators = [];
+    oldCreators.forEach(element => {
+        if(!removedUsers.includes(element)){
+            newCreators.push(element);
+        }
+    });
+    mapInfo.creators = newCreators;
     const response = await api.updateMapInfo(mapInfo);
     if(response.status === 200) {
         storeReducer({
@@ -771,13 +778,13 @@ store.removeTeamMember = async function (mapInfo, userId) {
             }
         })
     }
-
 }
 
 //Adds the editing permission(for currentMap) for the user
-store.addTeamMember = async function (mapInfo,userId) {
-    mapInfo.creators.push(userId)
-    // TO DO: PREVENT USERS FROM ADDING NONEXISTING USERS
+store.addTeamMember = async function (mapInfo, newUsers) {
+    newUsers.forEach(element => {
+        mapInfo.creators.push(element)
+    });
     const response = await api.updateMapInfo(mapInfo);
     if(response.status === 200) {
         storeReducer({

@@ -42,7 +42,8 @@ const MapSettings = ({onClose}) => {
                 setDescription(event.target.value)
                 break;
             case "tags":
-                setTags(event.target.value.split(" "))
+                let newTags = event.target.value.split(" ")
+                setTags(newTags)
                 break;
         }
     }  
@@ -104,7 +105,7 @@ const MapSettings = ({onClose}) => {
                     <Box className="qmodal-text">Tags</Box>
                     <TextField
                     required
-                    value = {tags}
+                    value = {tagsList}
                     id="outlined-tags-input"
                     label="Tags"
                     variant="filled"
