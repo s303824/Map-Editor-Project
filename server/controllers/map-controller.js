@@ -115,7 +115,8 @@ deleteMap = async (req, res) => {
                 .json({ errorMessage: "Please enter all required fields." });
                 
         }
-        await Map.findOneAndDelete({_id: _id}, function (err, docs) {
+        console.log(_id)
+        await Map.findOne({_id: _id}, function (err, docs) {
             if (docs==null){
                 console.log("delete: couldnt find map")
                 return res.status(404).json({
@@ -125,12 +126,14 @@ deleteMap = async (req, res) => {
             }
             else{
 
-                const newMap = MapInfo.findOneAndDelete({_id: docs.mapinfo}, function (err, map) {
+                const newMap = MapInfo.findOne({_id: docs.mapinfo}, function (err, map) {
                     console.log("delete: couldnt find mapInfo: " +docs.mapinfo) 
 
-                    if(err) {
-                        console.log("delete: couldnt find mapInfo: " +docs.mapinfo) 
+                    if(err) { 
                         //console.log("Could not find mapInfo related to map with _id " + _id);
+                        return res.status(400).json({
+                            success:false
+                        })
                     }
                     //console.log("Deleted MapInfo related to map with _id " + _id)
 
@@ -140,8 +143,14 @@ deleteMap = async (req, res) => {
                             loggedInUser.save();
                         });
                     }
+                    console.log(docs.mapinfo)
+                    console.log(_id)
+
+                    MapInfo.deleteOne({_id: docs.mapinfo})
+                    Map.deleteOne({_id: _id})
 
                 })
+
 
                 return res.status(200).json({
                     message: 'Map deleted!',

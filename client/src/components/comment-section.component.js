@@ -10,12 +10,12 @@ const CommentSection =(mapInfo)=>{
     const {auth} = useContext(AuthContext)
     const [comment, setComment] = useState("");
 
-    if(store.currentPublishedMap.length ==0) {
+    if(store.currentMapInfo.length ==0) {
         return null;
     }
 
     let commentSection = <Box>
-        {store.currentPublishedMap.comments.map((comment) => (
+        {store.currentMapInfo.comments.map((comment) => (
                 <CommentCard key={comment[1]} commentInfo = {comment[1]} username={comment[0]}/>
             ))}
     </Box>
@@ -24,7 +24,7 @@ const CommentSection =(mapInfo)=>{
         if(comment == "") {
             return;
         }
-        store.addComment(store.currentPublishedMap, [auth.user.username,comment])
+        store.addComment(store.currentMapInfo, [auth.user.username,comment])
         setComment("");
     }
 
