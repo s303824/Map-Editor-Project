@@ -15,10 +15,6 @@ import { GlobalStoreContext } from '../store';
 
 const Layer =()=>{
   const {store} = useContext(GlobalStoreContext);
-
-  if(store.currentLayer.height == null) {
-    return;
-  }
   let currentLayer = store.currentLayer[0];
   console.log(store.currentLayer)
   const tileCount = currentLayer.height * currentLayer.width;
@@ -27,6 +23,7 @@ const Layer =()=>{
   
   //should have the total tile count in the 
   //should just render layer.data array
+  console.log("dsada")
 
     return(
       <Box>
