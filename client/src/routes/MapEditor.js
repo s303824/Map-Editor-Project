@@ -21,10 +21,11 @@ const MapEditor=() =>{
     const {auth} = useContext(AuthContext);
 
     useEffect(() => {
-        if (store.currentMap.mapInfo == null){
+        if (store.currentMap.mapinfo == null){
           store.loadMapById(window.location.pathname.split("/")[2]);
         }
       }, [])
+      console.log(store.currentMapInfo)
 
     return(
         <Box className="map-editor-container" >

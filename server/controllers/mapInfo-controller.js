@@ -218,6 +218,7 @@ getMapInfoByListOfIds = async (req, res) => {
 
 getMapInfo = async (req, res) => {
     try{
+        console.log(req.query._id)
         if(!req.query._id){
             return res
                 .status(400)
@@ -230,6 +231,7 @@ getMapInfo = async (req, res) => {
             }
             else{
                 if (docs == null){
+                    console.log("no mapInfo")
                     return res
                     .status(404)
                     .json({ 
@@ -238,6 +240,7 @@ getMapInfo = async (req, res) => {
                     });
 
                 }
+                console.log("found mapInfo")
                 return res
                 .status(200)
                 .json({ 

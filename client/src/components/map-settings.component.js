@@ -30,11 +30,11 @@ const MapSettings = ({onClose}) => {
         p: 4,
       };
       let initialTags = ""
-      initialTags.length !== 0 && store.currentPublishedMap.tags.forEach(tag => initialTags += tag + " ")
+      initialTags.length !== 0 && store.currentMapInfo.tags.forEach(tag => initialTags += tag + " ")
   
 
-      const [title, setTitle] = useState(store.currentPublishedMap.name)            // For title input field 
-      const [description, setDescription] = useState(store.currentPublishedMap.description)                                 // For tags input field 
+      const [title, setTitle] = useState(store.currentMapInfo.name)            // For title input field 
+      const [description, setDescription] = useState(store.currentMapInfo.description)                                 // For tags input field 
       const [tags, setTags] = useState(initialTags)                                 // For tags input field 
 
       const updateField = (event, type) => {
@@ -53,7 +53,7 @@ const MapSettings = ({onClose}) => {
 
     const handleUpdateSettings = async () => {
         let tagList = tags.split(" ")
-        store.changeMapSettings(store.currentMap.mapinfo, title, description, tagList);
+        store.changeMapSettings(store.currentMapInfo._id, title, description, tagList);
         setModalOpen(true);
     }
 
@@ -62,7 +62,7 @@ const MapSettings = ({onClose}) => {
     }
 
     let modal = modalOpen ? <LoginModal message="Successfully updated!" onClose={handleCloseModal}></LoginModal> : null
-    console.log(store.currentPublishedMap)
+    console.log(store.currentMapInfo)
 
     return(
         <Box>

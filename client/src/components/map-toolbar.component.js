@@ -94,10 +94,6 @@ const MapToolBar=() =>{
     }
 
     const handleDeleteMap = async () => {
-        // console.log(store.userMaps)
-        // console.log(auth.user)
-        // console.log(store.currentMap)
-        
         await store.deleteMap(store.currentMap._id)
         handleGoBack()
     }
