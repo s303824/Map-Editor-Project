@@ -127,78 +127,74 @@ function GlobalStoreContextProvider(props) {
                     openModal: store.openModal,       
                     mapMarkedForDeletion: store.mapMarkedForDeletion
                 })
-            case GlobalStoreActionType.SET_THE_CURRENT_LAYER:
-                return setStore({
-                    publishedMaps: store.publishedMaps,              
-                    userMaps: store.userMaps,                      
-                    currentMap: store.currentMap,                    
-                    currentPublishedMap: store.currentPublishedMap,
-                    currentMapInfo:store.currentMapInfo,      
-                    currentLayer: store.currentLayer,       
-                    currentTileSet: store.currentTileSet,              
-                    currentTile: store.currentTile,
-                    tilesetBeingEdited: store.tilesetBeingEdited,        
-                    selectedMapEditTool: store.selectedMapEditTool,   
-                    canUndo: store.canUndo,                  
-                    canRedo: store.canRedo,                  
-                    searchCriteria: store.searchCriteria,            
-                    openModal: store.openModal,       
-                    mapMarkedForDeletion: store.mapMarkedForDeletion
-                })
-            case GlobalStoreActionType.SET_THE_CURRENT_TILESET:
-                return setStore({
-                    publishedMaps: store.publishedMaps,              
-                    userMaps: store.userMaps,                      
-                    currentMap: store.currentMap,                    
-                    currentPublishedMap: store.currentPublishedMap,
-                    currentMapInfo:store.currentMapInfo,      
-                    currentLayer: store.currentLayer,       
-                    currentTileSet: payload.currentTileSet,          
-                    currentTile: store.currentTile,
-                    tilesetBeingEdited: store.tilesetBeingEdited,        
-                    selectedMapEditTool: store.selectedMapEditTool,   
-                    canUndo: store.canUndo,                  
-                    canRedo: store.canRedo,                  
-                    searchCriteria: store.searchCriteria,            
-                    openModal: store.openModal,       
-                    mapMarkedForDeletion: store.mapMarkedForDeletion
-                })
-            case GlobalStoreActionType.SET_THE_CURRENT_TILE:
-                return setStore({
-                    publishedMaps: store.publishedMaps,              
-                    userMaps: store.userMaps,                      
-                    currentMap: store.currentMap,                    
-                    currentPublishedMap: store.currentPublishedMap,
-                    currentMapInfo:store.currentMapInfo,      
-                    currentLayer: store.currentLayer,       
-                    currentTileSet: store.currentTileSet,              
-                    currentTile: store.currentTile,
-                    tilesetBeingEdited: store.tilesetBeingEdited,        
-                    selectedMapEditTool: store.selectedMapEditTool,   
-                    canUndo: store.canUndo,                  
-                    canRedo: store.canRedo,                  
-                    searchCriteria: store.searchCriteria,            
-                    openModal: store.openModal,       
-                    mapMarkedForDeletion: store.mapMarkedForDeletion
-                })
-            case GlobalStoreActionType.SET_THE_SELECTED_MAP_EDIT_TOOL:
-                return setStore({
-                    publishedMaps: store.publishedMaps,              
-                    userMaps: store.userMaps,                      
-                    currentMap: store.currentMap,                    
-                    currentPublishedMap: store.currentPublishedMap,
-                    currentMapInfo:store.currentMapInfo,      
-                    currentLayer: store.currentLayer,       
-                    currentTileSet: store.currentTileSet,              
-                    currentTile: store.currentTile,
-                    tilesetBeingEdited: store.tilesetBeingEdited,        
-                    selectedMapEditTool: payload.selectedMapEditTool,   
-                    canUndo: store.canUndo,                  
-                    canRedo: store.canRedo,                  
-                    searchCriteria: store.searchCriteria,            
-                    openModal: store.openModal,       
-                    mapMarkedForDeletion: store.mapMarkedForDeletion
-                })
+                case GlobalStoreActionType.SET_THE_CURRENT_LAYER:
+                    return setStore({
+                        publishedMaps: store.publishedMaps,              
+                        userMaps: store.userMaps,                      
+                        currentMap: store.currentMap,                    
+                        currentPublishedMap: store.currentPublishedMap,    
+                        currentLayer: payload.currentLayer,      
+                        currentTileSet: store.currentTileSet,              
+                        currentTile: store.currentTile,
+                        tilesetBeingEdited: store.tilesetBeingEdited,        
+                        selectedMapEditTool: store.selectedMapEditTool,  
+                        canUndo: store.canUndo,                  
+                        canRedo: store.canRedo,                  
+                        searchCriteria: store.searchCriteria,            
+                        openModal: store.openModal,      
+                        mapMarkedForDeletion: store.mapMarkedForDeletion
+                    })
+                case GlobalStoreActionType.SET_THE_CURRENT_TILESET:
+                    return setStore({
+                        publishedMaps: store.publishedMaps,              
+                        userMaps: store.userMaps,                      
+                        currentMap: store.currentMap,                    
+                        currentPublishedMap: store.currentPublishedMap,    
+                        currentLayer: store.currentLayer,      
+                        currentTileSet: payload.currentTileSet,          
+                        currentTile: store.currentTile,
+                        tilesetBeingEdited: store.tilesetBeingEdited,        
+                        selectedMapEditTool: store.selectedMapEditTool,  
+                        canUndo: store.canUndo,                  
+                        canRedo: store.canRedo,                  
+                        searchCriteria: store.searchCriteria,            
+                        openModal: store.openModal,      
+                        mapMarkedForDeletion: store.mapMarkedForDeletion
+                    })
+                case GlobalStoreActionType.SET_THE_CURRENT_TILE:
+                    return setStore({
+                        publishedMaps: store.publishedMaps,              
+                        userMaps: store.userMaps,                      
+                        currentMap: store.currentMap,                    
+                        currentPublishedMap: store.currentPublishedMap,    
+                        currentLayer: store.currentLayer,      
+                        currentTileSet: store.currentTileSet,              
+                        currentTile: payload.currentTile,
+                        tilesetBeingEdited: store.tilesetBeingEdited,        
+                        selectedMapEditTool: store.selectedMapEditTool,  
+                        canUndo: store.canUndo,                  
+                        canRedo: store.canRedo,                  
+                        searchCriteria: store.searchCriteria,            
+                        openModal: store.openModal,      
+                        mapMarkedForDeletion: store.mapMarkedForDeletion
+                    })
+                case GlobalStoreActionType.SET_THE_SELECTED_MAP_EDIT_TOOL:
+                    return setStore({
+                        publishedMaps: store.publishedMaps,              
+                        userMaps: store.userMaps,                      
+                        currentMap: store.currentMap,                    
+                        currentPublishedMap: store.currentPublishedMap,    
+                        currentLayer: store.currentLayer,      
+                        currentTileSet: store.currentTileSet,              
+                        currentTile: store.currentTile,
+                        tilesetBeingEdited: store.tilesetBeingEdited,        
+                        selectedMapEditTool: payload.selectedMapEditTool,  
+                        canUndo: store.canUndo,                  
+                        canRedo: store.canRedo,                  
+                        searchCriteria: store.searchCriteria,            
+                        openModal: store.openModal,      
+                        mapMarkedForDeletion: store.mapMarkedForDeletion
+                    })
 
             case GlobalStoreActionType.SET_THE_CAN_UNDO:
                 return setStore({
@@ -604,13 +600,13 @@ store.setCurrentLayer = function (id) {
         payload: {
             currentLayer: [
                 {
-                 "data":[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                 "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
