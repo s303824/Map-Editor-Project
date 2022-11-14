@@ -142,7 +142,7 @@ if(auth.loggedIn) {
                     <SearchIcon onClick={handleSearch}/>
                 </SearchIconWrapper>
                 <StyledInputBase
-                    autoFocus="autoFocus"
+                    autoFocus={true}
                     key = "search"
                     placeholder="Search…"
                     inputProps={{ 'aria-label': 'search' }}
