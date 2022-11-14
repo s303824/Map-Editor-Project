@@ -50,9 +50,6 @@ function GlobalStoreContextProvider(props) {
 
     const storeReducer = (action) => {
         const {type, payload} = action;
-        if(payload.currentMap) {
-            console.log(payload.currentMap.layers[0])
-        }
         switch(type) {
             case GlobalStoreActionType.LOAD_PUBLISHED_MAPS:
                 return setStore({
@@ -97,7 +94,7 @@ function GlobalStoreContextProvider(props) {
                     publishedMaps: store.publishedMaps,              
                     userMaps: store.userMaps,                      
                     currentMap: payload.currentMap,                    
-                    currentPublishedMap: store.currentPublishedMap,
+                    currentPublishedMap: payload.mapInfo ? payload.mapInfo : store.currentPublishedMap,
                     currentMapInfo:payload.mapInfo,      
                     currentLayer: payload.currentMap ? payload.currentMap.layers[0] : store.currentLayer,       
                     currentTileSet: store.currentTileSet,              
