@@ -18,6 +18,8 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+
 
 const MapTeams = ({onClose}) => {
     const {store} = useContext(GlobalStoreContext)
@@ -33,7 +35,7 @@ const MapTeams = ({onClose}) => {
         boxShadow: 24,
         p: 4,
       };
-      const [title, setTitle] = useState(store.currentMapInfo.name)            // For title input field 
+      const [title, setTitle] = useState(store.currentMapInfo.name)            // For title 
       const [creators, setCreators] = useState(store.currentMapInfo.creator)        // For creators input field 
       const [newCreators, setNewCreators] = useState("")                // string of users marked for addition
       const [removedCreators, setRemovedCreators] = useState([])        // string array of users marked for removal
@@ -44,17 +46,17 @@ const MapTeams = ({onClose}) => {
 
     const removeTeam = (event, member) => {    
         const newList = creators.filter((maker) => maker.creator !== member.creator);
-        setCreators(newList)
+        setCreators(newList)        // updates the displayed users 
 
         const lessMembers = removedCreators
         lessMembers.push(member.creator)
-        setRemovedCreators(lessMembers)
+        setRemovedCreators(lessMembers)     // updates the usernames of members that will be removed
         }  
 
     const handleUpdateTeams = async () => {
-        //const memberList = newCreators.split(" ")           // parses the info of new users
-        //await store.removeTeamMember(store.currentMapInfo, removedCreators);
-        //await store.addTeamMember(store.currentMapInfo, memberList);
+        const memberList = newCreators.split(" ")           // parses the info of new users
+        // await store.removeTeamMember(store.currentMapInfo, removedCreators);
+        await store.addTeamMember(store.currentMapInfo, memberList);
     }
 
     console.log(store.currentMapInfo)
@@ -73,11 +75,11 @@ const MapTeams = ({onClose}) => {
                 <Divider />
                 <List>
                 {creators.map((member) => (
-                    <ListItem key={member.creator}>
+                    <ListItem>
                         <ListItemText primary={member.creator} />
                         <ListItemButton onClick={removeTeam(member)}>
-                            <Button variant="contained"><CancelIcon/></Button>
-                        </ListItemButton>
+                            <Button>Remove</Button>
+                        </ListItemButton>                        
                         <Divider />
                     </ListItem>
                     
