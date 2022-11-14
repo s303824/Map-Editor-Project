@@ -6,7 +6,7 @@ import map from '../assets/map-card.jpg';
 const Tile =(tileInfo)=>{
   const {id,value,row,column,img,tileWidth,tileHeight} = tileInfo;
   const {store} = useContext(GlobalStoreContext);
-
+  console.log("info",tileInfo);
   let left =0;
   let top = 0;
   let newImg = img;
@@ -15,6 +15,7 @@ const Tile =(tileInfo)=>{
     if(value!=0){
     let set = store.currentMap.tilesets.filter( tileset => value < (tileset.tilecount+tileset.firstgid ));
     newImg = map; 
+    console.log("IMG",newImg);
     left = -(((value-(set[0].firstgid)) % (set[0].imagewidth/set[0].tilewidth))* tileWidth);
     top = -((Math.floor((value-(set[0].firstgid)) / (set[0].imageheight/set[0].tileheight))) * tileHeight);
   }
@@ -28,9 +29,9 @@ const Tile =(tileInfo)=>{
     event.preventDefault();
     //to differentiate click coming from a tileset or a map container 
     if(event.target.parentElement.className.includes('tileset-section')){
-      store.setCurrentTile(event.target.id,value);
+      store.setCurrentTile(id,value);
     }else{
-      store.handleMapAction(event.target.id,value);
+      store.handleMapAction(id,value);
     }
   } 
  

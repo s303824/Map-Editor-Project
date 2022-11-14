@@ -34,7 +34,7 @@ function GlobalStoreContextProvider(props) {
         currentMap: {},                    //holds the current map opened for editing
         currentPublishedMap:[],     //holds the current published map opened for viewing
         currentMapInfo:[],             //current open map mapInfo
-        currentLayer: {},                 //holds the the layer that is now being modified in the map editor.       
+        currentLayer: [],                 //holds the the layer that is now being modified in the map editor.       
         currentTileSet: [],               //holds the the tileset that is now being displayed in the map editor.
         currentTile: null,                 //holds the tile selected from the current tileset
         tilesetBeingEdited: [],        //holds the tileset that is opened for editing
@@ -100,7 +100,7 @@ function GlobalStoreContextProvider(props) {
                     currentMap: payload.currentMap,                    
                     currentPublishedMap: store.currentPublishedMap,
                     currentMapInfo:payload.mapInfo,      
-                    currentLayer: payload.currentMap ? payload.currentMap.layers[0] : store.currentLayer,       
+                    currentLayer:payload.currentLayer,       
                     currentTileSet: store.currentTileSet,              
                     currentTile: store.currentTile,
                     tilesetBeingEdited: store.tilesetBeingEdited,        
@@ -537,12 +537,12 @@ store.openTilesetForEditing= function (id) {}
 store.importNewTileset = async function (id, source) {}
 
 // Sets the current tile that is selected from the current tileset
-store.setCurrentTile = function (id) {
+store.setCurrentTile = function (id,value) {
     console.log("id",id);
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_TILE,
         payload: {
-            currentTile : id
+            currentTile : {id,value}
         }
     });
 }
@@ -687,6 +687,7 @@ store.paintLayer= function () {
     data.forEach((element, index) => {
         data[index] = (parseInt(store.currentTile.id)+ parseInt(store.currentTileSet.firstgid));
       })
+    console.log("paint",store.currentLayer);
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
         payload: {
@@ -789,16 +790,47 @@ store.loadMapEditor= async function (mapId, mapInfo) {
     try {
         const response = await api.getMap(mapId);
         if (response.status === 200) {
-            
+
             storeReducer({
                 type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                 payload: {
                     currentMap: response.data.map,
                     mapInfo: mapInfo, 
+                    currentLayer: [
+                        {
+                         "data":[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                         "height":20,
+                         "id":1,
+                         "name":"Tile Layer 1",
+                         "opacity":1,
+                         "type":"tilelayer",
+                         "visible":true,
+                         "width":30,
+                         "x":0,
+                         "y":0
+                        }]
                     
                 }
-            });
-            
+            }); 
         }
         else {
             storeReducer({
@@ -806,6 +838,7 @@ store.loadMapEditor= async function (mapId, mapInfo) {
                 payload: {
                     currentMap: {},
                     mapInfo: {}, 
+                    currentLayer:[]
                 }
             });
         }
@@ -815,15 +848,16 @@ store.loadMapEditor= async function (mapId, mapInfo) {
             payload: {
                 currentMap: {},
                 mapInfo: {}, 
+                currentLayer:[]
             }
         });
     }
+     
 }
 
 store.loadMapById = async function(mapInfo_id) {
-    try{
-
     
+    try{
         const response = await api.getMapInfo(mapInfo_id)
         if(response.status===200) {
             const response2 = await api.getMap(response.data.mapInfo.map_id)
@@ -832,21 +866,54 @@ store.loadMapById = async function(mapInfo_id) {
                     type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                     payload: {
                         currentMap: response2.data.map,
-                        mapInfo: response.data.mapInfo, 
+                        mapInfo: response.data.mapInfo,
+                        currentLayer: [
+                            {
+                             "data":[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                             "height":20,
+                             "id":1,
+                             "name":"Tile Layer 1",
+                             "opacity":1,
+                             "type":"tilelayer",
+                             "visible":true,
+                             "width":30,
+                             "x":0,
+                             "y":0
+                            }]
                     }
                 });
             }
 
-        }
+        } 
     } catch(err) {
         console.log("something went wrong")
     }
+    
 }
 
 //Opens the map viewer and sets the currentPublishedMap 
 store.loadMapViewer= async function (mapId, mapInfo) {
-    try {
 
+    try {
         const response = await api.getMap(mapId);
         console.log("response",response);
         if (response.status === 200) {

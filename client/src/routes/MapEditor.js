@@ -21,7 +21,7 @@ const MapEditor=() =>{
     const {auth} = useContext(AuthContext);
 
     useEffect(() => {
-        if (store.currentPublishedMap.length == 0){
+        if (store.currentMap.mapInfo == null){
           store.loadMapById(window.location.pathname.split("/")[2]);
         }
       }, [])

@@ -14,9 +14,11 @@ import { GlobalStoreContext } from '../store';
 
 const Layer =()=>{
   const {store} = useContext(GlobalStoreContext);
-  let currentLayer = store.currentMap;
-  console.log("current",currentLayer);
-  const tileCount = currentLayer.height * currentLayer.width;
+  console.log("u",store.currentLayer);
+  let currentLayer = store.currentLayer;
+  let layer = store.currentLayer;
+  const tileCount = currentLayer[0].height * currentLayer[0].width;
+  console.log("count",tileCount);
   const tileWidth = 64;
   let tilesets = store.tilesets;
 
@@ -48,7 +50,7 @@ const Layer =()=>{
                 outline: `1px solid #ffc806`,
             }}}>
           {Array.from({ length:tileCount }, (_, i) => (
-          <Tile id={i}  value={currentLayer.data[i]} row={currentLayer.height} column={currentLayer.width} img={LayerTileBackround} tileWidth = {tileWidth} tileHeight={64} />
+          <Tile id={i}  value={currentLayer[0].data[i]} row={currentLayer[0].height} column={currentLayer[0].width} img={LayerTileBackround} tileWidth = {tileWidth} tileHeight={64} />
       ))} 
       </ImageList>
     </Box>
