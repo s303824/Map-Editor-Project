@@ -13,6 +13,7 @@ const mapsSchema = new Schema(
         mapinfo: {type: Schema.Types.ObjectId, ref: 'MapInfo'},            // Project meta-data
         nextlayerid: Number,           // Auto-increments for each layer
         nextobjectid: Number,          // Auto-increments for each placed object
+        orientation: String,
         renderorder: {type: String, default: "right-down"},   // right-down (the default), right-up, left-down or left-up
         tiledversion: String,        // The Tiled version used to save the file
         tileheight: Number,             // Map grid height
