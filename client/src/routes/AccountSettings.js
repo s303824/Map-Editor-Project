@@ -431,9 +431,7 @@ function AccountSettings() {
                 autoComplete="current-password"
                 helperText={
                     <>
-                        Must be more than 8 characters and include
-                        <br />
-                        uppercase, lowercase, and numbers
+                        Must be more than 8 characters and include uppercase, lowercase, and numbers
                     </>
                 }
                 sx = {{borderColor: 'white'}}

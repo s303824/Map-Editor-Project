@@ -962,14 +962,8 @@ store.addComment= async function (mapInfo,comment) {
 
 //Removes the editing permission(for currentMap) from the selected user
 store.removeTeamMember = async function (mapInfo, removedUsers) {
-    let oldCreators = mapInfo.creators;
-    let newCreators = [];
-    oldCreators.forEach(element => {
-        if(!removedUsers.includes(element)){
-            newCreators.push(element);
-        }
-    });
-    mapInfo.creators = newCreators;
+    let newTeam = mapInfo.creators.filter((item) => !removedUsers.includes(item.username));
+    mapInfo.creators = newTeam;
     const response = await api.updateMapInfo(mapInfo);
     if(response.status === 200) {
         storeReducer({

@@ -17,12 +17,10 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import LoginModal from "../components/login-modal.component";
 import Divider from '@mui/material/Divider';
 
 const MapTeams = ({onClose}) => {
     const {store} = useContext(GlobalStoreContext)
-    const [modalOpen, setModalOpen] = useState(false);
 
     const style = {
         position: 'absolute',
@@ -45,28 +43,23 @@ const MapTeams = ({onClose}) => {
     }  
 
     const removeTeam = (event, member) => {    
-        // removedCreators.push(member)
-        // setRemovedCreators(removedCreators)
-        // creators.pop(member)
-        // setCreators(creators)
+        const newList = creators.filter((maker) => maker.username !== member);
+        setCreators(newList)
+        const lessMembers = removedCreators
+        lessMembers.push(member)
+        setRemovedCreators(lessMembers)
         }  
 
     const handleUpdateTeams = async () => {
+        store.removeTeamMember(store.currentPublishedMap, removedCreators);
         /*let memberList = newCreators.split(" ")
         store.addTeamMember(store.currentPublishedMap, memberList);
         store.removeTeamMember(store.currentPublishedMap, removedCreators);
-        setModalOpen(true);*/
+        */
     }
-
-    const handleCloseModal = () => {
-        setModalOpen(false);
-    }
-
-    let modal = modalOpen ? <LoginModal message="Successfully updated!" onClose={handleCloseModal}></LoginModal> : null
 
     return(
         <Box>
-        {modal}
         <Modal
             open={true}
             aria-labelledby="modal-modal-title"
@@ -79,10 +72,10 @@ const MapTeams = ({onClose}) => {
                 <Divider />
                 <List>
                 {creators.map((member) => (
-                    <ListItem disablePadding>
-                        <ListItemText primary={member.creator} />
-                        <ListItemButton onClick={removeTeam(member)}>
-                            <Button variant="contained">Remove</Button>
+                    <ListItem key={member.username}>
+                        <ListItemText primary={member.username} />
+                        <ListItemButton onClick={removeTeam(member.username)}>
+                            <Button variant="contained"><CancelIcon/></Button>
                         </ListItemButton>
                         <Divider />
                     </ListItem>
