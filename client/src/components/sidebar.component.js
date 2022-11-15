@@ -85,7 +85,6 @@ export default function SideBar() {
   auth.loggedIn && 'Log Out']
   sideList = sideList.filter(e => e!=false)
   icons = icons.filter( e=> e!= null)
-  console.log(sideList)
   
   return (
     <Box className ='sidebar' position="fixed">

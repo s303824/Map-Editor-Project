@@ -275,7 +275,7 @@ function AccountSettings() {
                 
                 <div id="edit2">
                     <div>
-                    {auth.loggedIn && <img className="profile-image" src={auth.user.profile_picture} />}
+                    {auth.loggedIn && <img className="profile-image" src={auth.user.profile_picture == "" ? default_image : auth.user.profile_picture} />}
                     {auth.loggedIn && <h5 id ='profile-name'>{auth.user.username}</h5>}
                     {auth.loggedIn && <h6 id = 'profile-email'>{auth.user.email}</h6>}
                     </div>

@@ -21,6 +21,9 @@ import userImage from '../assets/userimage.png'
 import Sidebar from './sidebar.component'
 import UserCard from './user-card.component';
 import GlobalStoreContext from '../store';
+import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
+import LoginModal from './login-modal.component';
+import SearchSettings from './search-settings.component';
 
 
 function Banner() {
@@ -31,6 +34,10 @@ function Banner() {
 
     const [searchType, setSearchType] = useState("NAME")
     const [searchText, setSearchText] = useState("")
+
+    const[empty, setEmpty] = useState(false)
+
+    const [settings, setSettings] = useState(false);
 
     const handleLogin = () => {
       navigate("/login", {})
@@ -44,9 +51,21 @@ function Banner() {
     }
 
     const handleSearch = () => {
+      if(searchText == "") {
+        setEmpty(true)
+        return;
+      }
       store.searchByType(searchType)
       console.log("Searching by type: " + searchType +"    Search Value: " + searchText);
       //navigate("/explore", {})
+    }
+
+    const handleCloseSettings = () => {
+      setSettings(false);
+    }
+
+    const handleOpenSettings = () => {
+      setSettings(true);
     }
 
     const handleSearchText = (event) => {
@@ -61,6 +80,10 @@ function Banner() {
       if(event.key == "Enter") {
         handleSearch();
       }
+    }
+
+    const handleEmpty = () => {
+      setEmpty(false)
     }
 
   let userInfo = {
@@ -120,12 +143,23 @@ if(auth.loggedIn) {
         },
       }));
 
+      let settingsButton =
+      <IconButton aria-label="settings" id="composition-button" onClick={() => handleOpenSettings()}>
+        <SettingsTwoToneIcon sx={{fill:"#C0C0C0" ,fontSize:22}}/> 
+      </IconButton>
+
     let nameButtonColor = searchType == "NAME" ? "contained" : "outlined"
     let categoryButtonColor = searchType == "CATEGORY" ? "contained" : "outlined"
     let userButtonColor = searchType == "USER" ? "contained" : "outlined"
 
+    let emptyModal = empty ? <LoginModal message="The search field is empty" onClose={() => handleEmpty()}></LoginModal> : null
+
+    let searchSettings = settings ? <SearchSettings onClose={() => handleCloseSettings()}></SearchSettings> : null
+
     return (
         <Box className='top-navbar' sx={{ display: 'flex' ,flexGrow: 1}} >
+          {emptyModal}
+          {searchSettings}
            <CssBaseline/>
            <AppBar position="static" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1}}>
               <Toolbar sx={{boxShadow: 1 ,backgroundColor:'#1E1E1E',justifyContent: 'space-between'}}> 
@@ -156,6 +190,7 @@ if(auth.loggedIn) {
                     <Button variant={categoryButtonColor} size="small"  sx= {{color:"white",borderRadius:'20px',marginX: 1}} onClick={() => handleSelectSearchType("CATEGORY")}>By Category</Button>
                     <Button variant={userButtonColor} size="small"  sx= {{color:"white",borderRadius:'20px',marginX: 0}} onClick={() => handleSelectSearchType("USER")}>By User</Button>
                 </Box>
+                {settingsButton}
             </Box>
             
             {auth.loggedIn && <Box display="flex" flexDirection="row" >

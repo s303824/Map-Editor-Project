@@ -30,7 +30,6 @@ const MyProjects=() =>{
       }
     }, [auth.user])
 
-
     const handleCreateNewProject = async () => {   
 
       let mapData = {

@@ -21,6 +21,7 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import UnpublishMap from './unpublish.component';
 import ReportModal from './report-modal.component';
+import LoginModal from './login-modal.component';
 
 
 const drawerWidth = 240;
@@ -32,6 +33,8 @@ export default function RightSideBar(mapInfo) {
   const [open, setOpen] = React.useState(false);
   const [settings, setSettings] = useState(false);
   const [reportOpen, setReportOpen] = useState(false);
+  const [guestWarning, setGuestWarning] = useState(false);
+  const [oppositeWarning, setOppositeWarning] = useState(false);
   
   const handleOpenReport = () => {
     setReportOpen(true)
@@ -64,6 +67,13 @@ const handleOpenSettings = () => {
     setOpen(false)
 }
 
+const handleGuestWarning = () => {
+  setGuestWarning(false)
+}
+const handleOpposite = () => {
+  setOppositeWarning(false);
+}
+
 function handleListKeyDown(event) {
     if (event.key === 'Tab') {
         event.preventDefault();
@@ -75,18 +85,24 @@ function handleListKeyDown(event) {
 
   //HERE FOR MAKING THE UNPUBLISH MODAL
   let unpublishModal = settings ? <UnpublishMap onClose={() => setSettings(false)}></UnpublishMap> : null
-
   let reportModal = reportOpen ? <ReportModal onClose={() => {setReportOpen(false)}}></ReportModal> : null
 
-
+  let loginModal = guestWarning ? <LoginModal message="You must log in to do that!" onClose={() => handleGuestWarning()}></LoginModal> : null
+  let oppositeModal = oppositeWarning ? <LoginModal message="You can't like/dislike a map you have already done the opposite for!" onClose={() => handleOpposite()}></LoginModal> : null
 
   let likeColor = auth.user ? auth.user.liked_projects.includes(store.currentMapInfo._id) ? "yellow" : "lightgrey" : "lightgrey"
   let dislikeColor = auth.user ? auth.user.disliked_projects.includes(store.currentMapInfo._id) ? "yellow" : "lightgrey" : "lightgrey"
 
   const handleLike = () => {
+    //if user is logged in, show modal saying they must login
+    if(!auth.loggedIn) {
+      setGuestWarning(true)
+      return;
+    }
+
     //if user DISLIKED map, dont allow liking
     if(auth.user.disliked_projects.includes(store.currentMapInfo._id)) {
-      //TODO: add modal for this
+      setOppositeWarning(true)
       return;
     }
 
@@ -104,9 +120,15 @@ function handleListKeyDown(event) {
   }
 
   const handleDislike = () => {
+  //if user is logged in, show modal saying they must login
+  if(!auth.loggedIn) {
+    setGuestWarning(true)
+    return;
+  }
+
     //if user LIKED map, dont allow disliking
     if(auth.user.liked_projects.includes(store.currentMapInfo._id)) {
-      //TODO: add modal for this
+      setOppositeWarning(true)
       return;
     }
 
@@ -189,6 +211,8 @@ if(auth.user) {
     <Box className ='sidebar' position="fixed">
       {unpublishModal}
       {reportModal}
+      {loginModal}
+      {oppositeModal}
       <Drawer  
         sx={{
           width: drawerWidth,
