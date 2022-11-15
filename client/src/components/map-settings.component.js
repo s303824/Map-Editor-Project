@@ -30,7 +30,7 @@ const MapSettings = ({onClose}) => {
         p: 4,
       };
       let initialTags = ""
-      initialTags.length !== 0 && store.currentMapInfo.tags.forEach(tag => initialTags += tag + " ")
+      store.currentMapInfo.tags.forEach(tag => initialTags += tag + " ")
   
 
       const [title, setTitle] = useState(store.currentMapInfo.name)            // For title input field 
