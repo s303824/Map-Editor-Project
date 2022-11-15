@@ -63,7 +63,9 @@ const MapSettings = ({onClose}) => {
 
     let modal = modalOpen ? <LoginModal message="Successfully updated!" onClose={handleCloseModal}></LoginModal> : null
     console.log(store.currentMapInfo)
-
+    let tagString = ""
+    tags.forEach(tag => tagString += "#" + tag + " ")
+   
     return(
         <Box>
             {modal}
@@ -105,7 +107,7 @@ const MapSettings = ({onClose}) => {
                     <Box className="qmodal-text">Tags</Box>
                     <TextField
                     required
-                    value = {tags}
+                    value = {tagString}
                     id="outlined-tags-input"
                     label="Tags"
                     variant="filled"
