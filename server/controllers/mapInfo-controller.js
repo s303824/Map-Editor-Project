@@ -415,6 +415,36 @@ removeCreator = async (req, res) => {
     });
 }
 
+search = async(req, res) => {
+    const {type, value} = req.query.payload
+    
+    let query = MapInfo.find().sort({likes: -1}).limit(10);
+
+    query.where(type, value)
+    const result = await query.exec(function(err, docs) {
+        if(err) {
+            return res.status(400).json({
+                message:"something bad happened"
+            })
+        }
+
+        if(docs.length == 0) {
+            return res.status(200).json({
+                message:"No Maps found!",
+                mapInfos: []
+            })
+        }
+
+        else {
+            return res.status(200).json({
+                message:"Maps found!",
+                mapInfos: docs
+            })
+        }
+    });
+    
+}
+
 
 
 module.exports = {
@@ -427,5 +457,6 @@ module.exports = {
     addCreator,
     removeCreator,
     getMapInfoByListOfIds,
-    getAllMapInfoSortedByLikes
+    getAllMapInfoSortedByLikes,
+    search
 }

@@ -14,15 +14,37 @@ function SearchResults() {
     const {auth} = useContext(AuthContext);
 
 
-    let maps = false ?
-    null
+    let maps = store.publishedMaps.length > 0 ?
+    <Box 
+    className="mapcard-container" 
+    sx={{ 
+      overflow: 'scrool',
+      maxHeight:"500px",
+      overflowY:'scroll',
+      width:"90%",
+      "&::-webkit-scrollbar": {
+        width: 10,
+      },
+      "&::-webkit-scrollbar-track": {
+        boxShadow: `inset 0 0 6px rgba(0, 0, 0, 0.3)`,
+      },
+      "&::-webkit-scrollbar-thumb": {
+        backgroundColor: "#ffc806",
+        outline: `1px solid #ffc806`,
+      }}}>
+
+    {store.publishedMaps.map((map) => (
+      <MapCard key={map.id} mapInfo={map} />
+    ))}
+  </Box>
     : 
+
     <Typography color="white" fontSize={24}>There are no maps matching your current search</Typography>
 
     return (
       <Box className="home-container" sx={{marginLeft:'260px' }}>
 
-        <Typography variant="h4" sx={{color:"white",font:'Bebas Neue',marginTop:'1%',marginBottom:'2%'}}>Search Results for Fantasy</Typography>
+        <Typography variant="h4" sx={{color:"white",font:'Bebas Neue',marginTop:'1%',marginBottom:'2%'}}>Search Results</Typography>
 
         <Box 
           className="mapcard-container" 

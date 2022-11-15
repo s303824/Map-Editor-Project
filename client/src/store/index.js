@@ -79,7 +79,6 @@ function GlobalStoreContextProvider(props) {
 
     const storeReducer = (action) => {
         const {type, payload} = action;
-        console.log(payload)
         switch(type) {
             case GlobalStoreActionType.LOAD_PUBLISHED_MAPS:
                 return setStore({
@@ -329,7 +328,6 @@ store.loadUserMaps = async function (username) {
 //Loads a list of mapInfos by a list of ids
 //Used by: useEffect(LikedMaps)
 store.loadMapInfosByIds = async function(idList) {
-    console.log(idList)
     if(idList.length == 0) {
         storeReducer({
             type: GlobalStoreActionType.LOAD_PUBLISHED_MAPS,
@@ -343,9 +341,9 @@ store.loadMapInfosByIds = async function(idList) {
     let response = await api.getMapInfoByListOfIds(idList)
     if(response.status === 200) {
         storeReducer({
-            type: GlobalStoreActionType.LOAD_PUBLISHED_MAPS,
+            type: GlobalStoreActionType.LOAD_USER_MAPS,
             payload: {
-                publishedMaps: response.data.mapInfos
+                userMaps: response.data.mapInfos
             }
         })
     }
@@ -364,32 +362,6 @@ store.getMapInfosSortedByLikes = async function() {
             }
         })
     }
-}
-
-//called when search is entered by the user
-store.SearchButtonHelper = function () {
-    const response = api.getMapInfo();
-    if (response.status === 200) {
-        storeReducer({
-            type: GlobalStoreActionType.SET_THE_SEARCH_CRITERIA,
-            payload: {
-                
-            }
-        });
-    }    
-}
-
-//Used to filter maps
-store.searchKeyword =  function (keyword) {
-    const response = api.getAllMapInfoByUser();
-    if (response.status === 200) {
-        storeReducer({
-            type: GlobalStoreActionType.SET_THE_SEARCH_CRITERIA,
-            payload: {
-                
-            }
-        });
-    }    
 }
 
 //Updates the number of likes for the published map
@@ -491,18 +463,22 @@ store.deleteMap= async function (mapId) {
 
 //Searches by "type" and "value", for example type = "NAME" and value = "Michael"
 store.searchByType = async function (type, value) {
-    switch(type) {
-
-        case "NAME":
-            break;
-
-        case "CATEGORY":
-            break;
-        
-        case "USER":
-            break;
+    try {
+        const response = await api.searchMapInfo({type, value})
+        if(response.status == 200) {
+            storeReducer({
+                type: GlobalStoreActionType.LOAD_PUBLISHED_MAPS,
+                payload: {
+                    publishedMaps: response.data.mapInfos
+                }
+            })
+            navigate("/explore", [])
+        }
+    }
+    catch(err) {
 
     }
+    
 }
 
 // Deletes the selected layer
