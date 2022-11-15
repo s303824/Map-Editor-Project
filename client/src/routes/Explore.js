@@ -14,7 +14,7 @@ function SearchResults() {
     const {auth} = useContext(AuthContext);
 
 
-    let maps = store.publishedMaps.length > 0 ?
+    let maps = store.searchResults.length > 0 ?
     <Box 
     className="mapcard-container" 
     sx={{ 
@@ -33,7 +33,7 @@ function SearchResults() {
         outline: `1px solid #ffc806`,
       }}}>
 
-    {store.publishedMaps.map((map) => (
+    {store.searchResults.map((map) => (
       <MapCard key={map.id} mapInfo={map} />
     ))}
   </Box>

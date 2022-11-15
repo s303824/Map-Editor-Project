@@ -37,12 +37,12 @@ function LikedMaps() {
         outline: `1px solid #ffc806`,
       }}}>
 
-    {store.userMaps.map((map) => (
+    {store.publishedMaps.map((map) => (
       <MapCard key={map.id} mapInfo={map} />
     ))}
   </Box>
 
-  if(store.userMaps.length == 0) {
+  if(store.publishedMaps.length == 0) {
     mapList = <Typography color="white" fontSize={24}>You have not liked any maps yet.</Typography>
   }
 

@@ -11,6 +11,7 @@ export const GlobalStoreContext = createContext();
 export const GlobalStoreActionType = {
     LOAD_PUBLISHED_MAPS: "LOAD_PUBLISHED_MAPS",
     LOAD_USER_MAPS: "LOAD_USER_MAPS",
+    LOAD_SEARCH_RESULTS: "LOAD_SEARCH_RESULTS",
     SET_THE_CURRENT_MAP: "SET_THE_CURRENT_MAP",
     SET_THE_CURRENT_LAYER: "SET_THE_CURRENT_LAYER",
     SET_THE_CURRENT_TILESET: "SET_THE_CURRENT_TILESET",
@@ -21,7 +22,7 @@ export const GlobalStoreActionType = {
     SET_THE_SEARCH_CRITERIA: "SET_THE_SEARCH_CRITERIA",
     SET_THE_OPEN_MODAL: "SET_THE_OPEN_MODAL",
     SET_THE_MAP_MARKED_FOR_DELETION: "SET_THE_MAP_MARKED_FOR_DELETION",
-    UPDATE_MAP_INFO: "UPDATE_MAP_INFO"
+    UPDATE_MAP_INFO: "UPDATE_MAP_INFO",
 }
 
 function GlobalStoreContextProvider(props) {
@@ -30,6 +31,7 @@ function GlobalStoreContextProvider(props) {
     const [store, setStore] = useState({
         publishedMaps: [],              //holds all the published maps
         userMaps: [],                      //holds all the maps created by the user
+        searchResults: [],                   //holds search results
         currentMap: {},                    //holds the current map opened for editing
         currentMapInfo:[],             //current open map mapInfo
         currentLayer:[
@@ -83,7 +85,8 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.LOAD_PUBLISHED_MAPS:
                 return setStore({
                     publishedMaps: payload.publishedMaps,              
-                    userMaps: store.userMaps,                      
+                    userMaps: store.userMaps,                
+                    searchResults: store.searchResults,      
                     currentMap: store.currentMap,                    
                     currentMapInfo:store.currentMapInfo,     
                     currentLayer: store.currentLayer,       
@@ -101,7 +104,8 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.LOAD_USER_MAPS:
                 return setStore({
                     publishedMaps: store.publishedMaps,              
-                    userMaps: payload.userMaps,                      
+                    userMaps: payload.userMaps,                  
+                    searchResults: store.searchResults,                    
                     currentMap: payload.currentMap ? payload.currentMap : store.currentMap,                    
                     currentMapInfo:payload.mapInfo ? payload.mapInfo : store.currentMapInfo, 
                     currentLayer: store.currentLayer,       
@@ -119,7 +123,8 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.SET_THE_CURRENT_MAP:
                 return setStore({
                     publishedMaps: store.publishedMaps,              
-                    userMaps: store.userMaps,                      
+                    userMaps: store.userMaps,                     
+                    searchResults: store.searchResults,                 
                     currentMap: payload.currentMap,                    
                     currentMapInfo:payload.mapInfo,      
                     currentLayer:store.currentLayer,       
@@ -136,7 +141,8 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.SET_THE_CURRENT_LAYER:
                 return setStore({
                     publishedMaps: store.publishedMaps,              
-                    userMaps: store.userMaps,                      
+                    userMaps: store.userMaps,                    
+                    searchResults: store.searchResults,                  
                     currentMap: store.currentMap,                    
                     currentMapInfo:store.currentMapInfo,      
                     currentLayer: payload.currentLayer,       
@@ -153,7 +159,8 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.SET_THE_CURRENT_TILESET:
                 return setStore({
                     publishedMaps: store.publishedMaps,              
-                    userMaps: store.userMaps,                      
+                    userMaps: store.userMaps,                   
+                    searchResults: store.searchResults,                   
                     currentMap: store.currentMap,                    
                     currentMapInfo:store.currentMapInfo,      
                     currentLayer: store.currentLayer,       
@@ -170,7 +177,8 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.SET_THE_CURRENT_TILE:
                 return setStore({
                     publishedMaps: store.publishedMaps,              
-                    userMaps: store.userMaps,                      
+                    userMaps: store.userMaps,                  
+                    searchResults: store.searchResults,                    
                     currentMap: store.currentMap,                    
                     currentMapInfo:store.currentMapInfo,      
                     currentLayer: store.currentLayer,       
@@ -187,7 +195,8 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.SET_THE_SELECTED_MAP_EDIT_TOOL:
                 return setStore({
                     publishedMaps: store.publishedMaps,              
-                    userMaps: store.userMaps,                      
+                    userMaps: store.userMaps,                     
+                    searchResults: store.searchResults,                 
                     currentMap: store.currentMap,                    
                     currentMapInfo:store.currentMapInfo,      
                     currentLayer: store.currentLayer,       
@@ -205,7 +214,8 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.SET_THE_CAN_UNDO:
                 return setStore({
                     publishedMaps: store.publishedMaps,              
-                    userMaps: store.userMaps,                      
+                    userMaps: store.userMaps,                    
+                    searchResults: store.searchResults,                  
                     currentMap: store.currentMap,                    
                     currentMapInfo:store.currentMapInfo,      
                     currentLayer: store.currentLayer,       
@@ -222,7 +232,8 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.SET_THE_CAN_REDO:
                 return setStore({
                     publishedMaps: store.publishedMaps,              
-                    userMaps: store.userMaps,                      
+                    userMaps: store.userMaps,                  
+                    searchResults: store.searchResults,                    
                     currentMap: store.currentMap,                    
                     currentMapInfo:store.currentMapInfo,      
                     currentLayer: store.currentLayer,       
@@ -239,7 +250,8 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.SET_THE_SEARCH_CRITERIA:
                 return setStore({
                     publishedMaps: store.publishedMaps,              
-                    userMaps: store.userMaps,                      
+                    userMaps: store.userMaps,                 
+                    searchResults: store.searchResults,                     
                     currentMap: store.currentMap,                    
                     currentMapInfo:store.currentMapInfo,      
                     currentLayer: store.currentLayer,       
@@ -257,7 +269,8 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.SET_THE_OPEN_MODAL:
                 return setStore({
                     publishedMaps: store.publishedMaps,              
-                    userMaps: store.userMaps,                      
+                    userMaps: store.userMaps,                 
+                    searchResults: store.searchResults,                     
                     currentMap: store.currentMap,                    
                     currentMapInfo:store.currentMapInfo,      
                     currentLayer: store.currentLayer,       
@@ -274,7 +287,8 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.SET_THE_MAP_MARKED_FOR_DELETION:
                 return setStore({
                     publishedMaps: store.publishedMaps,              
-                    userMaps: store.userMaps,                      
+                    userMaps: store.userMaps,                  
+                    searchResults: store.searchResults,                    
                     currentMap: [],                    
                     currentMapInfo:[],     
                     currentLayer: store.currentLayer,       
@@ -291,7 +305,27 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType. UPDATE_MAP_INFO:
                 return setStore({
                     publishedMaps: store.publishedMaps,              
-                    userMaps: store.userMaps,                      
+                    userMaps: store.userMaps,                    
+                    searchResults: store.searchResults,                  
+                    currentMap: store.currentMap,                    
+                    currentMapInfo:payload.mapInfo,     
+                    currentLayer: store.currentLayer,       
+                    currentTileSet: store.currentTileSet,              
+                    currentTile: store.currentTile,
+                    tilesetBeingEdited: store.tilesetBeingEdited,        
+                    selectedMapEditTool: store.selectedMapEditTool,   
+                    canUndo: store.canUndo,                  
+                    canRedo: store.canRedo,                  
+                    searchCriteria: store.searchCriteria,            
+                    openModal: store.openModal,       
+                    mapMarkedForDeletion: payload.mapMarkedForDeletion
+                })
+
+                case GlobalStoreActionType.LOAD_SEARCH_RESULTS:
+                return setStore({
+                    publishedMaps: store.publishedMaps,              
+                    userMaps: store.userMaps,                    
+                    searchResults: payload.searchResults,                  
                     currentMap: store.currentMap,                    
                     currentMapInfo:payload.mapInfo,     
                     currentLayer: store.currentLayer,       
@@ -328,6 +362,7 @@ store.loadUserMaps = async function (username) {
 //Loads a list of mapInfos by a list of ids
 //Used by: useEffect(LikedMaps)
 store.loadMapInfosByIds = async function(idList) {
+    console.log(idList)
     if(idList.length == 0) {
         storeReducer({
             type: GlobalStoreActionType.LOAD_PUBLISHED_MAPS,
@@ -341,9 +376,9 @@ store.loadMapInfosByIds = async function(idList) {
     let response = await api.getMapInfoByListOfIds(idList)
     if(response.status === 200) {
         storeReducer({
-            type: GlobalStoreActionType.LOAD_USER_MAPS,
+            type: GlobalStoreActionType.LOAD_PUBLISHED_MAPS,
             payload: {
-                userMaps: response.data.mapInfos
+                publishedMaps: response.data.mapInfos
             }
         })
     }
@@ -467,9 +502,9 @@ store.searchByType = async function (type, value) {
         const response = await api.searchMapInfo({type, value})
         if(response.status == 200) {
             storeReducer({
-                type: GlobalStoreActionType.LOAD_PUBLISHED_MAPS,
+                type: GlobalStoreActionType.LOAD_SEARCH_RESULTS,
                 payload: {
-                    publishedMaps: response.data.mapInfos
+                    searchResults: response.data.mapInfos
                 }
             })
             navigate("/explore", [])
@@ -804,7 +839,6 @@ store.loadMapById = async function(_id) {
 
             const response2 = await api.getMap(response.data.mapInfo.map_id)
             if(response2.status === 200) {
-                console.log(response2.data)
                 storeReducer({
                     type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                     payload: {

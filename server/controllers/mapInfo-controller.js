@@ -419,9 +419,9 @@ search = async(req, res) => {
     const {type, value} = req.query.payload
     
     let query = MapInfo.find().sort({likes: -1}).limit(10);
-
     query.where(type, value)
     const result = await query.exec(function(err, docs) {
+
         if(err) {
             return res.status(400).json({
                 message:"something bad happened"
