@@ -152,7 +152,7 @@ function handleListKeyDown(event) {
     ))}
   </List>;
 
-
+  let unpublishOption =<MenuItem onClick={handleOpenSettings}>Unpublish</MenuItem>    
 
   let creatorSettings = <Box marginLeft={22.5}>
         <IconButton aria-label="settings"
@@ -189,8 +189,8 @@ function handleListKeyDown(event) {
                             aria-labelledby="composition-button"
                             onKeyDown={handleListKeyDown}
                         >
-                            {/* add settings to the settings menu-bar here  */}
-                            <MenuItem onClick={handleOpenSettings}>Unpublish</MenuItem>    
+                            {unpublishOption}
+                            <MenuItem onClick={handleOpenReport}>Report</MenuItem>    
                         </MenuList>
                     </ClickAwayListener>
                 </Paper>
@@ -200,11 +200,15 @@ function handleListKeyDown(event) {
 </Box>
 
 if(auth.user) {
-  for(let i=0; i<store.currentMapInfo.creator.length; i++)
-    if(auth.user.username != store.currentMapInfo.creator[i].creator) {
-      creatorSettings = null;
+  isMember = false
+  for(let i=0; i<store.currentMapInfo.creator.length; i++){
+    if(auth.user.username == store.currentMapInfo.creator[i].creator) {
+      isMember = true;
       break;
     }
+  }
+    if(!isMember)
+    unpublishOption = null;
 }
 
   return (
@@ -251,10 +255,6 @@ if(auth.user) {
         </Box>
         <Button sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginTop:5}}>
                 Download
-            </Button>
-
-            <Button onClick={handleOpenReport}sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc400)',borderRadius:'5px',color:"white",fontWeight:"bold",marginTop:5, marginLeft:16, width:100}}>
-                Report
             </Button>
           {creatorSettings}
       </Drawer>
