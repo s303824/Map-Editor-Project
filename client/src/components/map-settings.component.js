@@ -53,7 +53,8 @@ const MapSettings = ({onClose}) => {
 
     const handleUpdateSettings = async () => {
         let tagList = tags.split(" ")
-        store.changeMapSettings(store.currentMapInfo._id, title, description, tagList);
+        tagList.filter(tag => tag != " ")
+        store.changeMapSettings(store.currentMapInfo._id, title, description.trim(), tagList);
         setModalOpen(true);
     }
 
