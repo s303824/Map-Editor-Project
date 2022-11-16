@@ -154,6 +154,20 @@ function handleListKeyDown(event) {
 
   let unpublishOption =<MenuItem onClick={handleOpenSettings}>Unpublish</MenuItem>    
 
+  if(auth.user) {
+    let isMember = false;
+    for(let i=0; i<store.currentMapInfo.creator.length; i++){
+      if(auth.user.username == store.currentMapInfo.creator[i].creator) {
+        isMember = true;
+        break;
+      }
+    }
+      if(!isMember)
+      unpublishOption = null;
+  }else{
+    unpublishOption = null;
+  }
+  
   let creatorSettings = <Box marginLeft={22.5}>
         <IconButton aria-label="settings"
         ref={anchorRef}
@@ -198,18 +212,6 @@ function handleListKeyDown(event) {
         )}
       </Popper>
 </Box>
-
-if(auth.user) {
-  let isMember = false;
-  for(let i=0; i<store.currentMapInfo.creator.length; i++){
-    if(auth.user.username == store.currentMapInfo.creator[i].creator) {
-      isMember = true;
-      break;
-    }
-  }
-    if(!isMember)
-    unpublishOption = null;
-}
 
   return (
     <Box className ='sidebar' position="fixed">
