@@ -200,7 +200,7 @@ function handleListKeyDown(event) {
 </Box>
 
 if(auth.user) {
-  isMember = false
+  let isMember = false;
   for(let i=0; i<store.currentMapInfo.creator.length; i++){
     if(auth.user.username == store.currentMapInfo.creator[i].creator) {
       isMember = true;
