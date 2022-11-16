@@ -84,11 +84,11 @@ const MapCard = ({mapInfo}) => {
                     <DownloadForOfflineTwoToneIcon sx={{fill:"#fda005"}}/>
                     <Typography sx={{color: 'white',fontSize:15,marginLeft:1}}>{downloads} Downloads </Typography>
                 </IconButton> 
-                <Button sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginLeft:15}} onClick={handleViewMap}>
+                <Button sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginLeft:40}} onClick={handleViewMap}>
                     VIEW
                 </Button> 
             </Box> :  <Box>
-                <Button disabled={editActive} sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginTop:2}} onClick={handleEditMap}>
+                <Button disabled={editActive} sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginLeft:40}} onClick={handleEditMap}>
                     EDIT
                 </Button>
             </Box>

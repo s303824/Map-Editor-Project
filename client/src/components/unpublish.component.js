@@ -35,7 +35,7 @@ const UnpublishMap = ({onClose}) => {
         boxShadow: 24,
         p: 4,
       };
-      const [title, setTitle] = useState(store.currentPublishedMap.name)            // For title input field 
+      const [title, setTitle] = useState(store.currentMapInfo.name)            // For title input field 
   
     const handlePublish = async () => {
         store.unpublishCurrentMap();

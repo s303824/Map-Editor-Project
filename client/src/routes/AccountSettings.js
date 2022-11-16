@@ -477,7 +477,7 @@ function AccountSettings() {
                 </h4>
                 <ul style={{margin: "0px 0px 0px 0px",
                             color: "#ffffff"}}>
-                    <li>your profile will be permanently deleted, including all the maps you created and shared</li>
+                    <li>Your profile will be permanently deleted, including all the maps you created and shared</li>
                 </ul>
                 <div>
                 <Checkbox {...label} sx={{color: 'white'}} onChange={handleCheckBox} checked={checked}/>
