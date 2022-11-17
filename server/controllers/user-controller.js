@@ -171,16 +171,10 @@ updateUser = async(req, res) => {
     }
 
     // first we get the indexes of each myprojects' creator array in which loggedInUser is found
-    let projectIndexes = []
-    const userObject = {creator:loggedInUser.username, email:loggedInUser.email, profile_picture:loggedInUser.profile_picture}
+    let indexes = []
     loggedInUser.myprojects.forEach(async id => {
         const project = await MapInfo.findOne({_id : id})
-        projectIndexes.push(project.creator.indexOf(userObject)) 
-    });
-    let publishedIndexes = []
-    loggedInUser.publishedMaps.forEach(async id => {
-        const project = await MapInfo.findOne({_id : id})
-        publishedIndexes.push(project.creator.indexOf(userObject)) 
+        indexes.push(project.creator.indexOf(loggedInUser)) 
     });
 
     loggedInUser.first_name = first_name;
@@ -196,16 +190,10 @@ updateUser = async(req, res) => {
     loggedInUser.publishedMaps = publishedMaps
 
     // then we use the indexes from earlier to update projects' creator array at that index
-    let i = 0;
+    let i = 0
     loggedInUser.myprojects.forEach(async id => {
         const project = await MapInfo.findOne({_id : id})
-        project.creator[projectIndexes[i]] = userObject
-        i++
-    });
-    i = 0;
-    loggedInUser.publishedMaps.forEach(async id => {
-        const project = await MapInfo.findOne({_id : id})
-        project.creator[publishedIndexes[i]] = userObject
+        project.creator[indexes[i]] = loggedInUser
         i++
     });
 
