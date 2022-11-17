@@ -90,23 +90,24 @@ function handleListKeyDown(event) {
   let loginModal = guestWarning ? <LoginModal message="You must log in to do that!" onClose={() => handleGuestWarning()}></LoginModal> : null
   let oppositeModal = oppositeWarning ? <LoginModal message="You can't like/dislike a map you have already done the opposite for!" onClose={() => handleOpposite()}></LoginModal> : null
 
-  let likeColor = auth.user ? auth.user.liked_projects.includes(store.currentMapInfo._id) ? "yellow" : "lightgrey" : "lightgrey"
-  let dislikeColor = auth.user ? auth.user.disliked_projects.includes(store.currentMapInfo._id) ? "yellow" : "lightgrey" : "lightgrey"
+  let likeColor = auth.user ? auth.user.liked_projects.includes(store.currentMapInfo._id) ? "green" : "lightgrey" : "lightgrey"
+  let dislikeColor = auth.user ? auth.user.disliked_projects.includes(store.currentMapInfo._id) ? "red" : "lightgrey" : "lightgrey"
 
   const handleLike = () => {
-    //if user is logged in, show modal saying they must login
+    //if user is NOT logged in, show modal saying they must login
     if(!auth.loggedIn) {
       setGuestWarning(true)
       return;
     }
 
-    //if user DISLIKED map, dont allow liking
+    //if user previously DISLIKED the map, undo that
     if(auth.user.disliked_projects.includes(store.currentMapInfo._id)) {
-      setOppositeWarning(true)
-      return;
+      store.updateMapDislike(store.currentMapInfo, -1)
+      auth.user.disliked_projects = auth.user.disliked_projects.filter(_id => _id!=store.currentMapInfo._id)
+      auth.updateUser(auth.user);
     }
 
-    //if user already liked map, then dislike it
+    //if user already liked map, then unlike it
     if(auth.user.liked_projects.includes(store.currentMapInfo._id)) {
       store.updateMapLike(store.currentMapInfo, -1)
       auth.user.liked_projects = auth.user.liked_projects.filter(_id => _id!=store.currentMapInfo._id)
@@ -126,10 +127,11 @@ function handleListKeyDown(event) {
     return;
   }
 
-    //if user LIKED map, dont allow disliking
+    //if user previously LIKED the map, undo that
     if(auth.user.liked_projects.includes(store.currentMapInfo._id)) {
-      setOppositeWarning(true)
-      return;
+      store.updateMapLike(store.currentMapInfo, -1)
+      auth.user.liked_projects = auth.user.liked_projects.filter(_id => _id!=store.currentMapInfo._id)
+      auth.updateUser(auth.user);
     }
 
     //if user already disliked map, add 1 like and remove from dislike list
