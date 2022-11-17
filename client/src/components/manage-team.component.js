@@ -44,28 +44,25 @@ const MapTeams = ({onClose}) => {
         setNewCreators(event.target.value)
     }  
 
-    const removeTeam = (event, member) => {    
-        let newList = creators
-        newList.filter((maker) => maker.creator !== member.creator);
-        setCreators(newList)        // updates the displayed users list
-
-        let lessMembers = removedCreators
-        lessMembers.push(member.creator)    
-        setRemovedCreators(lessMembers)     // updates the usernames of members that will be removed
+    const removeTeam = (event, markedUser) => {
+        //setCreators(creators => creators.filter((maker) => maker.creator !== markedUser))        // updates the displayed users list
+        //let lessMembers = removedCreators
+        //lessMembers.push(markedUser)    
+        //setRemovedCreators(lessMembers)     // updates the usernames of members that will be removed
         }  
 
     const handleUpdateTeams = async () => {
         let trimmedCreators = newCreators.trim()
         const memberList = trimmedCreators.split(" ")           // parses the info of new users
 
-        store.removeTeamMember(removedCreators);
+        //store.removeTeamMember(removedCreators);
         store.addTeamMember(memberList);
         
         setCreators(store.currentMapInfo.creator);
         setChangesMade(true)
     }
 
-    const successfulChanges = changesMade ? <Typography fontSize="20px">Team updated</Typography>:null
+    const successfulChanges = changesMade ? <Typography fontSize="10px">Team updated</Typography>:null
 
 
     console.log(store.currentMapInfo)
@@ -86,7 +83,7 @@ const MapTeams = ({onClose}) => {
                 {creators.map((member) => (
                     <ListItem>
                         <ListItemText primary={member.creator} />
-                        <ListItemButton onClick={removeTeam(member)}>
+                        <ListItemButton onClick={removeTeam(member.creator)}>
                             <Button>Remove</Button>
                         </ListItemButton>                        
                         <Divider />
