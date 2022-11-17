@@ -923,7 +923,10 @@ store.removeTeamMember = async function (removedUsers) {
 //Used by: manage-team.component
 store.addTeamMember = async function (addedUsers) {
     console.log(store.currentMapInfo._id)
-    const response = await api.addCreator(store.currentMapInfo._id, addedUsers);
+    let param = {
+        _id: store.currentMapInfo._id, 
+        addedCreators: addedUsers}
+    const response = await api.addCreator(param);
     console.log(response.status)
     console.log(response.data.mapInfo)
     if(response.status === 200 && response.data.mapInfo != null) {
