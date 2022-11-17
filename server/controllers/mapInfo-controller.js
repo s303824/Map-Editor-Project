@@ -458,8 +458,13 @@ search = async(req, res) => {
         query.where("published").ne("false")
     }
 
+    if(type == "tags") {
+        query = MapInfo.find().sort({likes: -1}).limit(10);
+        query.where("tags", value)
+        query.where("published").ne("false")
+    }
+
     const result = await query.exec(function(err, docs) {
-        console.log(docs)
 
         if(err) {
             return res.status(400).json({

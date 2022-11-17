@@ -177,7 +177,7 @@ updateUser = async(req, res) => {
         if(project == null) {
             return;
         }
-        indexes.push(project.creator.findIndex(item => item.creator != loggedInUser.username)) 
+        indexes.push(project.creator.findIndex(item => item.creator != loggedInUser.username || item.email != loggedInUser.email || item.profile_picture != loggedInUser.profile_picture)) 
     });
 
     loggedInUser.first_name = first_name;
@@ -202,7 +202,6 @@ updateUser = async(req, res) => {
         project.creator[indexes[i]] = {creator: username, email:email, profile_picture:profile_picture}
         project.markModified("creator")
         project.save()
-        console.log(project)
         i++
     });
 
