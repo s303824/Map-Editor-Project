@@ -39,7 +39,7 @@ const MapTeams = ({onClose}) => {
       const [creators, setCreators] = useState(store.currentMapInfo.creator)        // For creators input field 
       const [newCreators, setNewCreators] = useState("")                // string of users marked for addition
       const [removedCreators, setRemovedCreators] = useState([])        // string array of users marked for removal
-
+      const [changesMade, setChangesMade] = useState(false)
     const addTeam = (event) => {  
         setNewCreators(event.target.value)
     }  
@@ -56,10 +56,16 @@ const MapTeams = ({onClose}) => {
     const handleUpdateTeams = async () => {
         let trimmedCreators = newCreators.trim()
         const memberList = trimmedCreators.split(" ")           // parses the info of new users
+        console.log(memberList)
         // await store.removeTeamMember(removedCreators);
-        await store.addTeamMember(memberList);
+        store.addTeamMember(memberList);
         setCreators(store.currentMapInfo.creator);
+        setChangesMade(true)
+        console.log(store.currentMapInfo.creator)
     }
+
+    const successfulChanges = changesMade ? <Typography fontSize="20px">Team updated</Typography>:null
+
 
     console.log(store.currentMapInfo)
 
@@ -99,6 +105,7 @@ const MapTeams = ({onClose}) => {
                 onChange={(event) => addTeam(event)}
                 />
             </Typography>
+            {successfulChanges}
             <Box paddingTop={3} display="flex" justifyContent="space-between">
                 <Button variant="contained" onClick={handleUpdateTeams}>Update Team</Button>
                 <Button variant="contained" onClick={onClose}>Close</Button>

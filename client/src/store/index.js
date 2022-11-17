@@ -923,7 +923,9 @@ store.removeTeamMember = async function (removedUsers) {
 //Used by: manage-team.component
 store.addTeamMember = async function (addedUsers) {
     const response = await api.addCreator(store.currentMapInfo._id, addedUsers);
+    console.log(response.status)
     if(response.status === 200 && response.data.mapInfo != null) {
+        console.log(response.data.mapInfo)
         storeReducer({
             type: GlobalStoreActionType.UPDATE_MAP_INFO,
             payload: {
