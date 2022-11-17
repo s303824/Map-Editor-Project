@@ -145,6 +145,7 @@ function handleListKeyDown(event) {
     auth.updateUser(auth.user);
   }
 
+  const handleDownload = () => {}
 
   let teamMembers = <List>
     {store.currentMapInfo.creator.map((creator, index) => (
@@ -247,9 +248,9 @@ function handleListKeyDown(event) {
         <Divider />
         <Typography sx={{fontSize:'20px',color: 'black',marginTop:0,padding:1,backgroundImage: 'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',boxShadow: '0 1px 1px 1px rgba(68,68,69,255)'}}> Description </Typography>
         <Typography sx={{fontSize:'15px',color: 'white',marginTop:2,marginLeft:3,marginBottom:3}}> {tagsList} </Typography>
-        <Typography sx={{fontSize:'15px',color: 'white',marginTop:2,marginLeft:3,marginBottom:3}}> {store.currentMapInfo.description} </Typography>
+        <Typography sx={{fontSize:'15px',color: 'white',marginTop:0,marginLeft:3,marginBottom:3}}> {store.currentMapInfo.description} </Typography>
         <Divider />
-        <Typography sx={{fontSize:'20px',color: 'black',marginTop:0,padding:1,backgroundImage: 'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',boxShadow: '0 1px 1px 1px rgba(68,68,69,255)'}}> Statistics </Typography>
+        <Typography sx={{fontSize:'20px',color: 'black',marginTop:0,padding:1,backgroundImage: 'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',boxShadow: '0 1px 1px 1px rgba(68,68,69,255)'}}> Map Options </Typography>
         <Box display="flex" sx={{marginLeft:1,marginTop:2}}>
                 <ThumbUpTwoToneIcon sx={{fill:likeColor}} onClick={handleLike}/>
                 <Typography sx={{color: 'white',fontSize:15,marginLeft:1}}>{store.currentMapInfo.likes} Likes</Typography>
@@ -259,12 +260,9 @@ function handleListKeyDown(event) {
                 <Typography sx={{color: 'white',fontSize:15,marginLeft:1}}>{store.currentMapInfo.dislikes} Dislikes</Typography>
         </Box>
         <Box display="flex" sx={{marginLeft:1,marginTop:2}}>
-                <DownloadForOfflineTwoToneIcon sx={{fill:"lightgrey"}}/>
+                <DownloadForOfflineTwoToneIcon sx={{fill:"lightgrey"}} onClick={handleDownload}/>
                 <Typography sx={{color: 'white',fontSize:15,marginLeft:1}}>{store.currentMapInfo.downloads} Downloads </Typography>
         </Box>
-        <Button sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginTop:5}}>
-                Download
-            </Button>
           {creatorSettings}
       </Drawer>
     </Box>
