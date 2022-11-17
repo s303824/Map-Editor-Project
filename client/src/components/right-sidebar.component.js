@@ -102,9 +102,11 @@ function handleListKeyDown(event) {
 
     //if user previously DISLIKED the map, undo that
     if(auth.user.disliked_projects.includes(store.currentMapInfo._id)) {
-      store.updateMapDislike(store.currentMapInfo, -1)
+      /*store.updateMapDislike(store.currentMapInfo, -1)
       auth.user.disliked_projects = auth.user.disliked_projects.filter(_id => _id!=store.currentMapInfo._id)
-      auth.updateUser(auth.user);
+      auth.updateUser(auth.user);*/
+      setOppositeWarning(true)
+      return;
     }
 
     //if user already liked map, then unlike it
@@ -129,9 +131,11 @@ function handleListKeyDown(event) {
 
     //if user previously LIKED the map, undo that
     if(auth.user.liked_projects.includes(store.currentMapInfo._id)) {
-      store.updateMapLike(store.currentMapInfo, -1)
+      /*store.updateMapLike(store.currentMapInfo, -1)
       auth.user.liked_projects = auth.user.liked_projects.filter(_id => _id!=store.currentMapInfo._id)
-      auth.updateUser(auth.user);
+      auth.updateUser(auth.user);*/
+      setOppositeWarning(true)
+      return;
     }
 
     //if user already disliked map, add 1 like and remove from dislike list
@@ -216,11 +220,12 @@ function handleListKeyDown(event) {
       </Popper>
 </Box>
 
- let tagsList = ""
- if (store.currentMapInfo.tags.length > 0){
-  store.currentMapInfo.tags.forEach(tag => tagsList += "#" + tag + " ")
- }
- tagsList = tagsList.trim()
+let filteredTags = tags.filter(tag => tag != "")
+let tagsList = ""
+if (filteredTags.length > 0){
+   filteredTags.forEach(tag => tagsList += "#" + tag + " ")
+}
+tagsList = tagsList.trim()
 
   return (
     <Box className ='sidebar' position="fixed">
