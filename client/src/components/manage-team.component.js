@@ -58,6 +58,7 @@ const MapTeams = ({onClose}) => {
         const memberList = trimmedCreators.split(" ")           // parses the info of new users
         // await store.removeTeamMember(removedCreators);
         await store.addTeamMember(memberList);
+        setCreators(store.currentMapInfo.creator);
     }
 
     console.log(store.currentMapInfo)

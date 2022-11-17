@@ -353,7 +353,18 @@ addCreator = async (req, res) => {
         }
     });
     MapInfo.findOneAndUpdate({_id: _id}, {
-        creator : selectedMapInfo.creator
+        name : selectedMapInfo.name,
+        creator : selectedMapInfo.creator,
+        thumbnailURL : selectedMapInfo.thumbnailURL,
+        comments : selectedMapInfo.comments,
+        likes : selectedMapInfo.likes,
+        dislikes : selectedMapInfo.dislikes,
+        downloads : selectedMapInfo.downloads,
+        published : selectedMapInfo.published,
+        description : selectedMapInfo.description,
+        published : selectedMapInfo.published, 
+        editActive : selectedMapInfo.editActive, 
+        tags : selectedMapInfo.tags
     }, function (err, docs) {
         if (err){
             console.log(err)
@@ -393,7 +404,18 @@ removeCreator = async (req, res) => {
     
     selectedMapInfo.creator = selectedMapInfo.creator.filter(user => !removedCreators.include(user.creator));
     MapInfo.findOneAndUpdate({_id: _id}, {
-        creator : selectedMapInfo.creator
+        name : selectedMapInfo.name,
+        creator : selectedMapInfo.creator,
+        thumbnailURL : selectedMapInfo.thumbnailURL,
+        comments : selectedMapInfo.comments,
+        likes : selectedMapInfo.likes,
+        dislikes : selectedMapInfo.dislikes,
+        downloads : selectedMapInfo.downloads,
+        published : selectedMapInfo.published,
+        description : selectedMapInfo.description,
+        published : selectedMapInfo.published, 
+        editActive : selectedMapInfo.editActive, 
+        tags : selectedMapInfo.tags
     }, function (err, docs) {
         if (err){
             console.log(err)
