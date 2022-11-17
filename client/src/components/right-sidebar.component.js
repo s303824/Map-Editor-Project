@@ -220,7 +220,7 @@ function handleListKeyDown(event) {
       </Popper>
 </Box>
 
-let filteredTags = tags.filter(tag => tag != "")
+let filteredTags = store.currentMapInfo.tags.filter(tag => tag != "")
 let tagsList = ""
 if (filteredTags.length > 0){
    filteredTags.forEach(tag => tagsList += "#" + tag + " ")
