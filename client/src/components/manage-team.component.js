@@ -45,25 +45,21 @@ const MapTeams = ({onClose}) => {
     }  
 
     const removeTeam = (event, markedUser) => {
-        /*if(auth.user.username == markedUser){
-            setCreators(creators => creators.filter((maker) => maker.creator !== markedUser))        // updates the displayed users list
-            let lessMembers = removedCreators
-            lessMembers.push(markedUser)    
-            setRemovedCreators(lessMembers)     // updates the usernames of members that will be removed    
-            }*/
+        //setCreators(creators => creators.filter((maker) => maker.creator !== markedUser))        // updates the displayed users list
+        //let lessMembers = removedCreators
+        //lessMembers.push(markedUser)    
+        //setRemovedCreators(lessMembers)     // updates the usernames of members that will be removed
         }  
 
     const handleUpdateTeams = async () => {
         let trimmedCreators = newCreators.trim()
         const memberList = trimmedCreators.split(" ")           // parses the info of new users
-       
+
         //store.removeTeamMember(removedCreators);
-        
         store.addTeamMember(memberList);
-        if(store.currentMapInfo.creator != creators){
-            setChangesMade(true)
-        }
+        
         setCreators(store.currentMapInfo.creator);
+        setChangesMade(true)
     }
 
     const successfulChanges = changesMade ? <Typography fontSize="10px">Team updated</Typography>:null

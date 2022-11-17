@@ -339,6 +339,7 @@ addCreator = async (req, res) => {
                 .status(404)
                 .json({ errorMessage: "The mapinfo with _id:" + _id + " does not exist" });
     }
+    let newList = selectedMapInfo.creator
     // for each new creator's username, find User and push to selectedMapInfo.creator
     addedCreators.forEach(async maker => {  
         const creator_exists = await User.findOne({username: maker})
@@ -347,28 +348,40 @@ addCreator = async (req, res) => {
                     .status(404)
                     .json({ errorMessage: `The user ${maker} doesn't exist` });
         }
-        else{   // add new user if not already part of team
+        else{
             const newPerson = {creator:creator_exists.username, email:creator_exists.email, profile_picture:creator_exists.profile_picture}
-            if(!selectedMapInfo.creator.include(newPerson)){
-                selectedMapInfo.creator.push(newPerson)    
-            }
+            newList.push(newPerson)
+            selectedMapInfo.creator.push(newPerson)
         }
     });
-
-    selectedMapInfo
-    .save()
-    .then(() => {
-        return res.status(200).json({
-            Message: "Selected Creators Added.",
-            mapInfo: selectedMapInfo 
-        })
-    })
-    .catch(error => {
-        return res.status(400).json({
-            error,
-            message: 'Map creators not updated!',
-        })
-    })
+    MapInfo.findOneAndUpdate({_id: _id}, {      // update database with new creators
+        name : selectedMapInfo.name,
+        creator : newList,          
+        thumbnailURL : selectedMapInfo.thumbnailURL,
+        comments : selectedMapInfo.comments,
+        likes : selectedMapInfo.likes,
+        dislikes : selectedMapInfo.dislikes,
+        downloads : selectedMapInfo.downloads,
+        published : selectedMapInfo.published,
+        description : selectedMapInfo.description,
+        published : selectedMapInfo.published, 
+        editActive : selectedMapInfo.editActive, 
+        tags : selectedMapInfo.tags
+    }, function (err, docs) {
+        if (err){
+            console.log(err)
+            return res.status(400).send();
+        }
+        else{
+            return res
+                .status(200)
+                .json({ 
+                    Message: "Selected Creators Added.",
+                    mapInfo: selectedMapInfo 
+                
+                });
+        }
+    });
 }
 removeCreator = async (req, res) => {
     const { _id, removedCreators} = req.body;
@@ -380,6 +393,7 @@ removeCreator = async (req, res) => {
                 .json({ errorMessage: "The mapinfo with _id:" + _id + " does not exist" });
     }
 
+    let newList = []
     // for each creator marked for removal, check if user exists
     removedCreators.forEach(async creator => {
         const creator_exists = await User.findOne({username: creator})
@@ -393,21 +407,36 @@ removeCreator = async (req, res) => {
     
     // filter out removedCreators out of creator
     selectedMapInfo.creator = selectedMapInfo.creator.filter(user => !removedCreators.include(user.creator));
+    newList = selectedMapInfo.creator
     // update database
-    selectedMapInfo
-    .save()
-    .then(() => {
-        return res.status(200).json({
-            Message: "Selected Creators Added.",
-            mapInfo: selectedMapInfo 
-        })
-    })
-    .catch(error => {
-        return res.status(400).json({
-            error,
-            message: 'Map creators not updated!',
-        })
-    })
+    MapInfo.findOneAndUpdate({_id: _id}, {
+        name : selectedMapInfo.name,
+        creator : newList,
+        thumbnailURL : selectedMapInfo.thumbnailURL,
+        comments : selectedMapInfo.comments,
+        likes : selectedMapInfo.likes,
+        dislikes : selectedMapInfo.dislikes,
+        downloads : selectedMapInfo.downloads,
+        published : selectedMapInfo.published,
+        description : selectedMapInfo.description,
+        published : selectedMapInfo.published, 
+        editActive : selectedMapInfo.editActive, 
+        tags : selectedMapInfo.tags
+    }, function (err, docs) {
+        if (err){
+            console.log(err)
+            return res.status(400).send();
+        }
+        else{
+            return res
+                .status(200)
+                .json({ 
+                    Message: "Selected Creators Removed.",
+                    mapInfo: selectedMapInfo 
+                
+                });
+        }
+    });
 }
 
 search = async(req, res) => {
