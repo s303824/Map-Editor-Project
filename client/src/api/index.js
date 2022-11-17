@@ -24,8 +24,10 @@ export const updateMapInfo = (payload) => api.put(`/updateMapInfo/`, payload)
 export const getMapInfo = (payload) => api.get(`/getMapInfo/`, {params: {_id: payload}})
 export const getAllMapInfoByUser = (payload) => api.get(`/getAllMapInfoByUser/`, {params: {username: payload}})
 export const getAllPublishedMapInfo = () => api.get(`/getAllPublishedMapInfo/`)
-export const addCreator = () => api.get(`/addCreator/`)
-export const removeCreator = () => api.get(`/removeCreator/`)
+
+export const addCreator = (payload) => api.put(`/addCreator/`, payload)
+export const removeCreator = (payload) => api.put(`/removeCreator/`, payload)
+
 export const getMapInfoByListOfIds = (payload) => api.get(`/getMapInfoByListOfIds/`, {params: {idList: payload}})
 export const getAllMapInfoSortedByLikes = () => api.get(`getAllMapInfoSortedByLikes/`)
 export const searchMapInfo = (payload) => api.get(`/search`, {params: {payload: payload}})

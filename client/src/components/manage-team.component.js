@@ -94,6 +94,7 @@ const MapTeams = ({onClose}) => {
                 ))}
                 </List>
                 <Box className="qmodal-text">Add Team Member</Box>
+                {successfulChanges}
                 <TextField
                 required
                 id="outlined-tags-input"
@@ -104,7 +105,6 @@ const MapTeams = ({onClose}) => {
                 className = "text-field"
                 onChange={(event) => addTeam(event)}
                 />
-                {successfulChanges}
             </Typography>
             <Box paddingTop={3} display="flex" justifyContent="space-between">
                 <Button variant="contained" onClick={handleUpdateTeams}>Update Team</Button>

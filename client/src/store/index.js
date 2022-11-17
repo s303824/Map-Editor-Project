@@ -922,6 +922,7 @@ store.removeTeamMember = async function (removedUsers) {
 //Adds the editing permission(for currentMap) for the user
 //Used by: manage-team.component
 store.addTeamMember = async function (addedUsers) {
+    console.log(store.currentMapInfo._id)
     const response = await api.addCreator(store.currentMapInfo._id, addedUsers);
     console.log(response.status)
     console.log(response.data.mapInfo)
