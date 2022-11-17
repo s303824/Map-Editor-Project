@@ -174,7 +174,10 @@ updateUser = async(req, res) => {
     let indexes = []
     loggedInUser.myprojects.forEach(async id => {
         const project = await MapInfo.findOne({_id : id})
-        indexes.push(project.creator.indexOf(loggedInUser)) 
+        if(project == null) {
+            return;
+        }
+        indexes.push(project.creator.findIndex(item => item.creator != loggedInUser.username)) 
     });
 
     loggedInUser.first_name = first_name;
@@ -193,7 +196,13 @@ updateUser = async(req, res) => {
     let i = 0
     loggedInUser.myprojects.forEach(async id => {
         const project = await MapInfo.findOne({_id : id})
-        project.creator[indexes[i]] = loggedInUser
+        if(project == null) {
+            return;
+        }
+        project.creator[indexes[i]] = {creator: username, email:email, profile_picture:profile_picture}
+        project.markModified("creator")
+        project.save()
+        console.log(project)
         i++
     });
 

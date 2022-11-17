@@ -412,10 +412,23 @@ removeCreator = async (req, res) => {
 
 search = async(req, res) => {
     const {type, value} = req.query.payload
-    
+
     let query = MapInfo.find().sort({likes: -1}).limit(10);
-    query.where(type, value)
+
+    if(type == "name") {
+        query = MapInfo.find().sort({likes: -1}).limit(10);
+        query.where(type, value)
+        query.where("published").ne("false")
+    }
+
+    if(type == "username") {
+        query = MapInfo.find().sort({likes: -1}).limit(10);
+        query.where("creator.creator", value)
+        query.where("published").ne("false")
+    }
+
     const result = await query.exec(function(err, docs) {
+        console.log(docs)
 
         if(err) {
             return res.status(400).json({
