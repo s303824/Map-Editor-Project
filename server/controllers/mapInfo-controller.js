@@ -350,8 +350,10 @@ addCreator = async (req, res) => {
         }
         else{
             const newPerson = {creator:creator_exists.username, email:creator_exists.email, profile_picture:creator_exists.profile_picture}
-            newList.push(newPerson)
-            selectedMapInfo.creator.push(newPerson)
+            if(!selectedMapInfo.creator.include(newPerson)){
+                newList.push(newPerson)
+                selectedMapInfo.creator.push(newPerson)    
+            }
         }
     });
     MapInfo.findOneAndUpdate({_id: _id}, {      // update database with new creators
