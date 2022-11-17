@@ -908,7 +908,10 @@ store.addComment= async function (mapInfo,comment) {
 //Removes the editing permission(for currentMap) from the selected user
 //Used by: manage-team.component
 store.removeTeamMember = async function (removedUsers) {
-    const response = await api.removeCreator(store.currentMapInfo._id, removedUsers);
+    let param = {
+        _id: store.currentMapInfo._id, 
+        removedCreators: removedUsers}
+    const response = await api.removeCreator(param);
     if(response.status === 200 && response.data.mapInfo != null) {
         storeReducer({
             type: GlobalStoreActionType.UPDATE_MAP_INFO,
