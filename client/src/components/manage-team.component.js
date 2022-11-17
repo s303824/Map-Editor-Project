@@ -54,7 +54,8 @@ const MapTeams = ({onClose}) => {
         }  
 
     const handleUpdateTeams = async () => {
-        const memberList = newCreators.split(" ")           // parses the info of new users
+        let trimmedCreators = newCreators.trim()
+        const memberList = trimmedCreators.split(" ")           // parses the info of new users
         // await store.removeTeamMember(removedCreators);
         await store.addTeamMember(memberList);
     }

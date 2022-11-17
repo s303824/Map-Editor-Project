@@ -340,21 +340,18 @@ addCreator = async (req, res) => {
                 .json({ errorMessage: "The mapinfo with _id:" + _id + " does not exist" });
     }
 
-    newMembers = []
     addedCreators.forEach(async maker => {
         const creator_exists = await User.findOne({username: maker})
         if (!creator_exists){
             return res
                     .status(404)
-                    .json({ errorMessage: `The user ${creator} doesn't exist` });
+                    .json({ errorMessage: `The user ${maker} doesn't exist` });
         }
         else{
             const newPerson = [{creator:creator_exists.username, email:creator_exists.email, profile_picture:creator_exists.profile_picture}]
-            newMembers.push(newPerson)
+            selectedMapInfo.creator.push(newPerson)
         }
     });
-    
-    selectedMapInfo.creator.push(newMembers);
     MapInfo.findOneAndUpdate({_id: _id}, {
         creator : selectedMapInfo.creator
     }, function (err, docs) {

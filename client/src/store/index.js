@@ -909,7 +909,7 @@ store.addComment= async function (mapInfo,comment) {
 //Used by: manage-team.component
 store.removeTeamMember = async function (removedUsers) {
     const response = await api.removeCreator(store.currentMapInfo._id, removedUsers);
-    if(response.status === 200) {
+    if(response.status === 200 && response.data.mapInfo != null) {
         storeReducer({
             type: GlobalStoreActionType.UPDATE_MAP_INFO,
             payload: {
@@ -923,7 +923,7 @@ store.removeTeamMember = async function (removedUsers) {
 //Used by: manage-team.component
 store.addTeamMember = async function (addedUsers) {
     const response = await api.addCreator(store.currentMapInfo._id, addedUsers);
-    if(response.status === 200) {
+    if(response.status === 200 && response.data.mapInfo != null) {
         storeReducer({
             type: GlobalStoreActionType.UPDATE_MAP_INFO,
             payload: {
