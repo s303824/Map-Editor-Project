@@ -45,7 +45,8 @@ const MapTeams = ({onClose}) => {
     }  
 
     const removeTeam = (event, member) => {    
-        let newList = creators.filter((maker) => maker.creator !== member.creator);
+        let newList = creators
+        newList.filter((maker) => maker.creator !== member.creator);
         setCreators(newList)        // updates the displayed users list
 
         let lessMembers = removedCreators
