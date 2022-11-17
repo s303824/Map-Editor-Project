@@ -104,8 +104,8 @@ const MapTeams = ({onClose}) => {
                 className = "text-field"
                 onChange={(event) => addTeam(event)}
                 />
+                {successfulChanges}
             </Typography>
-            {successfulChanges}
             <Box paddingTop={3} display="flex" justifyContent="space-between">
                 <Button variant="contained" onClick={handleUpdateTeams}>Update Team</Button>
                 <Button variant="contained" onClick={onClose}>Close</Button>

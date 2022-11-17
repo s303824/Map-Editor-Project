@@ -333,14 +333,14 @@ getAllMapInfoSortedByLikes = async (req, res) => {
 
 addCreator = async (req, res) => {
     const { _id, addedCreators} = req.body;
-    const selectedMapInfo = await MapInfo.findOne({ _id: _id });
+    const selectedMapInfo = await MapInfo.findOne({ _id: _id });    // get the selected map info
     if(!selectedMapInfo) {
         return res
                 .status(404)
                 .json({ errorMessage: "The mapinfo with _id:" + _id + " does not exist" });
     }
-
-    addedCreators.forEach(async maker => {
+    // for each new creator's username, find User and push to selectedMapInfo.creator
+    addedCreators.forEach(async maker => {  
         const creator_exists = await User.findOne({username: maker})
         if (!creator_exists){
             return res
@@ -352,7 +352,7 @@ addCreator = async (req, res) => {
             selectedMapInfo.creator.push(newPerson)
         }
     });
-    MapInfo.findOneAndUpdate({_id: _id}, {
+    MapInfo.findOneAndUpdate({_id: _id}, {      // update database with new creators
         name : selectedMapInfo.name,
         creator : selectedMapInfo.creator,
         thumbnailURL : selectedMapInfo.thumbnailURL,
@@ -376,7 +376,7 @@ addCreator = async (req, res) => {
                 .status(200)
                 .json({ 
                     Message: "Map info Updated.",
-                    mapInfo: docs 
+                    mapInfo: selectedMapInfo 
                 
                 });
         }
@@ -384,7 +384,7 @@ addCreator = async (req, res) => {
 }
 removeCreator = async (req, res) => {
     const { _id, removedCreators} = req.body;
-    const selectedMapInfo = await MapInfo.findOne({ _id: _id });
+    const selectedMapInfo = await MapInfo.findOne({ _id: _id });    // get the selected map info
     
     if(!selectedMapInfo) {
         return res
@@ -392,6 +392,7 @@ removeCreator = async (req, res) => {
                 .json({ errorMessage: "The mapinfo with _id:" + _id + " does not exist" });
     }
 
+    // for each creator marked for removal, check if user exists
     removedCreators.forEach(async creator => {
         const creator_exists = await User.findOne({username: creator})
         if (!creator_exists){
@@ -402,7 +403,10 @@ removeCreator = async (req, res) => {
     
     });
     
+    // filter out removedCreators out of creator
     selectedMapInfo.creator = selectedMapInfo.creator.filter(user => !removedCreators.include(user.creator));
+    
+    // update database
     MapInfo.findOneAndUpdate({_id: _id}, {
         name : selectedMapInfo.name,
         creator : selectedMapInfo.creator,
@@ -427,7 +431,7 @@ removeCreator = async (req, res) => {
                 .status(200)
                 .json({ 
                     Message: "Map info Updated.",
-                    mapInfo: docs 
+                    mapInfo: selectedMapInfo 
                 
                 });
         }

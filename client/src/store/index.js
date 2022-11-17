@@ -924,6 +924,7 @@ store.removeTeamMember = async function (removedUsers) {
 store.addTeamMember = async function (addedUsers) {
     const response = await api.addCreator(store.currentMapInfo._id, addedUsers);
     console.log(response.status)
+    console.log(response.data.mapInfo)
     if(response.status === 200 && response.data.mapInfo != null) {
         console.log(response.data.mapInfo)
         storeReducer({
