@@ -40,10 +40,10 @@ const MapCard = ({mapInfo}) => {
 
  const {name,description,likes,dislikes,downloads,editActive,published,thumbnailURL, creator, userImage, tags} = mapInfo;
  let width;
-
+ let filteredTags = tags.filter(tag => tag != "")
  let tagsList = ""
- if (tags.length > 0){
-    tags.forEach(tag => tagsList += "#" + tag + " ")
+ if (filteredTags.length > 0){
+    filteredTags.forEach(tag => tagsList += "#" + tag + " ")
  }
  tagsList = tagsList.trim()
 

@@ -182,6 +182,13 @@ updateUser = async(req, res) => {
     loggedInUser.profile_picture = profile_picture
     loggedInUser.publishedMaps = publishedMaps
 
+    // Update every project from the user
+    loggedInUser.myprojects.forEach(async id => {
+        const project = await MapInfo.findOne({_id : id})
+        let index = project.creator.indexOf(loggedInUser) 
+        project.creator[index] = loggedInUser
+    });
+
     
     loggedInUser
         .save()
