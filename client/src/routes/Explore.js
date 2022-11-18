@@ -44,7 +44,9 @@ function SearchResults() {
     return (
       <Box className="home-container" sx={{marginLeft:'260px' }}>
 
-        <Typography variant="h4" sx={{color:"white",font:'Bebas Neue',marginTop:'1%',marginBottom:'2%'}}>Search Results</Typography>
+        <Typography variant="h4" sx={{color:"white",font:'Bebas Neue',marginTop:'1%',marginBottom:'2%'}}>
+          Search Results
+        </Typography>
 
         <Box 
           className="mapcard-container" 

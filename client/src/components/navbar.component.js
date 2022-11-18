@@ -34,6 +34,8 @@ function Banner() {
 
     const [searchType, setSearchType] = useState("name")
     const [searchText, setSearchText] = useState("")
+    const [sortBy, setSortBy] = useState("Likes")
+    const [pageNum, setPageNum] = useState(1)
 
     const[empty, setEmpty] = useState(false)
 
@@ -55,7 +57,8 @@ function Banner() {
         setEmpty(true)
         return;
       }
-      store.searchByType(searchType, searchText)
+      //pageNum weird math is so we either dont skip any or skip page num-1 (page num is 2, skip first 1*10)
+      store.searchByType(searchType, searchText, pageNum == 1 ? 0 : (pageNum-1)*10, sortBy.toLowerCase())
       console.log("Searching by type: " + searchType +"    Search Value: " + searchText);
       //navigate("/explore", {})
     }
@@ -80,6 +83,20 @@ function Banner() {
       if(event.key == "Enter") {
         handleSearch();
       }
+    }
+
+    const changeSortBy = (text) => {
+      setSortBy(text)
+    }
+
+    const handlePageUp = (forward) => {
+      setPageNum(pageNum + 1);
+    }
+    const handlePageDown = (forward) => {
+      if(pageNum == 1) {
+        return;
+      }
+      setPageNum(pageNum - 1);
     }
 
     const handleEmpty = () => {
@@ -154,7 +171,8 @@ if(auth.loggedIn) {
 
     let emptyModal = empty ? <LoginModal message="The search field is empty" onClose={() => handleEmpty()}></LoginModal> : null
 
-    let searchSettings = settings ? <SearchSettings onClose={() => handleCloseSettings()}></SearchSettings> : null
+    let searchSettings = settings ? <SearchSettings onClose={() => handleCloseSettings()} changePageUp={() => handlePageUp()} 
+    changePageDown={() => handlePageDown()} pageNum={pageNum} sortingBy={sortBy} changeSortBy={(text) => changeSortBy(text)}></SearchSettings> : null
 
     return (
         <Box className='top-navbar' sx={{ display: 'flex' ,flexGrow: 1}} >

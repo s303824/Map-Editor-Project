@@ -14,7 +14,7 @@ import LoginModal from "../components/login-modal.component";
 
 import GlobalStoreContext from '../store';
 
-const SearchSettings = ({onClose, onSettings}) => {
+const SearchSettings = ({onClose, changePageUp, changePageDown, pageNum, changeSortBy, sortingBy}) => {
     const {store} = useContext(GlobalStoreContext)
     const [modalOpen, setModalOpen] = useState(false);
 
@@ -34,6 +34,10 @@ const SearchSettings = ({onClose, onSettings}) => {
         setModalOpen(false);
     }
 
+    const handleChange = (event) => {
+        changeSortBy(event.target.textContent)
+    }
+
     let modal = modalOpen ? <LoginModal message="Settings saved!" onClose={handleCloseModal}></LoginModal> : null
 
     return(
@@ -45,16 +49,22 @@ const SearchSettings = ({onClose, onSettings}) => {
             aria-describedby="modal-modal-description"
         >
             <Box sx={style}>
-                <Typography fontSize="20px">
+                <Typography fontSize="20px" paddingBottom={2} margin={1}>
 
-                    <Box className="qmodal-text">Only show maps you are a member of</Box>
-
-                    <Box className="qmodal-text">Sort By</Box>
-
+                    <Box className="qmodal-text">
+                        Page {pageNum}
+                    </Box>
+                    <Button variant="contained" onClick={() => changePageUp()}>+</Button>
+                    <Button variant="contained" color="error" onClick={() => changePageDown()}>-</Button>
                 </Typography>
+                Sort By:
+                <Box paddingBottom={4}>
+                    <Button variant={sortingBy == "Likes" ? "contained" : ""} color="success" onClick={(event) => handleChange(event)}>Likes</Button>
+                    <Button variant={sortingBy == "Dislikes" ? "contained" : ""} color="success" onClick={(event) => handleChange(event)} >Dislikes</Button>
+                    <Button variant={sortingBy == "Downloads" ? "contained" : ""}  color="success" onClick={(event) => handleChange(event)}>Downloads</Button>
+                </Box>
                 <Box display="flex" justifyContent="space-between">
-                    <Button variant="contained" onClick={onSettings} paddingRight={2}>Save Settings</Button>
-                    <Button variant="contained" onClick={onClose} marginLeft={3}>Close</Button>
+                    <Button variant="contained" color="warning" onClick={onClose} marginLeft={3}>Close</Button>
                 </Box>
             </Box>
         </Modal>
