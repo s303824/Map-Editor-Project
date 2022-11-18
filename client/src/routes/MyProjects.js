@@ -1,24 +1,16 @@
-import { Button, Grid } from '@mui/material';
+import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
-import { Link } from 'react-router-dom';
 import { useContext } from 'react'
 import { GlobalStoreContext } from '../store'
 import "../App.css"
-import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import AuthContext from '../auth';
-import HomeBanner from '../components/banner.component';
 import Typography from '@mui/material/Typography';
 import MapCard from '../components/map-card.component';
-import List from '@mui/material/List';
-import mapImage from '../assets/map-card.jpg';
-import LoginModal from '../components/login-modal.component';
-
 
 const MyProjects=() =>{ 
     const { store } = useContext(GlobalStoreContext);
     const {auth} = useContext(AuthContext);
-    const navigate = useNavigate();
 
     useEffect(() => {
       auth.getLoggedIn();      
@@ -108,17 +100,15 @@ const MyProjects=() =>{
     if(store.userMaps.length == 0) {
       mapList = null;
     }
-
-  
   
     return (
       <Box className="home-container" sx={{marginLeft:'260px' }}>
-        <Typography variant="h4" sx={{borderRadius:'10px',justifyContent: 'center',maxWidth:"90%",color:"white",marginTop:'1%',marginBottom:'2%',padding:'2%',font: 'Bebas Neue'}}>My Projects</Typography>
+        <Typography variant="h4" sx={{borderRadius:'10px',justifyContent: 'center',maxWidth:"90%",color:"white",marginTop:'0%',marginBottom:'2%',padding:'0%',font: 'Bebas Neue'}}>My Projects</Typography>
         <Box 
           className="mapcard-container" 
           sx={{ 
             overflow: 'scrool',
-            maxHeight:"500px",
+            maxHeight:"700px",
             overflowY:'scroll',
             width:"90%",
             "&::-webkit-scrollbar": {

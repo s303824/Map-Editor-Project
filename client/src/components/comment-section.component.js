@@ -1,5 +1,4 @@
-import { Grid, IconButton, ListItem, Typography,Box, InputBase, Button } from "@mui/material";
-import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
+import { Typography,Box, InputBase, Button } from "@mui/material";
 import CommentCard from "./comment-card.component";
 import GlobalStoreContext from "../store";
 import AuthContext from "../auth";

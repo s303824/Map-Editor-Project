@@ -1,6 +1,4 @@
-import { Grid, IconButton, ListItem, Typography,Box } from "@mui/material";
-import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
-
+import { Typography,Box } from "@mui/material";
 
 const CommentCard =({commentInfo, username})=>{
     return(

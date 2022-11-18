@@ -1,13 +1,8 @@
 import '../App.css';
 import "../App"
 import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import AuthContext from '../auth';
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import LoginModal from "../components/login-modal.component";
@@ -23,8 +18,9 @@ const SearchSettings = ({onClose, changePageUp, changePageDown, pageNum, changeS
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
+        backgroundImage :'linear-gradient(to bottom, #505051, #303031)',
         width: 400,
-        bgcolor: "#FFFFFF",
+        bgcolor: "#524d4d",
         border: '2px solid #000',
         boxShadow: 24,
         p: 4,
@@ -48,14 +44,16 @@ const SearchSettings = ({onClose, changePageUp, changePageDown, pageNum, changeS
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
-            <Box sx={style}>
+            <Box sx={style} color="white">
                 <Typography fontSize="20px" paddingBottom={2} margin={1}>
 
                     <Box className="qmodal-text">
                         Page {pageNum}
                     </Box>
+                <Box sx={{display:"flex", justifyContent:"space-between", width:"50%"}}>
                     <Button variant="contained" onClick={() => changePageUp()}>+</Button>
                     <Button variant="contained" color="error" onClick={() => changePageDown()}>-</Button>
+                </Box>
                 </Typography>
                 Sort By:
                 <Box paddingBottom={4}>

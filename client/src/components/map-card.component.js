@@ -45,6 +45,11 @@ const MapCard = ({mapInfo}) => {
  }
  tagsList = tagsList.trim()
 
+ if(tagsList == "") {
+    //adds an empty space so the buttons will be lined up
+    tagsList = "\u00a0"
+ }
+
  {published!=null ? width='80%': width='60%'}
 
   return (
@@ -72,24 +77,28 @@ const MapCard = ({mapInfo}) => {
             
             <CardActions display="flex" sx={{justifyContent: 'space-between',width:'100%'}}>
             { published != "false" ? 
-            <Box>
-                <IconButton aria-label="like">
-                    <ThumbUpTwoToneIcon sx={{fill:"#911510"}}/>
-                    <Typography sx={{color: 'white',fontSize:15,marginLeft:1}}>{likes} Likes</Typography>
-                </IconButton>
-                <IconButton aria-label="dislike">
-                    <ThumbDownTwoToneIcon sx={{fill:"#f93f01"}}/>
-                    <Typography sx={{color: 'white',fontSize:15,marginLeft:1}}>{dislikes} Dislikes </Typography>
-                </IconButton>
-                <IconButton aria-label="dislike">
-                    <DownloadForOfflineTwoToneIcon sx={{fill:"#fda005"}}/>
-                    <Typography sx={{color: 'white',fontSize:15,marginLeft:1}}>{downloads} Downloads </Typography>
-                </IconButton> 
-                <Button sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginLeft:40}} onClick={handleViewMap}>
+            <Box display="flex" sx={{justifyContent:"space-between", width:"99%"}}>
+                <Box>
+                    <IconButton aria-label="like">
+                        <ThumbUpTwoToneIcon sx={{fill:"#911510"}}/>
+                        <Typography sx={{color: 'white',fontSize:15,marginLeft:1}}>{likes} Likes</Typography>
+                    </IconButton>
+                    <IconButton aria-label="dislike">
+                        <ThumbDownTwoToneIcon sx={{fill:"#f93f01"}}/>
+                        <Typography sx={{color: 'white',fontSize:15,marginLeft:1}}>{dislikes} Dislikes </Typography>
+                    </IconButton>
+                    <IconButton aria-label="dislike">
+                        <DownloadForOfflineTwoToneIcon sx={{fill:"#fda005"}}/>
+                        <Typography sx={{color: 'white',fontSize:15,marginLeft:1}}>{downloads} Downloads </Typography>
+                    </IconButton> 
+                </Box>
+
+                <Button sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginLeft:0}} onClick={handleViewMap}>
                     VIEW
                 </Button> 
-            </Box> :  <Box>
-                <Button disabled={editActive} sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginLeft:40}} onClick={handleEditMap}>
+            </Box> :  
+            <Box display="flex" sx={{flexDirection:"row-reverse", width:"99%"}}>
+                <Button disabled={editActive} sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginTop:1}} onClick={handleEditMap}>
                     EDIT
                 </Button>
             </Box>

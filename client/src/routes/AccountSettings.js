@@ -10,6 +10,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Divider from '@mui/material/Divider';
 import LoginModal from "../components/login-modal.component";
 import { uploadImageToCloudinaryAPIMethod } from "../api/cloudinary"
+import { Box } from "@mui/system";
 
 function AccountSettings() {
     const { store } = useContext(GlobalStoreContext);
@@ -258,6 +259,7 @@ function AccountSettings() {
 
     return(
         <div className='account_setting'>
+            <Box sx={{paddingLeft:"25%", width:"90%"}}>
             {modal}
             {delete_modal}
             {password_Format_modal}
@@ -329,7 +331,7 @@ function AccountSettings() {
                 <Divider variant="middle" sx={{borderBottomWidth: 4, "border-color": 'white', "margin-bottom": "2%"}}/>
 
                 <h4 style={{color: "#ffffff"}}>Enter a new name</h4>
-                <div style={{"justifyContent": "space-between", "display": "flex", "margin-right": "30%"}}> 
+                <div style={{justifyContent: "space-between", display: "flex", width:"80%"}}> 
                     <span>
                     <TextField
                     required
@@ -420,7 +422,7 @@ function AccountSettings() {
                 </div>
                 <h4 style={{color: "#ffffff"}}>Enter a new Password</h4>
 
-                <div style={{"justifyContent": "space-between", "display": "flex", "margin-right": "30%"}}> 
+                <div style={{"justifyContent": "space-between", "display": "flex", width:"80%"}}> 
                 <span>
                 <TextField
                 required
@@ -492,6 +494,7 @@ function AccountSettings() {
         
                 
             </div>
+            </Box>
         
         </div>
     );

@@ -23,7 +23,9 @@ const ReportModal = ({onClose}) => {
         left: '50%',
         transform: 'translate(-50%, -50%)',
         width: 400,
-        bgcolor: "#FFFFFF",
+        bgcolor: "#524d4d",
+        color: "white",
+        backgroundImage :'linear-gradient(to bottom, #505051, #303031)',
         border: '2px solid #000',
         boxShadow: 24,
         p: 4,
@@ -68,7 +70,8 @@ const ReportModal = ({onClose}) => {
                 label="Report description"
                 variant="filled"
                 autoComplete="current-title"
-                className = "settings-modal-textfield"
+                className = "text-field"
+                sx={{width:"100%"}}
                 onChange={(event) => updateField(event, "report")}
                 />
             </Typography>
