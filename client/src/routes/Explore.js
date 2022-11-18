@@ -34,7 +34,7 @@ function SearchResults() {
       }}}>
 
     {store.searchResults.map((map) => (
-      <MapCard key={map.id} mapInfo={map} />
+      <MapCard key={map._id} mapInfo={map} />
     ))}
   </Box>
     : 

@@ -30,12 +30,10 @@ const MapCard = ({mapInfo}) => {
     //function for handling when a user clicks "view" on a mapcard
     const handleViewMap = () => {
         store.loadMapViewer(mapInfo.map_id, mapInfo)
-        navigate("/view/"+mapInfo._id, {})
     }
 
     const handleEditMap = () => {
         store.loadMapEditor(mapInfo.map_id, mapInfo)
-        navigate("/editor/"+mapInfo._id, {})
     }
 
  const {name,description,likes,dislikes,downloads,editActive,published,thumbnailURL, creator, userImage, tags} = mapInfo;

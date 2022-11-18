@@ -814,6 +814,7 @@ store.loadMapEditor= async function (mapId, mapInfo) {
                     mapInfo: mapInfo, 
                 }
             });
+            navigate("/editor/"+mapInfo._id, {})
         }
         else {
             storeReducer({
@@ -873,6 +874,7 @@ store.loadMapViewer= async function (mapId, mapInfo) {
                     mapInfo: mapInfo, 
                 }
             });
+            navigate("/view/"+mapInfo._id, {})
         }
         else {
             storeReducer({
