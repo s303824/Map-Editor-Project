@@ -46,13 +46,13 @@ const CommentSection =(mapInfo)=>{
     let addComment = auth.loggedIn ?
     <Box>
         <InputBase placeholder="comment" value={comment} sx={{border:1,borderRadius:1,marginBottom:1,width:"90%", marginLeft:"6%"}} onChange={(event) => handleCommentText(event)}/>
-        <Button variant="contained" color="warning" sx={{marginLeft:"70%", marginBottom:"20px"}} onClick={handleAddComment}>Add Comment</Button>
+        <Button variant="contained" color="warning" sx={{marginLeft:"53%", marginBottom:"20px"}} onClick={handleAddComment}>Add Comment</Button>
     </Box>
     : null
 
     return(
         <Box sx={{backgroundImage: 'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',borderRadius:2, marginTop:3,
-        marginRight:2,marginBottom:3,width:"100%", overflow:"auto"}}>
+        marginRight:2,marginBottom:3,width:"50%", overflow:"auto"}}>
             {emptyModal}
 
         <Typography sx={{backgroundColor: "#ffc806",boxShadow: `inset 0 0 6px rgba(0, 0, 0, 0.3)`,color:"black",fontSize:20,borderRadius:1,marginBottom:1, paddingLeft:"6%"}}>{commentHeader}</Typography>

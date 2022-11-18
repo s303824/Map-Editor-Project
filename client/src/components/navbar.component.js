@@ -179,7 +179,7 @@ if(auth.loggedIn) {
           {emptyModal}
           {searchSettings}
            <CssBaseline/>
-           <AppBar position="static" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1}}>
+           <AppBar position="sticky" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1}}>
               <Toolbar sx={{boxShadow: 1 ,backgroundColor:'#1E1E1E',justifyContent: 'space-between'}}> 
               <Box 
                 component="img"

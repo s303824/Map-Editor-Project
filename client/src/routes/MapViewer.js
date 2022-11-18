@@ -6,6 +6,8 @@ import Typography from '@mui/material/Typography';
 import mapImage from '../assets/map-card.jpg';
 import CommentSection from '../components/comment-section.component';
 import RightSidebar from "../components/right-sidebar.component"
+import { Grid } from '@mui/material';
+import Layer from '../components/layer-component';
 
 const MapViewer=() =>{ 
     const { store } = useContext(GlobalStoreContext);
@@ -17,21 +19,28 @@ const MapViewer=() =>{
       }
     }, [])
 
-    console.log(store.currentMapInfo)
+    let mockMap = 
+    <Box 
+    m ={2} component="img"
+    sx={{ height: 400,width:500,border:5,marginTop:3,borderColor:'#e0e0e0'}}
+     alt="map Image" src={mapImage}
+    />
+
+
+    let realMap = 
+    <Box display="flex" overflow="auto" overflowY="hidden" margin={1} maxHeight={920}>
+      <Grid height xs={8} sx={{backroundColor:'white'}}>
+        <Layer/>
+      </Grid>
+    </Box>
 
     return (
-      <Box className="home-container" sx={{marginLeft:'260px' }}>
-        <Typography variant="h4" sx={{backgroundImage: 'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',boxShadow: '0 1px 1px 1px rgba(68,68,69,255)',boxShadow: 1,borderRadius:'10px',justifyContent: 'center',maxWidth:"80%",color:"grey",marginBottom:'2%',padding:'2%'}}>
+      <Box className="home-container" sx={{marginLeft:'205px' }}>
+        <Typography variant="h4" sx={{backgroundImage: 'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',boxShadow: '0 1px 1px 1px rgba(68,68,69,255)',boxShadow: 1,borderRadius:'10px',justifyContent: 'center',maxWidth:"80%",color:"grey",marginBottom:'2%',padding:'0.5%'}}>
           {store.currentMapInfo.name ? store.currentMapInfo.name : "error"}
         </Typography>
-        <Box display="flex" sx={{backgroundImage :'linear-gradient(to bottom, #505051, #303031)',boxShadow: '0 1px 2px 2px rgba(68,68,69,255)',marginRight:27,marginTop:5}}>
-        <Box 
-                m ={2}
-                component="img"
-                sx={{ height: 400,width:500,border:5,marginTop:3,borderColor:'#e0e0e0'}}
-                 alt="map Image"
-                src={mapImage}
-            />
+        <Box display="flex" sx={{backgroundImage :'linear-gradient(to bottom, #505051, #303031)',boxShadow: '0 1px 2px 2px rgba(68,68,69,255)',marginRight:20,marginTop:0}}>
+        {realMap}
         <CommentSection/>
         </Box>
         <RightSidebar/>
