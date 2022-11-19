@@ -32,6 +32,7 @@ import { compareSync } from 'bcryptjs';
 import ManageTeam from './manage-team.component';
 import MapSettings from './map-settings.component';
 import PublishMap from './publish.component';
+import { uploadImageToCloudinaryAPIMethod } from "../api/cloudinary"
 
 
 const MapToolBar=() =>{
@@ -59,6 +60,36 @@ const MapToolBar=() =>{
       setDialogOpen(false);
     };
   
+    const handleChangeThumbnail = (event) => {
+        console.log("New File Selected");
+        if (event.target.files && event.target.files[0]) {
+      
+            // Could also do additional error checking on the file type, if we wanted
+            // to only allow certain types of files.
+            const selectedFile = event.target.files[0];
+            console.dir(selectedFile);
+      
+            const formData = new FormData();
+            // TODO: You need to create an "unsigned" upload preset on your Cloudinary account
+            // Then enter the text for that here.
+            const unsignedUploadPreset = 'mftlkxf6'
+            formData.append('file', selectedFile);
+            formData.append('upload_preset', unsignedUploadPreset);
+      
+            console.log("Cloudinary upload");
+            uploadImageToCloudinaryAPIMethod(formData)
+            .then((response) => {
+                console.log("Upload success");
+                console.dir(response);
+                console.log(response.url)
+                const thumbnailUrl = response.url
+                
+                store.updateMapInfoUrl(thumbnailUrl)
+
+            });
+        }
+
+    }
 
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen);
@@ -98,6 +129,11 @@ const MapToolBar=() =>{
         handleGoBack()
     }
  
+    const handleMapSave = async () => {
+        console.log(store.currentMap)
+        store.saveCurrentMap()
+
+    }
     // return focus to the button when we transitioned from !open -> open
     const prevOpen = React.useRef(open);
     React.useEffect(() => {
@@ -182,7 +218,7 @@ const MapToolBar=() =>{
                     Export
                 </Button>
 
-                <Button sx = {{backgroundImage: 'linear-gradient(to right,#fa5a01,#fe9f05)',borderRadius:'10px',color:"white",fontWeight:"bold",fontSize:15,marginX:1}}>
+                <Button sx = {{backgroundImage: 'linear-gradient(to right,#fa5a01,#fe9f05)',borderRadius:'10px',color:"white",fontWeight:"bold",fontSize:15,marginX:1}} onClick = {handleMapSave} >
                     Save 
                 </Button>
 
@@ -226,7 +262,11 @@ const MapToolBar=() =>{
                                         onKeyDown={handleListKeyDown}
                                     >
                                         {/* add settings to the settings menu-bar here  */}
-                                        <MenuItem onClick={handleOpenSettings}>Update Map Settings</MenuItem>    
+                                        <MenuItem onClick={handleOpenSettings}>Update Map Settings</MenuItem>   
+                                        <MenuItem variant="contained" component="label"> 
+                                        Change Map thumbnail
+                                        <input hidden accept="image/*" multiple type="file" onChange={handleChangeThumbnail} />
+                                        </MenuItem> 
                                         <MenuItem onClick={handleClickOpen}>Delete Map</MenuItem>
                                     </MenuList>
                                 </ClickAwayListener>

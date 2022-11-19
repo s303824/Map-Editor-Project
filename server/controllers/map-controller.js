@@ -169,18 +169,36 @@ deleteMap = async (req, res) => {
 }
 
 updateMap = async (req, res) => {
-    const { _id, backgroundcolor, height, infinite, layers, nextlayerid, 
+    const { _id, compressionlevel, backgroundcolor, height, infinite, layers, nextlayerid, 
         nextobjectid, renderorder, tiledversion, tileheight, tilesets, 
         tilewidth, version, width } = req.body;
     const selectedMap = await Map.findOne({ _id: _id });
 
+    console.log(selectedMap)
+    
     if(selectedMap === null){
         return res
             .status(404)
             .json({ errorMessage: "No map found!" });
     }
 
+    selectedMap.compressionlevel = compressionlevel;
+    selectedMap.backgroundcolor = backgroundcolor;
+    selectedMap.height = height;
+    selectedMap.infinite = infinite;
+    selectedMap.layers = layers;
+    selectedMap.nextlayerid = nextlayerid;
+    selectedMap.nextobjectid = nextobjectid;
+    selectedMap.renderorder = renderorder;
+    selectedMap.tiledversion = tiledversion;
+    selectedMap.tileheight = tileheight;
+    selectedMap.tilesets = tilesets;
+    selectedMap.tilewidth = tilewidth;
+    selectedMap.version = version;
+    selectedMap.width = width;
+
     Map.findOneAndUpdate({_id: _id}, {
+        compressionlevel : compressionlevel,
         backgroundcolor : backgroundcolor,
         height : height, 
         infinite : infinite,
@@ -196,6 +214,7 @@ updateMap = async (req, res) => {
         width : width
     }, function (err, docs) {
         if (err){
+            console.log(err)
             return res.status(500).json({
                 err,
                 message: 'could not update the map!',
@@ -213,7 +232,7 @@ updateMap = async (req, res) => {
 
 getMap = async (req, res) => {
     try{
-        const   _id  = req.query._id;
+        const _id  = req.query._id;
         if(!req.query._id){
             return res
                 .status(400)

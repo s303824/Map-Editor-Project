@@ -127,8 +127,8 @@ function GlobalStoreContextProvider(props) {
                     searchResults: store.searchResults,                 
                     currentMap: payload.currentMap,                    
                     currentMapInfo:payload.mapInfo,      
-                    currentLayer:store.currentLayer,       
-                    currentTileSet: store.currentTileSet,              
+                    currentLayer: payload.currentLayer ? payload.currentMap.layers : store.currentLayer,   //edited      
+                    currentTileSet: payload.currentTileSet ? payload.currentTileSet : store.currentTileSet,  //edited
                     currentTile: store.currentTile,
                     tilesetBeingEdited: store.tilesetBeingEdited,        
                     selectedMapEditTool: store.selectedMapEditTool,   
@@ -145,8 +145,8 @@ function GlobalStoreContextProvider(props) {
                     searchResults: store.searchResults,                  
                     currentMap: store.currentMap,                    
                     currentMapInfo:store.currentMapInfo,      
-                    currentLayer: payload.currentLayer,       
-                    currentTileSet: store.currentTileSet,              
+                    currentLayer: store.currentLayer,   //edited      
+                    currentTileSet: store.currentTileSet,  //edited
                     currentTile: store.currentTile,
                     tilesetBeingEdited: store.tilesetBeingEdited,        
                     selectedMapEditTool: store.selectedMapEditTool,   
@@ -457,7 +457,8 @@ store.setNewMap = async function(mapData){
             type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                 payload: {
                 currentMap: response.data.map,
-                mapInfo: response.data.mapInfo
+                mapInfo: response.data.mapInfo,
+                currentLayer: response.data.map.layers
 
             }});
         navigate("/editor/"+response.data.map._id)
@@ -707,7 +708,28 @@ store.paintLayer= function () {
 }
 
 //Saves the "currentMap" to database with the edits made by user
-store.saveCurrentMap = async function () {}
+//Used by: Save button at Map editor toolbar(map-toolbar.component.js)
+store.saveCurrentMap = async function () {
+    let UpdateMapdata = {
+        _id: store.currentMap._id,
+        compressionlevel: store.currentMap.compressionlevel, 
+        backgroundcolor: store.currentMap.backgroundcolor,  
+        height: store.currentMap.height, 
+        infinite: store.currentMap.infinite, 
+        layers: store.currentLayer,                             // takes currentLayer 
+        nextlayerid: store.currentMap.nextlayerid, 
+        nextobjectid: store.currentMap.nextobjectid, 
+        renderorder: store.currentMap.renderorder, 
+        tiledversion: store.currentMap.tiledversion, 
+        tileheight: store.currentMap.tileheight, 
+        tilesets: store.currentTileSet,                         // takes currentTileset
+        tilewidth: store.currentMap.tilewidth, 
+        version: store.currentMap.version, 
+        width: store.currentMap.width
+    }
+    const response = await api.updateMap(UpdateMapdata)
+    
+}
 
 //Saves the current map and adds it to the publishedMaps  
 //Used by: publish.component
@@ -807,11 +829,14 @@ store.loadMapEditor= async function (mapId, mapInfo) {
         const response = await api.getMap(mapId);
         if (response.status === 200) {
             console.log(response.data)
+           
             storeReducer({
                 type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                 payload: {
                     currentMap: response.data.map,
-                    mapInfo: mapInfo, 
+                    mapInfo: mapInfo,
+                    currentLayer: response.data.map.layers,
+                    currentTileSet: response.data.map.tilesets[0]
                 }
             });
             navigate("/editor/"+mapInfo._id, {})
@@ -849,7 +874,9 @@ store.loadMapById = async function(_id) {
                     type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                     payload: {
                         mapInfo: response.data.mapInfo,
-                        currentMap: response2.data.map, 
+                        currentMap: response2.data.map,
+                        currentLayer: response2.data.map.layers,
+                        currentTileSet: response2.data.map.tilesets[0] 
                     }
                 });
             }
@@ -894,6 +921,22 @@ store.loadMapViewer= async function (mapId, mapInfo) {
             }
         });
     }
+}
+
+//update map thumbnail url
+//Used by: In map toolbar, settings icon -> update map thumbnail
+store.updateMapInfoUrl = async function (thumbnailUrl){
+    store.currentMapInfo.thumbnailURL = thumbnailUrl
+    const response = await api.updateMapInfo(store.currentMapInfo);
+    if(response.status === 200) {
+        storeReducer({
+            type: GlobalStoreActionType.UPDATE_MAP_INFO,
+            payload: {
+                mapInfo: response.data.mapInfo
+            }
+        })
+    }
+
 }
 
 //Adds a new comment to the map

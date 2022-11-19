@@ -136,7 +136,7 @@ const MapCard = ({mapInfo}) => {
             <Box 
                 m ={2}
                 component="img"
-                sx={{ height: 140 }}
+                sx={{ height: 140, width: 140 }}
                  alt="map Image"
                 src={thumbnailURL}
             />
