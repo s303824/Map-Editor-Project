@@ -23,6 +23,7 @@ import GlobalStoreContext from '../store';
 
 const PublishMap = ({onClose}) => {
     const {store} = useContext(GlobalStoreContext)
+    const [modalOpen, setModalOpen] = useState(false);
 
     const style = {
         position: 'absolute',
@@ -41,11 +42,19 @@ const PublishMap = ({onClose}) => {
   
     const handlePublish = async () => {
         store.publishCurrentMap(store.currentMapInfo);
+        setModalOpen(true);
+
+    }
+    const handleCloseModal = () => {
+        setModalOpen(false);
     }
 
 
+    let modal = modalOpen ? <LoginModal message="Successfully published!" onClose={handleCloseModal}></LoginModal> : null
+
     return(
         <Box>
+            {modal}
         <Modal
             open={true}
             aria-labelledby="modal-modal-title"
