@@ -493,6 +493,18 @@ store.searchByType = async function (type, value, skip, sortBy) {
 
 // Deletes the selected layer
 store.deleteSelectedLayer = function (id) {
+    console.log("burdayim");
+    let new_layers= store.currentMap.layers.filter( layer => layer.id != id);
+    store.currentMap.layers = new_layers;
+    storeReducer({
+        type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
+        payload: {
+            currentMap: store.currentMap,
+            mapInfo: store.mapInfo,
+            currentLayer: id == store.currentLayer.id ? null : store.currentLayer,
+            currentTileSet: store.currentTileset
+        }
+    });
     
 }
 
@@ -513,6 +525,7 @@ store.addNewLayer = function () {
         y : 0
 }
    store.currentMap.layers.unshift(new_layer); //add new layer to the top of the array 
+
    storeReducer({
     type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
     payload: {
@@ -611,7 +624,6 @@ store.setCurrentLayer = function (id) {
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
         payload: {
             currentLayer: store.currentMap.layers.filter( layer => layer.id == id)
-                
         }
     });
 
