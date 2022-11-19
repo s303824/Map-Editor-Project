@@ -457,7 +457,8 @@ store.setNewMap = async function(mapData){
             type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                 payload: {
                 currentMap: response.data.map,
-                mapInfo: response.data.mapInfo
+                mapInfo: response.data.mapInfo,
+                currentLayer: response.data.map.layers
 
             }});
         navigate("/editor/"+response.data.map._id)
@@ -835,7 +836,7 @@ store.loadMapEditor= async function (mapId, mapInfo) {
                     currentMap: response.data.map,
                     mapInfo: mapInfo,
                     currentLayer: response.data.map.layers,
-                    currentTileSet: response.data.map.tilesets
+                    currentTileSet: response.data.map.tilesets[0]
                 }
             });
             navigate("/editor/"+mapInfo._id, {})
@@ -873,7 +874,9 @@ store.loadMapById = async function(_id) {
                     type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                     payload: {
                         mapInfo: response.data.mapInfo,
-                        currentMap: response2.data.map, 
+                        currentMap: response2.data.map,
+                        currentLayer: response2.data.map.layers,
+                        currentTileSet: response2.data.map.tilesets[0] 
                     }
                 });
             }
