@@ -36,11 +36,17 @@ function LikedMaps() {
       }}}>
 
     {store.publishedMaps.map((map) => (
-      <MapCard key={map.id} mapInfo={map} />
+      <MapCard key={map._id} mapInfo={map} />
     ))}
   </Box>
 
-  if(store.publishedMaps.length == 0) {
+  console.log(store.publishedMaps)
+
+if(auth.user == null){
+  mapList = <Box className="loading"></Box>
+}
+
+  else if(store.publishedMaps.length == 0) {
     mapList = <Typography color="white" fontSize={24}>You have not liked any maps yet.</Typography>
   }
 
