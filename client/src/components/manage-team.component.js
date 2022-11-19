@@ -43,6 +43,7 @@ const MapTeams = ({onClose}) => {
       const [newCreators, setNewCreators] = useState("")                // string of users marked for addition
       const [removedCreators, setRemovedCreators] = useState([])        // string array of users marked for removal
       const [changesMade, setChangesMade] = useState(false)
+
     const addTeam = (event) => {  
         setNewCreators(event.target.value)
     }  
@@ -60,6 +61,7 @@ const MapTeams = ({onClose}) => {
         }
         setNewCreators("");
         setChangesMade(true)
+
     }
 
     const successfulChanges = changesMade ? <Typography fontSize="20px">{store.error == "" ? "Team updated" : store.error}</Typography>:null

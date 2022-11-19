@@ -40,8 +40,6 @@ function LikedMaps() {
     ))}
   </Box>
 
-  console.log(store.publishedMaps)
-
 if(auth.user == null){
   mapList = <Box className="loading"></Box>
 }

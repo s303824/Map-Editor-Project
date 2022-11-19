@@ -266,7 +266,12 @@ getAllMapInfoByUser = async (req, res) => {
 
         //find user so we can find their maps
         User.findOne({username: req.query.username}, function (err, user) {
-            MapInfo.find(({_id : {$in: user.myprojects}}), function (err, docs) {
+
+
+            let query = MapInfo.find();
+            query.where("creator.creator", user.username)
+
+            const result = query.exec(function(err, docs) {
                 if (err){
                     console.log(err)
                 }
@@ -278,9 +283,12 @@ getAllMapInfoByUser = async (req, res) => {
                         mapInfos: docs 
                     });
                 }
-            })
+
+                
+            });
 
         });
+
     } catch (err){
         console.error(err);
         res.status(500).send();
