@@ -50,17 +50,18 @@ const MapTeams = ({onClose}) => {
 
     const removeTeam = (markedUser) => {
         store.removeTeamMember(markedUser)
+        let newList = creators.filter(maker => maker.creator != markedUser)
+        setCreators(newList)
     }
 
     const handleUpdateTeams = async () => {
-        //store.removeTeamMember(removedCreators);
         store.addTeamMember(newCreators);
         
         if(store.currentMapInfo.creator != creators){
             setChangesMade(true)
         }
         setNewCreators("");
-        setChangesMade(true)
+        setCreators(store.currentMapInfo.creator)
 
     }
 
