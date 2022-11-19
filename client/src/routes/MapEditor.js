@@ -17,9 +17,6 @@ const MapEditor=() =>{
         }
       }, [])
 
-      console.log(auth.user.myprojects)
-      console.log(store.currentMapInfo)
-      
     return(
         <Box className="map-editor-container" >
           <Grid container spacing={1}>

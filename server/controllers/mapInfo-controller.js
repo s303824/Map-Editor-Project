@@ -332,33 +332,33 @@ getAllMapInfoSortedByLikes = async (req, res) => {
 
 
 addCreator = async (req, res) => {
-    const { _id, addedCreators} = req.body;
+    const { username, _id } = req.body;
+
     const selectedMapInfo = await MapInfo.findOne({ _id: _id });    // get the selected map info
     if(!selectedMapInfo) {
         return res
                 .status(404)
                 .json({ errorMessage: "The mapinfo with _id:" + _id + " does not exist" });
     }
-    let newList = selectedMapInfo.creator
+
     // for each new creator's username, find User and push to selectedMapInfo.creator
-    addedCreators.forEach(async maker => {  
-        const creator_exists = await User.findOne({username: maker})
-        if (!creator_exists){
-            return res
-                    .status(404)
-                    .json({ errorMessage: `The user ${maker} doesn't exist` });
+    const creator_exists = await User.findOne({username: username})
+    if (!creator_exists){
+        return res
+                .status(404)
+                 .json({ errorMessage: `The user ${username} doesn't exist` });
+     }
+    else{
+        const newPerson = {creator:creator_exists.username, email:creator_exists.email, profile_picture:creator_exists.profile_picture}
+
+         if(!selectedMapInfo.creator.includes(newPerson)){
+            selectedMapInfo.creator.push(newPerson)    
         }
-        else{
-            const newPerson = {creator:creator_exists.username, email:creator_exists.email, profile_picture:creator_exists.profile_picture}
-            if(!selectedMapInfo.creator.include(newPerson)){
-                newList.push(newPerson)
-                selectedMapInfo.creator.push(newPerson)    
-            }
-        }
-    });
+    };
+
     MapInfo.findOneAndUpdate({_id: _id}, {      // update database with new creators
         name : selectedMapInfo.name,
-        creator : newList,          
+        creator : selectedMapInfo.creator,          
         thumbnailURL : selectedMapInfo.thumbnailURL,
         comments : selectedMapInfo.comments,
         likes : selectedMapInfo.likes,
@@ -386,7 +386,8 @@ addCreator = async (req, res) => {
     });
 }
 removeCreator = async (req, res) => {
-    const { _id, removedCreators} = req.body;
+    const { username, _id} = req.body;
+    console.log(req.body)
     const selectedMapInfo = await MapInfo.findOne({ _id: _id });    // get the selected map info
     
     if(!selectedMapInfo) {
@@ -397,23 +398,20 @@ removeCreator = async (req, res) => {
 
     let newList = []
     // for each creator marked for removal, check if user exists
-    removedCreators.forEach(async creator => {
-        const creator_exists = await User.findOne({username: creator})
-        if (!creator_exists){
-            return res
-                    .status(404)
-                    .json({ errorMessage: "The user you entered doesn't exist" });
-        }
+    const creator_exists = await User.findOne({username: username})
+    if (!creator_exists){
+        return res
+                .status(404)
+                .json({ errorMessage: "The user you entered doesn't exist" });
+    }
     
-    });
     
     // filter out removedCreators out of creator
-    selectedMapInfo.creator = selectedMapInfo.creator.filter(user => !removedCreators.include(user.creator));
-    newList = selectedMapInfo.creator
+    selectedMapInfo.creator = selectedMapInfo.creator.filter(creator => username != creator.creator);
     // update database
     MapInfo.findOneAndUpdate({_id: _id}, {
         name : selectedMapInfo.name,
-        creator : newList,
+        creator : selectedMapInfo.creator,
         thumbnailURL : selectedMapInfo.thumbnailURL,
         comments : selectedMapInfo.comments,
         likes : selectedMapInfo.likes,
