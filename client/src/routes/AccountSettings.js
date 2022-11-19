@@ -80,6 +80,9 @@ function AccountSettings() {
             publishedMaps: auth.user.publishedMaps
           }
           auth.setNewUserInfo(userData)
+          store.loadUserMaps(auth.user.username)        // reload user and published maps with updated user info
+          store.getMapInfosSortedByLikes();
+  
     }
     const handleNameChange = () => {    // handles request for changing name 
         if (firstName === "" && lastName===""){
@@ -123,7 +126,9 @@ function AccountSettings() {
             publishedMaps: auth.user.publishedMaps
           }
           auth.setNewUserInfo(userData)
-
+          store.loadUserMaps(auth.user.username)    // reload user and published maps with updated user info
+          store.getMapInfosSortedByLikes();
+  
     }
     const handlePasswordChange = () => {        // handles request for changing Password
         let password_format = /^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9]).{8,}/;
@@ -201,7 +206,8 @@ function AccountSettings() {
                 // Now we want to make sure this is updated on the server – either the
                 // user needs to click the submit button, or we could trigger the server call here
                 auth.setNewUserInfo(userData)
-
+                store.loadUserMaps(auth.user.username)  // reload user and published maps with updated user info
+                store.getMapInfosSortedByLikes();
             });
         }
 
@@ -221,6 +227,9 @@ function AccountSettings() {
             publishedMaps: auth.user.publishedMaps
         }
         auth.setNewUserInfo(userData)
+        store.loadUserMaps(auth.user.username)  // reload user and published maps with updated user info
+        store.getMapInfosSortedByLikes();
+
 
     }
 
