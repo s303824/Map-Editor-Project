@@ -9,12 +9,16 @@ import Layer from '../components/layer-component';
 
 const MapEditor=() =>{
     const { store } = useContext(GlobalStoreContext);
+    const {auth} = useContext(AuthContext)
     
     useEffect(() => {
         if (store.currentMap.mapinfo == null){
           store.loadMapById(window.location.pathname.split("/")[2]);
         }
       }, [])
+
+      console.log(auth.user.myprojects)
+      console.log(store.currentMapInfo)
       
     return(
         <Box className="map-editor-container" >
