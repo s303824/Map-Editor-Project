@@ -18,6 +18,7 @@ import CancelTwoToneIcon from '@mui/icons-material/CancelTwoTone';
 import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
+import LoginModal from "../components/login-modal.component";
 
 import GlobalStoreContext from '../store';
 
