@@ -145,8 +145,8 @@ function GlobalStoreContextProvider(props) {
                     searchResults: store.searchResults,                  
                     currentMap: store.currentMap,                    
                     currentMapInfo:store.currentMapInfo,      
-                    currentLayer: payload.currentLayer ? payload.currentMap.layers : store.currentLayer,   //edited      
-                    currentTileSet: payload.currentTileSet ? payload.currentTileSet : store.currentTileSet,  //edited
+                    currentLayer: store.currentLayer,   //edited      
+                    currentTileSet: store.currentTileSet,  //edited
                     currentTile: store.currentTile,
                     tilesetBeingEdited: store.tilesetBeingEdited,        
                     selectedMapEditTool: store.selectedMapEditTool,   
@@ -838,6 +838,7 @@ store.loadMapEditor= async function (mapId, mapInfo) {
                     currentTileSet: response.data.map.tilesets
                 }
             });
+            navigate("/editor/"+mapInfo._id, {})
         }
         else {
             storeReducer({
