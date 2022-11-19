@@ -58,7 +58,7 @@ const UnpublishMap = ({onClose}) => {
                 <Box className="qmodal-text">Are you sure you want to unpublish this map?</Box>
             </Typography>
             <Box paddingTop={3} display="flex" justifyContent="space-between">
-                <Button variant="contained" onClick={handlePublish}>Publish</Button>
+                <Button variant="contained" onClick={handlePublish}>Unpublish</Button>
                 <Button variant="contained" onClick={onClose}>Close</Button>
             </Box>
 

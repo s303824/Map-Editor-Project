@@ -747,17 +747,12 @@ store.publishCurrentMap = async function () {
     const response = await api.updateMapInfo(store.currentMapInfo);
 
     if(response.status === 200) {
-
-        auth.user.publishedMaps.push(store.currentMapInfo._id);
-        const response2 = await api.updateUser(auth.user);
-        if(response2.status === 200) {
             storeReducer({
                 type: GlobalStoreActionType.UPDATE_MAP_INFO,
                 payload: {
                     mapInfo: response.data.mapInfo
                 }
             })
-        }
         navigate("/projects")
     }
 
@@ -771,10 +766,6 @@ store.unpublishCurrentMap = async function () {
     const response = await api.updateMapInfo(store.currentMapInfo);
 
     if(response.status === 200) {
-
-        auth.user.publishedMaps = auth.user.publishedMaps.filter(function(e) {return e != store.currentMapInfo._id})
-        const response2 = await api.updateUser(auth.user);
-        if(response2.status === 200) {
             storeReducer({
                 type: GlobalStoreActionType.UPDATE_MAP_INFO,
                 payload: {
@@ -782,7 +773,7 @@ store.unpublishCurrentMap = async function () {
                 }
             })
             navigate("/projects")
-        }
+
 
     }
 }
