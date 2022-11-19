@@ -34,38 +34,7 @@ function GlobalStoreContextProvider(props) {
         searchResults: [],                   //holds search results
         currentMap: {},                    //holds the current map opened for editing
         currentMapInfo:[],             //current open map mapInfo
-        currentLayer:[
-            {
-             "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-             "height":20,
-             "id":1,
-             "name":"Tile Layer 1",
-             "opacity":1,
-             "type":"tilelayer",
-             "visible":true,
-             "width":30,
-             "x":0,
-             "y":0
-            }],                 //holds the the layer that is now being modified in the map editor.       
+        currentLayer:[] ,                 //holds the the layer that is now being modified in the map editor.       
         currentTileSet: [],               //holds the the tileset that is now being displayed in the map editor.
         currentTile: null,                 //holds the tile selected from the current tileset
         tilesetBeingEdited: [],        //holds the tileset that is opened for editing
@@ -145,7 +114,7 @@ function GlobalStoreContextProvider(props) {
                     searchResults: store.searchResults,                  
                     currentMap: store.currentMap,                    
                     currentMapInfo:store.currentMapInfo,      
-                    currentLayer: store.currentLayer,   //edited      
+                    currentLayer: payload.currentLayer,   //edited  back by burcu  
                     currentTileSet: store.currentTileSet,  //edited
                     currentTile: store.currentTile,
                     tilesetBeingEdited: store.tilesetBeingEdited,        
@@ -528,7 +497,32 @@ store.deleteSelectedLayer = function (id) {
 }
 
 // Adds a new layer 
-store.addNewLayer = async function (id, source) {}
+store.addNewLayer = function () {
+    let old_layer=store.currentMap.layers[0];
+    //init new Layer
+    let new_layer={
+        data : new Array(old_layer.width*old_layer.height).fill(0), //init data with 0's
+        height :old_layer.height,
+        id  : (parseInt(store.currentMap.layers[0].id)+1), //latest id increased by one 
+        name : "Untitled Layer" + (parseInt( store.currentMap.layers[0].id)+1),
+        opasity : 1,
+        type : "tilelayer",
+        visible :true,
+        width :old_layer.width,
+        x :0,
+        y : 0
+}
+   store.currentMap.layers.unshift(new_layer); //add new layer to the top of the array 
+   storeReducer({
+    type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
+    payload: {
+        currentMap: store.currentMap,
+        mapInfo:store.currentMap.mapInfo,
+        currentLayer: new_layer,
+        currentTileSet: store.currentTileSet
+    }
+});
+}
 
 // Changes the selected layer's name
 store.changeLayerName = function (id, newName) {}
@@ -639,7 +633,8 @@ store.setCurrentLayer = function (id) {
                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                  "height":20,
-                 "id":1,
+                 "locked":false,
+                 "id":2,
                  "name":"Tile Layer 1",
                  "opacity":1,
                  "type":"tilelayer",
@@ -683,7 +678,6 @@ store.paintTile = function (id,value) {
 
 //Deletes the selected tile from the current layer 
 store.deleteTile = function (id) {
-    console.log("id geliyo",id);
     store.currentLayer[0].data[id]=0;
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
@@ -704,7 +698,6 @@ store.paintLayer= function () {
             currentLayer:store.currentLayer
         }
     });
-
 }
 
 //Saves the "currentMap" to database with the edits made by user
