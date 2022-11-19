@@ -177,8 +177,18 @@ updateUser = async(req, res) => {
         if(project == null) {
             return;
         }
-        indexes.push(project.creator.findIndex(item => item.creator != loggedInUser.username || item.email != loggedInUser.email || item.profile_picture != loggedInUser.profile_picture)) 
+        indexes.push(project.creator.findIndex(item => item._id == loggedInUser._id)) 
     });
+
+    let publishedIndexes = []
+    loggedInUser.publishedMaps.forEach(async id => {
+        const project = await MapInfo.findOne({_id : id})
+        if(project == null) {
+            return;
+        }
+        publishedIndexes.push(project.creator.findIndex(item => item._id == loggedInUser._id)) 
+    });
+
 
     loggedInUser.first_name = first_name;
     loggedInUser.last_name = last_name;
@@ -203,6 +213,18 @@ updateUser = async(req, res) => {
         project.markModified("creator")
         project.save()
         i++
+    });
+
+    let x = 0
+    loggedInUser.publishedMaps.forEach(async id => {
+        const project = await MapInfo.findOne({_id : id})
+        if(project == null) {
+            return;
+        }
+        project.creator[publishedIndexes[x]] = {creator: username, email:email, profile_picture:profile_picture}
+        project.markModified("creator")
+        project.save()
+        x++
     });
 
     
