@@ -4,8 +4,6 @@ import { GlobalStoreContext } from '../store'
 import "../App.css"
 import Typography from '@mui/material/Typography';
 import MapCard from '../components/map-card.component';
-import mapImage from '../assets/map-card.jpg';
-import mockUserImage from '../assets/guestImage.jpg'
 import AuthContext from '../auth';
 
 function LikedMaps() {
@@ -23,7 +21,7 @@ function LikedMaps() {
     className="mapcard-container" 
     sx={{ 
       overflow: 'scrool',
-      maxHeight:"500px",
+      maxHeight:"700px",
       overflowY:'scroll',
       width:"90%",
       "&::-webkit-scrollbar": {
@@ -49,7 +47,7 @@ function LikedMaps() {
     return (
       <Box className="home-container" sx={{marginLeft:'260px' }}>
 
-        <Typography variant="h4" sx={{color:"white",marginTop:'1%',marginBottom:'2%', font: 'Bebas Neue'}}>Maps Liked By You</Typography>
+        <Typography variant="h4" sx={{color:"white",marginTop:'0%',marginBottom:'2%', font: 'Bebas Neue'}}>Maps Liked By You</Typography>
         {mapList}
       </Box>
     );

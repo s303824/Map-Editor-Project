@@ -24,7 +24,9 @@ const MapSettings = ({onClose}) => {
         left: '50%',
         transform: 'translate(-50%, -50%)',
         width: 400,
-        bgcolor: "#FFFFFF",
+        bgcolor: "#524d4d",
+        color: "white",
+        backgroundImage :'linear-gradient(to bottom, #505051, #303031)',
         border: '2px solid #000',
         boxShadow: 24,
         p: 4,
@@ -86,7 +88,8 @@ const MapSettings = ({onClose}) => {
                 type="title"
                 variant="filled"
                 autoComplete="current-title"
-                className = "settings-modal-textfield"
+                
+                className = "text-field"
                 onChange={(event) => updateField(event, "title")}
                 />
 
@@ -99,7 +102,7 @@ const MapSettings = ({onClose}) => {
                 type="title"
                 variant="filled"
                 autoComplete="current-title"
-                className = "settings-modal-textfield"
+                className = "text-field"
                 onChange={(event) => updateField(event, "description")}
                 />
                 <Box paddingBottom={3}>
@@ -111,7 +114,7 @@ const MapSettings = ({onClose}) => {
                     label="Tags"
                     variant="filled"
                     
-                    className = "settings-modal-textfield"
+                    className = "text-field"
                     onChange={(event) => updateField(event, "tags")}
                     />
                 </Box>

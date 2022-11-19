@@ -12,14 +12,16 @@ const LoginModal = ({message, onClose}) => {
         left: '50%',
         transform: 'translate(-50%, -50%)',
         width: 400,
-        bgcolor: "#FFFFFF",
-        border: '2px solid #000',
+        bgcolor: "#524d4d",
+        color: "white",
+        backgroundImage :'linear-gradient(to bottom, #505051, #303031)',
+        border: '2px solid #FFF',
         boxShadow: 24,
         p: 4,
       };
 
     return(
-        <Box>
+        <Box color="white">
         <Modal
             open={true}
             aria-labelledby="modal-modal-title"
@@ -28,7 +30,7 @@ const LoginModal = ({message, onClose}) => {
             <Box sx={style}>
 
             <Typography fontSize="20px">
-                <Box className="qmodal-text">{message}</Box>
+                <Box className="qmodal-text" color="white">{message}</Box>
             </Typography>
             <Button variant="contained" onClick={onClose}>Close</Button>
 

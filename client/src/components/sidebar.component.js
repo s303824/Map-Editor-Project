@@ -17,12 +17,10 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../auth';
 import { useContext } from 'react';
-import LoginModal from './login-modal.component';
 
 const drawerWidth = 280;
 //This array will be used to render different ListItemIcons based on the index 
 export default function SideBar() {
-  const [modalActive, setModalActive] = React.useState(false);
   const {auth} = useContext(AuthContext)
 
   let icons = [<HomeMaxIcon sx={{fill:'white'}}/>,
@@ -53,29 +51,14 @@ export default function SideBar() {
         break;
 
       case "Settings":
-        if(!auth.loggedIn) {
-          setModalActive(true)
-          break;
-        } 
         navigate("/accountSettings", {})
         break;
       
       case "Log Out":
-
-        if(!auth.loggedIn) {
-          setModalActive(true)
-          break;
-        }
         navigate("/logout", {})
         break;
     }
   }
-
-  const handleModalClose = () => {
-    setModalActive(false)
-  }
-
-  const modal = modalActive ? <LoginModal message="You must be logged in to use this feature!" onClose={handleModalClose}></LoginModal> : null;
 
   let sideList =  ['Home Page', 
   auth.loggedIn && 'My Projects', 
@@ -88,7 +71,6 @@ export default function SideBar() {
   
   return (
     <Box className ='sidebar' position="fixed">
-      {modal}
       <Drawer  
         sx={{
           width: drawerWidth,
@@ -110,7 +92,7 @@ export default function SideBar() {
             <ListItem key={text} disablePadding>
               <ListItemButton onClick={() => handleClick(text)}>
                 <ListItemIcon>
-                 {auth.loggedIn ? icons[index] : index !== 5 && icons[index]}
+                 {icons[index]}
                
                 </ListItemIcon>
                 <ListItemText primary={text} />

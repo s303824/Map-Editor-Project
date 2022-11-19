@@ -25,17 +25,17 @@ const TilesetsSection =()=>{
 
     const tilesets =[{ //to display sample data
         "id": 1,
-        "name":"Layer1",
+        "name":"DEFAULT",
         "precedence":1,
       },
       {
         "id": 2,
-        "name":"Layer2",
+        "name":"DEFAULT",
         "precedence":2,
       },
       {
         "id": 3,
-        "name":"Layer3",
+        "name":"DEFAULT",
         "precedence":3,
       }
     ]
@@ -68,13 +68,16 @@ const TilesetsSection =()=>{
                 >
                     {tilesets.map((layer) => (
                         <Box display='flex' sx={{backgroundImage:'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',borderRadius:2,width:"145px",marginRight:1.5}}>
+                            
                         <Tab 
                             sx={{
                             backgroundColor:'#696969',
-                            width:"25px"}}
+                            width:"4px"}}
                             id={layer.id} 
                             onClick = {handleTileSetDisplay}
-                            />
+                            label={layer.name}
+                            >{layer.name}</Tab>
+                            
                         <Button variant="contained"  sx={{backgroundColor:"#d72b05" ,fontSize:12,borderRadius:1,marginLeft:-1 }} onClick={handleTileEdit}>
                             Edit
                         </Button>

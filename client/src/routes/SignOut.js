@@ -1,8 +1,7 @@
 import React from "react";
-import { TextField, Link, Button, Modal, Box, Typography} from '@mui/material';
+import { Button, Box, Typography} from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import "../App.css"
-import bannerImage from '../assets/login-screen-image.png'
 import AuthContext from "../auth";
 import { useContext } from "react";
 import Divider from '@mui/material/Divider';

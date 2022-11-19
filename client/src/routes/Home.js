@@ -1,18 +1,12 @@
-import { Button, Grid } from '@mui/material';
 import Box from '@mui/material/Box';
-import { Link } from 'react-router-dom';
 import { useContext } from 'react'
 import { GlobalStoreContext } from '../store'
 import "../App.css"
-import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import AuthContext from '../auth';
 import HomeBanner from '../components/banner.component';
 import Typography from '@mui/material/Typography';
 import MapCard from '../components/map-card.component';
-import List from '@mui/material/List';
-import mapImage from '../assets/map-card.jpg';
-import mockUserImage from '../assets/guestImage.jpg'
 
 
 function Home() {
@@ -26,7 +20,7 @@ function Home() {
     return (
       <Box className="home-container" sx={{marginLeft:'260px' }}>
         <HomeBanner/>
-        <Typography variant="h4" sx={{color:"white",font:'Bebas Neue',marginTop:'3%',marginBottom:'2%'}}>Most Popular Maps</Typography>
+        <Typography variant="h4" sx={{color:"white",font:'Bebas Neue',marginTop:'2%',marginBottom:'2%'}}>Most Popular Maps</Typography>
 
         <Box 
           className="mapcard-container" 

@@ -497,9 +497,9 @@ store.deleteMap= async function (mapId) {
 }
 
 //Searches by "type" and "value", for example type = "NAME" and value = "Michael"
-store.searchByType = async function (type, value) {
+store.searchByType = async function (type, value, skip, sortBy) {
     try {
-        const response = await api.searchMapInfo({type, value})
+        const response = await api.searchMapInfo({type, value, skip, sortBy})
         if(response.status == 200) {
             storeReducer({
                 type: GlobalStoreActionType.LOAD_SEARCH_RESULTS,
@@ -511,7 +511,12 @@ store.searchByType = async function (type, value) {
         }
     }
     catch(err) {
-
+        storeReducer({
+            type: GlobalStoreActionType.LOAD_SEARCH_RESULTS,
+            payload: {
+                searchResults: []
+            }
+        })
     }
     
 }
@@ -833,7 +838,6 @@ store.loadMapEditor= async function (mapId, mapInfo) {
                     currentTileSet: response.data.map.tilesets
                 }
             });
-            console.log(store)
         }
         else {
             storeReducer({
@@ -893,6 +897,7 @@ store.loadMapViewer= async function (mapId, mapInfo) {
                     mapInfo: mapInfo, 
                 }
             });
+            navigate("/view/"+mapInfo._id, {})
         }
         else {
             storeReducer({

@@ -1,4 +1,4 @@
-import { Grid, IconButton, ListItem, Typography } from "@mui/material";
+import { Grid, IconButton, Typography } from "@mui/material";
 import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
 import { useContext } from 'react';
 import { GlobalStoreContext } from '../store';
