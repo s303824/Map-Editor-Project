@@ -1,21 +1,21 @@
-import { Grid, IconButton, Typography } from "@mui/material";
+import { Grid, IconButton, ListItem, Typography } from "@mui/material";
 import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
-import { useContext } from 'react';
+import { useContext,useState } from 'react';
 import { GlobalStoreContext } from '../store';
 
 
 
-const LayerCard =({layerInfo})=>{
+const LayerCard =({id,layerInfo,selected})=>{
     const {store} = useContext(GlobalStoreContext);
 
     const handlesetCurrentLayer = (event) =>{
         event.preventDefault();
-        store.setCurrentLayer(event.target);
+        store.setCurrentLayer(id);
     }
     
     return(
         <Grid container spacing={2} 
-        sx={{backgroundImage:'linear-gradient(to right,#feaf06,#ffc806,#F7D24F)',
+        sx={{backgroundImage: selected ?  'linear-gradient(to right,#a51916,#F83600)' :'linear-gradient(to right,#feaf06,#ffc806,#F7D24F)',
             boxShadow: `inset 0 0 3px rgba(0, 0, 0, 0.2)`,
             borderRadius:5,
             marginTop:1,marginLeft:3,
