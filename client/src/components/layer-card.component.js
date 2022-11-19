@@ -12,6 +12,13 @@ const LayerCard =({id,layerInfo,selected})=>{
         event.preventDefault();
         store.setCurrentLayer(id);
     }
+
+    const handleDeleteNewLayer  = (event) =>{
+        event.preventDefault();
+        store.deleteSelectedLayer(id);
+    }
+
+
     
     return(
         <Grid container spacing={2} 
@@ -21,7 +28,7 @@ const LayerCard =({id,layerInfo,selected})=>{
             marginTop:1,marginLeft:3,
             maxWidth:"90%"}}>
         <Grid xs={1}>
-            <IconButton aria-label="delete">
+            <IconButton aria-label="delete" onClick ={handleDeleteNewLayer}>
                 <DeleteForeverTwoToneIcon sx={{fill:"white" ,fontSize:30}}/>
             </IconButton>
         </Grid>
