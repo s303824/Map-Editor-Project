@@ -25,7 +25,7 @@ function Home() {
         <Box 
           className="mapcard-container" 
           sx={{ 
-            maxHeight:"410px",
+            height:"44vh",
             overflowY:'scroll',
             width:"90%",
             "&::-webkit-scrollbar": {
