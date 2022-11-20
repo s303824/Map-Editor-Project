@@ -98,7 +98,7 @@ const MyProjects=() =>{
     </Box>
 
     if(store.userMaps.length == 0) {
-      mapList = null;
+      mapList = <Box className="loading"></Box>
     }
   
     return (

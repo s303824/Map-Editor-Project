@@ -9,13 +9,14 @@ import Layer from '../components/layer-component';
 
 const MapEditor=() =>{
     const { store } = useContext(GlobalStoreContext);
+    const {auth} = useContext(AuthContext)
     
     useEffect(() => {
         if (store.currentMap.mapinfo == null){
           store.loadMapById(window.location.pathname.split("/")[2]);
         }
       }, [])
-      
+
     return(
         <Box className="map-editor-container" >
           <Grid container spacing={1}>

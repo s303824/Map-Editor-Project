@@ -39,6 +39,8 @@ const MapSettings = ({onClose}) => {
       const [description, setDescription] = useState(store.currentMapInfo.description)                                 // For tags input field 
       const [tags, setTags] = useState(initialTags)                                 // For tags input field 
 
+      const[empty, setEmpty] = useState(false);
+
       const updateField = (event, type) => {
         switch(type){
             case "title":
@@ -54,6 +56,11 @@ const MapSettings = ({onClose}) => {
     }  
 
     const handleUpdateSettings = async () => {
+        if(title == "" || description== "" || tags == "") {
+            setEmpty(true)
+            return;
+        }
+
         let tagList = (tags.trim()).split(" ")
         let formattedDescription = description.trim()
         store.changeMapSettings(store.currentMapInfo._id, title, formattedDescription, tagList);
@@ -63,13 +70,18 @@ const MapSettings = ({onClose}) => {
     const handleCloseModal = () => {
         setModalOpen(false);
     }
+    const handleCloseEmpty = () => {
+        setEmpty(false);
+    }
 
     let modal = modalOpen ? <LoginModal message="Successfully updated!" onClose={handleCloseModal}></LoginModal> : null
+    let emptyModal = empty ? <LoginModal message="A field cannot be empty!" onClose={handleCloseEmpty}></LoginModal> : null
     console.log(store.currentMapInfo)
 
     return(
         <Box>
             {modal}
+            {emptyModal}
         <Modal
             open={true}
             aria-labelledby="modal-modal-title"

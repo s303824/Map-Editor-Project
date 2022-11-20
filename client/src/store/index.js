@@ -23,6 +23,7 @@ export const GlobalStoreActionType = {
     SET_THE_OPEN_MODAL: "SET_THE_OPEN_MODAL",
     SET_THE_MAP_MARKED_FOR_DELETION: "SET_THE_MAP_MARKED_FOR_DELETION",
     UPDATE_MAP_INFO: "UPDATE_MAP_INFO",
+    ERROR: "ERROR"
 }
 
 function GlobalStoreContextProvider(props) {
@@ -74,7 +75,8 @@ function GlobalStoreContextProvider(props) {
         canRedo: false,                  //used to control redo button
         searchCriteria: "",            //controls the search results
         openModal: "",       //used to open/close modals in the app(team manangement,settings..)
-        mapMarkedForDeletion: null          
+        mapMarkedForDeletion: null,
+        error: "",          
     });
     const {auth} = useContext(AuthContext);
     const navigate= useNavigate();
@@ -98,7 +100,8 @@ function GlobalStoreContextProvider(props) {
                     canRedo: store.canRedo,                  
                     searchCriteria: store.searchCriteria,            
                     openModal: store.openModal,       
-                    mapMarkedForDeletion: store.mapMarkedForDeletion
+                    mapMarkedForDeletion: store.mapMarkedForDeletion,
+                    error: ""
                 })
             
             case GlobalStoreActionType.LOAD_USER_MAPS:
@@ -117,7 +120,8 @@ function GlobalStoreContextProvider(props) {
                     canRedo: store.canRedo,                  
                     searchCriteria: store.searchCriteria,            
                     openModal: store.openModal,       
-                    mapMarkedForDeletion: store.mapMarkedForDeletion
+                    mapMarkedForDeletion: store.mapMarkedForDeletion,
+                    error: ""
                 })
 
             case GlobalStoreActionType.SET_THE_CURRENT_MAP:
@@ -136,7 +140,8 @@ function GlobalStoreContextProvider(props) {
                     canRedo: store.canRedo,                  
                     searchCriteria: store.searchCriteria,            
                     openModal: store.openModal,       
-                    mapMarkedForDeletion: store.mapMarkedForDeletion
+                    mapMarkedForDeletion: store.mapMarkedForDeletion,
+                    error: ""
                 })
             case GlobalStoreActionType.SET_THE_CURRENT_LAYER:
                 return setStore({
@@ -154,7 +159,8 @@ function GlobalStoreContextProvider(props) {
                     canRedo: store.canRedo,                  
                     searchCriteria: store.searchCriteria,            
                     openModal: store.openModal,       
-                    mapMarkedForDeletion: store.mapMarkedForDeletion
+                    mapMarkedForDeletion: store.mapMarkedForDeletion,
+                    error: ""
                 })
             case GlobalStoreActionType.SET_THE_CURRENT_TILESET:
                 return setStore({
@@ -172,7 +178,8 @@ function GlobalStoreContextProvider(props) {
                     canRedo: store.canRedo,                  
                     searchCriteria: store.searchCriteria,            
                     openModal: store.openModal,       
-                    mapMarkedForDeletion: store.mapMarkedForDeletion
+                    mapMarkedForDeletion: store.mapMarkedForDeletion,
+                    error: ""
                 })
             case GlobalStoreActionType.SET_THE_CURRENT_TILE:
                 return setStore({
@@ -190,7 +197,8 @@ function GlobalStoreContextProvider(props) {
                     canRedo: store.canRedo,                  
                     searchCriteria: store.searchCriteria,            
                     openModal: store.openModal,       
-                    mapMarkedForDeletion: store.mapMarkedForDeletion
+                    mapMarkedForDeletion: store.mapMarkedForDeletion,
+                    error: ""
                 })
             case GlobalStoreActionType.SET_THE_SELECTED_MAP_EDIT_TOOL:
                 return setStore({
@@ -208,7 +216,8 @@ function GlobalStoreContextProvider(props) {
                     canRedo: store.canRedo,                  
                     searchCriteria: store.searchCriteria,            
                     openModal: store.openModal,       
-                    mapMarkedForDeletion: store.mapMarkedForDeletion
+                    mapMarkedForDeletion: store.mapMarkedForDeletion,
+                    error: ""
                 })
 
             case GlobalStoreActionType.SET_THE_CAN_UNDO:
@@ -227,7 +236,8 @@ function GlobalStoreContextProvider(props) {
                     canRedo: store.canRedo,                  
                     searchCriteria: store.searchCriteria,            
                     openModal: store.openModal,       
-                    mapMarkedForDeletion: store.mapMarkedForDeletion
+                    mapMarkedForDeletion: store.mapMarkedForDeletion,
+                    error: ""
                 })
             case GlobalStoreActionType.SET_THE_CAN_REDO:
                 return setStore({
@@ -245,7 +255,8 @@ function GlobalStoreContextProvider(props) {
                     canRedo: store.canRedo,                  
                     searchCriteria: store.searchCriteria,            
                     openModal: store.openModal,       
-                    mapMarkedForDeletion: store.mapMarkedForDeletion
+                    mapMarkedForDeletion: store.mapMarkedForDeletion,
+                    error: ""
                 })
             case GlobalStoreActionType.SET_THE_SEARCH_CRITERIA:
                 return setStore({
@@ -263,7 +274,8 @@ function GlobalStoreContextProvider(props) {
                     canRedo: store.canRedo,                  
                     searchCriteria: store.searchCriteria,            
                     openModal: store.openModal,       
-                    mapMarkedForDeletion: store.mapMarkedForDeletion
+                    mapMarkedForDeletion: store.mapMarkedForDeletion,
+                    error: ""
                 })
 
             case GlobalStoreActionType.SET_THE_OPEN_MODAL:
@@ -282,7 +294,8 @@ function GlobalStoreContextProvider(props) {
                     canRedo: store.canRedo,                  
                     searchCriteria: store.searchCriteria,            
                     openModal: store.openModal,       
-                    mapMarkedForDeletion: store.mapMarkedForDeletion
+                    mapMarkedForDeletion: store.mapMarkedForDeletion,
+                    error: ""
                 })
             case GlobalStoreActionType.SET_THE_MAP_MARKED_FOR_DELETION:
                 return setStore({
@@ -300,7 +313,8 @@ function GlobalStoreContextProvider(props) {
                     canRedo: store.canRedo,                  
                     searchCriteria: store.searchCriteria,            
                     openModal: store.openModal,       
-                    mapMarkedForDeletion: payload.mapMarkedForDeletion
+                    mapMarkedForDeletion: payload.mapMarkedForDeletion,
+                    error: ""
                 })
             case GlobalStoreActionType. UPDATE_MAP_INFO:
                 return setStore({
@@ -318,7 +332,8 @@ function GlobalStoreContextProvider(props) {
                     canRedo: store.canRedo,                  
                     searchCriteria: store.searchCriteria,            
                     openModal: store.openModal,       
-                    mapMarkedForDeletion: payload.mapMarkedForDeletion
+                    mapMarkedForDeletion: payload.mapMarkedForDeletion,
+                    error: ""
                 })
 
                 case GlobalStoreActionType.LOAD_SEARCH_RESULTS:
@@ -337,8 +352,29 @@ function GlobalStoreContextProvider(props) {
                     canRedo: store.canRedo,                  
                     searchCriteria: store.searchCriteria,            
                     openModal: store.openModal,       
-                    mapMarkedForDeletion: payload.mapMarkedForDeletion
+                    mapMarkedForDeletion: payload.mapMarkedForDeletion,
+                    error: ""
                 })
+
+                case GlobalStoreActionType.ERROR:
+                    return setStore({
+                        publishedMaps: store.publishedMaps,              
+                        userMaps: store.userMaps,                    
+                        searchResults: store.searchResults,                  
+                        currentMap: store.currentMap,                    
+                        currentMapInfo:store.currentMapInfo,     
+                        currentLayer: store.currentLayer,       
+                        currentTileSet: store.currentTileSet,              
+                        currentTile: store.currentTile,
+                        tilesetBeingEdited: store.tilesetBeingEdited,        
+                        selectedMapEditTool: store.selectedMapEditTool,   
+                        canUndo: store.canUndo,                  
+                        canRedo: store.canRedo,                  
+                        searchCriteria: store.searchCriteria,            
+                        openModal: store.openModal,       
+                        mapMarkedForDeletion: store.mapMarkedForDeletion,
+                        error: payload.error
+                    })
             default:
                 return store;
         }
@@ -362,7 +398,6 @@ store.loadUserMaps = async function (username) {
 //Loads a list of mapInfos by a list of ids
 //Used by: useEffect(LikedMaps)
 store.loadMapInfosByIds = async function(idList) {
-    console.log(idList)
     if(idList.length == 0) {
         storeReducer({
             type: GlobalStoreActionType.LOAD_PUBLISHED_MAPS,
@@ -747,17 +782,12 @@ store.publishCurrentMap = async function () {
     const response = await api.updateMapInfo(store.currentMapInfo);
 
     if(response.status === 200) {
-
-        auth.user.publishedMaps.push(store.currentMapInfo._id);
-        const response2 = await api.updateUser(auth.user);
-        if(response2.status === 200) {
             storeReducer({
                 type: GlobalStoreActionType.UPDATE_MAP_INFO,
                 payload: {
                     mapInfo: response.data.mapInfo
                 }
             })
-        }
         navigate("/projects")
     }
 
@@ -771,10 +801,6 @@ store.unpublishCurrentMap = async function () {
     const response = await api.updateMapInfo(store.currentMapInfo);
 
     if(response.status === 200) {
-
-        auth.user.publishedMaps = auth.user.publishedMaps.filter(function(e) {return e != store.currentMapInfo._id})
-        const response2 = await api.updateUser(auth.user);
-        if(response2.status === 200) {
             storeReducer({
                 type: GlobalStoreActionType.UPDATE_MAP_INFO,
                 payload: {
@@ -782,7 +808,7 @@ store.unpublishCurrentMap = async function () {
                 }
             })
             navigate("/projects")
-        }
+
 
     }
 }
@@ -957,37 +983,42 @@ store.addComment= async function (mapInfo,comment) {
 
 //Removes the editing permission(for currentMap) from the selected user
 //Used by: manage-team.component
-store.removeTeamMember = async function (removedUsers) {
-    let param = {
-        _id: store.currentMapInfo._id, 
-        removedCreators: removedUsers}
-    const response = await api.removeCreator(param);
-    if(response.status === 200 && response.data.mapInfo != null) {
-        storeReducer({
-            type: GlobalStoreActionType.UPDATE_MAP_INFO,
-            payload: {
-                mapInfo: response.data.mapInfo
-            }
-        })
+store.removeTeamMember = async function (username) {
+    try {
+        const response = await api.removeCreator({username:username, _id:store.currentMapInfo._id});
+        if(response.status === 200) {
+            storeReducer({
+                type: GlobalStoreActionType.UPDATE_MAP_INFO,
+                payload: {
+                    mapInfo: response.data.mapInfo
+                }
+            })
+        }
+    }catch(err) {
+    console.log(err)
     }
 }
 
 //Adds the editing permission(for currentMap) for the user
 //Used by: manage-team.component
-store.addTeamMember = async function (addedUsers) {
-    console.log(store.currentMapInfo._id)
-    let param = {
-        _id: store.currentMapInfo._id, 
-        addedCreators: addedUsers}
-    const response = await api.addCreator(param);
-    console.log(response.status)
-    console.log(response.data.mapInfo)
-    if(response.status === 200 && response.data.mapInfo != null) {
-        console.log(response.data.mapInfo)
+store.addTeamMember = async function (username) {
+    try { 
+        const response = await api.addCreator({username:username, _id:store.currentMapInfo._id});
+        
+        if(response.status === 200) {
+            console.log(response.data.mapInfo)
+            storeReducer({
+                type: GlobalStoreActionType.UPDATE_MAP_INFO,
+                payload: {
+                    mapInfo: response.data.mapInfo
+                }
+            })
+        }
+    } catch(err) {
         storeReducer({
-            type: GlobalStoreActionType.UPDATE_MAP_INFO,
+            type: GlobalStoreActionType.ERROR,
             payload: {
-                mapInfo: response.data.mapInfo
+                error: err.response.data.errorMessage
             }
         })
     }

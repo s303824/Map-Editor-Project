@@ -168,7 +168,7 @@ const HomeBanner = () => {
     const loginModal = modal ? <LoginModal message="You're already logged in!" onClose={handleModal}></LoginModal> : null;
     
     return(
-       <Box className = 'homebanner' display="flex" sx = {{backgroundImage: 'linear-gradient(to right, #8B1310,#F83600, #ffc406)',borderRadius:'15px',justifyContent: 'center',maxWidth:"90%"}}> 
+       <Box className = 'homebanner' display="flex" sx = {{backgroundImage: 'linear-gradient(to right, #8B1310,#F83600, #ffc406)',borderRadius:'15px',justifyContent: 'center',maxWidth:"90%", height:320}}> 
        {loginModal}
        {!auth.loggedIn && nologgedInUserBanner}
        {auth.loggedIn && loggedInUserBanner}
