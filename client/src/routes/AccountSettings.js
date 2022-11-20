@@ -69,7 +69,7 @@ function AccountSettings() {
 
     const error_modal = errorModal ? <LoginModal message={auth.error} onClose={handleErrorModalClose}></LoginModal> : null
     
-    const handleChangeUsername = async () => {  // handles request for changing user name 
+    const handleChangeUsername = () => {  // handles request for changing user name 
         if (username === ""){
             setModalActive(true)
             return;
@@ -85,9 +85,7 @@ function AccountSettings() {
             profile_picture: auth.user.profile_picture,
             publishedMaps: auth.user.publishedMaps
           }
-          await auth.setNewUserInfo(userData)
-          await store.loadUserMaps(username)        // reload user and published maps with updated user info
-          await store.getMapInfosSortedByLikes();
+           auth.setNewUserInfo(userData)
   
     }
     const handleNameChange = () => {    // handles request for changing name 
@@ -109,7 +107,7 @@ function AccountSettings() {
           auth.setNewUserInfo(userData)
 
     }
-    const handleEmailChange = async () => { // handles request for changing Email address 
+    const handleEmailChange = () => { // handles request for changing Email address 
         let mail_format = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
         if (email === ""){
             setModalActive(true)
@@ -131,9 +129,7 @@ function AccountSettings() {
             profile_picture: auth.user.profile_picture,
             publishedMaps: auth.user.publishedMaps
           }
-          await auth.setNewUserInfo(userData)
-          await store.loadUserMaps(auth.user.username)    // reload user and published maps with updated user info
-          await store.getMapInfosSortedByLikes();
+          auth.setNewUserInfo(userData)
   
     }
     const handlePasswordChange = () => {        // handles request for changing Password
@@ -173,7 +169,7 @@ function AccountSettings() {
         setChecked(event.target.checked);
       };
 
-    const handleImageSelected = async (event) => {        // handles request for changing the profile picture of the user
+    const handleImageSelected = (event) => {        // handles request for changing the profile picture of the user
         console.log("New File Selected");
         if (event.target.files && event.target.files[0]) {
       
@@ -211,16 +207,14 @@ function AccountSettings() {
                 
                 // Now we want to make sure this is updated on the server – either the
                 // user needs to click the submit button, or we could trigger the server call here
-                await auth.setNewUserInfo(userData)
-                await store.loadUserMaps(auth.user.username)  // reload user and published maps with updated user info
-                await store.getMapInfosSortedByLikes();
+                auth.setNewUserInfo(userData)
             });
         }
 
     }
 
 
-    const handleRemoveProfilePicture = async () => {      // handles request for removing the profile picture of the user
+    const handleRemoveProfilePicture = () => {      // handles request for removing the profile picture of the user
         let userData = {
             username: auth.user.username,
             _id: auth.user._id,
@@ -232,9 +226,7 @@ function AccountSettings() {
             profile_picture: default_image,
             publishedMaps: auth.user.publishedMaps
         }
-        await auth.setNewUserInfo(userData)
-        await store.loadUserMaps(auth.user.username)  // reload user and published maps with updated user info
-        await store.getMapInfosSortedByLikes();
+        auth.setNewUserInfo(userData)
 
 
     }

@@ -190,9 +190,10 @@ updateUser = async(req, res) => {
         if(project == null) {
             return res.status(400).json({errorMessage: "A map in myprojects was not found"});
         }
-        index = project.creator.findIndex(item => item.username == oldUserName)
+        index = project.creator.findIndex(function (element) {
+            return element.username == oldUserName;
+            });
         project.creator[index] = {creator: username, email:email, profile_picture:profile_picture}
-        project.markModified("creator")
         project.save()
     });
 
@@ -201,9 +202,10 @@ updateUser = async(req, res) => {
         if(project == null) {
             return res.status(400).json({errorMessage: "A map in publishedMaps was not found"});
         }
-        index = project.creator.findIndex(item => item.username == oldUserName)
+        index = project.creator.findIndex(function (element) {
+            return element.username == oldUserName;
+            });
         project.creator[index] = {creator: username, email:email, profile_picture:profile_picture}
-        project.markModified("creator")
         project.save()
     });
 
