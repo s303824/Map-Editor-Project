@@ -184,7 +184,7 @@ updateUser = async(req, res) => {
     loggedInUser.profile_picture = profile_picture
     loggedInUser.publishedMaps = publishedMaps
 
-    /*let index = 0
+    let index = 0
     loggedInUser.myprojects.forEach(async id => {
         const project = await MapInfo.findOne({_id : id})
         if(project == null) {
@@ -194,20 +194,9 @@ updateUser = async(req, res) => {
             return element.username == oldUserName;
             });
         project.creator[index] = {creator: username, email:email, profile_picture:profile_picture}
+        project.markedModified("creator")
         project.save()
     });
-
-    loggedInUser.publishedMaps.forEach(async id => {
-        const project = await MapInfo.findOne({_id : id})
-        if(project == null) {
-            return res.status(400).json({errorMessage: "A map in publishedMaps was not found"});
-        }
-        index = project.creator.findIndex(function (element) {
-            return element.username == oldUserName;
-            });
-        project.creator[index] = {creator: username, email:email, profile_picture:profile_picture}
-        project.save()
-    });*/
 
     
     loggedInUser
