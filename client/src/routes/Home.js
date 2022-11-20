@@ -20,13 +20,12 @@ function Home() {
     return (
       <Box className="home-container" sx={{marginLeft:'260px' }}>
         <HomeBanner/>
-        <Typography variant="h4" sx={{color:"white",font:'Bebas Neue',marginTop:'2%',marginBottom:'2%'}}>Most Popular Maps</Typography>
+        <Typography variant="h4" sx={{color:"white",font:'Bebas Neue',marginTop:'1.5%',marginBottom:'2%'}}>Most Popular Maps</Typography>
 
         <Box 
           className="mapcard-container" 
           sx={{ 
-            overflow: 'scrool',
-            maxHeight:"500px",
+            maxHeight:"410px",
             overflowY:'scroll',
             width:"90%",
             "&::-webkit-scrollbar": {

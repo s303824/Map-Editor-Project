@@ -13,6 +13,7 @@ import { uploadImageToCloudinaryAPIMethod } from "../api/cloudinary"
 import { Box } from "@mui/system";
 
 function AccountSettings() {
+    
     const { store } = useContext(GlobalStoreContext);
     const {auth} = useContext(AuthContext);
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
@@ -282,7 +283,7 @@ function AccountSettings() {
             <div className='form-area'>
                 <h2 id='change-text'>Change Profile Picture</h2>
 
-                <Divider variant="middle" sx={{borderBottomWidth: 4, "border-color": 'white', "margin-bottom": "2%"}}/>
+                <Divider variant="middle" sx={{borderBottomWidth: 4, "borderColor": 'white', "marginBottom": "0.5%"}}/>
                 
                 <div id="edit2">
                     <div>
@@ -306,7 +307,7 @@ function AccountSettings() {
             <div className='form-area'>
                 <h2 id='change-text'>Change Username</h2>
 
-                <Divider variant="middle" sx={{borderBottomWidth: 4, "border-color": 'white', "margin-bottom": "2%"}}/>
+                <Divider variant="middle" sx={{borderBottomWidth: 4, "borderColor": 'white', "marginBottom": "0%"}}/>
 
                 <div>
                     <h4 style={{color: "#ffffff"}}>Enter a new user name</h4>
@@ -337,7 +338,7 @@ function AccountSettings() {
             <div className='form-area'>
                 <h2 id='change-text'>Change Name</h2>
 
-                <Divider variant="middle" sx={{borderBottomWidth: 4, "border-color": 'white', "margin-bottom": "2%"}}/>
+                <Divider variant="middle" sx={{borderBottomWidth: 4, "borderColor": 'white', "marginBottom": "2%"}}/>
 
                 <h4 style={{color: "#ffffff"}}>Enter a new name</h4>
                 <div style={{justifyContent: "space-between", display: "flex", width:"80%"}}> 
@@ -384,7 +385,7 @@ function AccountSettings() {
             <div className='form-area'>
                 <h2 id='change-text'>Change Email Address</h2>
 
-                <Divider variant="middle" sx={{borderBottomWidth: 4, "border-color": 'white', "margin-bottom": "2%"}}/>
+                <Divider variant="middle" sx={{borderBottomWidth: 4, "borderColor": 'white', "marginBottom": "2%"}}/>
 
                 <h4 style={{color: "#ffffff"}}>Enter a new Email Address</h4>
                     <TextField
@@ -413,7 +414,7 @@ function AccountSettings() {
             <div className='form-area'>
                 <h2 id='change-text'>Change Password</h2>
 
-                <Divider variant="middle" sx={{borderBottomWidth: 4, "border-color": 'white', "margin-bottom": "2%"}}/>
+                <Divider variant="middle" sx={{borderBottomWidth: 4, "borderColor": 'white', "marginBBottom": "2%"}}/>
 
                 <div>
                 <h4 id='change-text'>Enter Current Password</h4>
@@ -479,11 +480,9 @@ function AccountSettings() {
             <div className='form-area'>
                 <h2 id='change-text'>Delete account</h2>
 
-                <Divider variant="middle" sx={{borderBottomWidth: 4, "border-color": 'white', "margin-bottom": "2%"}}/>
+                <Divider variant="middle" sx={{borderBottomWidth: 4, "borderColor": 'white', "marginBottom": "2%"}}/>
 
-                <h4 style={{"margin-top": "0px",
-                            "margin-bottom": "0px",
-                            color: "#ffffff"}}>
+                <h4 style={{color: "#ffffff"}}>
                     If you delete your account please keep the following in mind:
                 </h4>
                 <ul style={{margin: "0px 0px 0px 0px",

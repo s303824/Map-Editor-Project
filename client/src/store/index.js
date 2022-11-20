@@ -398,7 +398,6 @@ store.loadUserMaps = async function (username) {
 //Loads a list of mapInfos by a list of ids
 //Used by: useEffect(LikedMaps)
 store.loadMapInfosByIds = async function(idList) {
-    console.log(idList)
     if(idList.length == 0) {
         storeReducer({
             type: GlobalStoreActionType.LOAD_PUBLISHED_MAPS,
