@@ -184,7 +184,7 @@ updateUser = async(req, res) => {
     loggedInUser.profile_picture = profile_picture
     loggedInUser.publishedMaps = publishedMaps
 
-    let index = 0
+    /*let index = 0
     loggedInUser.myprojects.forEach(async id => {
         const project = await MapInfo.findOne({_id : id})
         if(project == null) {
@@ -207,7 +207,7 @@ updateUser = async(req, res) => {
             });
         project.creator[index] = {creator: username, email:email, profile_picture:profile_picture}
         project.save()
-    });
+    });*/
 
     
     loggedInUser
