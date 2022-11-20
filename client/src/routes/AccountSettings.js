@@ -21,22 +21,27 @@ function AccountSettings() {
     const [passwordModal, setPasswordModal] = React.useState(false);             // Modal for checking if password & Verify password match
     const [passwordFormatModal, setPasswordFormatModal] = React.useState(false); // For checking if password format is correct
     const [emailModal, setEmailModal] = React.useState(false);                   // For checking if email format is correct     
-    const [errorModal, setErrorModal] = useState(auth.error != null);                         // Modal for when there is an error updating a field  
+    const [errorModal, setErrorModal] = useState(auth.error != null);            // Modal for when there is an error updating a field  
 
-    const [firstName, setFirstName] = useState(auth.user.first_name)                               // For first name input field 
-    const [lastName, setLastName] = useState(auth.user.last_name)                                 // For last name input field 
-    const [username, setUsername] = useState(auth.user.username)                                 // For username input filed
-    const [email, setEmail] = useState(auth.user.email)                                       // For email input field
-    const [currentPassword, setCurrentPassword] = useState("")                   // For current password input field 
-    const [password, setPassword] = useState("")                                 // For password input field
-    const [passwordVerify, setPasswordVerify] = useState("")                     // For password verify input field 
-    const [checked, setChecked] = useState(false);                               // For checking if user agreed to conditions before deleting account
+    const [firstName, setFirstName] = useState(auth.loggedIn ? auth.user.first_name: "")   // For first name input field 
+    const [lastName, setLastName] = useState(auth.loggedIn ? auth.user.last_name: "")      // For last name input field 
+    const [username, setUsername] = useState(auth.loggedIn ? auth.user.username: "")       // For username input filed
+    const [email, setEmail] = useState(auth.loggedIn ? auth.user.email: "")                // For email input field
+    const [currentPassword, setCurrentPassword] = useState("")                             // For current password input field 
+    const [password, setPassword] = useState("")                                           // For password input field
+    const [passwordVerify, setPasswordVerify] = useState("")                               // For password verify input field 
+    const [checked, setChecked] = useState(false);                                         // For checking if user agreed to conditions before deleting account
 
     useEffect(() => {
         if (auth.user){
           setErrorModal(auth.error != null);
+          setFirstName(auth.user.first_name)
+          setLastName(auth.user.last_name)
+          setUsername(auth.user.username)
+          setEmail(auth.user.email)
         }
       }, [auth])
+
 
     const default_image = "https://res.cloudinary.com/natialemu47/image/upload/v1652196653/dnt17uj4nl9ywfq648v8.jpg";
 
