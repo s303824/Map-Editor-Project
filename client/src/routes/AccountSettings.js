@@ -64,7 +64,7 @@ function AccountSettings() {
 
     const error_modal = errorModal ? <LoginModal message={auth.error} onClose={handleErrorModalClose}></LoginModal> : null
     
-    const handleChangeUsername = () => {  // handles request for changing user name 
+    const handleChangeUsername = async () => {  // handles request for changing user name 
         if (username === ""){
             setModalActive(true)
             return;
@@ -80,9 +80,9 @@ function AccountSettings() {
             profile_picture: auth.user.profile_picture,
             publishedMaps: auth.user.publishedMaps
           }
-          auth.setNewUserInfo(userData)
-          store.loadUserMaps(auth.user.username)        // reload user and published maps with updated user info
-          store.getMapInfosSortedByLikes();
+          await auth.setNewUserInfo(userData)
+          await store.loadUserMaps(auth.user.username)        // reload user and published maps with updated user info
+          await store.getMapInfosSortedByLikes();
   
     }
     const handleNameChange = () => {    // handles request for changing name 
@@ -104,7 +104,7 @@ function AccountSettings() {
           auth.setNewUserInfo(userData)
 
     }
-    const handleEmailChange = () => { // handles request for changing Email address 
+    const handleEmailChange = async () => { // handles request for changing Email address 
         let mail_format = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
         if (email === ""){
             setModalActive(true)
@@ -126,9 +126,9 @@ function AccountSettings() {
             profile_picture: auth.user.profile_picture,
             publishedMaps: auth.user.publishedMaps
           }
-          auth.setNewUserInfo(userData)
-          store.loadUserMaps(auth.user.username)    // reload user and published maps with updated user info
-          store.getMapInfosSortedByLikes();
+          await auth.setNewUserInfo(userData)
+          await store.loadUserMaps(auth.user.username)    // reload user and published maps with updated user info
+          await store.getMapInfosSortedByLikes();
   
     }
     const handlePasswordChange = () => {        // handles request for changing Password
@@ -186,7 +186,7 @@ function AccountSettings() {
       
             console.log("Cloudinary upload");
             uploadImageToCloudinaryAPIMethod(formData)
-            .then((response) => {
+            .then(async(response) => {
                 console.log("Upload success");
                 console.dir(response);
                 console.log(response.url)
@@ -206,16 +206,16 @@ function AccountSettings() {
                 
                 // Now we want to make sure this is updated on the server – either the
                 // user needs to click the submit button, or we could trigger the server call here
-                auth.setNewUserInfo(userData)
-                store.loadUserMaps(auth.user.username)  // reload user and published maps with updated user info
-                store.getMapInfosSortedByLikes();
+                await auth.setNewUserInfo(userData)
+                await store.loadUserMaps(auth.user.username)  // reload user and published maps with updated user info
+                await store.getMapInfosSortedByLikes();
             });
         }
 
     }
 
 
-    const handleRemoveProfilePicture = () => {      // handles request for removing the profile picture of the user
+    const handleRemoveProfilePicture = async () => {      // handles request for removing the profile picture of the user
         let userData = {
             username: auth.user.username,
             _id: auth.user._id,
@@ -227,9 +227,9 @@ function AccountSettings() {
             profile_picture: default_image,
             publishedMaps: auth.user.publishedMaps
         }
-        auth.setNewUserInfo(userData)
-        store.loadUserMaps(auth.user.username)  // reload user and published maps with updated user info
-        store.getMapInfosSortedByLikes();
+        await auth.setNewUserInfo(userData)
+        await store.loadUserMaps(auth.user.username)  // reload user and published maps with updated user info
+        await store.getMapInfosSortedByLikes();
 
 
     }
