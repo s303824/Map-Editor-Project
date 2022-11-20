@@ -188,7 +188,7 @@ updateUser = async(req, res) => {
     loggedInUser.myprojects.forEach(async id => {
         const project = await MapInfo.findOne({_id : id})
         if(project == null) {
-            return res.status(400).json({errorMessage: "A map in myprojects was not found"});
+            return;
         }
         index = project.creator.findIndex(function (element) {
             return element.username == oldUserName;
