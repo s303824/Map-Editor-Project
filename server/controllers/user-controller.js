@@ -191,7 +191,7 @@ updateUser = async(req, res) => {
             return;
         }
         index = project.creator.findIndex(function (element) {
-            return element.username == oldUserName;
+            return element.creator == oldUserName;
             });
         project.creator[index] = {creator: username, email:email, profile_picture:profile_picture}
         project.markedModified("creator")
