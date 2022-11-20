@@ -188,7 +188,7 @@ updateUser = async(req, res) => {
     loggedInUser.myprojects.forEach(async id => {
         const project = await MapInfo.findOne({_id : id})
         if(project == null) {
-            return;
+            return res.status(400).json({errorMessage: "A map in myprojects was not found"});
         }
         index = project.creator.findIndex(item => item.username == oldUserName)
         project.creator[index] = {creator: username, email:email, profile_picture:profile_picture}
@@ -199,7 +199,7 @@ updateUser = async(req, res) => {
     loggedInUser.publishedMaps.forEach(async id => {
         const project = await MapInfo.findOne({_id : id})
         if(project == null) {
-            return;
+            return res.status(400).json({errorMessage: "A map in publishedMaps was not found"});
         }
         index = project.creator.findIndex(item => item.username == oldUserName)
         project.creator[index] = {creator: username, email:email, profile_picture:profile_picture}
