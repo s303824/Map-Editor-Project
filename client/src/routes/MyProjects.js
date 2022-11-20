@@ -62,6 +62,7 @@ const MyProjects=() =>{
                     y: 0
                 }],
             mapinfo: {
+              creatorId : auth.user._id,
               ownerName: auth.user.username,
               email: auth.user.email,
               profile_picture: auth.user.profile_picture

@@ -47,9 +47,9 @@ registerMap = async (req, res) => {
         });
 
         //creating mapinfo
-        const {ownerName, email, profile_picture} = mapinfo
+        const {creatorId, ownerName, email, profile_picture} = mapinfo
         const description = " "
-        const creator = [{creator:ownerName, email:email, profile_picture:profile_picture}]
+        const creator = [{_id: creatorId, creator:ownerName, email:email, profile_picture:profile_picture}]
         const published = "false"
         const map_id = _id ? _id : newMap._id
         const thumbnailURL = "blah"
