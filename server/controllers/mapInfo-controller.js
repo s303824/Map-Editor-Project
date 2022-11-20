@@ -357,7 +357,7 @@ addCreator = async (req, res) => {
                  .json({ errorMessage: `The user ${username} doesn't exist` });
      }
     else{
-        const newPerson = {_id: creator_exists._id, creator:creator_exists.username, email:creator_exists.email, profile_picture:creator_exists.profile_picture}
+        const newPerson = {creator:creator_exists.username, email:creator_exists.email, profile_picture:creator_exists.profile_picture}
 
          if(!selectedMapInfo.creator.includes(newPerson)){
             selectedMapInfo.creator.push(newPerson)    

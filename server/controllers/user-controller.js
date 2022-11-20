@@ -170,6 +170,26 @@ updateUser = async(req, res) => {
         }
     }
 
+    // first we get the indexes of each myprojects' creator array in which loggedInUser is found
+    let indexes = []
+    loggedInUser.myprojects.forEach(async id => {
+        const project = await MapInfo.findOne({_id : id})
+        if(project == null) {
+            return;
+        }
+        indexes.push(project.creator.findIndex(item => item._id == loggedInUser._id)) 
+    });
+
+    let publishedIndexes = []
+    loggedInUser.publishedMaps.forEach(async id => {
+        const project = await MapInfo.findOne({_id : id})
+        if(project == null) {
+            return;
+        }
+        publishedIndexes.push(project.creator.findIndex(item => item._id == loggedInUser._id)) 
+    });
+
+
     loggedInUser.first_name = first_name;
     loggedInUser.last_name = last_name;
     loggedInUser.username = username;
@@ -182,29 +202,29 @@ updateUser = async(req, res) => {
     loggedInUser.profile_picture = profile_picture
     loggedInUser.publishedMaps = publishedMaps
 
-    // for each map in loggedInUser's myprojects array, save changes onto that map's creator array
-    let index = 0
+    // then we use the indexes from earlier to update projects' creator array at that index
+    let i = 0
     loggedInUser.myprojects.forEach(async id => {
         const project = await MapInfo.findOne({_id : id})
         if(project == null) {
             return;
         }
-        index = project.creator.findIndex(item => item._id == loggedInUser._id)
-        project.creator[index] = {_id:loggedInUser._id, creator: username, email:email, profile_picture:profile_picture}
+        project.creator[indexes[i]] = {creator: username, email:email, profile_picture:profile_picture}
         project.markModified("creator")
         project.save()
+        i++
     });
 
-    // for each map in loggedInUser's publishedMaps array, save changes onto that map's creator array
+    let x = 0
     loggedInUser.publishedMaps.forEach(async id => {
         const project = await MapInfo.findOne({_id : id})
         if(project == null) {
             return;
         }
-        index = project.creator.findIndex(item => item._id == loggedInUser._id)
-        project.creator[index] = {_id:loggedInUser._id, creator: username, email:email, profile_picture:profile_picture}
+        project.creator[publishedIndexes[x]] = {creator: username, email:email, profile_picture:profile_picture}
         project.markModified("creator")
         project.save()
+        x++
     });
 
     
