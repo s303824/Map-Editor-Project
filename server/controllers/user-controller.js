@@ -170,25 +170,7 @@ updateUser = async(req, res) => {
         }
     }
 
-    // first we get the indexes of each myprojects' creator array in which loggedInUser is found
-    let indexes = []
-    loggedInUser.myprojects.forEach(async id => {
-        const project = await MapInfo.findOne({_id : id})
-        if(project == null) {
-            return;
-        }
-        indexes.push(project.creator.findIndex(item => item._id == loggedInUser._id)) 
-    });
-
-    let publishedIndexes = []
-    loggedInUser.publishedMaps.forEach(async id => {
-        const project = await MapInfo.findOne({_id : id})
-        if(project == null) {
-            return;
-        }
-        publishedIndexes.push(project.creator.findIndex(item => item._id == loggedInUser._id)) 
-    });
-
+    let oldUserName = loggedInUser.username;
 
     loggedInUser.first_name = first_name;
     loggedInUser.last_name = last_name;
@@ -202,29 +184,27 @@ updateUser = async(req, res) => {
     loggedInUser.profile_picture = profile_picture
     loggedInUser.publishedMaps = publishedMaps
 
-    // then we use the indexes from earlier to update projects' creator array at that index
-    let i = 0
+    let index = 0
     loggedInUser.myprojects.forEach(async id => {
         const project = await MapInfo.findOne({_id : id})
         if(project == null) {
             return;
         }
-        project.creator[indexes[i]] = {creator: username, email:email, profile_picture:profile_picture}
+        index = project.creator.findIndex(item => item.username == oldUserName)
+        project.creator[index] = {creator: username, email:email, profile_picture:profile_picture}
         project.markModified("creator")
         project.save()
-        i++
     });
 
-    let x = 0
     loggedInUser.publishedMaps.forEach(async id => {
         const project = await MapInfo.findOne({_id : id})
         if(project == null) {
             return;
         }
-        project.creator[publishedIndexes[x]] = {creator: username, email:email, profile_picture:profile_picture}
+        index = project.creator.findIndex(item => item.username == oldUserName)
+        project.creator[index] = {creator: username, email:email, profile_picture:profile_picture}
         project.markModified("creator")
         project.save()
-        x++
     });
 
     
