@@ -361,6 +361,8 @@ addCreator = async (req, res) => {
 
          if(!selectedMapInfo.creator.includes(newPerson)){
             selectedMapInfo.creator.push(newPerson)    
+            creator_exists.myprojects.push(selectedMapInfo)
+            creator_exists.save()
         }
     };
 
@@ -404,7 +406,6 @@ removeCreator = async (req, res) => {
                 .json({ errorMessage: "The mapinfo with _id:" + _id + " does not exist" });
     }
 
-    let newList = []
     // for each creator marked for removal, check if user exists
     const creator_exists = await User.findOne({username: username})
     if (!creator_exists){
@@ -416,6 +417,8 @@ removeCreator = async (req, res) => {
     
     // filter out removedCreators out of creator
     selectedMapInfo.creator = selectedMapInfo.creator.filter(creator => username != creator.creator);
+    creator_exists.myprojects.filter(mapInfo => mapInfo._id != selectedMapInfo._id)
+    creator_exists.save()
     // update database
     MapInfo.findOneAndUpdate({_id: _id}, {
         name : selectedMapInfo.name,
