@@ -41,7 +41,6 @@ const MapTeams = ({onClose}) => {
       const [title, setTitle] = useState(store.currentMapInfo.name)            // For title 
       const [creators, setCreators] = useState(store.currentMapInfo.creator)        // For creators input field 
       const [newCreators, setNewCreators] = useState("")                // string of users marked for addition
-      const [removedCreators, setRemovedCreators] = useState([])        // string array of users marked for removal
       const [changesMade, setChangesMade] = useState(false)
 
     const addTeam = (event) => {  
@@ -56,16 +55,14 @@ const MapTeams = ({onClose}) => {
 
     const handleUpdateTeams = async () => {
         store.addTeamMember(newCreators);
-        
-        if(store.currentMapInfo.creator != creators){
-            setChangesMade(true)
-        }
+        setChangesMade(true)
         setNewCreators("");
+        console.log(store.currentMapInfo.creator)
         setCreators(store.currentMapInfo.creator)
 
     }
 
-    const successfulChanges = changesMade ? <Typography fontSize="20px">{store.error == "" ? "Team updated" : store.error}</Typography>:null
+    const successfulChanges = changesMade ? <Typography fontSize="16px">{store.error == "" ? "Team updated" : store.error}</Typography>:null
     return(
         <Box>
         <Modal
@@ -79,7 +76,7 @@ const MapTeams = ({onClose}) => {
                 <Box className="qmodal-text">{`Creators of ${title}`}</Box>
                 <Divider />
                 <List>
-                {creators.map((member) => (
+                {store.currentMapInfo.creator.map((member) => (
                     <ListItem>
                         <ListItemText primary={member.creator} />
                         
@@ -105,6 +102,7 @@ const MapTeams = ({onClose}) => {
                 variant="filled"
                 autoComplete="current-tags"
                 className = "text-field"
+                value = {newCreators}
                 onChange={(event) => addTeam(event)}
                 />
             </Typography>
