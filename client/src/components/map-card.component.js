@@ -29,6 +29,7 @@ const MapCard = ({mapInfo}) => {
 
     const [guestWarning, setGuestWarning] = useState(false);
     const [oppositeWarning, setOppositeWarning] = useState(false);
+    const [editingAtWorkWarning, setEditingAtWorkWarning] = useState(false);
 
     const navigate = useNavigate();
 
@@ -38,7 +39,13 @@ const MapCard = ({mapInfo}) => {
     }
 
     const handleEditMap = () => {
-        store.loadMapEditor(mapInfo.map_id, mapInfo)
+        if(mapInfo.editActive == false){
+            store.loadMapEditor(mapInfo.map_id, mapInfo)
+            store.setEditActive(mapInfo, true)
+        }
+        else{
+            setEditingAtWorkWarning(true)
+        }
     }
 
     const handleGuestWarning = () => {
@@ -47,7 +54,9 @@ const MapCard = ({mapInfo}) => {
       const handleOpposite = () => {
         setOppositeWarning(false);
       }
-
+      const handleEditInProgress = () => {
+        setEditingAtWorkWarning(false)
+      }
     const handleLike = () => {
 
         //if user is NOT logged in, show modal saying they must login
@@ -132,11 +141,13 @@ const MapCard = ({mapInfo}) => {
 
  let loginModal = guestWarning ? <LoginModal message="You must log in to do that!" onClose={() => handleGuestWarning()}></LoginModal> : null
   let oppositeModal = oppositeWarning ? <LoginModal message="You can't like/dislike a map you have already done the opposite for!" onClose={() => handleOpposite()}></LoginModal> : null
+  let inProgressModal = editingAtWorkWarning ? <LoginModal message="Map work ahead!" onClose={() => handleEditInProgress()}></LoginModal> : null
 
   return (
     <Box sx={{ display:'flex' ,marginTop:"2%",width:{width},backgroundImage :'linear-gradient(to bottom, #505051, #303031)',boxShadow: '0 1px 2px 2px rgba(68,68,69,255)',borderRadius:"15px"}}>
         {loginModal}
         {oppositeModal}
+        {inProgressModal}
             <Box 
                 m ={2}
                 component="img"

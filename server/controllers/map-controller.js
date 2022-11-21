@@ -54,7 +54,7 @@ registerMap = async (req, res) => {
         const map_id = _id ? _id : newMap._id
         const thumbnailURL = "blah"
         const name = "Untitled Map"
-        const editActive = false;
+        const editActive = true;
         const downloads = 0;
         const likes = 0;
         const dislikes = 0;

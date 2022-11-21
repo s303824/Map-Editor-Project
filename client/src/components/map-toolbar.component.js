@@ -40,6 +40,7 @@ const MapToolBar=() =>{
     const {auth} = useContext(AuthContext)
     const navigate = useNavigate();
     const handleGoBack = async () => {
+        store.setEditActive(store.currentMapInfo, false)
         await auth.getLoggedIn()
         await store.loadUserMaps(auth.user.username)
         navigate("/projects", {});
