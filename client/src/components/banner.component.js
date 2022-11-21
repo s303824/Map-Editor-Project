@@ -107,19 +107,21 @@ const HomeBanner = () => {
     const loggedInUserBanner = 
         <>
              
-                <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-                    {theme.direction === 'rtl' ? (
-                    <KeyboardArrowRight />
-                    ) : (
-                    <KeyboardArrowLeft />
-                    )}
-                </Button>
+            <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+                {theme.direction === 'rtl' ? (
+                <KeyboardArrowRight />
+                ) : (
+                <KeyboardArrowLeft />
+                )}
+            </Button>
                 
             <AutoPlaySwipeableViews
                 axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
                 index={activeStep}
                 onChangeIndex={handleStepChange}
                 enableMouseEvents
+                interval={7000}
+            
             >
                 {images.map((step, index) => (
                 <div key={step.label}>
@@ -133,6 +135,7 @@ const HomeBanner = () => {
                         maxWidth: 300,
                         overflow: 'hidden',
                         width: '100%',
+                        margin: 0
                         }}
                         src={step.imgPath}
                         alt={step.label}
