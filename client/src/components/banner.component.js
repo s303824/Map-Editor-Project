@@ -34,7 +34,7 @@ const images = [
       imgPath: collaborateImage,
     },
     {
-      label: 'Export your maps as a png or JSON file and continue your work in supported apps like Tiled.',
+      label: 'Export your maps as a PNG or JSON file and continue your work in supported apps like Tiled.',
       imgPath: importExportImage,
     },
     {
