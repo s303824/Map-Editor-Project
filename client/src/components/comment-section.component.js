@@ -54,7 +54,7 @@ const CommentSection =(mapInfo)=>{
         marginRight:2,marginBottom:3,width:"50%", overflow:"auto"}}>
             {emptyModal}
 
-        <Typography sx={{backgroundColor: "#ffc806",boxShadow: `inset 0 0 6px rgba(0, 0, 0, 0.3)`,color:"black",fontSize:20,borderRadius:1,marginBottom:1, paddingLeft:"6%"}}>{commentHeader}</Typography>
+        <Typography sx={{backgroundColor: "#ffc806",boxShadow: `inset 0 0 6px rgba(0, 0, 0, 0.3)`,color:"black",fontSize:20,borderRadius:1,marginBottom:1, paddingLeft:"6%",font: 'Bebas Neue'}}>{commentHeader}</Typography>
 
         {addComment}
         <Box 

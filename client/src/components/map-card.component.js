@@ -185,7 +185,6 @@ const MapCard = ({mapInfo}) => {
                         <DownloadForOfflineTwoToneIcon sx={{fill:"#FFFFFF"}}/>
                         <Typography sx={{color: 'white',fontSize:15,marginLeft:1}}>{downloads} Downloads </Typography>
                     </IconButton> 
-
                     <IconButton aria-label="dislike">
                         <CommentIcon sx={{fill:"#FFFFFF"}}/>
                         <Typography sx={{color: 'white',fontSize:15,marginLeft:1}}>{comments.length} Comments </Typography>
