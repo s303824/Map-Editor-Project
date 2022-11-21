@@ -26,27 +26,27 @@ const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const images = [
     {
-        label: 'Start creating your maps in the My Projects screen',
+        label: "Start making your maps in My Projects and design to your heart's content.",
         imgPath: createImage,
     },  
     {
-      label: 'Work together to create wonderful maps. Add team members in Map Editor page to share projects.',
+      label: 'Work together in Map Editor to create wonderful maps and add your friends onto your team.',
       imgPath: collaborateImage,
     },
     {
-      label: 'Export your maps as png or Json and continue your works in supported Apps like Tiled',
+      label: 'Export your maps as a PNG or JSON file and continue your work in supported apps like Tiled.',
       imgPath: importExportImage,
     },
     {
-      label: 'Publish your maps to show your creativity and get feedback and recommendations from other users.',
+      label: 'Publish your maps to show your creativity and get feedback from others.',
       imgPath: shareImage,
     },
     {
-      label: "Search published maps by Name, Catagory or by your favorite creator's user name.",
+      label: "Search published maps by name, catagory or by your favorite creator's username.",
       imgPath: searchImage,
     },
     {
-      label: 'Let other users know who you are by adding profile picture, other account information can also be edited in the settings page',
+      label: 'Let others know who you are by editing your account information in Settings.',
       imgPath: updateImage,
     },
     
