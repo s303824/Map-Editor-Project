@@ -26,7 +26,7 @@ const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const images = [
     {
-        label: 'Start making your maps in My Projects.',
+        label: "Start making your maps in My Projects and design to your heart's content.",
         imgPath: createImage,
     },  
     {
