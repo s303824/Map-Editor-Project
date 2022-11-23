@@ -1,9 +1,10 @@
 import React, { StrictMode } from "react";
 import { useContext, useEffect, useState } from 'react';
-import { TextField, Button, Box, Typography} from '@mui/material';
+import { TextField, Button, Box, Typography, Modal} from '@mui/material';
 import bannerImage from '../assets/login-screen-image.png'
 import { useNavigate } from "react-router-dom";
 import LoginModal from "../components/login-modal.component";
+import AuthContext from '../auth';
 
 const PasswordReset = ({}) => {
 
@@ -58,12 +59,6 @@ const PasswordReset = ({}) => {
 
 // send email and move to the "Enter Passcode" modal
   const handleVerification = () => {
-    auth.emailVerified(email)
-    setUser(auth.user)
-    if(user == null){
-      setWrongEmail(true)
-    }
-    else{
       let code = Math.floor(1000000 + Math.random() * 9000000);
       setPasscode(code.toString())
       client.sendEmail({
@@ -73,8 +68,6 @@ const PasswordReset = ({}) => {
         "TextBody": "Your Tileslate passcode is: " + passcode
       });
       setEmailSent(true)
-  
-    }
   }
 
   // check if entered passcode is correct
@@ -82,6 +75,8 @@ const PasswordReset = ({}) => {
     if(passcode == userAttempt){
       setEmailSent(false);
       setCodeVerify(true);
+      auth.emailVerified(email)
+      setUser(auth.user)  
     }
     else{
       setWrongPasscode(true)
@@ -94,7 +89,7 @@ const PasswordReset = ({}) => {
     if(newPassword != confirm){
       setWrongConfirm(true)
     }
-    else if(!password_format.test(password)){
+    else if(!password_format.test(newPassword)){
       setInvalidPassword(true)
     }
     else {
@@ -117,6 +112,21 @@ const PasswordReset = ({}) => {
     src ={bannerImage}
     className = "login-image"
     />
+
+    const style = {
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: 400,
+      bgcolor: "#524d4d",
+      color: "white",
+      backgroundImage :'linear-gradient(to bottom, #505051, #303031)',
+      border: '2px solid #000',
+      boxShadow: 24,
+      p: 4,
+    };
+
 
   const enterPasscodeModal = emailSent ?
   <Box>
