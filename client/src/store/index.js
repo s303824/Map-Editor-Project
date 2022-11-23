@@ -779,6 +779,7 @@ store.publishCurrentMap = async function () {
 
     const formattedToday = mm + '/' + dd + '/' + yyyy;
     store.currentMapInfo.published = formattedToday;
+    store.currentMapInfo.editActive = false
     const response = await api.updateMapInfo(store.currentMapInfo);
 
     if(response.status === 200) {
