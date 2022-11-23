@@ -126,6 +126,19 @@ getLoggedIn = async (req, res) => {
     })
 }
 
+// for getting the user that's getting their password changed
+emailVerified = async (req, res) => {
+    const possibleUser = await User.findOne({ email: req.query.email });
+    if(!possibleUser) {
+        return res.status(400).json({errorMessage:"Email not found"});
+
+    }
+    return res.status(200).json({
+        user: possibleUser
+    })
+
+}
+
 logout = async(req, res) => {
     const token = auth.signToken(null);
 
@@ -303,4 +316,5 @@ module.exports = {
     updateUser,
     deleteUser,
     changePassword,
+    emailVerified
 }
