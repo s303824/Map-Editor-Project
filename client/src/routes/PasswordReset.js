@@ -1,11 +1,35 @@
-import React from "react";
+import React, { StrictMode } from "react";
+import { useContext, useEffect, useState } from 'react';
 import { TextField, Button, Box, Typography} from '@mui/material';
 import bannerImage from '../assets/login-screen-image.png'
 import { useNavigate } from "react-router-dom";
+import LoginModal from "../components/login-modal.component";
 
 const PasswordReset = ({}) => {
 
   const navigate = useNavigate();
+  const {auth} = useContext(AuthContext);
+
+  const [email, setEmail] = useState("");   // store user email
+  const [wrongEmail, setWrongEmail] = useState(false);
+
+  const [emailSent, setEmailSent] = useState(false);    // passcode verification
+  const [passcode, setPasscode] = useState("");
+  const [userAttempt, setUserAttempt] = useState("");
+  const [wrongPasscode, setWrongPasscode] = useState(false);
+
+  const [codeVerify, setCodeVerify] = useState(false);    // user verified, now change password
+  const [newPassword, setNewPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
+  const [invalidPassword, setInvalidPassword] = useState(false);
+  const [wrongConfirm, setWrongConfirm] = useState(false);
+
+  const [user, setUser] = useState(auth.user);
+
+  
+  const postmark = require("postmark");
+  const serverToken = "xxxx-xxxxx-xxxx-xxxxx-xxxxxx";
+  const client = new postmark.ServerClient(serverToken);
 
   const handleSignUp = () => {
     navigate("/login")
@@ -15,17 +39,159 @@ const PasswordReset = ({}) => {
     navigate("/", {})
   }
 
+  const updateField = (event, type) => {
+    switch(type){
+        case "email":
+          setEmail(event.target.value)
+            break;
+        case "passcode":
+          setUserAttempt(event.target.value)
+            break;
+        case "new_password":
+            setNewPassword(event.target.value)
+            break;
+        case "confirm":
+            setConfirm(event.target.value)
+            break;
+    }
+}  
+
+// send email and move to the "Enter Passcode" modal
+  const handleVerification = () => {
+    auth.emailVerified(email)
+    setUser(auth.user)
+    if(user == null){
+      setWrongEmail(true)
+    }
+    else{
+      let code = Math.floor(1000000 + Math.random() * 9000000);
+      setPasscode(code.toString())
+      client.sendEmail({
+        "From": "tile.slate.editor@gmail.com",
+        "To": email,
+        "Subject": "Tileslate Email Verification",
+        "TextBody": "Your Tileslate passcode is: " + passcode
+      });
+      setEmailSent(true)
+  
+    }
+  }
+
+  // check if entered passcode is correct
+  const handlePasscodeCheck = () => {
+    if(passcode == userAttempt){
+      setEmailSent(false);
+      setCodeVerify(true);
+    }
+    else{
+      setWrongPasscode(true)
+    }
+  }
+
+  // check if new password is valid and the same as the input from the confirmed password field
+  const handleNewPasswordClose = () => {
+    let password_format = /^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9]).{8,}/;
+    if(newPassword != confirm){
+      setWrongConfirm(true)
+    }
+    else if(!password_format.test(password)){
+      setInvalidPassword(true)
+    }
+    else {
+      setCodeVerify(false);
+
+      const userData = {
+        id: auth.user._id,
+        currentPassword: auth.user.password,
+        password: newPassword,
+        passwordVerify: confirm,
+      }
+      auth.setNewPassword(userData);
+    }
+
+  }
+
   const loginImage = <Box 
     component="img"
     alt="banner Image"
     src ={bannerImage}
     className = "login-image"
     />
-  
+
+  const enterPasscodeModal = emailSent ?
+  <Box>
+  {wrongPasscodeModal}
+  <Modal
+      open={true}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+>     onClose={() => handlePasscodeCheck()}
+      <Box sx={style}>
+      <Typography fontSize="20px">
+          <Box className="qmodal-text">Passcode</Box>
+          <TextField
+          required
+          id="outlined-title-input"
+          label="Passcode"
+          variant="filled"
+          className = "text-field"
+          onChange={(event) => updateField(event, "passcode")}
+          />
+      </Typography>
+      <Box display="flex" justifyContent="space-between">
+      <Button variant="contained" onClick={onClose} marginLeft={3}>Reset Password</Button>
+      </Box>
+      </Box>
+  </Modal>
+  </Box> : null;
+
+  const newPasswordModal = codeVerify ?   
+  <Box>
+  {wrongConfirmModal}
+  {invalidPasswordModal}
+  <Modal
+      open={true}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+>     onClose={() => handleNewPasswordClose()}
+      <Box sx={style}>
+
+      <Typography fontSize="20px">
+          <Box className="qmodal-text">Password</Box>
+          <TextField
+          required
+          id="outlined-title-input"
+          variant="filled"
+          className = "text-field"
+          onChange={(event) => updateField(event, "new_password")}
+          />
+          <Box className="qmodal-text">Confirm Password</Box>
+          <TextField
+          required
+          id="outlined-title-input"
+          variant="filled"
+          className = "text-field"
+          onChange={(event) => updateField(event, "confirm")}
+          />
+
+      </Typography>
+      <Box display="flex" justifyContent="space-between">
+          <Button variant="contained" onClick={onClose} marginLeft={3}>Log In</Button>
+      </Box>
+      </Box>
+  </Modal>
+  </Box> : null;
+
+const wrongEmailModal = wrongEmail ? <LoginModal message="The email you provided does not exist." onClose={setWrongEmail(false)}></LoginModal> : null
+const wrongPasscodeModal = wrongPasscode ? <LoginModal message="The passcode provided is incorrect." onClose={setWrongPasscode(false)}></LoginModal> : null
+const wrongConfirmModal = wrongConfirm ? <LoginModal message="Both passwords must match." onClose={setWrongConfirm(false)}></LoginModal> : null
+const invalidPasswordModal = invalidPassword ? <LoginModal message="The password must be more than 8 characters and include uppercase, lowercase, and numbers" onClose={setInvalidPassword(false)}></LoginModal> : null
 
   return (
     <Box className="login-page-holder">
-
+      {wrongEmailModal}
+      {enterPasscodeModal}
+      {newPasswordModal}
       <Box className="login-box">
 
         <Box className="login-image-holder">
@@ -49,21 +215,11 @@ const PasswordReset = ({}) => {
               
             <Box className="login-email-field">
                 <Typography>Email</Typography>
-                <TextField label="Email" className="login-textfield" variant="filled"></TextField>
-              </Box>
-
-              <Box className="login-email-field">
-                <Typography>Password</Typography>
-                <TextField label="Password" className="login-textfield" variant="filled"></TextField>
-              </Box>
-
-              <Box className="login-email-field">
-                <Typography>Password Verify</Typography>
-                <TextField label="Verify" className="login-textfield" variant="filled"></TextField>
+                <TextField label="Email" className="login-textfield" variant="filled" onChange={updateField("email")}></TextField>
               </Box>
 
               <Box className="login-button-holder">
-                <Button variant="contained" color="warning">Login</Button>
+                <Button variant="contained" color="warning" onClick = {handleVerification}>Send Passcode</Button>
               </Box>
 
               <Box className="login-bottom-text">
