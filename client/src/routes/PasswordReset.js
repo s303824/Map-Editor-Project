@@ -135,7 +135,6 @@ const PasswordReset = ({}) => {
       open={true}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
-      onClose={() => handlePasscodeCheck()}
 >     
       <Box sx={style}>
       <Typography fontSize="20px">
@@ -150,7 +149,7 @@ const PasswordReset = ({}) => {
           />
       </Typography>
       <Box display="flex" justifyContent="space-between">
-      <Button variant="contained" onClick={onClose} marginLeft={3}>Reset Password</Button>
+      <Button variant="contained" onClick={handlePasscodeCheck()} marginLeft={3}>Reset Password</Button>
       </Box>
       </Box>
   </Modal>
@@ -164,7 +163,6 @@ const PasswordReset = ({}) => {
       open={true}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
-      onClose={() => handleNewPasswordClose()}
 >     
       <Box sx={style}>
 
@@ -188,7 +186,7 @@ const PasswordReset = ({}) => {
 
       </Typography>
       <Box display="flex" justifyContent="space-between">
-          <Button variant="contained" onClick={onClose} marginLeft={3}>Log In</Button>
+          <Button variant="contained" onClick={handleNewPasswordClose()} marginLeft={3}>Log In</Button>
       </Box>
       </Box>
   </Modal>
