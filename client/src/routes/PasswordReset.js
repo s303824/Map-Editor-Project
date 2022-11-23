@@ -135,7 +135,8 @@ const PasswordReset = ({}) => {
       open={true}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
->     onClose={() => handlePasscodeCheck()}
+      onClose={() => handlePasscodeCheck()}
+>     
       <Box sx={style}>
       <Typography fontSize="20px">
           <Box className="qmodal-text">Passcode</Box>
@@ -163,7 +164,8 @@ const PasswordReset = ({}) => {
       open={true}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
->     onClose={() => handleNewPasswordClose()}
+      onClose={() => handleNewPasswordClose()}
+>     
       <Box sx={style}>
 
       <Typography fontSize="20px">
