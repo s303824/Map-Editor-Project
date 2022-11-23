@@ -196,7 +196,7 @@ const MapCard = ({mapInfo}) => {
                 </Button> 
             </Box> :  
             <Box display="flex" sx={{flexDirection:"row-reverse", width:"99%"}}>
-                <Button disabled={editActive} sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginTop:1}} onClick={handleEditMap}>
+                <Button sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginTop:1}} onClick={handleEditMap}>
                     EDIT
                 </Button>
             </Box>
