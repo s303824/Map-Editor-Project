@@ -12,7 +12,6 @@ const PasswordReset = ({}) => {
   const {auth} = useContext(AuthContext);
 
   const [email, setEmail] = useState("");   // store user email
-  const [wrongEmail, setWrongEmail] = useState(false);
 
   const [emailSent, setEmailSent] = useState(false);    // passcode verification
   const [passcode, setPasscode] = useState("");
@@ -29,7 +28,7 @@ const PasswordReset = ({}) => {
 
   
   const postmark = require("postmark");
-  const serverToken = "xxxx-xxxxx-xxxx-xxxxx-xxxxxx";
+  const serverToken = "643ab848-9267-49ba-88a2-15e36dc35763";
   const client = new postmark.ServerClient(serverToken);
 
   const handleSignUp = () => {
@@ -192,14 +191,12 @@ const PasswordReset = ({}) => {
   </Modal>
   </Box> : null;
 
-const wrongEmailModal = wrongEmail ? <LoginModal message="The email you provided does not exist." onClose={setWrongEmail(false)}></LoginModal> : null
 const wrongPasscodeModal = wrongPasscode ? <LoginModal message="The passcode provided is incorrect." onClose={setWrongPasscode(false)}></LoginModal> : null
 const wrongConfirmModal = wrongConfirm ? <LoginModal message="Both passwords must match." onClose={setWrongConfirm(false)}></LoginModal> : null
 const invalidPasswordModal = invalidPassword ? <LoginModal message="The password must be more than 8 characters and include uppercase, lowercase, and numbers" onClose={setInvalidPassword(false)}></LoginModal> : null
 
   return (
     <Box className="login-page-holder">
-      {wrongEmailModal}
       {enterPasscodeModal}
       {newPasswordModal}
       <Box className="login-box">
