@@ -23,6 +23,7 @@ const MapEditor=() =>{
       }, [])
 
     const handleUnload = () => {
+      console.log(store.currentMapInfo)
      store.setEditActive(store.currentMapInfo, false)
       console.log(store.currentMapInfo)
     }
