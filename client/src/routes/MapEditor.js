@@ -15,8 +15,16 @@ const MapEditor=() =>{
         if (store.currentMap.mapinfo == null){
           store.loadMapById(window.location.pathname.split("/")[2]);
         }
+        window.addEventListener('unload', noLongerWorking)
+        return () => {
+          window.removeEventListener('unload', noLongerWorking)
+        }
       }, [])
 
+    const noLongerWorking = () => {
+      store.setEditActive(store.currentMap.mapinfo, false)
+    }
+    
     return(
         <Box className="map-editor-container" >
           <Grid container spacing={1}>
