@@ -27,9 +27,9 @@ const PasswordReset = ({}) => {
   const [user, setUser] = useState(auth.user);
 
   
-  const postmark = require("postmark");
-  const serverToken = "643ab848-9267-49ba-88a2-15e36dc35763";
-  const client = new postmark.ServerClient(serverToken);
+  /*const postmark = require("postmark");
+  const serverToken = "e6e0a7f9-eaed-43f2-986c-a4a8267fef50";
+  const client = new postmark.ServerClient(serverToken);*/
 
   const handleSignUp = () => {
     navigate("/login")
@@ -55,19 +55,25 @@ const PasswordReset = ({}) => {
             break;
     }
 }  
-
+var Email = { send: function (a) { return new Promise(function (n, e) { a.nocache = Math.floor(1e6 * Math.random() + 1), a.Action = "Send"; var t = JSON.stringify(a); Email.ajaxPost("https://smtpjs.com/v3/smtpjs.aspx?", t, function (e) { n(e) }) }) }, ajaxPost: function (e, n, t) { var a = Email.createCORSRequest("POST", e); a.setRequestHeader("Content-type", "application/x-www-form-urlencoded"), a.onload = function () { var e = a.responseText; null != t && t(e) }, a.send(n) }, ajax: function (e, n) { var t = Email.createCORSRequest("GET", e); t.onload = function () { var e = t.responseText; null != n && n(e) }, t.send() }, createCORSRequest: function (e, n) { var t = new XMLHttpRequest; return "withCredentials" in t ? t.open(e, n, !0) : "undefined" != typeof XDomainRequest ? (t = new XDomainRequest).open(e, n) : t = null, t } };
 // send email and move to the "Enter Passcode" modal
   const handleVerification = () => {
       let code = Math.floor(1000000 + Math.random() * 9000000);
       setPasscode(code.toString())
-      client.sendEmail({
-        "From": "tile.slate.editor@gmail.com",
-        "To": email,
-        "Subject": "Tileslate Email Verification",
-        "TextBody": "Your Tileslate passcode is: " + passcode
-      });
+      
+      Email.send({
+        Host: "smtp.gmail.com",
+        Username: "tile.slate.editor@gmail.com",
+        Password: "Spree-Tradition9-Tabby",
+        To: email,
+        From: "tile.slate.editor@gmail.com",
+        Subject: "Tileslate Email Verification",
+        Body: "Your Tileslate passcode is: " + passcode,
+        })
       setEmailSent(true)
   }
+
+
 
   // check if entered passcode is correct
   const handlePasscodeCheck = () => {
@@ -200,7 +206,6 @@ const invalidPasswordModal = invalidPassword ? <LoginModal message="The password
       {enterPasscodeModal}
       {newPasswordModal}
       <Box className="login-box">
-
         <Box className="login-image-holder">
           <Box className="login-image-topper">
             <Box className="login-tileslate-text">TILESLATE</Box>
