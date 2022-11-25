@@ -13,6 +13,7 @@ import { uploadImageToCloudinaryAPIMethod } from "../api/cloudinary"
 import { Box } from "@mui/system";
 
 function AccountSettings() {
+    
     const { store } = useContext(GlobalStoreContext);
     const {auth} = useContext(AuthContext);
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
@@ -20,22 +21,27 @@ function AccountSettings() {
     const [passwordModal, setPasswordModal] = React.useState(false);             // Modal for checking if password & Verify password match
     const [passwordFormatModal, setPasswordFormatModal] = React.useState(false); // For checking if password format is correct
     const [emailModal, setEmailModal] = React.useState(false);                   // For checking if email format is correct     
-    const [errorModal, setErrorModal] = useState(auth.error != null);                         // Modal for when there is an error updating a field  
+    const [errorModal, setErrorModal] = useState(auth.error != null);            // Modal for when there is an error updating a field  
 
-    const [firstName, setFirstName] = useState(auth.user.first_name)                               // For first name input field 
-    const [lastName, setLastName] = useState(auth.user.last_name)                                 // For last name input field 
-    const [username, setUsername] = useState(auth.user.username)                                 // For username input filed
-    const [email, setEmail] = useState(auth.user.email)                                       // For email input field
-    const [currentPassword, setCurrentPassword] = useState("")                   // For current password input field 
-    const [password, setPassword] = useState("")                                 // For password input field
-    const [passwordVerify, setPasswordVerify] = useState("")                     // For password verify input field 
-    const [checked, setChecked] = useState(false);                               // For checking if user agreed to conditions before deleting account
+    const [firstName, setFirstName] = useState(auth.loggedIn ? auth.user.first_name: "")   // For first name input field 
+    const [lastName, setLastName] = useState(auth.loggedIn ? auth.user.last_name: "")      // For last name input field 
+    const [username, setUsername] = useState(auth.loggedIn ? auth.user.username: "")       // For username input filed
+    const [email, setEmail] = useState(auth.loggedIn ? auth.user.email: "")                // For email input field
+    const [currentPassword, setCurrentPassword] = useState("")                             // For current password input field 
+    const [password, setPassword] = useState("")                                           // For password input field
+    const [passwordVerify, setPasswordVerify] = useState("")                               // For password verify input field 
+    const [checked, setChecked] = useState(false);                                         // For checking if user agreed to conditions before deleting account
 
     useEffect(() => {
         if (auth.user){
           setErrorModal(auth.error != null);
+          setFirstName(auth.user.first_name)
+          setLastName(auth.user.last_name)
+          setUsername(auth.user.username)
+          setEmail(auth.user.email)
         }
       }, [auth])
+
 
     const default_image = "https://res.cloudinary.com/natialemu47/image/upload/v1652196653/dnt17uj4nl9ywfq648v8.jpg";
 
@@ -79,7 +85,8 @@ function AccountSettings() {
             profile_picture: auth.user.profile_picture,
             publishedMaps: auth.user.publishedMaps
           }
-          auth.setNewUserInfo(userData)
+           auth.setNewUserInfo(userData)
+  
     }
     const handleNameChange = () => {    // handles request for changing name 
         if (firstName === "" && lastName===""){
@@ -123,7 +130,7 @@ function AccountSettings() {
             publishedMaps: auth.user.publishedMaps
           }
           auth.setNewUserInfo(userData)
-
+  
     }
     const handlePasswordChange = () => {        // handles request for changing Password
         let password_format = /^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9]).{8,}/;
@@ -180,7 +187,7 @@ function AccountSettings() {
       
             console.log("Cloudinary upload");
             uploadImageToCloudinaryAPIMethod(formData)
-            .then((response) => {
+            .then(async(response) => {
                 console.log("Upload success");
                 console.dir(response);
                 console.log(response.url)
@@ -201,7 +208,6 @@ function AccountSettings() {
                 // Now we want to make sure this is updated on the server – either the
                 // user needs to click the submit button, or we could trigger the server call here
                 auth.setNewUserInfo(userData)
-
             });
         }
 
@@ -221,6 +227,7 @@ function AccountSettings() {
             publishedMaps: auth.user.publishedMaps
         }
         auth.setNewUserInfo(userData)
+
 
     }
 
@@ -273,7 +280,7 @@ function AccountSettings() {
             <div className='form-area'>
                 <h2 id='change-text'>Change Profile Picture</h2>
 
-                <Divider variant="middle" sx={{borderBottomWidth: 4, "border-color": 'white', "margin-bottom": "2%"}}/>
+                <Divider variant="middle" sx={{borderBottomWidth: 4, "borderColor": 'white', "marginBottom": "0.5%"}}/>
                 
                 <div id="edit2">
                     <div>
@@ -297,7 +304,7 @@ function AccountSettings() {
             <div className='form-area'>
                 <h2 id='change-text'>Change Username</h2>
 
-                <Divider variant="middle" sx={{borderBottomWidth: 4, "border-color": 'white', "margin-bottom": "2%"}}/>
+                <Divider variant="middle" sx={{borderBottomWidth: 4, "borderColor": 'white', "marginBottom": "0%"}}/>
 
                 <div>
                     <h4 style={{color: "#ffffff"}}>Enter a new user name</h4>
@@ -328,7 +335,7 @@ function AccountSettings() {
             <div className='form-area'>
                 <h2 id='change-text'>Change Name</h2>
 
-                <Divider variant="middle" sx={{borderBottomWidth: 4, "border-color": 'white', "margin-bottom": "2%"}}/>
+                <Divider variant="middle" sx={{borderBottomWidth: 4, "borderColor": 'white', "marginBottom": "2%"}}/>
 
                 <h4 style={{color: "#ffffff"}}>Enter a new name</h4>
                 <div style={{justifyContent: "space-between", display: "flex", width:"80%"}}> 
@@ -375,7 +382,7 @@ function AccountSettings() {
             <div className='form-area'>
                 <h2 id='change-text'>Change Email Address</h2>
 
-                <Divider variant="middle" sx={{borderBottomWidth: 4, "border-color": 'white', "margin-bottom": "2%"}}/>
+                <Divider variant="middle" sx={{borderBottomWidth: 4, "borderColor": 'white', "marginBottom": "2%"}}/>
 
                 <h4 style={{color: "#ffffff"}}>Enter a new Email Address</h4>
                     <TextField
@@ -404,7 +411,7 @@ function AccountSettings() {
             <div className='form-area'>
                 <h2 id='change-text'>Change Password</h2>
 
-                <Divider variant="middle" sx={{borderBottomWidth: 4, "border-color": 'white', "margin-bottom": "2%"}}/>
+                <Divider variant="middle" sx={{borderBottomWidth: 4, "borderColor": 'white', "marginBBottom": "2%"}}/>
 
                 <div>
                 <h4 id='change-text'>Enter Current Password</h4>
@@ -470,11 +477,9 @@ function AccountSettings() {
             <div className='form-area'>
                 <h2 id='change-text'>Delete account</h2>
 
-                <Divider variant="middle" sx={{borderBottomWidth: 4, "border-color": 'white', "margin-bottom": "2%"}}/>
+                <Divider variant="middle" sx={{borderBottomWidth: 4, "borderColor": 'white', "marginBottom": "2%"}}/>
 
-                <h4 style={{"margin-top": "0px",
-                            "margin-bottom": "0px",
-                            color: "#ffffff"}}>
+                <h4 style={{color: "#ffffff"}}>
                     If you delete your account please keep the following in mind:
                 </h4>
                 <ul style={{margin: "0px 0px 0px 0px",

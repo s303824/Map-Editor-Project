@@ -25,7 +25,7 @@ export const getMapInfo = (payload) => api.get(`/getMapInfo/`, {params: {_id: pa
 export const getAllMapInfoByUser = (payload) => api.get(`/getAllMapInfoByUser/`, {params: {username: payload}})
 export const getAllPublishedMapInfo = () => api.get(`/getAllPublishedMapInfo/`)
 
-export const addCreator = (payload) => api.put(`/addCreator/`, payload)
+export const addCreator = (payload) => api.put(`/addCreator/`,  payload)
 export const removeCreator = (payload) => api.put(`/removeCreator/`, payload)
 
 export const getMapInfoByListOfIds = (payload) => api.get(`/getMapInfoByListOfIds/`, {params: {idList: payload}})

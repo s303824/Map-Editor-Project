@@ -23,6 +23,7 @@ import IconButton from '@mui/material/IconButton';
 
 const MapTeams = ({onClose}) => {
     const {store} = useContext(GlobalStoreContext)
+    const {auth} = useContext(AuthContext)
 
     const style = {
         position: 'absolute',
@@ -40,46 +41,28 @@ const MapTeams = ({onClose}) => {
       const [title, setTitle] = useState(store.currentMapInfo.name)            // For title 
       const [creators, setCreators] = useState(store.currentMapInfo.creator)        // For creators input field 
       const [newCreators, setNewCreators] = useState("")                // string of users marked for addition
-      const [removedCreators, setRemovedCreators] = useState([])        // string array of users marked for removal
       const [changesMade, setChangesMade] = useState(false)
+
     const addTeam = (event) => {  
         setNewCreators(event.target.value)
     }  
 
-    const removeTeam = (event, markedUser) => {
-        //setCreators(creators => creators.filter((maker) => maker.creator !== markedUser))        // updates the displayed users list
-        //let lessMembers = removedCreators
-        //lessMembers.push(markedUser)    
-        //setRemovedCreators(lessMembers)     // updates the usernames of members that will be removed
-        /*if(auth.user.username == markedUser){
-            setCreators(creators => creators.filter((maker) => maker.creator !== markedUser))        // updates the displayed users list
-            let lessMembers = removedCreators
-            lessMembers.push(markedUser)    
-            setRemovedCreators(lessMembers)     // updates the usernames of members that will be removed    
-            }*/
-        }  
-
-    const handleUpdateTeams = async () => {
-        let trimmedCreators = newCreators.trim()
-        const memberList = trimmedCreators.split(" ")           // parses the info of new users
-
-       
-        //store.removeTeamMember(removedCreators);
-        store.addTeamMember(memberList);
-        
-        store.addTeamMember(memberList);
-        if(store.currentMapInfo.creator != creators){
-            setChangesMade(true)
-        }
-        setCreators(store.currentMapInfo.creator);
-        setChangesMade(true)
+    const removeTeam = (markedUser) => {
+        store.removeTeamMember(markedUser)
+        let newList = creators.filter(maker => maker.creator != markedUser)
+        setCreators(newList)
     }
 
-    const successfulChanges = changesMade ? <Typography fontSize="10px">Team updated</Typography>:null
+    const handleUpdateTeams = async () => {
+        store.addTeamMember(newCreators);
+        setChangesMade(true)
+        setNewCreators("");
+        console.log(store.currentMapInfo.creator)
+        setCreators(store.currentMapInfo.creator)
 
+    }
 
-    console.log(store.currentMapInfo)
-
+    const successfulChanges = changesMade ? <Typography fontSize="16px">{store.error == "" ? "Team updated" : store.error}</Typography>:null
     return(
         <Box>
         <Modal
@@ -93,12 +76,17 @@ const MapTeams = ({onClose}) => {
                 <Box className="qmodal-text">{`Creators of ${title}`}</Box>
                 <Divider />
                 <List>
-                {creators.map((member) => (
+                {store.currentMapInfo.creator.map((member) => (
                     <ListItem>
                         <ListItemText primary={member.creator} />
-                        <ListItemButton onClick={removeTeam(member.creator)}>
-                            <Button>Remove</Button>
-                        </ListItemButton>                        
+                        
+                        {auth.user.username != member.creator ?
+                            <ListItemButton onClick={() => removeTeam(member.creator)}>
+                            < Button> Remove</Button>
+                        </ListItemButton>
+                        : null}   
+
+
                         <Divider />
                     </ListItem>
                     
@@ -114,6 +102,7 @@ const MapTeams = ({onClose}) => {
                 variant="filled"
                 autoComplete="current-tags"
                 className = "text-field"
+                value = {newCreators}
                 onChange={(event) => addTeam(event)}
                 />
             </Typography>

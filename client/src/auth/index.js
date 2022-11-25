@@ -149,6 +149,31 @@ function AuthContextProvider(props) {
         }
     }
 
+    auth.emailVerified = async function (email) {
+        try {
+            const response = await api.emailVerified(email);
+            if (response.status === 200) {
+                authReducer({
+                    type: AuthActionType.SET_LOGGED_IN,
+                    payload: {
+                        loggedIn: response.data.success,
+                        user: response.data.user,
+                        successfulLogin: true
+                    }
+                });
+            }
+        } catch (error) {
+            authReducer({
+                type: AuthActionType.SET_LOGGED_IN,
+                payload: {
+                    user: null,
+                    loggedIn: false,
+                    error: error.response.data.errorMessage,
+                    successfulLogin: false
+                }
+            });
+        }        
+    }
 
     auth.registerUser = async function(userData, store) {
         let response;
@@ -279,7 +304,7 @@ function AuthContextProvider(props) {
                         successfulLogin: true
                     }
                 });
-                history("/accountSettings", [])
+                history("/", [])
             }
         } catch (error) {
             authReducer({

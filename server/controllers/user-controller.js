@@ -126,6 +126,19 @@ getLoggedIn = async (req, res) => {
     })
 }
 
+// for getting the user that's getting their password changed
+emailVerified = async (req, res) => {
+    const possibleUser = await User.findOne({ email: req.query.email });
+    if(!possibleUser) {
+        return res.status(400).json({errorMessage:"Email not found"});
+
+    }
+    return res.status(200).json({
+        user: possibleUser
+    })
+
+}
+
 logout = async(req, res) => {
     const token = auth.signToken(null);
 
@@ -170,15 +183,7 @@ updateUser = async(req, res) => {
         }
     }
 
-    // first we get the indexes of each myprojects' creator array in which loggedInUser is found
-    let indexes = []
-    loggedInUser.myprojects.forEach(async id => {
-        const project = await MapInfo.findOne({_id : id})
-        if(project == null) {
-            return;
-        }
-        indexes.push(project.creator.findIndex(item => item.creator != loggedInUser.username || item.email != loggedInUser.email || item.profile_picture != loggedInUser.profile_picture)) 
-    });
+    let oldUserName = loggedInUser.username;
 
     loggedInUser.first_name = first_name;
     loggedInUser.last_name = last_name;
@@ -192,17 +197,18 @@ updateUser = async(req, res) => {
     loggedInUser.profile_picture = profile_picture
     loggedInUser.publishedMaps = publishedMaps
 
-    // then we use the indexes from earlier to update projects' creator array at that index
-    let i = 0
+    let index = 0
     loggedInUser.myprojects.forEach(async id => {
         const project = await MapInfo.findOne({_id : id})
         if(project == null) {
             return;
         }
-        project.creator[indexes[i]] = {creator: username, email:email, profile_picture:profile_picture}
-        project.markModified("creator")
+        index = project.creator.findIndex(function (element) {
+            return element.creator == oldUserName;
+            });
+        project.creator[index] = {creator: username, email:email, profile_picture:profile_picture}
+        project.markModified ("creator")
         project.save()
-        i++
     });
 
     
@@ -310,4 +316,5 @@ module.exports = {
     updateUser,
     deleteUser,
     changePassword,
+    emailVerified
 }

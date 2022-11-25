@@ -89,7 +89,7 @@ const MyProjects=() =>{
           <MapCard key={map._id} mapInfo={map} />
         ))}  
 
-      <Typography variant="h4" sx={{backgroundImage: 'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',borderRadius:'10px',justifyContent: 'center',maxWidth:"25%",color:"grey",marginTop:'3%',marginBottom:'2%',padding:'1%',fontSize:22}}> Published Maps </Typography>
+      <Typography variant="h4" sx={{justifyContent: 'center',maxWidth:"25%",color:"white",marginTop:'3%',marginBottom:'2%',padding:'1%',fontSize:22,font: 'Bebas Neue'}}> Published Maps </Typography>
         {store.userMaps.filter((map) => (
           map.published != "false"
         )).map((map) => (
@@ -122,12 +122,12 @@ const MyProjects=() =>{
               outline: `1px solid #ffc806`,
             }}}>
         <Box display='flex' justifyContent='space-between' >
-        <Button variant="h4" sx={{backgroundImage: 'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',boxShadow: '0 1px 1px 1px rgba(68,68,69,255)',boxShadow: 1,borderRadius:'10px',justifyContent: 'center',maxWidth:"30%",color:"grey",marginTop:'1%',marginRight:'3%',marginBottom:'2%',padding:'1%',fontSize:20}}onClick={handleCreateNewProject}> Create New Project </Button>
+        <Button variant="h4" sx={{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',justifyContent: 'center',maxWidth:"30%",color:"white",marginTop:'1%',marginRight:'3%',marginBottom:'2%',padding:'1%',fontSize:20, fontWeight:"bold",font: 'Bebas Neue'}}onClick={handleCreateNewProject}> Create New Project </Button>
         </Box> 
         {mapList}
         </Box>
       </Box>
     );
   }
-  
+
   export default MyProjects;

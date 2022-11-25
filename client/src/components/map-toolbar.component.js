@@ -134,6 +134,10 @@ const MapToolBar=() =>{
         store.saveCurrentMap()
 
     }
+
+    const handleCloseTeams = () => {
+        setTeams(false)
+    }
     // return focus to the button when we transitioned from !open -> open
     const prevOpen = React.useRef(open);
     React.useEffect(() => {
@@ -145,7 +149,7 @@ const MapToolBar=() =>{
     
     const settingsModal = settings ? <MapSettings  onClose={() => setSettings(false)}></MapSettings> : null;
     const publishModal = publishModalOpen ? <PublishMap onClose={() => setPublishModalOpen(false)}></PublishMap> : null;
-    const teamsModal = teams ? <ManageTeam onClose={() => setTeams(false)}></ManageTeam> : null;
+    const teamsModal = teams ? <ManageTeam onClose={() => handleCloseTeams()}></ManageTeam> : null;
     const deleteModalBox = 
         <Dialog
             open={dialogopen}

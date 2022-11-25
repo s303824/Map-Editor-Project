@@ -20,6 +20,7 @@ import UserCard from './user-card.component';
 import GlobalStoreContext from '../store';
 import { useNavigate } from 'react-router-dom';
 import LoginModal from './login-modal.component';
+import CommentIcon from '@mui/icons-material/Comment';
 
 
 const MapCard = ({mapInfo}) => {
@@ -28,6 +29,7 @@ const MapCard = ({mapInfo}) => {
 
     const [guestWarning, setGuestWarning] = useState(false);
     const [oppositeWarning, setOppositeWarning] = useState(false);
+    const [editingAtWorkWarning, setEditingAtWorkWarning] = useState(false);
 
     const navigate = useNavigate();
 
@@ -37,7 +39,13 @@ const MapCard = ({mapInfo}) => {
     }
 
     const handleEditMap = () => {
-        store.loadMapEditor(mapInfo.map_id, mapInfo)
+        if(mapInfo.editActive == false){
+            store.loadMapEditor(mapInfo.map_id, mapInfo)
+            store.setEditActive(mapInfo, true)
+        }
+        else{
+            setEditingAtWorkWarning(true)
+        }
     }
 
     const handleGuestWarning = () => {
@@ -46,7 +54,9 @@ const MapCard = ({mapInfo}) => {
       const handleOpposite = () => {
         setOppositeWarning(false);
       }
-
+      const handleEditInProgress = () => {
+        setEditingAtWorkWarning(false)
+      }
     const handleLike = () => {
 
         //if user is NOT logged in, show modal saying they must login
@@ -107,7 +117,7 @@ const MapCard = ({mapInfo}) => {
     auth.updateUser(auth.user);
     }
 
- const {name,description,likes,dislikes,downloads,editActive,published,thumbnailURL, creator, userImage, tags} = mapInfo;
+ const {name,description,likes,dislikes,downloads,editActive,published,thumbnailURL, creator, userImage, tags, comments} = mapInfo;
  let width;
  let filteredTags = tags.filter(tag => tag != "")
  let tagsList = ""
@@ -126,13 +136,18 @@ const MapCard = ({mapInfo}) => {
  let likeColor = auth.user ? auth.user.liked_projects.includes(mapInfo._id) ? "green" : "#FFFFFF" : "#FFFFFF"
  let dislikeColor = auth.user ? auth.user.disliked_projects.includes(mapInfo._id) ? "red" : "#FFFFFF" : "#FFFFFF"
 
+ 
+ console.log(mapInfo.comments.length)
+
  let loginModal = guestWarning ? <LoginModal message="You must log in to do that!" onClose={() => handleGuestWarning()}></LoginModal> : null
   let oppositeModal = oppositeWarning ? <LoginModal message="You can't like/dislike a map you have already done the opposite for!" onClose={() => handleOpposite()}></LoginModal> : null
+  let inProgressModal = editingAtWorkWarning ? <LoginModal message="Map work ahead!" onClose={() => handleEditInProgress()}></LoginModal> : null
 
   return (
     <Box sx={{ display:'flex' ,marginTop:"2%",width:{width},backgroundImage :'linear-gradient(to bottom, #505051, #303031)',boxShadow: '0 1px 2px 2px rgba(68,68,69,255)',borderRadius:"15px"}}>
         {loginModal}
         {oppositeModal}
+        {inProgressModal}
             <Box 
                 m ={2}
                 component="img"
@@ -170,6 +185,10 @@ const MapCard = ({mapInfo}) => {
                         <DownloadForOfflineTwoToneIcon sx={{fill:"#FFFFFF"}}/>
                         <Typography sx={{color: 'white',fontSize:15,marginLeft:1}}>{downloads} Downloads </Typography>
                     </IconButton> 
+                    <IconButton aria-label="dislike">
+                        <CommentIcon sx={{fill:"#FFFFFF"}}/>
+                        <Typography sx={{color: 'white',fontSize:15,marginLeft:1}}>{comments.length} Comments </Typography>
+                    </IconButton> 
                 </Box>
 
                 <Button sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginLeft:0}} onClick={handleViewMap}>
@@ -177,7 +196,7 @@ const MapCard = ({mapInfo}) => {
                 </Button> 
             </Box> :  
             <Box display="flex" sx={{flexDirection:"row-reverse", width:"99%"}}>
-                <Button disabled={editActive} sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginTop:1}} onClick={handleEditMap}>
+                <Button sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginTop:1}} onClick={handleEditMap}>
                     EDIT
                 </Button>
             </Box>
