@@ -96,7 +96,7 @@ function GlobalStoreContextProvider(props) {
                     searchResults: store.searchResults,                 
                     currentMap: payload.currentMap,                    
                     currentMapInfo:payload.mapInfo,      
-                    currentLayer: payload.currentLayer ? payload.currentMap.layers : store.currentLayer,   //edited      
+                    currentLayer: payload.currentLayer ? payload.currentMap.layers : store.currentLayer,   //edited back by bur      
                     currentTileSet: payload.currentTileSet ? payload.currentTileSet : store.currentTileSet,  //edited
                     currentTile: store.currentTile,
                     tilesetBeingEdited: store.tilesetBeingEdited,        
@@ -115,7 +115,7 @@ function GlobalStoreContextProvider(props) {
                     currentMap: store.currentMap,                    
                     currentMapInfo:store.currentMapInfo,      
                     currentLayer: payload.currentLayer,   //edited  back by burcu  
-                    currentTileSet: store.currentTileSet,  //edited
+                    currentTileSet: store.currentTileSet,  //edited 
                     currentTile: store.currentTile,
                     tilesetBeingEdited: store.tilesetBeingEdited,        
                     selectedMapEditTool: store.selectedMapEditTool,   
@@ -493,15 +493,15 @@ store.searchByType = async function (type, value, skip, sortBy) {
 
 // Deletes the selected layer
 store.deleteSelectedLayer = function (id) {
-    console.log("burdayim");
-    let new_layers= store.currentMap.layers.filter( layer => layer.id != id);
-    store.currentMap.layers = new_layers;
+    let new_layers= store.currentMap.layers.filter( layer => layer.id != id); //remove the selected layer
+    store.currentMap.layers = new_layers; 
+
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
         payload: {
             currentMap: store.currentMap,
             mapInfo: store.mapInfo,
-            currentLayer: id == store.currentLayer.id ? null : store.currentLayer,
+            currentLayer: id == store.currentLayer.id ? null : store.currentLayer, //set the currentLayer null if it is being deleted
             currentTileSet: store.currentTileset
         }
     });
@@ -511,6 +511,7 @@ store.deleteSelectedLayer = function (id) {
 // Adds a new layer 
 store.addNewLayer = function () {
     let old_layer=store.currentMap.layers[0];
+
     //init new Layer
     let new_layer={
         data : new Array(old_layer.width*old_layer.height).fill(0), //init data with 0's
@@ -535,13 +536,58 @@ store.addNewLayer = function () {
         currentTileSet: store.currentTileSet
     }
 });
+
 }
 
 // Changes the selected layer's name
 store.changeLayerName = function (id, newName) {}
 
 // Changes the current layer's precedence
-store.changeLayerPrecedence = function (precedence) {}
+store.increaseLayerPrecedence = function () {
+    let idx = store.currentMap.layers.indexOf(store.currentLayer[0]);
+    var layer = store.currentMap.layers.splice(idx, 1)[0];
+    console.log("layer",layer);
+   // let arr = store.currentMap.layers;
+   // console.log("arr1",arr)
+   // let i1 = idx;
+    //let i2= idx-1;
+  //  arr.slice(0,i1).concat(arr[i2],arr.slice(i1+1,i2),arr[i1],arr.slice(i2+1))
+    // insert stored layer into position 
+   // console.log("arr",arr)
+    let ne = store.currentMap.layers.splice(idx-1,0, layer);
+    console.log("ne",ne);
+    let new_layer = store.currentMap.layers[idx-1];
+    console.log("new",new_layer);
+    
+    storeReducer({
+        type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
+        payload: {
+            currentMap: store.currentMap,
+            mapInfo: store.mapInfo,
+            currentLayer:new_layer,
+            currentTileSet: store.currentTileSet
+        }
+    });
+}
+
+store.decreaseLayerPrecedence = function () {
+    let idx = store.currentMap.layers.indexOf(store.currentLayer[0]);
+    var layer = store.currentMap.layers.splice(idx, 1)[0];
+    // insert stored layer into position 
+    store.currentMap.layers.splice(idx-1,0, store.currentLayer[0]);
+    
+    storeReducer({
+        type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
+        payload: {
+            currentMap: store.currentMap,
+            mapInfo: store.mapInfo,
+            currentLayer: layer,
+            currentTileSet: store.current
+        }
+    });
+
+
+}
 
 // Opens up tileset editor for the selected tileset 
 store.openTilesetForEditing= function (id) {}
@@ -741,7 +787,7 @@ store.publishCurrentMap = async function () {
 //Used by: unpublish.component
 store.unpublishCurrentMap = async function () {
     store.currentMapInfo.published = "false";
-    
+
     const response = await api.updateMapInfo(store.currentMapInfo);
 
     if(response.status === 200) {
@@ -803,13 +849,12 @@ store.loadMapEditor= async function (mapId, mapInfo) {
         const response = await api.getMap(mapId);
         if (response.status === 200) {
             console.log(response.data)
-           
             storeReducer({
                 type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                 payload: {
                     currentMap: response.data.map,
                     mapInfo: mapInfo,
-                    currentLayer: response.data.map.layers,
+                    currentLayer: response.data.map.layers,//edited back by burcu 
                     currentTileSet: response.data.map.tilesets[0]
                 }
             });

@@ -19,23 +19,24 @@ const TilesetsSection =()=>{
     const navigate = useNavigate();
     const {store} =useContext(GlobalStoreContext);
     const [value, setValue] = React.useState(0);
+    const [btnColor, setBtnColor] = useState("#d72b05");
     const handleTileEdit = () => {
         navigate("/tileseteditor", {})
     }
 
     const tilesets =[{ //to display sample data
-        "id": 1,
-        "name":"DEFAULT",
+        "_id": 1,
+        "name":"DEFAULT2",
         "precedence":1,
       },
       {
-        "id": 2,
-        "name":"DEFAULT",
+        "_id": 2,
+        "name":"DEFAULT3",
         "precedence":2,
       },
       {
-        "id": 3,
-        "name":"DEFAULT",
+        "_id": 3,
+        "name":"DEFAULT4",
         "precedence":3,
       }
     ]
@@ -44,6 +45,7 @@ const TilesetsSection =()=>{
         event.preventDefault();
         console.log(event.target.id);
         store.setCurrentTileset(event.target.id);
+        btnColor === "#d72b05" ? setBtnColor("green") : setBtnColor("#d72b05");
     };
 
     return(
@@ -55,7 +57,7 @@ const TilesetsSection =()=>{
                         Add
                     </Button>
                 </Box>
-
+                
                 <Tabs
                 value={value}
                 variant="scrollable"
@@ -70,8 +72,9 @@ const TilesetsSection =()=>{
                         <Box display='flex' sx={{backgroundImage:'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',borderRadius:2,width:"145px",marginRight:1.5}}>
                             
                         <Tab 
+                            key ={layer._id}
                             sx={{
-                            backgroundColor:'#696969',
+                            backgroundColor:{btnColor},
                             width:"4px"}}
                             id={layer.id} 
                             onClick = {handleTileSetDisplay}
