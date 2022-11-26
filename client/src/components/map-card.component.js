@@ -40,8 +40,9 @@ const MapCard = ({mapInfo}) => {
 
     const handleEditMap = () => {
         if(mapInfo.editActive == false){
-            store.loadMapEditor(mapInfo.map_id, mapInfo)
+            //store.loadMapEditor(mapInfo.map_id, mapInfo)
             store.setEditActive(mapInfo._id, true)
+            navigate("/editor/"+mapInfo._id)
         }
         else{
             setEditingAtWorkWarning(true)
@@ -117,6 +118,12 @@ const MapCard = ({mapInfo}) => {
     auth.updateUser(auth.user);
     }
 
+    let color = "white"
+    if(mapInfo.editActive) {
+        console.log(mapInfo.name)
+        color = "black"
+    }
+
  const {name,description,likes,dislikes,downloads,editActive,published,thumbnailURL, creator, userImage, tags, comments} = mapInfo;
  let width;
  let filteredTags = tags.filter(tag => tag != "")
@@ -135,9 +142,6 @@ const MapCard = ({mapInfo}) => {
 
  let likeColor = auth.user ? auth.user.liked_projects.includes(mapInfo._id) ? "green" : "#FFFFFF" : "#FFFFFF"
  let dislikeColor = auth.user ? auth.user.disliked_projects.includes(mapInfo._id) ? "red" : "#FFFFFF" : "#FFFFFF"
-
- 
- console.log(mapInfo.comments.length)
 
  let loginModal = guestWarning ? <LoginModal message="You must log in to do that!" onClose={() => handleGuestWarning()}></LoginModal> : null
   let oppositeModal = oppositeWarning ? <LoginModal message="You can't like/dislike a map you have already done the opposite for!" onClose={() => handleOpposite()}></LoginModal> : null
@@ -196,7 +200,7 @@ const MapCard = ({mapInfo}) => {
                 </Button> 
             </Box> :  
             <Box display="flex" sx={{flexDirection:"row-reverse", width:"99%"}}>
-                <Button sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginTop:1}} onClick={handleEditMap}>
+                <Button sx = {{backgroundImage: 'linear-gradient(to right,#F83600, #ffc406)',borderRadius:'10px',color:"white",fontWeight:"bold",marginTop:1, color:color}} onClick={handleEditMap}>
                     EDIT
                 </Button>
             </Box>

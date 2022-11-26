@@ -39,9 +39,11 @@ const MapToolBar=() =>{
     const {store} = useContext(GlobalStoreContext);
     const {auth} = useContext(AuthContext)
     const navigate = useNavigate();
+    
     const handleGoBack = async () => {
         await auth.getLoggedIn()
         await store.loadUserMaps(auth.user.username)
+        await store.setEditActive(store.currentMapInfo._id, false)
         navigate("/projects", {});
     }
 

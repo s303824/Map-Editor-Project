@@ -7,6 +7,7 @@ import LayersSection from '../components/layers.component';
 import TilesetsSection from '../components/tilesets-section.component';
 import Layer from '../components/layer-component';
 
+
 const MapEditor=() =>{
     const { store } = useContext(GlobalStoreContext);
     const {auth} = useContext(AuthContext)
@@ -16,17 +17,35 @@ const MapEditor=() =>{
         if (store.currentMap.mapinfo == null){
           store.loadMapById(window.location.pathname.split("/")[2]);
         }
-        window.addEventListener('beforeunload', handleUnload)
-        return () => {
-          window.removeEventListener('beforeunload', handleUnload)
-          handleUnload()
-        }
-      }, [])
 
-    const handleUnload = () => {
-      console.log("Leaving Page")
-      console.log(id)
-      store.setEditActive(id, false)
+        window.addEventListener('popstate', (event) => {
+          console.log("going back")
+          // Cancel the event as stated by the standard.
+          event.preventDefault();
+          // Chrome requires returnValue to be set.
+          event.returnValue = '';
+          store.setEditActive(id, false);
+        }); 
+
+
+        window.addEventListener('beforeunload', alertUser)
+        window.addEventListener('unload', handleTabClosing)
+        return () => {
+          window.removeEventListener('beforeunload', alertUser)
+          window.removeEventListener('unload', handleTabClosing)
+      }
+
+      }, []);   
+
+
+      const handleTabClosing = () => {
+        console.log("FSd")
+        store.setEditActive(id, false)
+    }
+    
+    const alertUser = (event) => {
+        event.preventDefault()
+        event.returnValue = ''
     }
 
     return(
