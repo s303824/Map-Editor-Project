@@ -10,12 +10,11 @@ import Layer from '../components/layer-component';
 const MapEditor=() =>{
     const { store } = useContext(GlobalStoreContext);
     const {auth} = useContext(AuthContext)
-    const [id, setId] = useState(store.currentMap.mapinfo);
+    const [id, setId] = useState(window.location.pathname.split("/")[2]);
 
     useEffect(() => {
         if (store.currentMap.mapinfo == null){
           store.loadMapById(window.location.pathname.split("/")[2]);
-          setId(window.location.pathname.split("/")[2])
         }
         window.addEventListener('beforeunload', handleUnload)
         return () => {
