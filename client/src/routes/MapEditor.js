@@ -10,10 +10,12 @@ import Layer from '../components/layer-component';
 const MapEditor=() =>{
     const { store } = useContext(GlobalStoreContext);
     const {auth} = useContext(AuthContext)
-    
+    const [id, setId] = useState(store.currentMap.mapinfo);
+
     useEffect(() => {
         if (store.currentMap.mapinfo == null){
           store.loadMapById(window.location.pathname.split("/")[2]);
+          setId(window.location.pathname.split("/")[2])
         }
         window.addEventListener('beforeunload', handleUnload)
         return () => {
@@ -24,8 +26,8 @@ const MapEditor=() =>{
 
     const handleUnload = () => {
       console.log("Leaving Page")
-      console.log(store.currentMap.mapinfo)
-      store.setEditActive(store.currentMap.mapinfo, false)
+      console.log(id)
+      store.setEditActive(id, false)
     }
 
     return(
