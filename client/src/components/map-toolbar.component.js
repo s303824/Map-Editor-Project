@@ -49,10 +49,12 @@ const MapToolBar=() =>{
 
     const [open, setOpen] = React.useState(false);    
     const [dialogopen, setDialogOpen] = React.useState(false);
+    const [exportMenu, setExportMenu] = useState(false);
     const [settings, setSettings] = useState(false);
     const [teams, setTeams] = useState(false);
     const [publishModalOpen, setPublishModalOpen] = useState(false);
     const anchorRef = React.useRef(null);
+    const expoRef = React.useRef(null)
 
     const handleClickOpen = () => {
         setDialogOpen(true);
@@ -61,6 +63,14 @@ const MapToolBar=() =>{
     const handleDialogClose = () => {
       setDialogOpen(false);
     };
+
+    const handleExportMenu = () => {
+        setExportMenu(true);
+    }
+
+    const handleExportMenuClose = () => {
+        setExportMenu(false);
+    }
   
     const handleChangeThumbnail = (event) => {
         console.log("New File Selected");
@@ -103,6 +113,13 @@ const MapToolBar=() =>{
         }
         setOpen(false);
     };
+    
+    const handleExportClose = (event) => {
+        if (expoRef.current && expoRef.current.contains(event.target)) {
+            return;
+        }
+        setExportMenu(false);
+    };
 
     const handleOpenSettings = () => {
         setSettings(true)
@@ -142,12 +159,15 @@ const MapToolBar=() =>{
     }
     // return focus to the button when we transitioned from !open -> open
     const prevOpen = React.useRef(open);
+    const expoOpen = React.useRef(exportMenu)
     React.useEffect(() => {
     if (prevOpen.current === true && open === false) {
         anchorRef.current.focus();
         }
         prevOpen.current = open;
-    }, [open]);
+
+        expoOpen.current = exportMenu;
+    }, [open, exportMenu]);
     
     const settingsModal = settings ? <MapSettings  onClose={() => setSettings(false)}></MapSettings> : null;
     const publishModal = publishModalOpen ? <PublishMap onClose={() => setPublishModalOpen(false)}></PublishMap> : null;
@@ -175,6 +195,27 @@ const MapToolBar=() =>{
             </DialogActions>
         </Dialog>
 
+    const exportAsJSON = async () => {
+        let mapData = store.currentMap   
+
+        // create file in browser
+        const fileName = store.currentMapInfo.name;
+        const json = JSON.stringify(mapData, null, 2);
+        const blob = new Blob([json], { type: "application/json" });
+        const href = URL.createObjectURL(blob);
+
+        // create "a" HTLM element with href to file
+        const link = document.createElement("a");
+        link.href = href;
+        link.download = fileName + ".json";
+        document.body.appendChild(link);
+        link.click();
+
+        // clean up "a" element & remove ObjectURL
+        document.body.removeChild(link);
+        URL.revokeObjectURL(href); 
+    }
+
     const handleStampClick = (event) =>{
         store.setCurrentMapEditingTool("stamp");
     }
@@ -186,6 +227,41 @@ const MapToolBar=() =>{
     const handleEraserClick = (event) =>{
         store.setCurrentMapEditingTool("eraser");
     }
+
+    let exportDropDown = 
+        <Popper
+        sx={{paddingRight:"15%"}}
+        open={exportMenu}
+        anchorEl={anchorRef.current}
+        role={undefined}
+        placement="bottom-start"
+        transition
+        disablePortal
+    >
+        {({ TransitionProps, placement }) => (
+            <Grow
+                {...TransitionProps}
+                style={{
+                    transformOrigin:
+                    placement === 'bottom-start' ? 'left top' : 'left bottom',
+                }}
+                >
+                <Paper>
+                    <ClickAwayListener onClickAway={handleExportMenuClose}>
+                        <MenuList
+                            autoFocusItem={exportMenu}
+                            id="composition-menu"
+                            aria-labelledby="composition-button"
+                        >
+                            {/* add settings to the settings menu-bar here  */}
+                            <MenuItem onClick={() => exportAsJSON()}>As JSON</MenuItem>   
+                            <MenuItem onClick={(null)}>As PNG</MenuItem>
+                        </MenuList>
+                    </ClickAwayListener>
+                </Paper>
+            </Grow>
+        )}
+    </Popper>
 
     return (
         
@@ -220,9 +296,12 @@ const MapToolBar=() =>{
                 </IconButton>
             </Box>
             <Box >
-                <Button sx = {{backgroundImage: 'linear-gradient(to right,#a51916,#F83600)',borderRadius:'10px',color:"white",fontWeight:"bold",fontSize:15,marginX:1}}>
+                <Button onClick={() => handleExportMenu()} sx = {{backgroundImage: 'linear-gradient(to right,#a51916,#F83600)',borderRadius:'10px',color:"white",fontWeight:"bold",fontSize:15,marginX:1}}>
                     Export
                 </Button>
+                
+                {exportDropDown}
+
 
                 <Button sx = {{backgroundImage: 'linear-gradient(to right,#fa5a01,#fe9f05)',borderRadius:'10px',color:"white",fontWeight:"bold",fontSize:15,marginX:1}} onClick = {handleMapSave} >
                     Save 

@@ -18,6 +18,7 @@ const MapEditor=() =>{
           store.loadMapById(window.location.pathname.split("/")[2]);
         }
 
+        //for going back
         window.addEventListener('popstate', (event) => {
           console.log("going back")
           // Cancel the event as stated by the standard.
@@ -38,14 +39,23 @@ const MapEditor=() =>{
       }, []);   
 
 
+      //this SHOULD be called when tab is closed but isnt
       const handleTabClosing = () => {
         console.log("FSd")
         store.setEditActive(id, false)
     }
     
+    //called before tab is closed with a popup
     const alertUser = (event) => {
-        event.preventDefault()
-        event.returnValue = ''
+      //store.setEditActive(id, false)
+      event.preventDefault()
+      event.returnValue = ''
+      console.log("pop")
+    }
+
+    function sleep(delay) {
+      var start = new Date().getTime();
+      while (new Date().getTime() < start + delay);
     }
 
     return(

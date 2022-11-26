@@ -143,6 +143,8 @@ updateMapInfo = async (req, res) => {
                 .json({ errorMessage: "The mapinfo with _id:" + _id + " does not exist" });
     }
 
+    console.log("updating: " + name)
+
     selectedMapInfo.name = name;
     selectedMapInfo.creator = creator;
     selectedMapInfo.thumbnailURL = thumbnailURL;

@@ -984,6 +984,7 @@ store.addComment= async function (mapInfo,comment) {
 //Set edit active
 store.setEditActive= async function (_id,editActive) {
     const response = await api.getMapInfo(_id)
+    console.log("sent")
     response.data.mapInfo.editActive = editActive;
     const response1 = await api.updateMapInfo(response.data.mapInfo);
     if(response1.status === 200) {
