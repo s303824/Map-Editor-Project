@@ -24,9 +24,8 @@ const MapEditor=() =>{
 
     const handleUnload = () => {
       console.log("Leaving Page")
-      console.log(store.currentMapInfo)
-      store.setEditActive(store.currentMapInfo, false)
-      console.log(store.currentMapInfo)
+      console.log(store.currentMap.mapinfo)
+      store.setEditActive(store.currentMap.mapinfo, false)
     }
 
     return(

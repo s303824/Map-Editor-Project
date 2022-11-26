@@ -41,7 +41,7 @@ const MapCard = ({mapInfo}) => {
     const handleEditMap = () => {
         if(mapInfo.editActive == false){
             store.loadMapEditor(mapInfo.map_id, mapInfo)
-            store.setEditActive(mapInfo, true)
+            store.setEditActive(mapInfo._id, true)
         }
         else{
             setEditingAtWorkWarning(true)

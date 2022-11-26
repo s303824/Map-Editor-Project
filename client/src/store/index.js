@@ -982,10 +982,11 @@ store.addComment= async function (mapInfo,comment) {
 }
 
 //Set edit active
-store.setEditActive= async function (mapInfo,editActive) {
-    mapInfo.editActive = editActive;
-    const response = await api.updateMapInfo(mapInfo);
-    if(response.status === 200) {
+store.setEditActive= async function (_id,editActive) {
+    const response = await api.getMapInfo(_id)
+    response.data.mapInfo.editActive = editActive;
+    const response1 = await api.updateMapInfo(mapInfo);
+    if(response1.status === 200) {
         storeReducer({
             type: GlobalStoreActionType.UPDATE_MAP_INFO,
             payload: {
