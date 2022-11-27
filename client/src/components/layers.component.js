@@ -15,7 +15,6 @@ const LayersSection =()=>{
     let currentLayer= store.currentLayer;
 
     console.log("current",currentLayer);
-
     //sort the layers based on their precedence
     //const sortedByPredence = (store.currentMap.layers.sort((a, b) => a.precedence - b.precedence)); 
 
@@ -28,6 +27,13 @@ const LayersSection =()=>{
         event.preventDefault();
         store.increaseLayerPrecedence();
     }
+
+    const handleDecreasePredence = (event) => {
+        event.preventDefault();
+        store.decreaseLayerPrecedence();
+    }
+
+    
 
     return(
         <Grid sx={{backgroundImage :'linear-gradient(to left, #505051, #303031)',boxShadow: '0 1px 2px 2px rgba(68,68,69,255)',borderRadius:2}}>
@@ -71,7 +77,7 @@ const LayersSection =()=>{
                 <IconButton aria-label="increase precedence" onClick ={handleIncreasePredence}>
                     <ArrowCircleUpTwoToneIcon sx={{fill:"white" ,fontSize:35}}/>
                 </IconButton>
-                 <IconButton aria-label="decrease precedence">
+                 <IconButton aria-label="decrease precedence" onClick ={handleDecreasePredence}>
                     <ArrowCircleDownTwoToneIcon sx={{fill:"white" ,fontSize:35}}/>
                 </IconButton>
 
