@@ -32,6 +32,7 @@ import { compareSync } from 'bcryptjs';
 import ManageTeam from './manage-team.component';
 import MapSettings from './map-settings.component';
 import PublishMap from './publish.component';
+import map from '../assets/map-card.jpg';
 import { uploadImageToCloudinaryAPIMethod } from "../api/cloudinary"
 
 
@@ -195,8 +196,14 @@ const MapToolBar=() =>{
             </DialogActions>
         </Dialog>
 
+    //need to figure out how to export as png
     const exportAsJSON = async () => {
-        let mapData = store.currentMap   
+        let mapData = store.currentMap 
+        mapData.tilesets[0].image = "map-card-7.jpg"
+        mapData.tilesets[0].source = null
+        mapData.tilesets[0].margin = 0
+        mapData.tilewidth = 64;
+        mapData.tileheight = 64;
 
         // create file in browser
         const fileName = store.currentMapInfo.name;
@@ -214,6 +221,21 @@ const MapToolBar=() =>{
         // clean up "a" element & remove ObjectURL
         document.body.removeChild(link);
         URL.revokeObjectURL(href); 
+
+
+        /*const link1 = document.createElement("a");
+        const fileName1 = store.currentMapInfo.name + "-tileset";
+        const blob1 = new Blob([], { type: "image/jpg;base64" });
+        const href1 = URL.createObjectURL(blob1);
+
+        link1.href = href1;
+        link1.download = fileName1 + ".jpg";
+        document.body.appendChild(link1);
+        link1.click();
+
+        // clean up "a" element & remove ObjectURL
+        document.body.removeChild(link1);
+        URL.revokeObjectURL(href1); */
     }
 
     const handleStampClick = (event) =>{
