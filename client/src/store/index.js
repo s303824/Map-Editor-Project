@@ -3,6 +3,8 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { Navigate, useHistory, useNavigate } from 'react-router-dom'
 import api from '../api'
 import AuthContext from '../auth';
+import JsTPS from "../common/jsTPS"
+import PlaceTile_Transaction from '../transactions/PlaceTile_Transaction';
 
 
 // THIS IS THE CONTEXT WE'LL USE TO SHARE OUR STORE
@@ -25,6 +27,8 @@ export const GlobalStoreActionType = {
     UPDATE_MAP_INFO: "UPDATE_MAP_INFO",
     ERROR: "ERROR"
 }
+
+const tps = new JsTPS();
 
 function GlobalStoreContextProvider(props) {
 
@@ -722,14 +726,38 @@ store.setCurrentMapEditingTool = function (selectedTool) {
 }
 
  //Undo the latest transaction 
-store.undoUserEdit = function () {}
+store.undoUserEdit = function () {
+    tps.undoTransaction();
+}
 
 //Redo the latest transaction 
-store.redoUserEdit = function () {}
+store.redoUserEdit = function () {
+    tps.doTransaction();
+}
 
-//Paints the selected currentlayer's tile with the "currentTile" 
+//Paints the selected currentlayer's tile with the "currentTile"
+//store.currentTile.id is the id of the tile selected from the current tileset
+//id is the id of the tile on the mpa 
 store.paintTile = function (id,value) {
+    console.log("currentTile: " +store.currentTile.id )
+    let transaction = new PlaceTile_Transaction(store, store.currentTile.id, id, store.currentLayer[0].data[id])
+    tps.addTransaction(transaction)
+}
+
+store.paintHelper = function(id) {
     store.currentLayer[0].data[id]=(parseInt(store.currentTile.id)+ parseInt(store.currentTileSet.firstgid));
+    console.log("new tile: " + id)
+    storeReducer({
+        type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
+        payload: {
+            currentLayer:store.currentLayer
+        }
+    });
+}
+
+store.paintHelperUndo = function(id, tileId) {
+    store.currentLayer[0].data[id]=(parseInt(tileId)+ parseInt(store.currentTileSet.firstgid));
+    console.log("new tile: " + id)
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
         payload: {

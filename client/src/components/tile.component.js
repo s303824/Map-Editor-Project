@@ -32,7 +32,6 @@ const Tile =(tileInfo)=>{
     if(event.target.parentElement.className.includes('tileset-section')){
       store.setCurrentTile(event.target.id,value);
     }else{
-      console.log("target",event);
       store.handleMapAction(event.target.id,value);
     }
   } 
