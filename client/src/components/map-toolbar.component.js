@@ -199,8 +199,11 @@ const MapToolBar=() =>{
     //need to figure out how to export as png
     const exportAsJSON = async () => {
         let mapData = store.currentMap 
-        mapData.tilesets[0].image = "/assets/map-card.jpg"
-        mapData.tilesets[0].source = ""
+        mapData.tilesets[0].image = "map-card-7.jpg"
+        mapData.tilesets[0].source = null
+        mapData.tilesets[0].margin = 0
+        mapData.tilewidth = 64;
+        mapData.tileheight = 64;
 
         // create file in browser
         const fileName = store.currentMapInfo.name;
@@ -220,7 +223,7 @@ const MapToolBar=() =>{
         URL.revokeObjectURL(href); 
 
 
-        const link1 = document.createElement("a");
+        /*const link1 = document.createElement("a");
         const fileName1 = store.currentMapInfo.name + "-tileset";
         const blob1 = new Blob([], { type: "image/jpg;base64" });
         const href1 = URL.createObjectURL(blob1);
@@ -232,7 +235,7 @@ const MapToolBar=() =>{
 
         // clean up "a" element & remove ObjectURL
         document.body.removeChild(link1);
-        URL.revokeObjectURL(href1); 
+        URL.revokeObjectURL(href1); */
     }
 
     const handleStampClick = (event) =>{
