@@ -7,42 +7,29 @@ import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
 import ArrowCircleDownTwoToneIcon from '@mui/icons-material/ArrowCircleDownTwoTone';
 import ArrowCircleUpTwoToneIcon from '@mui/icons-material/ArrowCircleUpTwoTone';
 import Typography from '@mui/material/Typography';
-import { useContext } from 'react';
+import { useContext,useState } from 'react';
 import { GlobalStoreContext } from '../store';
 
 const LayersSection =()=>{
     const {store} = useContext(GlobalStoreContext);
-    const layers =[{ //to display sample data
-        "id": 1,
-        "name":"Layer1",
-        "precedence":1,
-      },
-      {
-        "id": 2,
-        "name":"Layer2",
-        "precedence":2,
-      },
-      {
-        "id": 3,
-        "name":"Layer3",
-        "precedence":3,
-      },
-      {
-        "id": 4,
-        "name":"Layer4",
-        "precedence":3,
-      },
-      {
-        "id": 5,
-        "name":"Layer5",
-        "precedence":3,
-      }
-    
-    ]
 
-    const handleSelectLayer = (event) => {
+    if(!store.currentMap.tileheight) {
+        return null;
+      }
+      console.log(store.currentMapInfo)
+      console.log(store.currentMap)
+    let currentLayer= store.currentLayer;
+    //sort the layers based on their precedence
+    //const sortedByPredence = (store.currentMap.layers.sort((a, b) => a.precedence - b.precedence)); 
+
+    const handleAddLayerButton = (event) => {
         event.preventDefault();
-        store.setCurrentLayer(event.target.id);
+        store.addNewLayer();
+    }
+
+    const handleIncreasePredence = (event) => {
+        event.preventDefault();
+        store.increaseLayerPrecedence();
     }
 
     return(
@@ -50,7 +37,13 @@ const LayersSection =()=>{
             <Grid >
                 <Box sx={{display:"flex",justifyContent:"space-between"}}>
                     <Typography sx={{color:"white",fontSize:20,fontWeight:"bold",marginTop:2,marginLeft:3}}>LAYERS</Typography>
-                    <Button variant="contained" endIcon={<AddCircleTwoToneIcon />} sx={{backgroundColor:"#d72b05",boxShadow: '0 2px 4px 2px rgba(68,68,69,255)',marginRight:3,marginTop:1}}>
+                    <Button variant="contained" endIcon={<AddCircleTwoToneIcon />} 
+                        sx={{backgroundColor:"#d72b05",
+                        boxShadow: '0 2px 4px 2px rgba(68,68,69,255)',
+                        marginRight:3,
+                        marginTop:1}}
+                        onClick = {handleAddLayerButton}
+                        >
                         Add
                     </Button>
                 </Box>
@@ -66,19 +59,19 @@ const LayersSection =()=>{
                     backgroundColor: "#ffc806",
                     outline: `1px solid #ffc806`,
                 }}}>  
-                <List sx={{backroundColor:"#E0E0E0"}}>{
-                        layers.map((layer) => (
+                <List sx={{backroundColor:"#E0E0E0"}} >{
+                        store.currentMap.layers.map((layer) => (
                         <LayerCard
-                        key={layer._id}
+                        id={layer.id}
                         layerInfo={layer}
-                        selected={false}
-                        onClick ={handleSelectLayer}
-                        />))}
+                        selected={currentLayer.id == layer.id ? true : false}
+                        />
+                        ))}
                  </List>
                 </Grid>
             </Grid>
             <Box  display="flex " justifyContent="flex-end" sx={{marginRight:4}}>
-                <IconButton aria-label="increase precedence">
+                <IconButton aria-label="increase precedence" onClick ={handleIncreasePredence}>
                     <ArrowCircleUpTwoToneIcon sx={{fill:"white" ,fontSize:35}}/>
                 </IconButton>
                  <IconButton aria-label="decrease precedence">

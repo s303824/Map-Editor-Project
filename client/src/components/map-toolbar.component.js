@@ -32,6 +32,7 @@ import { compareSync } from 'bcryptjs';
 import ManageTeam from './manage-team.component';
 import MapSettings from './map-settings.component';
 import PublishMap from './publish.component';
+import map from '../assets/map-card.jpg';
 import { uploadImageToCloudinaryAPIMethod } from "../api/cloudinary"
 
 
@@ -39,19 +40,22 @@ const MapToolBar=() =>{
     const {store} = useContext(GlobalStoreContext);
     const {auth} = useContext(AuthContext)
     const navigate = useNavigate();
+    
     const handleGoBack = async () => {
-        store.setEditActive(store.currentMapInfo, false)
         await auth.getLoggedIn()
         await store.loadUserMaps(auth.user.username)
+        await store.setEditActive(store.currentMapInfo._id, false)
         navigate("/projects", {});
     }
 
     const [open, setOpen] = React.useState(false);    
     const [dialogopen, setDialogOpen] = React.useState(false);
+    const [exportMenu, setExportMenu] = useState(false);
     const [settings, setSettings] = useState(false);
     const [teams, setTeams] = useState(false);
     const [publishModalOpen, setPublishModalOpen] = useState(false);
     const anchorRef = React.useRef(null);
+    const expoRef = React.useRef(null)
 
     const handleClickOpen = () => {
         setDialogOpen(true);
@@ -60,6 +64,14 @@ const MapToolBar=() =>{
     const handleDialogClose = () => {
       setDialogOpen(false);
     };
+
+    const handleExportMenu = () => {
+        setExportMenu(true);
+    }
+
+    const handleExportMenuClose = () => {
+        setExportMenu(false);
+    }
   
     const handleChangeThumbnail = (event) => {
         console.log("New File Selected");
@@ -102,6 +114,13 @@ const MapToolBar=() =>{
         }
         setOpen(false);
     };
+    
+    const handleExportClose = (event) => {
+        if (expoRef.current && expoRef.current.contains(event.target)) {
+            return;
+        }
+        setExportMenu(false);
+    };
 
     const handleOpenSettings = () => {
         setSettings(true)
@@ -141,12 +160,15 @@ const MapToolBar=() =>{
     }
     // return focus to the button when we transitioned from !open -> open
     const prevOpen = React.useRef(open);
+    const expoOpen = React.useRef(exportMenu)
     React.useEffect(() => {
     if (prevOpen.current === true && open === false) {
         anchorRef.current.focus();
         }
         prevOpen.current = open;
-    }, [open]);
+
+        expoOpen.current = exportMenu;
+    }, [open, exportMenu]);
     
     const settingsModal = settings ? <MapSettings  onClose={() => setSettings(false)}></MapSettings> : null;
     const publishModal = publishModalOpen ? <PublishMap onClose={() => setPublishModalOpen(false)}></PublishMap> : null;
@@ -174,6 +196,49 @@ const MapToolBar=() =>{
             </DialogActions>
         </Dialog>
 
+    //need to figure out how to export as png
+    const exportAsJSON = async () => {
+        let mapData = store.currentMap 
+        mapData.tilesets[0].image = "map-card-7.jpg"
+        mapData.tilesets[0].source = null
+        mapData.tilesets[0].margin = 0
+        mapData.tilewidth = 64;
+        mapData.tileheight = 64;
+
+        // create file in browser
+        console.log(store.currentMapInfo)
+        const fileName = store.currentMapInfo.name;
+        const json = JSON.stringify(mapData, null, 2);
+        const blob = new Blob([json], { type: "application/json" });
+        const href = URL.createObjectURL(blob);
+
+        // create "a" HTLM element with href to file
+        const link = document.createElement("a");
+        link.href = href;
+        link.download = fileName + ".json";
+        document.body.appendChild(link);
+        link.click();
+
+        // clean up "a" element & remove ObjectURL
+        document.body.removeChild(link);
+        URL.revokeObjectURL(href); 
+
+
+        /*const link1 = document.createElement("a");
+        const fileName1 = store.currentMapInfo.name + "-tileset";
+        const blob1 = new Blob([], { type: "image/jpg;base64" });
+        const href1 = URL.createObjectURL(blob1);
+
+        link1.href = href1;
+        link1.download = fileName1 + ".jpg";
+        document.body.appendChild(link1);
+        link1.click();
+
+        // clean up "a" element & remove ObjectURL
+        document.body.removeChild(link1);
+        URL.revokeObjectURL(href1); */
+    }
+
     const handleStampClick = (event) =>{
         store.setCurrentMapEditingTool("stamp");
     }
@@ -185,6 +250,41 @@ const MapToolBar=() =>{
     const handleEraserClick = (event) =>{
         store.setCurrentMapEditingTool("eraser");
     }
+
+    let exportDropDown = 
+        <Popper
+        sx={{paddingRight:"15%"}}
+        open={exportMenu}
+        anchorEl={anchorRef.current}
+        role={undefined}
+        placement="bottom-start"
+        transition
+        disablePortal
+    >
+        {({ TransitionProps, placement }) => (
+            <Grow
+                {...TransitionProps}
+                style={{
+                    transformOrigin:
+                    placement === 'bottom-start' ? 'left top' : 'left bottom',
+                }}
+                >
+                <Paper>
+                    <ClickAwayListener onClickAway={handleExportMenuClose}>
+                        <MenuList
+                            autoFocusItem={exportMenu}
+                            id="composition-menu"
+                            aria-labelledby="composition-button"
+                        >
+                            {/* add settings to the settings menu-bar here  */}
+                            <MenuItem onClick={() => exportAsJSON()}>As JSON</MenuItem>   
+                            <MenuItem onClick={(null)}>As PNG</MenuItem>
+                        </MenuList>
+                    </ClickAwayListener>
+                </Paper>
+            </Grow>
+        )}
+    </Popper>
 
     return (
         
@@ -219,9 +319,12 @@ const MapToolBar=() =>{
                 </IconButton>
             </Box>
             <Box >
-                <Button sx = {{backgroundImage: 'linear-gradient(to right,#a51916,#F83600)',borderRadius:'10px',color:"white",fontWeight:"bold",fontSize:15,marginX:1}}>
+                <Button onClick={() => handleExportMenu()} sx = {{backgroundImage: 'linear-gradient(to right,#a51916,#F83600)',borderRadius:'10px',color:"white",fontWeight:"bold",fontSize:15,marginX:1}}>
                     Export
                 </Button>
+                
+                {exportDropDown}
+
 
                 <Button sx = {{backgroundImage: 'linear-gradient(to right,#fa5a01,#fe9f05)',borderRadius:'10px',color:"white",fontWeight:"bold",fontSize:15,marginX:1}} onClick = {handleMapSave} >
                     Save 

@@ -27,9 +27,12 @@ const PasswordReset = ({}) => {
   const [user, setUser] = useState(auth.user);
 
   
-  const postmark = require("postmark");
-  const serverToken = "643ab848-9267-49ba-88a2-15e36dc35763";
-  const client = new postmark.ServerClient(serverToken);
+// Require:
+var postmark = require("postmark");
+
+// Send an email:
+var client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
+
 
   const handleSignUp = () => {
     navigate("/login")
@@ -60,11 +63,14 @@ const PasswordReset = ({}) => {
   const handleVerification = () => {
       let code = Math.floor(1000000 + Math.random() * 9000000);
       setPasscode(code.toString())
+
       client.sendEmail({
-        "From": "tile.slate.editor@gmail.com",
+        "From": "sean.yang@stonybrook.edu",
         "To": email,
         "Subject": "Tileslate Email Verification",
-        "TextBody": "Your Tileslate passcode is: " + passcode
+        "HtmlBody": "<strong>Hello</strong> dear user.",
+        "TextBody": "Your Tileslate passcode is: " + passcode,
+        "MessageStream": "outbound"
       });
       setEmailSent(true)
   }
@@ -200,7 +206,6 @@ const invalidPasswordModal = invalidPassword ? <LoginModal message="The password
       {enterPasscodeModal}
       {newPasswordModal}
       <Box className="login-box">
-
         <Box className="login-image-holder">
           <Box className="login-image-topper">
             <Box className="login-tileslate-text">TILESLATE</Box>

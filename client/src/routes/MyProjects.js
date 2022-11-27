@@ -71,9 +71,9 @@ const MyProjects=() =>{
             orientation: "orthogonal",
             renderorder: "right-down",
             tiledversion: "1.9.2",
-            tileheight: 32,
+            tileheight: 64,
             tilesets: [],
-            tilewidth: 32,
+            tilewidth: 64,
             type: "map",
             version: "1.9",
             width: 30

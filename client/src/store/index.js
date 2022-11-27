@@ -35,38 +35,7 @@ function GlobalStoreContextProvider(props) {
         searchResults: [],                   //holds search results
         currentMap: {},                    //holds the current map opened for editing
         currentMapInfo:[],             //current open map mapInfo
-        currentLayer:[
-            {
-             "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-             "height":20,
-             "id":1,
-             "name":"Tile Layer 1",
-             "opacity":1,
-             "type":"tilelayer",
-             "visible":true,
-             "width":30,
-             "x":0,
-             "y":0
-            }],                 //holds the the layer that is now being modified in the map editor.       
+        currentLayer:[] ,                 //holds the the layer that is now being modified in the map editor.       
         currentTileSet: [],               //holds the the tileset that is now being displayed in the map editor.
         currentTile: null,                 //holds the tile selected from the current tileset
         tilesetBeingEdited: [],        //holds the tileset that is opened for editing
@@ -131,7 +100,7 @@ function GlobalStoreContextProvider(props) {
                     searchResults: store.searchResults,                 
                     currentMap: payload.currentMap,                    
                     currentMapInfo:payload.mapInfo,      
-                    currentLayer: payload.currentLayer ? payload.currentMap.layers : store.currentLayer,   //edited      
+                    currentLayer: payload.currentLayer ? payload.currentMap.layers : store.currentLayer,   //edited back by bur      
                     currentTileSet: payload.currentTileSet ? payload.currentTileSet : store.currentTileSet,  //edited
                     currentTile: store.currentTile,
                     tilesetBeingEdited: store.tilesetBeingEdited,        
@@ -150,8 +119,8 @@ function GlobalStoreContextProvider(props) {
                     searchResults: store.searchResults,                  
                     currentMap: store.currentMap,                    
                     currentMapInfo:store.currentMapInfo,      
-                    currentLayer: store.currentLayer,   //edited      
-                    currentTileSet: store.currentTileSet,  //edited
+                    currentLayer: payload.currentLayer,   //edited  back by burcu  
+                    currentTileSet: store.currentTileSet,  //edited 
                     currentTile: store.currentTile,
                     tilesetBeingEdited: store.tilesetBeingEdited,        
                     selectedMapEditTool: store.selectedMapEditTool,   
@@ -559,17 +528,101 @@ store.searchByType = async function (type, value, skip, sortBy) {
 
 // Deletes the selected layer
 store.deleteSelectedLayer = function (id) {
+    let new_layers= store.currentMap.layers.filter( layer => layer.id != id); //remove the selected layer
+    store.currentMap.layers = new_layers; 
+
+    storeReducer({
+        type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
+        payload: {
+            currentMap: store.currentMap,
+            mapInfo: store.currentMapInfo,
+            currentLayer: id == store.currentLayer.id ? null : store.currentLayer, //set the currentLayer null if it is being deleted
+            currentTileSet: store.currentTileset
+        }
+    });
     
 }
 
 // Adds a new layer 
-store.addNewLayer = async function (id, source) {}
+store.addNewLayer = function () {
+    let old_layer=store.currentMap.layers[0];
+
+    //init new Layer
+    let new_layer={
+        data : new Array(old_layer.width*old_layer.height).fill(0), //init data with 0's
+        height :old_layer.height,
+        id  : (parseInt(store.currentMap.layers[0].id)+1), //latest id increased by one 
+        name : "Untitled Layer" + (parseInt( store.currentMap.layers[0].id)+1),
+        opasity : 1,
+        type : "tilelayer",
+        visible :true,
+        width :old_layer.width,
+        x :0,
+        y : 0
+}
+   store.currentMap.layers.unshift(new_layer); //add new layer to the top of the array 
+
+   storeReducer({
+    type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
+    payload: {
+        currentMap: store.currentMap,
+        mapInfo:store.currentMapInfo,
+        currentLayer: new_layer,
+        currentTileSet: store.currentTileSet
+    }
+});
+
+}
 
 // Changes the selected layer's name
 store.changeLayerName = function (id, newName) {}
 
 // Changes the current layer's precedence
-store.changeLayerPrecedence = function (precedence) {}
+store.increaseLayerPrecedence = function () {
+    let idx = store.currentMap.layers.indexOf(store.currentLayer[0]);
+    var layer = store.currentMap.layers.splice(idx, 1)[0];
+    console.log("layer",layer);
+   // let arr = store.currentMap.layers;
+   // console.log("arr1",arr)
+   // let i1 = idx;
+    //let i2= idx-1;
+  //  arr.slice(0,i1).concat(arr[i2],arr.slice(i1+1,i2),arr[i1],arr.slice(i2+1))
+    // insert stored layer into position 
+   // console.log("arr",arr)
+    let ne = store.currentMap.layers.splice(idx-1,0, layer);
+    console.log("ne",ne);
+    let new_layer = store.currentMap.layers[idx-1];
+    console.log("new",new_layer);
+    
+    storeReducer({
+        type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
+        payload: {
+            currentMap: store.currentMap,
+            mapInfo: store.currentMapInfo,
+            currentLayer:new_layer,
+            currentTileSet: store.currentTileSet
+        }
+    });
+}
+
+store.decreaseLayerPrecedence = function () {
+    let idx = store.currentMap.layers.indexOf(store.currentLayer[0]);
+    var layer = store.currentMap.layers.splice(idx, 1)[0];
+    // insert stored layer into position 
+    store.currentMap.layers.splice(idx-1,0, store.currentLayer[0]);
+    
+    storeReducer({
+        type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
+        payload: {
+            currentMap: store.currentMap,
+            mapInfo: store.currentMapInfo,
+            currentLayer: layer,
+            currentTileSet: store.current
+        }
+    });
+
+
+}
 
 // Opens up tileset editor for the selected tileset 
 store.openTilesetForEditing= function (id) {}
@@ -651,38 +704,7 @@ store.setCurrentLayer = function (id) {
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
         payload: {
-            currentLayer: [
-                {
-                 "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                 "height":20,
-                 "id":1,
-                 "name":"Tile Layer 1",
-                 "opacity":1,
-                 "type":"tilelayer",
-                 "visible":true,
-                 "width":30,
-                 "x":0,
-                 "y":0
-                }]
+            currentLayer: store.currentMap.layers.filter( layer => layer.id == id)
         }
     });
 
@@ -718,7 +740,6 @@ store.paintTile = function (id,value) {
 
 //Deletes the selected tile from the current layer 
 store.deleteTile = function (id) {
-    console.log("id geliyo",id);
     store.currentLayer[0].data[id]=0;
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
@@ -739,7 +760,6 @@ store.paintLayer= function () {
             currentLayer:store.currentLayer
         }
     });
-
 }
 
 //Saves the "currentMap" to database with the edits made by user
@@ -798,7 +818,7 @@ store.publishCurrentMap = async function () {
 //Used by: unpublish.component
 store.unpublishCurrentMap = async function () {
     store.currentMapInfo.published = "false";
-    
+
     const response = await api.updateMapInfo(store.currentMapInfo);
 
     if(response.status === 200) {
@@ -856,13 +876,12 @@ store.loadMapEditor= async function (mapId, mapInfo) {
         const response = await api.getMap(mapId);
         if (response.status === 200) {
             console.log(response.data)
-           
             storeReducer({
                 type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                 payload: {
                     currentMap: response.data.map,
                     mapInfo: mapInfo,
-                    currentLayer: response.data.map.layers,
+                    currentLayer: response.data.map.layers,//edited back by burcu 
                     currentTileSet: response.data.map.tilesets[0]
                 }
             });
@@ -897,6 +916,7 @@ store.loadMapById = async function(_id) {
 
             const response2 = await api.getMap(response.data.mapInfo.map_id)
             if(response2.status === 200) {
+                console.log(response.data.mapInfo)
                 storeReducer({
                     type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                     payload: {
@@ -982,14 +1002,16 @@ store.addComment= async function (mapInfo,comment) {
 }
 
 //Set edit active
-store.setEditActive= async function (mapInfo,editActive) {
-    mapInfo.editActive = editActive;
-    const response = await api.updateMapInfo(mapInfo);
-    if(response.status === 200) {
+store.setEditActive= async function (_id,editActive) {
+    const response = await api.getMapInfo(_id)
+    console.log("sent")
+    response.data.mapInfo.editActive = editActive;
+    const response1 = await api.updateMapInfo(response.data.mapInfo);
+    if(response1.status === 200) {
         storeReducer({
             type: GlobalStoreActionType.UPDATE_MAP_INFO,
             payload: {
-                mapInfo: response.data.mapInfo
+                mapInfo: response1.data.mapInfo
             }
         })
     }

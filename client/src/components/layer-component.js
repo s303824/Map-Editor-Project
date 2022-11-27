@@ -14,13 +14,18 @@ import { GlobalStoreContext } from '../store';
 
 const Layer =()=>{
   const {store} = useContext(GlobalStoreContext);
+  console.log(store.currentMap)
+  if(!store.currentMap.tileheight) {
+    return null;
+  }
   let currentLayer = store.currentLayer[0];
+  console.log(store.currentMap)
+  console.log("currentlayer",store.currentLayer);
   const tileCount = currentLayer.height * currentLayer.width;
   const tileWidth = 64;
 
   let tilesets = store.tilesets;
  
-
   const findTileImage = () => {
 
   }
@@ -50,9 +55,14 @@ const Layer =()=>{
                 backgroundColor: "#ffc806",
                 outline: `1px solid #ffc806`,
             }}}>
-          {Array.from({ length:tileCount }, (_, i) => (
+
+      {Array.from({ length:tileCount }, (_, i) => (
           <Tile id={i}  value={currentLayer.data[i]} row={currentLayer.height} column={currentLayer.width} img={LayerTileBackround} tileWidth = {tileWidth} tileHeight={64} next={findTileImage}/>
       ))} 
+
+
+
+        
       </ImageList>
     </Box>
      
