@@ -5,6 +5,8 @@ import api from '../api'
 import AuthContext from '../auth';
 import JsTPS from "../common/jsTPS"
 import PlaceTile_Transaction from '../transactions/PlaceTile_Transaction';
+import DeleteTile_Transaction from '../transactions/DeleteTile_Transaction';
+import PaintLayer_Transaction from '../transactions/PaintLayer_Transaction';
 
 
 // THIS IS THE CONTEXT WE'LL USE TO SHARE OUR STORE
@@ -739,14 +741,13 @@ store.redoUserEdit = function () {
 //store.currentTile.id is the id of the tile selected from the current tileset
 //id is the id of the tile on the mpa 
 store.paintTile = function (id,value) {
-    console.log("currentTile: " +store.currentTile.id )
     let transaction = new PlaceTile_Transaction(store, store.currentTile.id, id, store.currentLayer[0].data[id])
     tps.addTransaction(transaction)
+    console.log(store.currentLayer)
 }
 
 store.paintHelper = function(id) {
     store.currentLayer[0].data[id]=(parseInt(store.currentTile.id)+ parseInt(store.currentTileSet.firstgid));
-    console.log("new tile: " + id)
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
         payload: {
@@ -757,7 +758,6 @@ store.paintHelper = function(id) {
 
 store.paintHelperUndo = function(id, tileId) {
     store.currentLayer[0].data[id]=(parseInt(tileId)+ parseInt(store.currentTileSet.firstgid));
-    console.log("new tile: " + id)
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
         payload: {
@@ -768,6 +768,11 @@ store.paintHelperUndo = function(id, tileId) {
 
 //Deletes the selected tile from the current layer 
 store.deleteTile = function (id) {
+    let transaction = new DeleteTile_Transaction(store, id, store.currentLayer[0].data[id])
+    tps.addTransaction(transaction)
+}
+
+store.deleteTileHelper = function(id) {
     store.currentLayer[0].data[id]=0;
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
@@ -776,11 +781,44 @@ store.deleteTile = function (id) {
         }
     });
 }
+
+store.deleteTileUndo = function(id, oldTileId) {
+    console.log(oldTileId)
+    store.currentLayer[0].data[id]=oldTileId;
+    storeReducer({
+        type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
+        payload: {
+            currentLayer:store.currentLayer
+        }
+    });
+}
+
 //Paints all tiles in the current layer with the "currentTile" 
 store.paintLayer= function () {
+    let oldData =[]
+    store.currentLayer[0].data.forEach((element, index) => {
+        oldData[index] = element;
+      })
+    let transaction = new PaintLayer_Transaction(store, oldData, store.currentTile.id)
+    tps.addTransaction(transaction)
+}
+
+store.paintLayerHelper = function(newTileId) {
     let data = store.currentLayer[0].data;
     data.forEach((element, index) => {
-        data[index] = (parseInt(store.currentTile.id)+ parseInt(store.currentTileSet.firstgid));
+        data[index] = (parseInt(newTileId)+ parseInt(store.currentTileSet.firstgid));
+      })
+    storeReducer({
+        type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
+        payload: {
+            currentLayer:store.currentLayer
+        }
+    });
+}
+
+store.paintLayerUndo = function(oldLayerData) {
+    oldLayerData.forEach((element, index) => {
+        store.currentLayer[0].data[index] = element;
       })
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
