@@ -12,6 +12,8 @@ const MapEditor=() =>{
     const { store } = useContext(GlobalStoreContext);
     const {auth} = useContext(AuthContext)
     const [id, setId] = useState(window.location.pathname.split("/")[2]);
+    let layers = store.currentMap.layers;
+    let reverse = [...layers].reverse(); 
 
     useEffect(() => {
         if (store.currentMap.mapinfo == null){
@@ -62,7 +64,12 @@ const MapEditor=() =>{
         <Box className="map-editor-container" >
           <Grid container spacing={1}>
             <Grid xs={8} sx={{backroundColor:'white'}}>
-                <Layer/>
+            <Layer/>
+
+           /*{ reverse.forEach((layer) => {
+             
+           })} */
+               
             </Grid>
             <Grid xs={4} >
             <LayersSection/>

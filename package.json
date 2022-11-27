@@ -14,8 +14,10 @@
         "literallycanvas": "^0.5.2",
         "mongoose": "^5.7.5",
         "postmark": "^3.0.14",
+        "react-swipeable": "^7.0.0",
         "react-swipeable-views": "^0.14.0",
-        "styled-components": "^5.3.6"
+        "styled-components": "^5.3.6",
+        "views": "^1.0.2"
     },
     "engines": {
         "node": "16.x"

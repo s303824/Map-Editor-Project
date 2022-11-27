@@ -611,16 +611,21 @@ store.decreaseLayerPrecedence = function () {
     // insert stored layer into position 
     store.currentMap.layers.splice(idx-1,0, store.currentLayer[0]);
     
+    let ne = store.currentMap.layers.splice(idx-1,0, layer);
+    console.log("ne",ne);
+    let new_layer = store.currentMap.layers[idx-1];
+    console.log("new",new_layer); 
+    
+    
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
         payload: {
             currentMap: store.currentMap,
             mapInfo: store.mapInfo,
-            currentLayer: layer,
-            currentTileSet: store.current
+            currentLayer:new_layer,
+            currentTileSet: store.currentTileSet
         }
     });
-
 
 }
 
