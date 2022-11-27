@@ -206,6 +206,7 @@ const MapToolBar=() =>{
         mapData.tileheight = 64;
 
         // create file in browser
+        console.log(store.currentMapInfo)
         const fileName = store.currentMapInfo.name;
         const json = JSON.stringify(mapData, null, 2);
         const blob = new Blob([json], { type: "application/json" });

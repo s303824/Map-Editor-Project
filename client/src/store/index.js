@@ -535,7 +535,7 @@ store.deleteSelectedLayer = function (id) {
         type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
         payload: {
             currentMap: store.currentMap,
-            mapInfo: store.mapInfo,
+            mapInfo: store.currentMapInfo,
             currentLayer: id == store.currentLayer.id ? null : store.currentLayer, //set the currentLayer null if it is being deleted
             currentTileSet: store.currentTileset
         }
@@ -566,7 +566,7 @@ store.addNewLayer = function () {
     type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
     payload: {
         currentMap: store.currentMap,
-        mapInfo:store.currentMap.mapInfo,
+        mapInfo:store.currentMapInfo,
         currentLayer: new_layer,
         currentTileSet: store.currentTileSet
     }
@@ -598,7 +598,7 @@ store.increaseLayerPrecedence = function () {
         type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
         payload: {
             currentMap: store.currentMap,
-            mapInfo: store.mapInfo,
+            mapInfo: store.currentMapInfo,
             currentLayer:new_layer,
             currentTileSet: store.currentTileSet
         }
@@ -615,7 +615,7 @@ store.decreaseLayerPrecedence = function () {
         type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
         payload: {
             currentMap: store.currentMap,
-            mapInfo: store.mapInfo,
+            mapInfo: store.currentMapInfo,
             currentLayer: layer,
             currentTileSet: store.current
         }
@@ -916,6 +916,7 @@ store.loadMapById = async function(_id) {
 
             const response2 = await api.getMap(response.data.mapInfo.map_id)
             if(response2.status === 200) {
+                console.log(response.data.mapInfo)
                 storeReducer({
                     type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                     payload: {
