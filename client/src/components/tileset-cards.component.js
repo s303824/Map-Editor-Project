@@ -44,7 +44,7 @@ const Tileset =()=>{
                 outline: `1px solid #ffc806`,
             }}}>
           {Array.from({ length: tileset.tilecount }, (_, i) => (
-          <Tile id={i} value={-1} row={row} column={column} img={map} tileWidth = {tileset.tilewidth} tileHeight={tileset.tileheight} />
+          <Tile id={i} value={-1} row={row} column={column} img={map} tileWidth = {tileset.tilewidth} tileHeight={tileset.tileheight} isTileset={true} />
       ))}
       </ImageList>
     </Box>
