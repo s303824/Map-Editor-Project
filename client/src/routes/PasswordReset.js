@@ -63,15 +63,15 @@ var client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
   const handleVerification = () => {
       let code = Math.floor(1000000 + Math.random() * 9000000);
       setPasscode(code.toString())
-
-      client.sendEmail({
+      console.log(passcode)
+      /*client.sendEmail({
         "From": "sean.yang@stonybrook.edu",
         "To": email,
         "Subject": "Tileslate Email Verification",
         "HtmlBody": "<strong>Hello</strong> dear user.",
         "TextBody": "Your Tileslate passcode is: " + passcode,
         "MessageStream": "outbound"
-      });
+      });*/
       setEmailSent(true)
   }
 
