@@ -12,9 +12,11 @@ import { GlobalStoreContext } from '../store';
 
 const LayersSection =()=>{
     const {store} = useContext(GlobalStoreContext);
-    let currentLayer= store.currentLayer;
 
-    console.log("current",currentLayer);
+    if(!store.currentMap.tileheight) {
+        return null;
+      }
+    let currentLayer= store.currentLayer;
     //sort the layers based on their precedence
     //const sortedByPredence = (store.currentMap.layers.sort((a, b) => a.precedence - b.precedence)); 
 

@@ -49,7 +49,7 @@ const MapEditor=() =>{
     
     //called before tab is closed with a popup
     const alertUser = (event) => {
-      //store.setEditActive(id, false)
+      store.setEditActive(id, false)
       event.preventDefault()
       event.returnValue = ''
       console.log("pop")

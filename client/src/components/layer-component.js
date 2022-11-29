@@ -16,14 +16,13 @@ const Layer =(layer)=>{
   const {store} = useContext(GlobalStoreContext);
   const {layerInfo} = layer;
   console.log("layer I am getting",layerInfo);
+  if(!store.currentMap.tileheight) {
+    return null;
+  }
   let currentLayer = store.currentLayer[0];
  // console.log(store.currentMap)
-  let layers = store.currentMap.layers;
-  console.log("LAYERS",layers);
-
+  console.log("currentlayer",currentLayer);
   const tileCount = currentLayer.height * currentLayer.width;
-  
-
   const tileWidth = 64;
 
   let tilesets = store.tilesets;
@@ -31,6 +30,7 @@ const Layer =(layer)=>{
   const findTileImage = () => {
 
   }
+
   //should have the total tile count in the 
   //should just render layer.data array
 
@@ -60,8 +60,11 @@ const Layer =(layer)=>{
       
         {Array.from({ length:tileCount }, (_, i) => (
           <Tile id={i}  value={currentLayer.data[i]} row={currentLayer.height} column={currentLayer.width} img={LayerTileBackround} tileWidth = {tileWidth} tileHeight={64} next={findTileImage}/>
-        ))}
+      ))} 
 
+
+
+        
       </ImageList>
     </Box>
      

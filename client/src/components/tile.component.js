@@ -4,7 +4,7 @@ import GlobalStoreContext from '../store';
 import map from '../assets/map-card-7.jpg';
 
 const Tile =(tileInfo)=>{
-  const {id,value,row,column,img,tileWidth,tileHeight} = tileInfo;
+  const {id,value,row,column,img,tileWidth,tileHeight, isTileset} = tileInfo;
   const {store} = useContext(GlobalStoreContext);
 
   let left =0;
@@ -27,6 +27,7 @@ const Tile =(tileInfo)=>{
     left = -((id % column)* tileWidth);
     top = -((Math.floor(id / row)) * tileHeight); 
   }
+  
 
   
   const handleTileClick = (event) => {
@@ -36,11 +37,15 @@ const Tile =(tileInfo)=>{
     if(event.target.parentElement.className.includes('tileset-section')){
       store.setCurrentTile(event.target.id,value);
     }else{
-      console.log("target",event);
       store.handleMapAction(event.target.id,value);
       
     }
   } 
+
+  let highlightedColor = store.currentTile ? 
+      store.currentTile.id == id && isTileset? 
+      "white" : "" 
+    : ""
  
     return(
         <Box 
@@ -52,7 +57,8 @@ const Tile =(tileInfo)=>{
       backgroundPosition:`left ${left}px top ${top}px`,
       opacity: {opasity},
       border:"solid",
-      margin:'0px'
+      margin:'0px',
+      color:highlightedColor
     }}
     onClick = {handleTileClick}
       />   

@@ -206,6 +206,7 @@ const MapToolBar=() =>{
         mapData.tileheight = 64;
 
         // create file in browser
+        console.log(store.currentMapInfo)
         const fileName = store.currentMapInfo.name;
         const json = JSON.stringify(mapData, null, 2);
         const blob = new Blob([json], { type: "application/json" });
@@ -250,6 +251,14 @@ const MapToolBar=() =>{
         store.setCurrentMapEditingTool("eraser");
     }
 
+    const handleUndo = (event) => {
+        store.undoUserEdit();
+    }
+
+    const handleRedo = (event) => {
+        store.redoUserEdit();
+    }
+
     let exportDropDown = 
         <Popper
         sx={{paddingRight:"15%"}}
@@ -285,6 +294,10 @@ const MapToolBar=() =>{
         )}
     </Popper>
 
+    let stampColor = store.selectedMapEditTool == "stamp" ? "red" : ""
+    let paintColor = store.selectedMapEditTool == "paint" ? "red" : ""
+    let eraseColor = store.selectedMapEditTool == "eraser" ? "red" : ""
+
     return (
         
         <Box className='top-navbar' sx={{ display: 'flex' ,flexGrow: 1,}} >
@@ -297,24 +310,24 @@ const MapToolBar=() =>{
                     Manage Team
                 </Button>
 
-               <IconButton key={1} aria-label="undo">
+               <IconButton key={1} aria-label="undo" onClick={() => handleUndo()}>
                 <UndoIcon sx={{fill:"white" ,fontSize:40}}/>
                 </IconButton>
 
-                <IconButton id={2} ariaLabel="redo" >
+                <IconButton id={2} ariaLabel="redo" onClick={() => handleRedo()} >
                 <RedoTwoToneIcon sx={{fill:"white" ,fontSize:40}}/>
                 </IconButton>
 
                 <IconButton key={3} aria-label="stamp" onClick ={handleStampClick}>
-                <ApprovalTwoToneIcon sx={{fill:"white" ,fontSize:40}}/>
+                <ApprovalTwoToneIcon sx={{fill:"white", backgroundColor:stampColor , borderRadius:2, fontSize:40}}/>
                 </IconButton>
 
                 <IconButton key={4} aria-label="paint" onClick={handlePaintClick}>
-                <FormatColorFillTwoToneIcon sx={{fill:"white" ,fontSize:40}}/>
+                <FormatColorFillTwoToneIcon sx={{fill:"white", backgroundColor:paintColor , borderRadius:2, fontSize:40}}/>
                 </IconButton>
 
                 <IconButton key={5} aria-label="delete" onClick={handleEraserClick}>
-                <AutoFixNormalSharpIcon sx={{fill:"white" ,fontSize:40}}/>
+                <AutoFixNormalSharpIcon sx={{fill:"white", backgroundColor:eraseColor , borderRadius:2, fontSize:40}}/>
                 </IconButton>
             </Box>
             <Box >

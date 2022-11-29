@@ -3,6 +3,10 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { Navigate, useHistory, useNavigate } from 'react-router-dom'
 import api from '../api'
 import AuthContext from '../auth';
+import JsTPS from "../common/jsTPS"
+import PlaceTile_Transaction from '../transactions/PlaceTile_Transaction';
+import DeleteTile_Transaction from '../transactions/DeleteTile_Transaction';
+import PaintLayer_Transaction from '../transactions/PaintLayer_Transaction';
 
 
 // THIS IS THE CONTEXT WE'LL USE TO SHARE OUR STORE
@@ -25,6 +29,8 @@ export const GlobalStoreActionType = {
     UPDATE_MAP_INFO: "UPDATE_MAP_INFO",
     ERROR: "ERROR"
 }
+
+const tps = new JsTPS();
 
 function GlobalStoreContextProvider(props) {
 
@@ -535,7 +541,7 @@ store.deleteSelectedLayer = function (id) {
         type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
         payload: {
             currentMap: store.currentMap,
-            mapInfo: store.mapInfo,
+            mapInfo: store.currentMapInfo,
             currentLayer: id == store.currentLayer.id ? null : store.currentLayer, //set the currentLayer null if it is being deleted
             currentTileSet: store.currentTileset
         }
@@ -566,7 +572,7 @@ store.addNewLayer = function () {
     type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
     payload: {
         currentMap: store.currentMap,
-        mapInfo:store.currentMap.mapInfo,
+        mapInfo:store.currentMapInfo,
         currentLayer: new_layer,
         currentTileSet: store.currentTileSet
     }
@@ -598,7 +604,7 @@ store.increaseLayerPrecedence = function () {
         type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
         payload: {
             currentMap: store.currentMap,
-            mapInfo: store.mapInfo,
+            mapInfo: store.currentMapInfo,
             currentLayer:new_layer,
             currentTileSet: store.currentTileSet
         }
@@ -621,9 +627,9 @@ store.decreaseLayerPrecedence = function () {
         type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
         payload: {
             currentMap: store.currentMap,
-            mapInfo: store.mapInfo,
-            currentLayer:new_layer,
-            currentTileSet: store.currentTileSet
+            mapInfo: store.currentMapInfo,
+            currentLayer: layer,
+            currentTileSet: store.current
         }
     });
 
@@ -727,14 +733,36 @@ store.setCurrentMapEditingTool = function (selectedTool) {
 }
 
  //Undo the latest transaction 
-store.undoUserEdit = function () {}
+store.undoUserEdit = function () {
+    tps.undoTransaction();
+}
 
 //Redo the latest transaction 
-store.redoUserEdit = function () {}
+store.redoUserEdit = function () {
+    tps.doTransaction();
+}
 
-//Paints the selected currentlayer's tile with the "currentTile" 
+//Paints the selected currentlayer's tile with the "currentTile"
+//store.currentTile.id is the id of the tile selected from the current tileset
+//id is the id of the tile on the mpa 
 store.paintTile = function (id,value) {
+    let transaction = new PlaceTile_Transaction(store, store.currentTile.id, id, store.currentLayer[0].data[id])
+    tps.addTransaction(transaction)
+    console.log(store.currentLayer)
+}
+
+store.paintHelper = function(id) {
     store.currentLayer[0].data[id]=(parseInt(store.currentTile.id)+ parseInt(store.currentTileSet.firstgid));
+    storeReducer({
+        type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
+        payload: {
+            currentLayer:store.currentLayer
+        }
+    });
+}
+
+store.paintHelperUndo = function(id, tileId) {
+    store.currentLayer[0].data[id]=(parseInt(tileId)+ parseInt(store.currentTileSet.firstgid));
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
         payload: {
@@ -745,6 +773,11 @@ store.paintTile = function (id,value) {
 
 //Deletes the selected tile from the current layer 
 store.deleteTile = function (id) {
+    let transaction = new DeleteTile_Transaction(store, id, store.currentLayer[0].data[id])
+    tps.addTransaction(transaction)
+}
+
+store.deleteTileHelper = function(id) {
     store.currentLayer[0].data[id]=0;
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
@@ -753,11 +786,44 @@ store.deleteTile = function (id) {
         }
     });
 }
+
+store.deleteTileUndo = function(id, oldTileId) {
+    console.log(oldTileId)
+    store.currentLayer[0].data[id]=oldTileId;
+    storeReducer({
+        type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
+        payload: {
+            currentLayer:store.currentLayer
+        }
+    });
+}
+
 //Paints all tiles in the current layer with the "currentTile" 
 store.paintLayer= function () {
+    let oldData =[]
+    store.currentLayer[0].data.forEach((element, index) => {
+        oldData[index] = element;
+      })
+    let transaction = new PaintLayer_Transaction(store, oldData, store.currentTile.id)
+    tps.addTransaction(transaction)
+}
+
+store.paintLayerHelper = function(newTileId) {
     let data = store.currentLayer[0].data;
     data.forEach((element, index) => {
-        data[index] = (parseInt(store.currentTile.id)+ parseInt(store.currentTileSet.firstgid));
+        data[index] = (parseInt(newTileId)+ parseInt(store.currentTileSet.firstgid));
+      })
+    storeReducer({
+        type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
+        payload: {
+            currentLayer:store.currentLayer
+        }
+    });
+}
+
+store.paintLayerUndo = function(oldLayerData) {
+    oldLayerData.forEach((element, index) => {
+        store.currentLayer[0].data[index] = element;
       })
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
@@ -921,6 +987,7 @@ store.loadMapById = async function(_id) {
 
             const response2 = await api.getMap(response.data.mapInfo.map_id)
             if(response2.status === 200) {
+                console.log(response.data.mapInfo)
                 storeReducer({
                     type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                     payload: {
