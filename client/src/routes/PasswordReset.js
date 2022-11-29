@@ -150,7 +150,7 @@ var client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
       
     <Box className="login-email-field">
         <Typography>Email</Typography>
-        <TextField label="Email" className="login-textfield" variant="filled" onChange={updateField("email")}></TextField>
+        <TextField label="Email" className="login-textfield" variant="filled" onChange={(event) => updateField(event, "email")}></TextField>
       </Box>
 
       <Box className="login-button-holder">
@@ -177,7 +177,7 @@ var client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
       
     <Box className="login-email-field">
         <Typography>Passcode</Typography>
-        <TextField label="Passcode" className="login-textfield" variant="filled" onChange={updateField("passcode")}></TextField>
+        <TextField label="Passcode" className="login-textfield" variant="filled" onChange={(event) => updateField(event, "passcode")}></TextField>
       </Box>
 
       <Box className="login-button-holder">
@@ -189,10 +189,6 @@ var client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
       </Box>
   </Box>
 </Box>: null;
-
-const wrongPasscodeModal = wrongPasscode ? <LoginModal message="The passcode provided is incorrect." onClose={setWrongPasscode(false)}></LoginModal> : null
-
-
 
   const newPasswordModal = codeVerify ?   
   <Box className="login-holder">
@@ -207,12 +203,12 @@ const wrongPasscodeModal = wrongPasscode ? <LoginModal message="The passcode pro
       
       <Box className="login-email-field">
         <Typography>New Password</Typography>
-        <TextField className="login-textfield" variant="filled" onChange={updateField("new_password")}></TextField>
+        <TextField className="login-textfield" variant="filled" onChange={(event) => updateField(event, "new_password")}></TextField>
       </Box>
 
       <Box className="login-email-field">
         <Typography>Confirm Password</Typography>
-        <TextField className="login-textfield" variant="filled" onChange={updateField("confirm")}></TextField>
+        <TextField className="login-textfield" variant="filled" onChange={(event) => updateField(event, "confirm")}></TextField>
       </Box>
 
       <Box className="login-button-holder">
@@ -225,9 +221,19 @@ const wrongPasscodeModal = wrongPasscode ? <LoginModal message="The passcode pro
   </Box>
 </Box>: null;
 
-const wrongConfirmModal = wrongConfirm ? <LoginModal message="Both passwords must match." onClose={setWrongConfirm(false)}></LoginModal> : null
-const invalidPasswordModal = invalidPassword ? <LoginModal message="The password must be more than 8 characters and include uppercase, lowercase, and numbers" onClose={setInvalidPassword(false)}></LoginModal> : null
+const wrongPasscodeModal = wrongPasscode ? <LoginModal message="The passcode provided is incorrect." onClose={() => closeWrongPasscode()}></LoginModal> : null
+const wrongConfirmModal = wrongConfirm ? <LoginModal message="Both passwords must match." onClose={() => closeWrongConfirm()}></LoginModal> : null
+const invalidPasswordModal = invalidPassword ? <LoginModal message="The password must be more than 8 characters and include uppercase, lowercase, and numbers" onClose={() => closeInvalidPassword()}></LoginModal> : null
 
+const closeWrongPasscode = () => {
+  setWrongPasscode(false)
+}
+const closeWrongConfirm = () => {
+  setWrongConfirm(false)
+}
+const closeInvalidPassword = () => {
+  setInvalidPassword(false)
+}
 
   return (
     <Box className="login-page-holder">
