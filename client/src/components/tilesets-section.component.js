@@ -36,9 +36,9 @@ const TilesetsSection =()=>{
         navigate("/tileseteditor", {})
     }
     const tilesets = store.currentMap.tilesets
-    console.log("---------------------------")
-    console.log(tilesets)
-    console.log("---------------------------")
+    //console.log(store.currentMap.tilesets)
+
+    
     // const tilesets =[{ //to display sample data
     //     "_id": 1,
     //     "name":"DEFAULT2",
@@ -63,19 +63,8 @@ const TilesetsSection =()=>{
         btnColor === "#d72b05" ? setBtnColor("green") : setBtnColor("#d72b05");
     };
 
-    return(
-        <Grid sx={{backgroundImage :'linear-gradient(to left, #505051, #303031)',boxShadow: '0 1px 2px 2px rgba(68,68,69,255)',borderRadius:2}}>
-            {addTilesetModal}
-            <Grid >
-                <Box sx={{display:"flex",justifyContent:"space-between"}}>
-                    <Typography sx={{color:"white",fontSize:20,fontWeight:"bold",marginTop:2,marginLeft:3}}>TILESETS</Typography>
-                    <Button onClick={handleAddTileset} variant="contained" endIcon={<AddCircleTwoToneIcon />} sx={{backgroundColor:"#d72b05",boxShadow: '0 2px 4px 2px rgba(68,68,69,255)',marginRight:3,marginTop:1}}>
-                        Add
-                    </Button>
-                </Box>
-                
-                {tilesets && 
-                <Tabs
+    let main = tilesets != undefined ? 
+    <Tabs
                 value={value}
                 variant="scrollable"
                 scrollButtons={false}
@@ -104,8 +93,22 @@ const TilesetsSection =()=>{
                         </Button>
                         </Box>
                     ))}
-                </Tabs>}
-            {store.currentTileSet && <Tileset/>}
+                </Tabs>
+                : null
+
+    return(
+        <Grid sx={{backgroundImage :'linear-gradient(to left, #505051, #303031)',boxShadow: '0 1px 2px 2px rgba(68,68,69,255)',borderRadius:2}}>
+            {addTilesetModal}
+            <Grid >
+                <Box sx={{display:"flex",justifyContent:"space-between"}}>
+                    <Typography sx={{color:"white",fontSize:20,fontWeight:"bold",marginTop:2,marginLeft:3}}>TILESETS</Typography>
+                    <Button onClick={handleAddTileset} variant="contained" endIcon={<AddCircleTwoToneIcon />} sx={{backgroundColor:"#d72b05",boxShadow: '0 2px 4px 2px rgba(68,68,69,255)',marginRight:3,marginTop:1}}>
+                        Add
+                    </Button>
+                </Box>
+                
+                {main}
+            {store.currentTileSet ? <Tileset/> : null}
             </Grid>
                 
         <Grid >

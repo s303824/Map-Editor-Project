@@ -649,14 +649,13 @@ store.setCurrentTile = function (id,value) {
 
 // Sets the current tileset
 store.setCurrentTileset = function (id) {
-    console.log("================")
-    console.log(id)
-    console.log(store.currentMap.tilesets.filter(tileset => tileset._id === id ))
-    console.log("================")
+    //console.log("id:" + id)
+    //console.log(store.currentMap.tilesets)
+    //console.log(store.currentMap.tilesets.filter(tileset => tileset._id == id ))
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_TILESET,
         payload: {
-            currentTileSet: store.currentMap.tilesets.filter(tileset => tileset._id === id )
+            currentTileSet: store.currentMap.tilesets.filter(tileset => tileset._id == id )
         }
         // {
         //     currentTileSet : {
@@ -737,7 +736,8 @@ store.redoUserEdit = function () {}
 
 //Paints the selected currentlayer's tile with the "currentTile" 
 store.paintTile = function (id,value) {
-    store.currentLayer[0].data[id]=(parseInt(store.currentTile.id)+ parseInt(store.currentTileSet.firstgid));
+    console.log(store.currentLayer)
+    store.currentLayer[0].data[id]=(parseInt(store.currentTile.id)+ parseInt(store.currentTileSet[0].firstgid));
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
         payload: {
