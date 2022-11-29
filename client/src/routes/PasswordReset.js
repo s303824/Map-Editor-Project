@@ -166,7 +166,6 @@ var client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
 
   const enterPasscodeModal = emailSent ?
   <Box className="login-holder">
-  {wrongPasscodeModal}
   <Box className="login-box-top">    
       <Box className="login-bar">
         <Box>ENTER PASSCODE</Box>  
@@ -197,8 +196,6 @@ const wrongPasscodeModal = wrongPasscode ? <LoginModal message="The passcode pro
 
   const newPasswordModal = codeVerify ?   
   <Box className="login-holder">
-  {wrongConfirmModal}
-  {invalidPasswordModal}  
   <Box className="login-box-top">    
       <Box className="login-bar">
         <Box>RESET PASSWORD</Box>  
@@ -234,6 +231,9 @@ const invalidPasswordModal = invalidPassword ? <LoginModal message="The password
 
   return (
     <Box className="login-page-holder">
+      {wrongPasscodeModal}
+      {wrongConfirmModal}
+      {invalidPasswordModal}  
       <Box className="login-box">
         <Box className="login-image-holder">
           <Box className="login-image-topper">
