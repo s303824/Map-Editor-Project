@@ -14,32 +14,47 @@ import map from '../assets/map-card.jpg'
 import { useNavigate } from 'react-router-dom';
 import GlobalStoreContext from '../store';
 import { useContext } from 'react';
+import TilsetAdd from '../components/AddTileset.component'
 
 const TilesetsSection =()=>{
     const navigate = useNavigate();
     const {store} =useContext(GlobalStoreContext);
     const [value, setValue] = React.useState(0);
     const [btnColor, setBtnColor] = useState("#d72b05");
+    const [addTileset, setAddTileset] = useState(false);
+
+
+    const handleAddTileset = () => {
+      setAddTileset(true)
+    }
+    const handleCloseTilesetModal = () => {
+        setAddTileset(false)
+    }
+    const addTilesetModal = addTileset ? <TilsetAdd onClose={() => handleCloseTilesetModal()}></TilsetAdd> : null;
+
     const handleTileEdit = () => {
         navigate("/tileseteditor", {})
     }
-
-    const tilesets =[{ //to display sample data
-        "_id": 1,
-        "name":"DEFAULT2",
-        "precedence":1,
-      },
-      {
-        "_id": 2,
-        "name":"DEFAULT3",
-        "precedence":2,
-      },
-      {
-        "_id": 3,
-        "name":"DEFAULT4",
-        "precedence":3,
-      }
-    ]
+    const tilesets = store.currentMap.tilesets
+    console.log("---------------------------")
+    console.log(tilesets)
+    console.log("---------------------------")
+    // const tilesets =[{ //to display sample data
+    //     "_id": 1,
+    //     "name":"DEFAULT2",
+    //     "precedence":1,
+    //   },
+    //   {
+    //     "_id": 2,
+    //     "name":"DEFAULT3",
+    //     "precedence":2,
+    //   },
+    //   {
+    //     "_id": 3,
+    //     "name":"DEFAULT4",
+    //     "precedence":3,
+    //   }
+    // ]
 
     const handleTileSetDisplay = (event)=>{
         event.preventDefault();
@@ -50,14 +65,16 @@ const TilesetsSection =()=>{
 
     return(
         <Grid sx={{backgroundImage :'linear-gradient(to left, #505051, #303031)',boxShadow: '0 1px 2px 2px rgba(68,68,69,255)',borderRadius:2}}>
+            {addTilesetModal}
             <Grid >
                 <Box sx={{display:"flex",justifyContent:"space-between"}}>
                     <Typography sx={{color:"white",fontSize:20,fontWeight:"bold",marginTop:2,marginLeft:3}}>TILESETS</Typography>
-                    <Button variant="contained" endIcon={<AddCircleTwoToneIcon />} sx={{backgroundColor:"#d72b05",boxShadow: '0 2px 4px 2px rgba(68,68,69,255)',marginRight:3,marginTop:1}}>
+                    <Button onClick={handleAddTileset} variant="contained" endIcon={<AddCircleTwoToneIcon />} sx={{backgroundColor:"#d72b05",boxShadow: '0 2px 4px 2px rgba(68,68,69,255)',marginRight:3,marginTop:1}}>
                         Add
                     </Button>
                 </Box>
                 
+                {tilesets && 
                 <Tabs
                 value={value}
                 variant="scrollable"
@@ -76,18 +93,19 @@ const TilesetsSection =()=>{
                             sx={{
                             backgroundColor:{btnColor},
                             width:"4px"}}
-                            id={layer.id} 
+                            id={layer._id} 
                             onClick = {handleTileSetDisplay}
                             label={layer.name}
-                            >{layer.name}</Tab>
+                            >{layer.name}
+                        </Tab>
                             
                         <Button variant="contained"  sx={{backgroundColor:"#d72b05" ,fontSize:12,borderRadius:1,marginLeft:-1 }} onClick={handleTileEdit}>
                             Edit
                         </Button>
                         </Box>
                     ))}
-                </Tabs>
-            <Tileset/>
+                </Tabs>}
+            {store.currentTileSet && <Tileset/>}
             </Grid>
                 
         <Grid >

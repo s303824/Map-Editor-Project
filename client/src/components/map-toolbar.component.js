@@ -145,8 +145,11 @@ const MapToolBar=() =>{
     }
 
     const handleDeleteMap = async () => {
+        await store.setEditActive(store.currentMapInfo._id, false)
         await store.deleteMap(store.currentMap._id)
-        handleGoBack()
+        await auth.getLoggedIn()
+        await store.loadUserMaps(auth.user.username)
+        navigate("/projects", {});
     }
  
     const handleMapSave = async () => {

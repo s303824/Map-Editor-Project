@@ -6,7 +6,9 @@ import map from '../assets/map-card-7.jpg';
 const Tile =(tileInfo)=>{
   const {id,value,row,column,img,tileWidth,tileHeight} = tileInfo;
   const {store} = useContext(GlobalStoreContext);
-
+  console.log("herererererererererer")
+  console.log(value)
+  // const map = store.currentTileSet[0].image
   let left =0;
   let top = 0;
   let newImg = img;
@@ -14,12 +16,13 @@ const Tile =(tileInfo)=>{
   if(value != -1){
     if(value!=0){
    //let set = store.currentMap.tilesets.filter( tileset => value < (tileset.tilecount+tileset.firstgid ));
-    let set = store.currentTileSet;
+    let set = store.currentTileSet[0];
     newImg = map; 
     left = -(((value-(set.firstgid)) % (set.imagewidth/set.tilewidth))* tileWidth);
     top = -((Math.floor((value-(set.firstgid)) / (set.imageheight/set.tileheight))) * tileHeight);
   }
   }else{
+    console.log("herererererererererer")
     left = -((id % column)* tileWidth);
     top = -((Math.floor(id / row)) * tileHeight); 
   }

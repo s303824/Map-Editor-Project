@@ -21,6 +21,7 @@ router.post('/registerMap', MapController.registerMap)
 router.delete('/deleteMap', MapController.deleteMap)
 router.put('/updateMap', MapController.updateMap)
 router.get('/getMap', MapController.getMap)
+router.put('/addMapTileset', MapController.addMapTileset)
 
 router.post('/registerMapInfo', MapInfoController.registerMapInfo)
 router.delete('/deleteMapInfo', MapInfoController.deleteMapInfo)
