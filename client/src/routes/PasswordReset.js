@@ -12,7 +12,7 @@ const PasswordReset = ({}) => {
   const {auth} = useContext(AuthContext);
 
   const [email, setEmail] = useState("");   // store user email
-
+  const [enterEmail, setEnterEmail] = useState(true)    
   const [emailSent, setEmailSent] = useState(false);    // passcode verification
   const [passcode, setPasscode] = useState("");
   const [userAttempt, setUserAttempt] = useState("");
@@ -63,7 +63,7 @@ var client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
   const handleVerification = () => {
       let code = Math.floor(1000000 + Math.random() * 9000000);
       setPasscode(code.toString())
-      console.log(passcode)
+      console.log(code)
       /*client.sendEmail({
         "From": "sean.yang@stonybrook.edu",
         "To": email,
@@ -72,6 +72,7 @@ var client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
         "TextBody": "Your Tileslate passcode is: " + passcode,
         "MessageStream": "outbound"
       });*/
+      setEnterEmail(false)
       setEmailSent(true)
   }
 
@@ -132,79 +133,103 @@ var client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
       p: 4,
     };
 
+  const enterEmailModal = enterEmail ?
+  <Box className="login-holder">
+  <Box className="login-box-top">    
+      <Box className="login-bar">
+        <Box>PASSWORD RESET</Box>  
+        <Button variant="contained" color="error" fontSize="32px" onClick={handleGoBack}>X</Button>
+      </Box>
+  </Box>
+
+  <Box className="login-box-mid">
+      
+    <Box className="login-email-field">
+        <Typography>Email</Typography>
+        <TextField label="Email" className="login-textfield" variant="filled" onChange={updateField("email")}></TextField>
+      </Box>
+
+      <Box className="login-button-holder">
+        <Button variant="contained" color="warning" onClick = {handleVerification}>Send Passcode</Button>
+      </Box>
+
+      <Box className="login-bottom-text">
+      <Typography>Suddenly remember your password?</Typography><Button variant="contained" onClick={handleSignUp}>Sign In</Button>
+      </Box>
+  </Box>
+</Box> : null;
+
 
   const enterPasscodeModal = emailSent ?
-  <Box>
+  <Box className="login-holder">
   {wrongPasscodeModal}
-  <Modal
-      open={true}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
->     
-      <Box sx={style}>
-      <Typography fontSize="20px">
-          <Box className="qmodal-text">Passcode</Box>
-          <TextField
-          required
-          id="outlined-title-input"
-          label="Passcode"
-          variant="filled"
-          className = "text-field"
-          onChange={(event) => updateField(event, "passcode")}
-          />
-      </Typography>
-      <Box display="flex" justifyContent="space-between">
-      <Button variant="contained" onClick={handlePasscodeCheck()} marginLeft={3}>Reset Password</Button>
+  <Box className="login-box-top">    
+      <Box className="login-bar">
+        <Box>ENTER PASSCODE</Box>  
+        <Button variant="contained" color="error" fontSize="32px" onClick={handleGoBack}>X</Button>
       </Box>
-      </Box>
-  </Modal>
-  </Box> : null;
+  </Box>
 
-  const newPasswordModal = codeVerify ?   
-  <Box>
-  {wrongConfirmModal}
-  {invalidPasswordModal}
-  <Modal
-      open={true}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
->     
-      <Box sx={style}>
-
-      <Typography fontSize="20px">
-          <Box className="qmodal-text">Password</Box>
-          <TextField
-          required
-          id="outlined-title-input"
-          variant="filled"
-          className = "text-field"
-          onChange={(event) => updateField(event, "new_password")}
-          />
-          <Box className="qmodal-text">Confirm Password</Box>
-          <TextField
-          required
-          id="outlined-title-input"
-          variant="filled"
-          className = "text-field"
-          onChange={(event) => updateField(event, "confirm")}
-          />
-
-      </Typography>
-      <Box display="flex" justifyContent="space-between">
-          <Button variant="contained" onClick={handleNewPasswordClose()} marginLeft={3}>Log In</Button>
+  <Box className="login-box-mid">
+      
+    <Box className="login-email-field">
+        <Typography>Passcode</Typography>
+        <TextField label="Passcode" className="login-textfield" variant="filled" onChange={updateField("passcode")}></TextField>
       </Box>
+
+      <Box className="login-button-holder">
+        <Button variant="contained" color="warning" onClick = {handlePasscodeCheck}>Reset Password</Button>
       </Box>
-  </Modal>
-  </Box> : null;
+
+      <Box className="login-bottom-text">
+      <Typography>Suddenly remember your password?</Typography><Button variant="contained" onClick={handleSignUp}>Sign In</Button>
+      </Box>
+  </Box>
+</Box>: null;
 
 const wrongPasscodeModal = wrongPasscode ? <LoginModal message="The passcode provided is incorrect." onClose={setWrongPasscode(false)}></LoginModal> : null
+
+
+
+  const newPasswordModal = codeVerify ?   
+  <Box className="login-holder">
+  {wrongConfirmModal}
+  {invalidPasswordModal}  
+  <Box className="login-box-top">    
+      <Box className="login-bar">
+        <Box>RESET PASSWORD</Box>  
+        <Button variant="contained" color="error" fontSize="32px" onClick={handleGoBack}>X</Button>
+      </Box>
+  </Box>
+
+  <Box className="login-box-mid">
+      
+      <Box className="login-email-field">
+        <Typography>New Password</Typography>
+        <TextField className="login-textfield" variant="filled" onChange={updateField("new_password")}></TextField>
+      </Box>
+
+      <Box className="login-email-field">
+        <Typography>Confirm Password</Typography>
+        <TextField className="login-textfield" variant="filled" onChange={updateField("confirm")}></TextField>
+      </Box>
+
+      <Box className="login-button-holder">
+        <Button variant="contained" color="warning" onClick = {handleNewPasswordClose}>Reset Password</Button>
+      </Box>
+
+      <Box className="login-bottom-text">
+      <Typography>Suddenly remember your password?</Typography><Button variant="contained" onClick={handleSignUp}>Sign In</Button>
+      </Box>
+  </Box>
+</Box>: null;
+
 const wrongConfirmModal = wrongConfirm ? <LoginModal message="Both passwords must match." onClose={setWrongConfirm(false)}></LoginModal> : null
 const invalidPasswordModal = invalidPassword ? <LoginModal message="The password must be more than 8 characters and include uppercase, lowercase, and numbers" onClose={setInvalidPassword(false)}></LoginModal> : null
 
+
   return (
     <Box className="login-page-holder">
-      {enterPasscodeModal}
-      {newPasswordModal}
       <Box className="login-box">
         <Box className="login-image-holder">
           <Box className="login-image-topper">
@@ -214,32 +239,9 @@ const invalidPasswordModal = invalidPassword ? <LoginModal message="The password
             {loginImage} 
           </Box>
         </Box>
-
-        <Box className="login-holder">
-          <Box className="login-box-top">    
-              <Box className="login-bar">
-                <Box>PASSWORD RESET</Box>  
-                <Button variant="contained" color="error" fontSize="32px" onClick={handleGoBack}>X</Button>
-              </Box>
-          </Box>
-
-          <Box className="login-box-mid">
-              
-            <Box className="login-email-field">
-                <Typography>Email</Typography>
-                <TextField label="Email" className="login-textfield" variant="filled" onChange={updateField("email")}></TextField>
-              </Box>
-
-              <Box className="login-button-holder">
-                <Button variant="contained" color="warning" onClick = {handleVerification}>Send Passcode</Button>
-              </Box>
-
-              <Box className="login-bottom-text">
-              <Typography>Suddenly remember your password?</Typography><Button variant="contained" onClick={handleSignUp}>Sign In</Button>
-              </Box>
-          </Box>
-        </Box>
-
+        {enterPasscodeModal}
+        {newPasswordModal}
+        {enterEmailModal}
       </Box>
     </Box>
   );
