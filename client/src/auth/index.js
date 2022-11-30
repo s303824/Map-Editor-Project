@@ -177,11 +177,7 @@ function AuthContextProvider(props) {
     auth.sendEmail = async function (userData) {
         try{
             const response = await api.sendEmail(userData);
-            if (response.status === 200) {
-                console.log("Email sent.")
-            }
     }catch(error){
-        console.log("Email verification failed.")
     }
 }
 

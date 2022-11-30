@@ -60,7 +60,6 @@ const PasswordReset = ({}) => {
         email: email,
         message: "Your Tileslate passcode is: " + code
       }
-      console.log(code)
       auth.sendEmail(userData)
       setEnterEmail(false)
       setEmailSent(true)
