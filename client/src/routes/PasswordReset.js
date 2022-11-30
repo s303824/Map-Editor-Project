@@ -83,16 +83,15 @@ var client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
       let userData = {
         email: email
       }
-     auth.emailVerified(userData)
+     auth.emailVerified(userData).then(() => {
       if(auth.user == null){  // if user not found, alert user of error and send back to the beginning section
         setInvalidEmail(true)
-        setEnterEmail(true)
-        setEmailSent(false)  
       }
       else{       // otherwise, when user found, move on to next section
         setEmailSent(false);
         setCodeVerify(true);  
       }
+     })
     }
     else{
       console.log("Incorrect")
@@ -243,7 +242,8 @@ const closeInvalidPassword = () => {
 }
 const closeInvalidEmail = () => {
   setInvalidEmail(false)
-  navigate("/", {})
+  setEmailSent(false)  
+  setEnterEmail(true)
 }
 
 
