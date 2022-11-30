@@ -109,7 +109,7 @@ var client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
         password: newPassword,
         passwordVerify: confirm,
       }
-      auth.resetPassword(userData);
+      auth.passwordReset(userData);
     }
 
   }

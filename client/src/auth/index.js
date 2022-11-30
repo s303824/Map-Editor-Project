@@ -320,10 +320,10 @@ function AuthContextProvider(props) {
         
     }
 
-    auth.resetPassword = async function(userData) {     // for updating user Password
+    auth.passwordReset = async function(userData) {     // for updating user Password
         
         try {
-            const response = await api.resetPassword(userData);
+            const response = await api.passwordReset(userData);
             console.log(response.data.user);
             if (response.status === 200) {
                 authReducer({
