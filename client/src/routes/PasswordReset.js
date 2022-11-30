@@ -84,7 +84,7 @@ var client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
         email: email
       }
      auth.emailVerified(userData).then(() => {
-      if(auth.user == null){  // if user not found, alert user of error and send back to the beginning section
+      if(auth.successfulLogin == false){  // if user not found, alert user of error and send back to the beginning section
         setInvalidEmail(true)
       }
       else{       // otherwise, when user found, move on to next section
