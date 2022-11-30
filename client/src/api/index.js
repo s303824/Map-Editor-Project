@@ -12,6 +12,8 @@ export const updateUser = (payload) => api.put(`/user/`, payload)
 export const deleteUser = (payload) => api.delete(`/user/`, {data: {id: payload}})
 export const changePassword = (payload) => api.put(`/changePassword/`, payload)
 export const emailVerified = (payload) => api.post(`/emailVerified/`, payload)
+export const passwordReset = (payload) => api.put(`/passwordReset/`, payload)
+
 
 
 export const registerMap = (payload) => api.post(`/registerMap/`, payload)
@@ -51,6 +53,7 @@ const apis= {
     deleteUser,
     changePassword,
     emailVerified,
+    passwordReset,
     registerMap,
     deleteMap,
     updateMap,

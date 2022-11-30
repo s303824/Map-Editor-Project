@@ -287,6 +287,47 @@ changePassword = async(req, res) => {
 
 }
 
+
+passwordReset = async(req, res) => {
+    const { id, password, passwordVerify} = req.body;
+    if (!req.body) {
+        return res.status(400).json({
+            success: false,
+            error: 'You must provide a body to update the Password!',
+        })
+    }
+    if (password !== passwordVerify) {
+        return res.status(400).json({
+            success: false,
+            error: 'New Password must match Password Verify!',
+        })
+    }
+    const loggedInUser = await User.findOne({ _id: id });
+    
+    const saltRounds = 10;
+    const salt = await bcrypt.genSalt(saltRounds);
+    const passwordHash = await bcrypt.hash(password, salt);
+
+    loggedInUser.passwordHash = passwordHash
+    loggedInUser.save()
+        .then(() => {
+            return res.status(200).json({
+                success: true,
+                username: loggedInUser.username,
+                user: loggedInUser,
+                message: 'Password updated!',
+            })
+        })
+        .catch(error => {
+            console.log((error));
+            return res.status(404).json({
+                error,
+                message: 'Password not updated!',
+            })
+        })
+}
+
+
 deleteUser = async(req, res) => {
     try{
         const { id } = req.body;
@@ -325,5 +366,6 @@ module.exports = {
     updateUser,
     deleteUser,
     changePassword,
-    emailVerified
+    emailVerified,
+    passwordReset
 }

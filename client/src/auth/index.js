@@ -320,6 +320,37 @@ function AuthContextProvider(props) {
         
     }
 
+    auth.resetPassword = async function(userData) {     // for updating user Password
+        
+        try {
+            const response = await api.resetPassword(userData);
+            console.log(response.data.user);
+            if (response.status === 200) {
+                authReducer({
+                    type: AuthActionType.SET_LOGGED_IN,
+                    payload: {
+                        loggedIn: response.data.success,
+                        user: response.data.user,
+                        successfulLogin: true
+                    }
+                });
+                history("/", [])
+            }
+        } catch (error) {
+            authReducer({
+                type: AuthActionType.SET_LOGGED_IN,
+                payload: {
+                    user: null,
+                    loggedIn: false,
+                    error: error.response.data.errorMessage,
+                    successfulLogin: false
+                }
+            });
+        }
+        
+    }
+
+
     auth.deleteUser = async function (userData){   // for deleting user information
         try {
             const response = await api.deleteUser(userData);

@@ -106,11 +106,10 @@ var client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
 
       const userData = {
         id: auth.user._id,
-        currentPassword: auth.user.password,
         password: newPassword,
         passwordVerify: confirm,
       }
-      auth.setNewPassword(userData);
+      auth.resetPassword(userData);
     }
 
   }
@@ -202,12 +201,12 @@ var client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
       
       <Box className="login-email-field">
         <Typography>New Password</Typography>
-        <TextField label="Password" className="login-textfield" variant="filled" onChange={(event) => updateField(event, "new_password")}></TextField>
+        <TextField id="outlined-password-input" label="Password" type="password" className="login-textfield" variant="filled" onChange={(event) => updateField(event, "new_password")}></TextField>
       </Box>
 
       <Box className="login-email-field">
         <Typography>Confirm Password</Typography>
-        <TextField label="Confirm Password" className="login-textfield" variant="filled" onChange={(event) => updateField(event, "confirm")}></TextField>
+        <TextField id="outlined-password-input" label="Confirm Password" type="password" className="login-textfield" variant="filled" onChange={(event) => updateField(event, "confirm")}></TextField>
       </Box>
 
       <Box className="login-button-holder">
