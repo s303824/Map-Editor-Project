@@ -16,7 +16,7 @@ const Tile =(tileInfo)=>{
       // let set = store.currentMap.tilesets.filter( tileset => value < (parseInt(tileset.tilecount)+tileset.firstgid ) && value > (tileset.firstgid ));
       // set = set[0]
       let set = store.currentMap.tilesets.filter( tileset => value < (tileset.tilecount+tileset.firstgid ));
-      newImg = set.image; 
+      newImg = set[0].image; 
       // console.log(set)
       left = -(((value-(set.firstgid)) % (set.imagewidth/set.tilewidth))* tileWidth);
       top = -((Math.floor((value-(set.firstgid)) / (set.imageheight/set.tileheight))) * tileHeight);
