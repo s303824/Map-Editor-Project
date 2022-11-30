@@ -18,6 +18,7 @@ export const registerMap = (payload) => api.post(`/registerMap/`, payload)
 export const deleteMap = (payload) => api.delete(`/deleteMap/`, {data: {_id: payload}})
 export const updateMap = (payload) => api.put(`/updateMap/`, payload)
 export const getMap = (payload) => api.get(`/getMap/`, {params: {_id: payload}})
+export const addMapTileset = (payload) => api.put(`/addMapTileset/`, payload)
 
 export const registerMapInfo = (payload) => api.post(`/registerMapInfo/`, payload)
 export const deleteMapInfo = () => api.delete(`/deleteMapInfo/`)
@@ -37,7 +38,7 @@ export const searchMapInfo = (payload) => api.get(`/search`, {params: {payload: 
 export const registerTileSet = (payload) => api.post(`/registerTileSet/`, payload)
 export const deleteTileSet = () => api.delete(`/deleteTileSet/`)
 export const updateTileSet = (payload) => api.put(`/updateTileSet/`, payload)
-export const getTileSet = () => api.get(`/getTileSet/`)
+export const getTileSet = (payload) => api.get(`/getTileSet/`, {params: {_id: payload}})
 
 export const sendReport = (payload) => api.post(`/report/`, payload)
 
@@ -75,6 +76,7 @@ const apis= {
     getAllMapInfoSortedByLikes,
     sendReport,
     searchMapInfo,
+    addMapTileset
 }
 
 export default apis;
