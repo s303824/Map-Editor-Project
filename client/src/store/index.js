@@ -743,7 +743,6 @@ store.redoUserEdit = function () {
 store.paintTile = function (id,value) {
     let transaction = new PlaceTile_Transaction(store, store.currentTile.id, id, store.currentLayer[0].data[id])
     tps.addTransaction(transaction)
-    console.log(store.currentLayer)
 }
 
 store.paintHelper = function(id) {
@@ -757,6 +756,7 @@ store.paintHelper = function(id) {
 }
 
 store.paintHelperUndo = function(id, tileId) {
+    console.log(parseInt(tileId)+ parseInt(store.currentTileSet.firstgid))
     store.currentLayer[0].data[id]=(parseInt(tileId)+ parseInt(store.currentTileSet.firstgid));
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
@@ -947,7 +947,7 @@ store.loadMapEditor= async function (mapId, mapInfo) {
                 payload: {
                     currentMap: response.data.map,
                     mapInfo: mapInfo,
-                    currentLayer: response.data.map.layers,//edited back by burcu 
+                    currentLayer: response.data.map.layers[0],//edited back by burcu 
                     currentTileSet: response.data.map.tilesets[0]
                 }
             });
@@ -988,7 +988,7 @@ store.loadMapById = async function(_id) {
                     payload: {
                         mapInfo: response.data.mapInfo,
                         currentMap: response2.data.map,
-                        currentLayer: response2.data.map.layers,
+                        currentLayer: response2.data.map.layers[0],
                         currentTileSet: response2.data.map.tilesets[0] 
                     }
                 });
