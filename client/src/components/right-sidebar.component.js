@@ -34,6 +34,7 @@ export default function RightSideBar(mapInfo) {
   const [settings, setSettings] = useState(false);
   const [reportOpen, setReportOpen] = useState(false);
   const [guestWarning, setGuestWarning] = useState(false);
+  const [popup, setPopup] = useState(false)
   const [oppositeWarning, setOppositeWarning] = useState(false);
   
   const handleOpenReport = () => {
@@ -174,6 +175,54 @@ function handleListKeyDown(event) {
   }else{
     unpublishOption = null;
   }
+
+  const exportAsJSONPopup = () => {
+    setPopup(true)
+}
+
+//need to figure out how to export as png
+const exportAsJSON = async () => {
+    setPopup(false)
+    store.downloadMap(store.currentMapInfo._id)
+    let mapData = store.currentMap 
+    //mapData.tilesets[0].image = "map-card-7.jpg"
+    mapData.tilesets[0].source = null
+    mapData.tilesets[0].margin = 0
+    mapData.tilewidth = 64;
+    mapData.tileheight = 64;
+
+    // create file in browser
+    const fileName = store.currentMapInfo.name;
+    const json = JSON.stringify(mapData, null, 2);
+    const blob = new Blob([json], { type: "application/json" });
+    const href = URL.createObjectURL(blob);
+
+    // create "a" HTLM element with href to file
+    const link = document.createElement("a");
+    link.href = href;
+    link.download = fileName + ".json";
+    document.body.appendChild(link);
+    link.click();
+
+    // clean up "a" element & remove ObjectURL
+    document.body.removeChild(link);
+    URL.revokeObjectURL(href); 
+
+
+    /*const link1 = document.createElement("a");
+    const fileName1 = store.currentMapInfo.name + "-tileset";
+    const blob1 = new Blob([], { type: "image/jpg;base64" });
+    const href1 = URL.createObjectURL(blob1);
+
+    link1.href = href1;
+    link1.download = fileName1 + ".jpg";
+    document.body.appendChild(link1);
+    link1.click();
+
+    // clean up "a" element & remove ObjectURL
+    document.body.removeChild(link1);
+    URL.revokeObjectURL(href1); */
+}
   
   let creatorSettings = <Box marginLeft={22.5}>
         <IconButton aria-label="settings"
@@ -227,12 +276,18 @@ if (filteredTags.length > 0){
 }
 tagsList = tagsList.trim()
 
+let popupMessage = "Here's how to export this map into a program like Tiled! \n When you click the download button below, you will be downloading the JSON map file, as well as the maps tileset images.\n " +
+    "When you import the map into Tiled, make sure the JSON file and tileset images are in the same folder.\n It's as simple as that!"
+
+    let popupModal = popup ? <LoginModal message = {popupMessage} onClose = {() => exportAsJSON()} closeButtonText = "Download" onClose2={() => setPopup(false)}></LoginModal> : null
+
   return (
     <Box className ='sidebar' position="fixed">
       {unpublishModal}
       {reportModal}
       {loginModal}
       {oppositeModal}
+      {popupModal}
       <Drawer  
         sx={{
           width: drawerWidth,
@@ -267,7 +322,7 @@ tagsList = tagsList.trim()
                 <Typography sx={{color: 'white',fontSize:15,marginLeft:1}}>{store.currentMapInfo.dislikes} Dislikes</Typography>
         </Box>
         <Box display="flex" sx={{marginLeft:1,marginTop:2}}>
-                <DownloadForOfflineTwoToneIcon sx={{fill:"lightgrey"}} onClick={handleDownload}/>
+                <DownloadForOfflineTwoToneIcon sx={{fill:"lightgrey"}} onClick={() => exportAsJSONPopup()}/>
                 <Typography sx={{color: 'white',fontSize:15,marginLeft:1}}>{store.currentMapInfo.downloads} Downloads </Typography>
         </Box>
           {creatorSettings}

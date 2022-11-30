@@ -40,8 +40,7 @@ const MapCard = ({mapInfo}) => {
 
     const handleEditMap = () => {
         if(mapInfo.editActive == false){
-            //store.loadMapEditor(mapInfo.map_id, mapInfo)
-            store.setEditActive(mapInfo._id, true)
+            store.loadMapEditor(mapInfo.map_id, mapInfo)
             navigate("/editor/"+mapInfo._id)
         }
         else{
@@ -120,7 +119,6 @@ const MapCard = ({mapInfo}) => {
 
     let color = "white"
     if(mapInfo.editActive) {
-        console.log(mapInfo.name)
         color = "black"
     }
 

@@ -442,16 +442,20 @@ store.updateMapDislike= async function (mapInfo, amount) {
 //Updates the number of downloads for the published map and returns the associated json file to user
 //Used by: right-sidebar.component (not yet implemented)
 store.downloadMap= async function (mapId) {
-    let map = api.getMapInfo(mapId)
-    map.downloads = map.downloads + 1
-    const response = api.updateMapInfo(map);
-    if (response.status === 200) {
-        storeReducer({
-            type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
-            payload: {
-                
-            }
-        });
+    console.log(mapId)
+    const response = await api.getMapInfo(mapId)
+    if(response.status == 200) {
+        response.data.mapInfo.downloads = response.data.mapInfo.downloads +1;
+        const response2= await api.updateMapInfo(response.data.mapInfo);
+        if (response2.status === 200) {
+            console.log(response2.data.mapInfo)
+            storeReducer({
+                type: GlobalStoreActionType.UPDATE_MAP_INFO,
+                payload: {
+                    mapInfo:response2.data.mapInfo
+                }
+            });
+        }
     }
 }
 
@@ -748,7 +752,6 @@ store.redoUserEdit = function () {
 store.paintTile = function (id,value) {
     let transaction = new PlaceTile_Transaction(store, store.currentTile.id, id, store.currentLayer[0].data[id])
     tps.addTransaction(transaction)
-    console.log(store.currentLayer)
 }
 
 store.paintHelper = function(id) {
@@ -762,6 +765,7 @@ store.paintHelper = function(id) {
 }
 
 store.paintHelperUndo = function(id, tileId) {
+    console.log(parseInt(tileId)+ parseInt(store.currentTileSet.firstgid))
     store.currentLayer[0].data[id]=(parseInt(tileId)+ parseInt(store.currentTileSet.firstgid));
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
@@ -932,9 +936,6 @@ store.addDeleteTileTransaction = function (layer,index) {}
 //Add paint a layer transaction to the transaction store
 store.addPaintLayerTransaction = function (layer,tile) {} 
 
-//Updates the number of downloads for the published map and returns the associated json file to user
-store.downloadMap= async function (mapId) {}
-
 //Sets "openmodal" and allows the different modal to open/close based on user action. 
 store.setopenModal =  function (modalType) {} 
 
@@ -942,8 +943,19 @@ store.setopenModal =  function (modalType) {}
 //Used by: map-card.component(edit button press)
 store.loadMapEditor= async function (mapId, mapInfo) {
     try {
-        console.log(mapInfo)
-        console.log(mapId)
+
+
+        mapInfo.editActive = true;
+        const response1 = await api.updateMapInfo(mapInfo);
+        if(response1.status === 200) {
+            storeReducer({
+                type: GlobalStoreActionType.UPDATE_MAP_INFO,
+                payload: {
+                    mapInfo: response1.data.mapInfo
+                }
+            })
+        }
+
         const response = await api.getMap(mapId);
         if (response.status === 200) {
             console.log(response.data)
@@ -952,7 +964,7 @@ store.loadMapEditor= async function (mapId, mapInfo) {
                 payload: {
                     currentMap: response.data.map,
                     mapInfo: mapInfo,
-                    currentLayer: response.data.map.layers,//edited back by burcu 
+                    currentLayer: response.data.map.layers[0],//edited back by burcu 
                     currentTileSet: response.data.map.tilesets[0]
                 }
             });
@@ -987,13 +999,13 @@ store.loadMapById = async function(_id) {
 
             const response2 = await api.getMap(response.data.mapInfo.map_id)
             if(response2.status === 200) {
-                console.log(response.data.mapInfo)
+                console.log(response2.data)
                 storeReducer({
                     type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                     payload: {
                         mapInfo: response.data.mapInfo,
                         currentMap: response2.data.map,
-                        currentLayer: response2.data.map.layers,
+                        currentLayer: response2.data.map.layers[0],
                         currentTileSet: response2.data.map.tilesets[0] 
                     }
                 });
@@ -1012,11 +1024,14 @@ store.loadMapViewer= async function (mapId, mapInfo) {
 
         const response = await api.getMap(mapId);
         if (response.status === 200) {
+            console.log(response.data.map)
             storeReducer({
                 type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                 payload: {
                     currentMap: response.data.map,
-                    mapInfo: mapInfo, 
+                    mapInfo: mapInfo,
+                    currentLayer: response.data.map.layers[0],//edited back by burcu 
+                    currentTileSet: response.data.map.tilesets[0] 
                 }
             });
             navigate("/view/"+mapInfo._id, {})
@@ -1075,7 +1090,6 @@ store.addComment= async function (mapInfo,comment) {
 //Set edit active
 store.setEditActive= async function (_id,editActive) {
     const response = await api.getMapInfo(_id)
-    console.log("sent")
     response.data.mapInfo.editActive = editActive;
     const response1 = await api.updateMapInfo(response.data.mapInfo);
     if(response1.status === 200) {

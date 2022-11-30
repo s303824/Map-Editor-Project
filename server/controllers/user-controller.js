@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs')
 const Map = require('../model/map-model')
 const MapInfo = require('../model/mapInfo-model')
 
+
 registerUser = async (req, res) => {
     try {
         const { _id, username, email, password, passwordVerify, first_name, last_name } = req.body;
@@ -128,15 +129,24 @@ getLoggedIn = async (req, res) => {
 
 // for getting the user that's getting their password changed
 emailVerified = async (req, res) => {
-    const possibleUser = await User.findOne({ email: req.query.email });
+    const { email } = req.body;
+
+    const possibleUser = await User.findOne({ email: email });
     if(!possibleUser) {
         return res.status(400).json({errorMessage:"Email not found"});
 
     }
-    return res.status(200).json({
-        user: possibleUser
-    })
+    // LOGIN THE USER
+    const token = auth.signToken(possibleUser);
 
+    res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none"
+    }).status(200).json({
+        success: true,
+        user: possibleUser
+    }).send();
 }
 
 logout = async(req, res) => {
@@ -278,6 +288,47 @@ changePassword = async(req, res) => {
 
 }
 
+
+passwordReset = async(req, res) => {
+    const { id, password, passwordVerify} = req.body;
+    if (!req.body) {
+        return res.status(400).json({
+            success: false,
+            error: 'You must provide a body to update the Password!',
+        })
+    }
+    if (password !== passwordVerify) {
+        return res.status(400).json({
+            success: false,
+            error: 'New Password must match Password Verify!',
+        })
+    }
+    const loggedInUser = await User.findOne({ _id: id });
+    
+    const saltRounds = 10;
+    const salt = await bcrypt.genSalt(saltRounds);
+    const passwordHash = await bcrypt.hash(password, salt);
+
+    loggedInUser.passwordHash = passwordHash
+    loggedInUser.save()
+        .then(() => {
+            return res.status(200).json({
+                success: true,
+                username: loggedInUser.username,
+                user: loggedInUser,
+                message: 'Password updated!',
+            })
+        })
+        .catch(error => {
+            console.log((error));
+            return res.status(404).json({
+                error,
+                message: 'Password not updated!',
+            })
+        })
+}
+
+
 deleteUser = async(req, res) => {
     try{
         const { id } = req.body;
@@ -316,5 +367,6 @@ module.exports = {
     updateUser,
     deleteUser,
     changePassword,
-    emailVerified
+    emailVerified,
+    passwordReset
 }
