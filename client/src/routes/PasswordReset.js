@@ -77,18 +77,21 @@ var client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
   }
 
   // check if entered passcode is correct
-  const handlePasscodeCheck = async () => {
+  const handlePasscodeCheck = () => {
     if(passcode == userAttempt){
       console.log("Verified")
-      setEmailSent(false);
-      setCodeVerify(true);
-
       let userData = {
         email: email
       }
-      await auth.emailVerified(userData)
-      if(auth.user == null){
+     auth.emailVerified(userData)
+      if(auth.user == null){  // if user not found, alert user of error and send back to the beginning section
         setInvalidEmail(true)
+        setEnterEmail(true)
+        setEmailSent(false)  
+      }
+      else{       // otherwise, when user found, move on to next section
+        setEmailSent(false);
+        setCodeVerify(true);  
       }
     }
     else{
@@ -240,6 +243,7 @@ const closeInvalidPassword = () => {
 }
 const closeInvalidEmail = () => {
   setInvalidEmail(false)
+  navigate("/", {})
 }
 
 
