@@ -58,9 +58,9 @@ const PasswordReset = ({}) => {
       setPasscode(code.toString())
       let userData = {
         email: email,
-        message: "Your Tileslate passcode is: " + passcode
+        message: "Your Tileslate passcode is: " + code
       }
-      console.log(passcode)
+      console.log(code)
       auth.sendEmail(userData)
       setEnterEmail(false)
       setEmailSent(true)
