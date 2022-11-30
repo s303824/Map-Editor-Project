@@ -639,6 +639,7 @@ store.importNewTileset = async function (id, source) {}
 // Sets the current tile that is selected from the current tileset
 store.setCurrentTile = function (id,value) {
     console.log("id",id);
+    console.log("value", value)
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_TILE,
         payload: {
@@ -649,10 +650,10 @@ store.setCurrentTile = function (id,value) {
 
 // Sets the current tileset
 store.setCurrentTileset = function (id) {
-    console.log("================")
-    console.log(id)
-    console.log(store.currentMap.tilesets.filter(tileset => tileset._id === id ))
-    console.log("================")
+    // console.log("================")
+    // console.log(id)
+    // console.log(store.currentMap.tilesets.filter(tileset => tileset._id === id ))
+    // console.log("================")
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_TILESET,
         payload: {
@@ -737,7 +738,9 @@ store.redoUserEdit = function () {}
 
 //Paints the selected currentlayer's tile with the "currentTile" 
 store.paintTile = function (id,value) {
-    store.currentLayer[0].data[id]=(parseInt(store.currentTile.id)+ parseInt(store.currentTileSet.firstgid));
+    console.log(store.currentTileSet)
+    console.log(store.currentTile.id, store.currentTileSet[0].firstgid)
+    store.currentLayer[0].data[id]=(parseInt(store.currentTile.id)+ parseInt(store.currentTileSet[0].firstgid));
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
         payload: {
@@ -760,7 +763,7 @@ store.deleteTile = function (id) {
 store.paintLayer= function () {
     let data = store.currentLayer[0].data;
     data.forEach((element, index) => {
-        data[index] = (parseInt(store.currentTile.id)+ parseInt(store.currentTileSet.firstgid));
+        data[index] = (parseInt(store.currentTile.id)+ parseInt(store.currentTileSet[0].firstgid));
       })
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
@@ -848,11 +851,32 @@ store.exportCurrentMap = async function () {}
 // Adds a tileset to map
 // Used by: Add Tileset in Map editor page
 store.addTilsetToMap = async function (tileImage, tileWidth, tileHeight, imageHeight, imageWidth, tileName) {
+    const column = imageWidth/tileWidth;
+    const row = imageHeight/tileHeight;
+    const tilecount = column * row
+    let firstgid;
+    console.log("*************************")
+    console.log(store.currentMap.tilesets[store.currentMap.tilesets.length - 1])
+    if (store.currentMap.tilesets.length == 0){
+        firstgid = 1
+    }else{
+        firstgid = store.currentMap.tilesets[store.currentMap.tilesets.length - 1].tilecount + store.currentMap.tilesets[store.currentMap.tilesets.length - 1].firstgid + 1  
+    }
+    console.log("*************************")
+    console.log(tileWidth)
+    console.log(tileHeight)
+    console.log(imageHeight)
+    console.log(imageWidth)
+    console.log(firstgid)
+    console.log(tilecount)
+    console.log("*************************")
+
+
     const tileData = {
         backgroundcolor: "#d31313",
         columns : 1,
         fillmode: "stretch",
-        firstgid: 1 ,
+        firstgid: firstgid,
         grid: {},
         image: tileImage,
         imageheight: imageHeight,
@@ -867,7 +891,7 @@ store.addTilsetToMap = async function (tileImage, tileWidth, tileHeight, imageHe
                         value:"myProperty2_value"
                         }],
         source : "tilelsate",
-        tilecount: "225",
+        tilecount: tilecount,
         tileslateversion: "1.0.1",
         tileheight: tileHeight,
         tilerendersize: "10",

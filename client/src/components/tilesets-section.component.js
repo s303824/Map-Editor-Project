@@ -36,9 +36,9 @@ const TilesetsSection =()=>{
         navigate("/tileseteditor", {})
     }
     const tilesets = store.currentMap.tilesets
-    console.log("---------------------------")
-    console.log(tilesets)
-    console.log("---------------------------")
+    // console.log("---------------------------")
+    // console.log(tilesets)
+    // console.log("---------------------------")
     // const tilesets =[{ //to display sample data
     //     "_id": 1,
     //     "name":"DEFAULT2",
@@ -63,6 +63,39 @@ const TilesetsSection =()=>{
         btnColor === "#d72b05" ? setBtnColor("green") : setBtnColor("#d72b05");
     };
 
+    let main = tilesets != undefined ? 
+    <Tabs
+        value={value}
+        variant="scrollable"
+        scrollButtons={false}
+        aria-label="scrollable prevent tabs example"
+        sx={{backgroundImage:'linear-gradient(to bottom,#7A7A7B,#7A7A7B)',boxShadow: `inset 0 0 6px rgba(0, 0, 0, 0.3)`,marginLeft:3,marginLeft:3,
+        marginRight:3,
+        marginTop:2,
+        borderRadius:1,}}
+        >
+            {tilesets.map((layer) => (
+                <Box display='flex' sx={{backgroundImage:'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',borderRadius:2,width:"145px",marginRight:1.5}}>
+                    
+                <Tab 
+                    key ={layer._id}
+                    sx={{
+                    backgroundColor:{btnColor},
+                    width:"4px"}}
+                    id={layer._id} 
+                    onClick = {handleTileSetDisplay}
+                    label={layer.name}
+                    >{layer.name}
+                </Tab>
+                    
+                <Button variant="contained"  sx={{backgroundColor:"#d72b05" ,fontSize:12,borderRadius:1,marginLeft:-1 }} onClick={handleTileEdit}>
+                    Edit
+                </Button>
+                </Box>
+            ))}
+    </Tabs> 
+    : null
+    
     return(
         <Grid sx={{backgroundImage :'linear-gradient(to left, #505051, #303031)',boxShadow: '0 1px 2px 2px rgba(68,68,69,255)',borderRadius:2}}>
             {addTilesetModal}
@@ -74,38 +107,8 @@ const TilesetsSection =()=>{
                     </Button>
                 </Box>
                 
-                {tilesets && 
-                <Tabs
-                value={value}
-                variant="scrollable"
-                scrollButtons={false}
-                aria-label="scrollable prevent tabs example"
-                sx={{backgroundImage:'linear-gradient(to bottom,#7A7A7B,#7A7A7B)',boxShadow: `inset 0 0 6px rgba(0, 0, 0, 0.3)`,marginLeft:3,marginLeft:3,
-                marginRight:3,
-                marginTop:2,
-                borderRadius:1,}}
-                >
-                    {tilesets.map((layer) => (
-                        <Box display='flex' sx={{backgroundImage:'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',borderRadius:2,width:"145px",marginRight:1.5}}>
-                            
-                        <Tab 
-                            key ={layer._id}
-                            sx={{
-                            backgroundColor:{btnColor},
-                            width:"4px"}}
-                            id={layer._id} 
-                            onClick = {handleTileSetDisplay}
-                            label={layer.name}
-                            >{layer.name}
-                        </Tab>
-                            
-                        <Button variant="contained"  sx={{backgroundColor:"#d72b05" ,fontSize:12,borderRadius:1,marginLeft:-1 }} onClick={handleTileEdit}>
-                            Edit
-                        </Button>
-                        </Box>
-                    ))}
-                </Tabs>}
-            {store.currentTileSet && <Tileset/>}
+                {main}
+            {store.currentTileSet ? <Tileset/> : null}
             </Grid>
                 
         <Grid >

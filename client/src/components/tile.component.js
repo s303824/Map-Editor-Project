@@ -6,23 +6,21 @@ import map from '../assets/map-card-7.jpg';
 const Tile =(tileInfo)=>{
   const {id,value,row,column,img,tileWidth,tileHeight} = tileInfo;
   const {store} = useContext(GlobalStoreContext);
-  console.log("herererererererererer")
-  console.log(value)
-  // const map = store.currentTileSet[0].image
   let left =0;
   let top = 0;
   let newImg = img;
 
   if(value != -1){
     if(value!=0){
-   //let set = store.currentMap.tilesets.filter( tileset => value < (tileset.tilecount+tileset.firstgid ));
-    let set = store.currentTileSet[0];
-    newImg = map; 
-    left = -(((value-(set.firstgid)) % (set.imagewidth/set.tilewidth))* tileWidth);
-    top = -((Math.floor((value-(set.firstgid)) / (set.imageheight/set.tileheight))) * tileHeight);
-  }
+      // let set = store.currentMap.tilesets.filter( tileset => value < (parseInt(tileset.tilecount)+tileset.firstgid ) && value > (tileset.firstgid ));
+      // set = set[0]
+      let set = store.currentMap.tilesets.filter( tileset => value < (tileset.tilecount+tileset.firstgid ));
+      newImg = set.image; 
+      console.log(newImg)
+      left = -(((value-(set.firstgid)) % (set.imagewidth/set.tilewidth))* tileWidth);
+      top = -((Math.floor((value-(set.firstgid)) / (set.imageheight/set.tileheight))) * tileHeight);
+    }
   }else{
-    console.log("herererererererererer")
     left = -((id % column)* tileWidth);
     top = -((Math.floor(id / row)) * tileHeight); 
   }
@@ -41,7 +39,7 @@ const Tile =(tileInfo)=>{
   } 
  
     return(
-        <Box 
+      <Box 
       id={id}
       sx={{
       height:`${tileHeight}px`,
@@ -50,9 +48,9 @@ const Tile =(tileInfo)=>{
       backgroundPosition:`left ${left}px top ${top}px`,
       border:"solid",
       margin:'0px'
-    }}
-    onClick = {handleTileClick}
-      />   
+      }}
+      onClick = {handleTileClick}
+    />   
         
     );
 
