@@ -198,7 +198,7 @@ var client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
   <Box className="login-box-top">    
       <Box className="login-bar">
         <Box>RESET PASSWORD</Box>  
-        <Button variant="contained" color="error" fontSize="32px" onClick={handleGoBack}>X</Button>
+        <Button variant="contained" color="error" fontSize="32px">X</Button>
       </Box>
   </Box>
 
@@ -216,10 +216,6 @@ var client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
 
       <Box className="login-button-holder">
         <Button variant="contained" color="warning" onClick = {handleNewPasswordClose}>Reset Password</Button>
-      </Box>
-
-      <Box className="login-bottom-text">
-      <Typography>Suddenly remember your password?</Typography><Button variant="contained" onClick={handleSignUp}>Sign In</Button>
       </Box>
   </Box>
 </Box>: null;
