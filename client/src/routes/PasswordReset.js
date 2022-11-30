@@ -24,6 +24,8 @@ const PasswordReset = ({}) => {
   const [invalidPassword, setInvalidPassword] = useState(false);
   const [wrongConfirm, setWrongConfirm] = useState(false);
 
+  const [invalidEmail, setInvalidEmail] = useState(false)
+
   
 // Require:
 var postmark = require("postmark");
@@ -75,7 +77,7 @@ var client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
   }
 
   // check if entered passcode is correct
-  const handlePasscodeCheck = () => {
+  const handlePasscodeCheck = async () => {
     if(passcode == userAttempt){
       console.log("Verified")
       setEmailSent(false);
@@ -84,7 +86,10 @@ var client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
       let userData = {
         email: email
       }
-      auth.emailVerified(userData)
+      await auth.emailVerified(userData)
+      if(auth.user == null){
+        setInvalidEmail(true)
+      }
     }
     else{
       console.log("Incorrect")
@@ -221,7 +226,8 @@ var client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
 
 const wrongPasscodeModal = wrongPasscode ? <LoginModal message="The passcode provided is incorrect." onClose={() => closeWrongPasscode()}></LoginModal> : null
 const wrongConfirmModal = wrongConfirm ? <LoginModal message="Both passwords must match." onClose={() => closeWrongConfirm()}></LoginModal> : null
-const invalidPasswordModal = invalidPassword ? <LoginModal message="The password must be more than 8 characters and include uppercase, lowercase, and numbers" onClose={() => closeInvalidPassword()}></LoginModal> : null
+const invalidPasswordModal = invalidPassword ? <LoginModal message="The password must be more than 8 characters and include uppercase, lowercase, and numbers." onClose={() => closeInvalidPassword()}></LoginModal> : null
+const invaliEmailModal = invalidEmail ? <LoginModal message="The is no account associated with the email provided." onClose={() => closeInvalidEmail()}></LoginModal> : null
 
 const closeWrongPasscode = () => {
   setWrongPasscode(false)
@@ -232,12 +238,17 @@ const closeWrongConfirm = () => {
 const closeInvalidPassword = () => {
   setInvalidPassword(false)
 }
+const closeInvalidEmail = () => {
+  setInvalidEmail(false)
+}
+
 
   return (
     <Box className="login-page-holder">
       {wrongPasscodeModal}
       {wrongConfirmModal}
       {invalidPasswordModal}  
+      {invaliEmailModal}
       <Box className="login-box">
         <Box className="login-image-holder">
           <Box className="login-image-topper">
