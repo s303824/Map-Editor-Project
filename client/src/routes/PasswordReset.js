@@ -109,8 +109,6 @@ var client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
       setInvalidPassword(true)
     }
     else {
-      setCodeVerify(false);
-
       const userData = {
         id: auth.user._id,
         password: newPassword,
