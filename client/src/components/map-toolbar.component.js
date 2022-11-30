@@ -34,6 +34,7 @@ import MapSettings from './map-settings.component';
 import PublishMap from './publish.component';
 import map from '../assets/map-card.jpg';
 import { uploadImageToCloudinaryAPIMethod } from "../api/cloudinary"
+import LoginModal from './login-modal.component';
 
 
 const MapToolBar=() =>{
@@ -56,6 +57,7 @@ const MapToolBar=() =>{
     const [publishModalOpen, setPublishModalOpen] = useState(false);
     const anchorRef = React.useRef(null);
     const expoRef = React.useRef(null)
+    const [popup, setPopup] = useState(false)
 
     const handleClickOpen = () => {
         setDialogOpen(true);
@@ -199,8 +201,13 @@ const MapToolBar=() =>{
             </DialogActions>
         </Dialog>
 
+    const exportAsJSONPopup = () => {
+        setPopup(true)
+    }
+
     //need to figure out how to export as png
     const exportAsJSON = async () => {
+        setPopup(false)
         let mapData = store.currentMap 
         mapData.tilesets[0].image = "map-card-7.jpg"
         mapData.tilesets[0].source = null
@@ -209,7 +216,6 @@ const MapToolBar=() =>{
         mapData.tileheight = 64;
 
         // create file in browser
-        console.log(store.currentMapInfo)
         const fileName = store.currentMapInfo.name;
         const json = JSON.stringify(mapData, null, 2);
         const blob = new Blob([json], { type: "application/json" });
@@ -254,6 +260,14 @@ const MapToolBar=() =>{
         store.setCurrentMapEditingTool("eraser");
     }
 
+    const handleUndo = (event) => {
+        store.undoUserEdit();
+    }
+
+    const handleRedo = (event) => {
+        store.redoUserEdit();
+    }
+
     let exportDropDown = 
         <Popper
         sx={{paddingRight:"15%"}}
@@ -280,8 +294,7 @@ const MapToolBar=() =>{
                             aria-labelledby="composition-button"
                         >
                             {/* add settings to the settings menu-bar here  */}
-                            <MenuItem onClick={() => exportAsJSON()}>As JSON</MenuItem>   
-                            <MenuItem onClick={(null)}>As PNG</MenuItem>
+                            <MenuItem onClick={() => exportAsJSONPopup()}>As JSON</MenuItem>   
                         </MenuList>
                     </ClickAwayListener>
                 </Paper>
@@ -289,10 +302,19 @@ const MapToolBar=() =>{
         )}
     </Popper>
 
+    let stampColor = store.selectedMapEditTool == "stamp" ? "red" : ""
+    let paintColor = store.selectedMapEditTool == "paint" ? "red" : ""
+    let eraseColor = store.selectedMapEditTool == "eraser" ? "red" : ""
+
+    let popupMessage = "Here's how to export your map into a program like Tiled! \n When you click the download button below, you will be downloading the JSON map file, as well as your tileset images.\n " +
+    "When you import your map into Tiled, make sure your JSON file and tileset images are in the same folder.\n It's as simple as that!"
+
+    let popupModal = popup ? <LoginModal message = {popupMessage} onClose = {() => exportAsJSON()} closeButtonText = "Download" onClose2={() => setPopup(false)}></LoginModal> : null
+
     return (
         
         <Box className='top-navbar' sx={{ display: 'flex' ,flexGrow: 1,}} >
-            {[settingsModal, deleteModalBox, publishModal, teamsModal]}
+            {[settingsModal, deleteModalBox, publishModal, teamsModal, popupModal]}
 
            <AppBar position="static" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1}}>
               <Toolbar sx={{boxShadow: 1 ,backgroundColor:'#1E1E1E',boxShadow: '0 1px 1px 1px rgba(68,68,69,255)',justifyContent: 'space-between'}}> 
@@ -301,24 +323,24 @@ const MapToolBar=() =>{
                     Manage Team
                 </Button>
 
-               <IconButton key={1} aria-label="undo">
+               <IconButton key={1} aria-label="undo" onClick={() => handleUndo()}>
                 <UndoIcon sx={{fill:"white" ,fontSize:40}}/>
                 </IconButton>
 
-                <IconButton id={2} ariaLabel="redo" >
+                <IconButton id={2} ariaLabel="redo" onClick={() => handleRedo()} >
                 <RedoTwoToneIcon sx={{fill:"white" ,fontSize:40}}/>
                 </IconButton>
 
                 <IconButton key={3} aria-label="stamp" onClick ={handleStampClick}>
-                <ApprovalTwoToneIcon sx={{fill:"white" ,fontSize:40}}/>
+                <ApprovalTwoToneIcon sx={{fill:"white", backgroundColor:stampColor , borderRadius:2, fontSize:40}}/>
                 </IconButton>
 
                 <IconButton key={4} aria-label="paint" onClick={handlePaintClick}>
-                <FormatColorFillTwoToneIcon sx={{fill:"white" ,fontSize:40}}/>
+                <FormatColorFillTwoToneIcon sx={{fill:"white", backgroundColor:paintColor , borderRadius:2, fontSize:40}}/>
                 </IconButton>
 
                 <IconButton key={5} aria-label="delete" onClick={handleEraserClick}>
-                <AutoFixNormalSharpIcon sx={{fill:"white" ,fontSize:40}}/>
+                <AutoFixNormalSharpIcon sx={{fill:"white", backgroundColor:eraseColor , borderRadius:2, fontSize:40}}/>
                 </IconButton>
             </Box>
             <Box >

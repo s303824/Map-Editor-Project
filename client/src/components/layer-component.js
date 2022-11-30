@@ -29,6 +29,7 @@ const Layer =()=>{
   const findTileImage = () => {
 
   }
+
   //should have the total tile count in the 
   //should just render layer.data array
 
@@ -63,9 +64,6 @@ const Layer =()=>{
       {Array.from({ length:tileCount }, (_, i) => (
           <Tile id={i}  value={currentLayer.data[i]} row={currentLayer.height} column={currentLayer.width} img={LayerTileBackround} tileWidth = {tileWidth} tileHeight={64} next={findTileImage}/>
       ))} 
-
-
-
         
       </ImageList>
     </Box>

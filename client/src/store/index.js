@@ -3,6 +3,10 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { Navigate, useHistory, useNavigate } from 'react-router-dom'
 import api from '../api'
 import AuthContext from '../auth';
+import JsTPS from "../common/jsTPS"
+import PlaceTile_Transaction from '../transactions/PlaceTile_Transaction';
+import DeleteTile_Transaction from '../transactions/DeleteTile_Transaction';
+import PaintLayer_Transaction from '../transactions/PaintLayer_Transaction';
 
 
 // THIS IS THE CONTEXT WE'LL USE TO SHARE OUR STORE
@@ -25,6 +29,8 @@ export const GlobalStoreActionType = {
     UPDATE_MAP_INFO: "UPDATE_MAP_INFO",
     ERROR: "ERROR"
 }
+
+const tps = new JsTPS();
 
 function GlobalStoreContextProvider(props) {
 
@@ -436,16 +442,20 @@ store.updateMapDislike= async function (mapInfo, amount) {
 //Updates the number of downloads for the published map and returns the associated json file to user
 //Used by: right-sidebar.component (not yet implemented)
 store.downloadMap= async function (mapId) {
-    let map = api.getMapInfo(mapId)
-    map.downloads = map.downloads + 1
-    const response = api.updateMapInfo(map);
-    if (response.status === 200) {
-        storeReducer({
-            type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
-            payload: {
-                
-            }
-        });
+    console.log(mapId)
+    const response = await api.getMapInfo(mapId)
+    if(response.status == 200) {
+        response.data.mapInfo.downloads = response.data.mapInfo.downloads +1;
+        const response2= await api.updateMapInfo(response.data.mapInfo);
+        if (response2.status === 200) {
+            console.log(response2.data.mapInfo)
+            storeReducer({
+                type: GlobalStoreActionType.UPDATE_MAP_INFO,
+                payload: {
+                    mapInfo:response2.data.mapInfo
+                }
+            });
+        }
     }
 }
 
@@ -731,16 +741,36 @@ store.setCurrentMapEditingTool = function (selectedTool) {
 }
 
  //Undo the latest transaction 
-store.undoUserEdit = function () {}
+store.undoUserEdit = function () {
+    tps.undoTransaction();
+}
 
 //Redo the latest transaction 
-store.redoUserEdit = function () {}
+store.redoUserEdit = function () {
+    tps.doTransaction();
+}
 
-//Paints the selected currentlayer's tile with the "currentTile" 
+//Paints the selected currentlayer's tile with the "currentTile"
+//store.currentTile.id is the id of the tile selected from the current tileset
+//id is the id of the tile on the mpa 
 store.paintTile = function (id,value) {
-    console.log(store.currentTileSet)
-    console.log(store.currentTile.id, store.currentTileSet[0].firstgid)
+    let transaction = new PlaceTile_Transaction(store, store.currentTile.id, id, store.currentLayer[0].data[id])
+    tps.addTransaction(transaction)
+}
+
+store.paintHelper = function(id) {
     store.currentLayer[0].data[id]=(parseInt(store.currentTile.id)+ parseInt(store.currentTileSet[0].firstgid));
+    storeReducer({
+        type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
+        payload: {
+            currentLayer:store.currentLayer
+        }
+    });
+}
+
+store.paintHelperUndo = function(id, tileId) {
+    console.log(parseInt(tileId)+ parseInt(store.currentTileSet.firstgid))
+    store.currentLayer[0].data[id]=(parseInt(tileId)+ parseInt(store.currentTileSet.firstgid));
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
         payload: {
@@ -751,6 +781,11 @@ store.paintTile = function (id,value) {
 
 //Deletes the selected tile from the current layer 
 store.deleteTile = function (id) {
+    let transaction = new DeleteTile_Transaction(store, id, store.currentLayer[0].data[id])
+    tps.addTransaction(transaction)
+}
+
+store.deleteTileHelper = function(id) {
     store.currentLayer[0].data[id]=0;
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
@@ -759,11 +794,44 @@ store.deleteTile = function (id) {
         }
     });
 }
+
+store.deleteTileUndo = function(id, oldTileId) {
+    console.log(oldTileId)
+    store.currentLayer[0].data[id]=oldTileId;
+    storeReducer({
+        type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
+        payload: {
+            currentLayer:store.currentLayer
+        }
+    });
+}
+
 //Paints all tiles in the current layer with the "currentTile" 
 store.paintLayer= function () {
+    let oldData =[]
+    store.currentLayer[0].data.forEach((element, index) => {
+        oldData[index] = element;
+      })
+    let transaction = new PaintLayer_Transaction(store, oldData, store.currentTile.id)
+    tps.addTransaction(transaction)
+}
+
+store.paintLayerHelper = function(newTileId) {
     let data = store.currentLayer[0].data;
     data.forEach((element, index) => {
-        data[index] = (parseInt(store.currentTile.id)+ parseInt(store.currentTileSet[0].firstgid));
+        data[index] = (parseInt(newTileId)+ parseInt(store.currentTileSet[0].firstgid));
+      })
+    storeReducer({
+        type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
+        payload: {
+            currentLayer:store.currentLayer
+        }
+    });
+}
+
+store.paintLayerUndo = function(oldLayerData) {
+    oldLayerData.forEach((element, index) => {
+        store.currentLayer[0].data[index] = element;
       })
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
@@ -973,9 +1041,6 @@ store.addDeleteTileTransaction = function (layer,index) {}
 //Add paint a layer transaction to the transaction store
 store.addPaintLayerTransaction = function (layer,tile) {} 
 
-//Updates the number of downloads for the published map and returns the associated json file to user
-store.downloadMap= async function (mapId) {}
-
 //Sets "openmodal" and allows the different modal to open/close based on user action. 
 store.setopenModal =  function (modalType) {} 
 
@@ -983,8 +1048,19 @@ store.setopenModal =  function (modalType) {}
 //Used by: map-card.component(edit button press)
 store.loadMapEditor= async function (mapId, mapInfo) {
     try {
-        console.log(mapInfo)
-        console.log(mapId)
+
+
+        mapInfo.editActive = true;
+        const response1 = await api.updateMapInfo(mapInfo);
+        if(response1.status === 200) {
+            storeReducer({
+                type: GlobalStoreActionType.UPDATE_MAP_INFO,
+                payload: {
+                    mapInfo: response1.data.mapInfo
+                }
+            })
+        }
+
         const response = await api.getMap(mapId);
         if (response.status === 200) {
             console.log(response.data)
@@ -993,7 +1069,7 @@ store.loadMapEditor= async function (mapId, mapInfo) {
                 payload: {
                     currentMap: response.data.map,
                     mapInfo: mapInfo,
-                    currentLayer: response.data.map.layers,//edited back by burcu 
+                    currentLayer: response.data.map.layers[0],//edited back by burcu 
                     currentTileSet: response.data.map.tilesets[0]
                 }
             });
@@ -1029,12 +1105,13 @@ store.loadMapById = async function(_id) {
             const response2 = await api.getMap(response.data.mapInfo.map_id)
             if(response2.status === 200) {
                 // console.log(response.data.mapInfo)
+                console.log(response2.data)
                 storeReducer({
                     type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                     payload: {
                         mapInfo: response.data.mapInfo,
                         currentMap: response2.data.map,
-                        currentLayer: response2.data.map.layers,
+                        currentLayer: response2.data.map.layers[0],
                         currentTileSet: response2.data.map.tilesets[0] 
                     }
                 });
@@ -1053,11 +1130,14 @@ store.loadMapViewer= async function (mapId, mapInfo) {
 
         const response = await api.getMap(mapId);
         if (response.status === 200) {
+            console.log(response.data.map)
             storeReducer({
                 type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                 payload: {
                     currentMap: response.data.map,
-                    mapInfo: mapInfo, 
+                    mapInfo: mapInfo,
+                    currentLayer: response.data.map.layers[0],//edited back by burcu 
+                    currentTileSet: response.data.map.tilesets[0] 
                 }
             });
             navigate("/view/"+mapInfo._id, {})
@@ -1116,7 +1196,6 @@ store.addComment= async function (mapInfo,comment) {
 //Set edit active
 store.setEditActive= async function (_id,editActive) {
     const response = await api.getMapInfo(_id)
-    console.log("sent")
     response.data.mapInfo.editActive = editActive;
     const response1 = await api.updateMapInfo(response.data.mapInfo);
     if(response1.status === 200) {

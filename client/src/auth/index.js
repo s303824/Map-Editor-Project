@@ -149,9 +149,9 @@ function AuthContextProvider(props) {
         }
     }
 
-    auth.emailVerified = async function (email) {
+    auth.emailVerified = async function (userData) {
         try {
-            const response = await api.emailVerified(email);
+            const response = await api.emailVerified(userData);
             if (response.status === 200) {
                 authReducer({
                     type: AuthActionType.SET_LOGGED_IN,
@@ -168,12 +168,18 @@ function AuthContextProvider(props) {
                 payload: {
                     user: null,
                     loggedIn: false,
-                    error: error.response.data.errorMessage,
-                    successfulLogin: false
+                    error: error.response.data.errorMessage
                 }
             });
         }        
     }
+
+    auth.sendEmail = async function (userData) {
+        try{
+            const response = await api.sendEmail(userData);
+    }catch(error){
+    }
+}
 
     auth.registerUser = async function(userData, store) {
         let response;
@@ -319,6 +325,37 @@ function AuthContextProvider(props) {
         }
         
     }
+
+    auth.passwordReset = async function(userData) {     // for updating user Password
+        
+        try {
+            const response = await api.passwordReset(userData);
+            console.log(response.data.user);
+            if (response.status === 200) {
+                authReducer({
+                    type: AuthActionType.SET_LOGGED_IN,
+                    payload: {
+                        loggedIn: response.data.success,
+                        user: response.data.user,
+                        successfulLogin: true
+                    }
+                });
+                history("/", [])
+            }
+        } catch (error) {
+            authReducer({
+                type: AuthActionType.SET_LOGGED_IN,
+                payload: {
+                    user: null,
+                    loggedIn: false,
+                    error: error.response.data.errorMessage,
+                    successfulLogin: false
+                }
+            });
+        }
+        
+    }
+
 
     auth.deleteUser = async function (userData){   // for deleting user information
         try {

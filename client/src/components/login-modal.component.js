@@ -4,7 +4,7 @@ import "../App.css"
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
-const LoginModal = ({message, onClose}) => {
+const LoginModal = ({message, onClose, closeButtonText, onClose2}) => {
     
     const style = {
         position: 'absolute',
@@ -20,6 +20,8 @@ const LoginModal = ({message, onClose}) => {
         p: 4,
       };
 
+      let extraButton = onClose2 ? <Button variant="contained" color="error" onClick={onClose2} sx={{marginLeft:2}}>Close</Button> : null
+
     return(
         <Box color="white">
         <Modal
@@ -32,8 +34,8 @@ const LoginModal = ({message, onClose}) => {
             <Typography fontSize="20px">
                 <Box className="qmodal-text" color="white">{message}</Box>
             </Typography>
-            <Button variant="contained" onClick={onClose}>Close</Button>
-
+            <Button variant="contained" onClick={onClose}>{closeButtonText ? closeButtonText:"Close"}</Button>
+            {extraButton}
             </Box>
         </Modal>
         </Box> 
