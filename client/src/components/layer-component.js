@@ -34,7 +34,7 @@ const Layer =()=>{
 
   //THIS IS THE IMPORTANT CHANGE:
   //hard coded tileset[1] to have this first gid
-  store.currentMap.tilesets[1].firstgid = 226
+  // store.currentMap.tilesets[1].firstgid = 226
 
     return(
       <Box>

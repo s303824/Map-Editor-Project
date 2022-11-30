@@ -465,7 +465,7 @@ store.setNewMap = async function(mapData){
                 currentLayer: response.data.map.layers
 
             }});
-        navigate("/editor/"+response.data.map._id)
+        navigate("/editor/"+response.data.map.mapinfo)
         }
     }
     catch(error){
