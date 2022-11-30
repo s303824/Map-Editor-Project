@@ -3,6 +3,9 @@ const User = require('../model/user-model')
 const bcrypt = require('bcryptjs')
 const Map = require('../model/map-model')
 const MapInfo = require('../model/mapInfo-model')
+const postmark = require("postmark");
+const client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
+
 
 registerUser = async (req, res) => {
     try {
@@ -146,6 +149,23 @@ emailVerified = async (req, res) => {
         success: true,
         user: possibleUser
     }).send();
+}
+
+sendEmail = async (req, res) => {
+    const {email, passcode} = req.body;
+    try{
+    client.sendEmail({
+        "From": "sean.yang@stonybrook.edu",
+        "To": email,
+        "Subject": "Tileslate Email Verification",
+        "HtmlBody": "<strong>Hello</strong> dear user.",
+        "TextBody": "Your Tileslate passcode is: " + passcode,
+        "MessageStream": "outbound"
+      });
+      return res.status(200);
+    }catch(error){
+        return res.status(404).json({errorMessage:"Email error"});
+    }
 }
 
 logout = async(req, res) => {
