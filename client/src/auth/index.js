@@ -149,9 +149,9 @@ function AuthContextProvider(props) {
         }
     }
 
-    auth.emailVerified = async function (email) {
+    auth.emailVerified = async function (userData) {
         try {
-            const response = await api.emailVerified(email);
+            const response = await api.emailVerified(userData);
             if (response.status === 200) {
                 authReducer({
                     type: AuthActionType.SET_LOGGED_IN,

@@ -128,9 +128,9 @@ getLoggedIn = async (req, res) => {
 
 // for getting the user that's getting their password changed
 emailVerified = async (req, res) => {
-    const { Email } = req.body;
+    const { email } = req.body;
 
-    const possibleUser = await User.findOne({ email: Email });
+    const possibleUser = await User.findOne({ email: email });
     if(!possibleUser) {
         return res.status(400).json({errorMessage:"Email not found"});
 

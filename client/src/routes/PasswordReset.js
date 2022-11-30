@@ -76,13 +76,15 @@ var client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
 
   // check if entered passcode is correct
   const handlePasscodeCheck = () => {
-    console.log(passcode)
-    console.log(userAttempt)
     if(passcode == userAttempt){
       console.log("Verified")
       setEmailSent(false);
       setCodeVerify(true);
-      auth.emailVerified(email)
+
+      let userData = {
+        email: email
+      }
+      auth.emailVerified(userData)
     }
     else{
       console.log("Incorrect")
