@@ -168,8 +168,7 @@ function AuthContextProvider(props) {
                 payload: {
                     user: null,
                     loggedIn: false,
-                    error: error.response.data.errorMessage,
-                    successfulLogin: false
+                    error: error.response.data.errorMessage
                 }
             });
         }        

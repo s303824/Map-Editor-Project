@@ -234,7 +234,7 @@ const closeInvalidPassword = () => {
 }
 const closeInvalidEmail = () => {
   setInvalidEmail(false)
-  setEmailSent(false)  
+  setCodeVerify(false)  
   setEnterEmail(true)
 }
 
