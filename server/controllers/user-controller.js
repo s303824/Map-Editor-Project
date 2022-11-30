@@ -136,7 +136,7 @@ emailVerified = async (req, res) => {
 
     }
     // LOGIN THE USER
-    const token = auth.signToken(loggedInUser);
+    const token = auth.signToken(possibleUser);
 
     res.cookie("token", token, {
         httpOnly: true,
@@ -144,7 +144,7 @@ emailVerified = async (req, res) => {
         sameSite: "none"
     }).status(200).json({
         success: true,
-        user: loggedInUser
+        user: possibleUser
     }).send();
 }
 
