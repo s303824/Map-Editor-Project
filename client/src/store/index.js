@@ -657,7 +657,7 @@ store.setCurrentTileset = function (id) {
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_TILESET,
         payload: {
-            currentTileSet: store.currentMap.tilesets.filter(tileset => tileset._id === id )
+            currentTileSet: store.currentMap.tilesets.filter(tileset => tileset._id == id )
         }
         // {
         //     currentTileSet : {

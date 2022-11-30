@@ -10,6 +10,13 @@ const Tile =(tileInfo)=>{
   let top = 0;
   let newImg = img;
 
+  //THIS IS THE IMPORTANT PART RIGHT HERE:
+  //currently i am directly changing the first gid of tileset[1] to 226
+  //this checks if the value is above that, then uses the image from tileset[1]
+  if(value > 225) {
+    newImg = store.currentMap.tilesets[1].image
+  }
+
   if(value != -1){
     if(value!=0){
       // let set = store.currentMap.tilesets.filter( tileset => value < (parseInt(tileset.tilecount)+tileset.firstgid ) && value > (tileset.firstgid ));
@@ -33,7 +40,7 @@ const Tile =(tileInfo)=>{
     if(event.target.parentElement.className.includes('tileset-section')){
       store.setCurrentTile(event.target.id,value);
     }else{
-      console.log("target",event);
+      //console.log("target",event);
       store.handleMapAction(event.target.id,value);
     }
   } 

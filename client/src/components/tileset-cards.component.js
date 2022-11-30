@@ -30,7 +30,8 @@ const Tileset =()=>{
   // console.log(map)
   // console.log("#########################")
 
-  
+  console.log(tileset)
+
 
     return(
       <Box>
