@@ -60,7 +60,7 @@ const PasswordReset = ({}) => {
         email: email,
         code: passcode
       }
-
+      console.log(passcode)
       auth.sendEmail(userData)
       setEnterEmail(false)
       setEmailSent(true)
