@@ -8,8 +8,7 @@ sendEmail = async (req, res) => {
         "From": "sean.yang@stonybrook.edu",
         "To": email,
         "Subject": "Tileslate Email Verification",
-        "HtmlBody": "<strong>Hello</strong> dear user.",
-        "TextBody": message,
+        "HtmlBody": message,
         "MessageStream": "outbound"
       });
       return res.status(200);
