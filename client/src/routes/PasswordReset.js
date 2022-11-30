@@ -24,8 +24,6 @@ const PasswordReset = ({}) => {
   const [invalidPassword, setInvalidPassword] = useState(false);
   const [wrongConfirm, setWrongConfirm] = useState(false);
 
-  const [user, setUser] = useState(auth.user);
-
   
 // Require:
 var postmark = require("postmark");
@@ -85,7 +83,6 @@ var client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
       setEmailSent(false);
       setCodeVerify(true);
       auth.emailVerified(email)
-      setUser(auth.user)  
     }
     else{
       console.log("Incorrect")
@@ -203,12 +200,12 @@ var client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
       
       <Box className="login-email-field">
         <Typography>New Password</Typography>
-        <TextField className="login-textfield" variant="filled" onChange={(event) => updateField(event, "new_password")}></TextField>
+        <TextField label="Password" className="login-textfield" variant="filled" onChange={(event) => updateField(event, "new_password")}></TextField>
       </Box>
 
       <Box className="login-email-field">
         <Typography>Confirm Password</Typography>
-        <TextField className="login-textfield" variant="filled" onChange={(event) => updateField(event, "confirm")}></TextField>
+        <TextField label="Confirm Password" className="login-textfield" variant="filled" onChange={(event) => updateField(event, "confirm")}></TextField>
       </Box>
 
       <Box className="login-button-holder">

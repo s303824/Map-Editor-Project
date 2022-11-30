@@ -128,15 +128,24 @@ getLoggedIn = async (req, res) => {
 
 // for getting the user that's getting their password changed
 emailVerified = async (req, res) => {
-    const possibleUser = await User.findOne({ email: req.query.email });
+    const { Email } = req.body;
+
+    const possibleUser = await User.findOne({ email: Email });
     if(!possibleUser) {
         return res.status(400).json({errorMessage:"Email not found"});
 
     }
-    return res.status(200).json({
-        user: possibleUser
-    })
+    // LOGIN THE USER
+    const token = auth.signToken(loggedInUser);
 
+    res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none"
+    }).status(200).json({
+        success: true,
+        user: loggedInUser
+    }).send();
 }
 
 logout = async(req, res) => {

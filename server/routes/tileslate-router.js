@@ -15,7 +15,7 @@ router.get('/logout', UserController.logout)
 router.put('/user', UserController.updateUser)
 router.delete('/user', UserController.deleteUser)
 router.put('/changePassword', UserController.changePassword)
-router.get('/emailVerified', UserController.emailVerified)
+router.post('/emailVerified', UserController.emailVerified)
 
 router.post('/registerMap', MapController.registerMap)
 router.delete('/deleteMap', MapController.deleteMap)
