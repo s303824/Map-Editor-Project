@@ -120,8 +120,12 @@ updateTileSet = async (req, res) => {
 }
 
 getTileSet = async (req, res) => {
+
+    console.log("---------------------")
+    console.log(req.query)
+    console.log("---------------------")
     try{
-        const {  _id } = req.body;
+        const { _id } = req.query;
         if(!_id){
             return res
                 .status(400)

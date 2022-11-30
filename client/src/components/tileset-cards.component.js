@@ -8,15 +8,30 @@ import ArrowCircleDownTwoToneIcon from '@mui/icons-material/ArrowCircleDownTwoTo
 import ArrowCircleUpTwoToneIcon from '@mui/icons-material/ArrowCircleUpTwoTone';
 import Typography from '@mui/material/Typography';
 import Tile from './tile.component';
-import map from '../assets/map-card-7.jpg';
+// import map from '../assets/map-card-7.jpg';
 import GlobalStoreContext from '../store';
 import { useContext } from 'react';
 
 const Tileset =()=>{
   const {store} = useContext(GlobalStoreContext);
+  if(!store.currentTileSet[0]) {
+    return
+  }
   const tileset = store.currentTileSet;
-  const column = tileset.imagewidth/tileset.tilewidth;
-  const row = tileset.imageheight/tileset.tileheight;
+  const column = tileset[0].imagewidth/tileset[0].tilewidth;
+  const row = tileset[0].imageheight/tileset[0].tileheight;
+  const map = tileset[0].image
+  // console.log("#########################")
+  // console.log(store.currentTileSet)
+  // console.log(row)
+  // console.log(column)
+  // console.log(tileset[0].tilewidth)
+  // console.log(tileset[0].tileheight)
+  // console.log(map)
+  // console.log("#########################")
+
+  console.log(tileset)
+
 
     return(
       <Box>
@@ -43,8 +58,8 @@ const Tileset =()=>{
                 backgroundColor: "#ffc806",
                 outline: `1px solid #ffc806`,
             }}}>
-          {Array.from({ length: tileset.tilecount }, (_, i) => (
-          <Tile id={i} value={-1} row={row} column={column} img={map} tileWidth = {tileset.tilewidth} tileHeight={tileset.tileheight} isTileset={true} />
+          {Array.from({ length: tileset[0].tilecount }, (_, i) => (
+            <Tile id={i} value={-1} row={row} column={column} img={map} tileWidth = {tileset[0].tilewidth} tileHeight={tileset[0].tileheight}/>
       ))}
       </ImageList>
     </Box>

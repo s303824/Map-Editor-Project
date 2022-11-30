@@ -16,6 +16,8 @@ const LayersSection =()=>{
     if(!store.currentMap.tileheight) {
         return null;
       }
+    //   console.log(store.currentMapInfo)
+    //   console.log(store.currentMap)
     let currentLayer= store.currentLayer;
     //sort the layers based on their precedence
     //const sortedByPredence = (store.currentMap.layers.sort((a, b) => a.precedence - b.precedence)); 

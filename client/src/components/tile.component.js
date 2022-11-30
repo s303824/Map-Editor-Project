@@ -6,21 +6,22 @@ import map from '../assets/map-card-7.jpg';
 const Tile =(tileInfo)=>{
   const {id,value,row,column,img,tileWidth,tileHeight, isTileset} = tileInfo;
   const {store} = useContext(GlobalStoreContext);
-
   let left =0;
   let top = 0;
   let newImg = img;
   let opasity = 1;
 
-  if(value != -1){  //rendering a layer tile 
-    if(value!=0){   
-   //let set = store.currentMap.tilesets.filter( tileset => value < (tileset.tilecount+tileset.firstgid ));
-    let set = store.currentTileSet;
-    newImg = map; 
-    left = -(((value-(set.firstgid)) % (set.imagewidth/set.tilewidth))* tileWidth);
-    top = -((Math.floor((value-(set.firstgid)) / (set.imageheight/set.tileheight))) * tileHeight);
-
-  }else{
+  if(value != -1){
+    if(value!=0){
+      // let set = store.currentMap.tilesets.filter( tileset => value < (parseInt(tileset.tilecount)+tileset.firstgid ) && value > (tileset.firstgid ));
+      // set = set[0]
+      let set = store.currentMap.tilesets.filter( tileset => value < (tileset.tilecount+tileset.firstgid ));
+      newImg = set.image; 
+      // console.log(set)
+      left = -(((value-(set.firstgid)) % (set.imagewidth/set.tilewidth))* tileWidth);
+      top = -((Math.floor((value-(set.firstgid)) / (set.imageheight/set.tileheight))) * tileHeight);
+    }
+  else{
     opasity = 0;
   }
   }else{ //rendering a tileset tile
@@ -37,6 +38,7 @@ const Tile =(tileInfo)=>{
     if(event.target.parentElement.className.includes('tileset-section')){
       store.setCurrentTile(event.target.id,value);
     }else{
+      //console.log("target",event);
       store.handleMapAction(event.target.id,value);
       
     }
@@ -48,7 +50,7 @@ const Tile =(tileInfo)=>{
     : ""
  
     return(
-        <Box 
+      <Box 
       id={id}
       sx={{
       height:`${tileHeight}px`,
