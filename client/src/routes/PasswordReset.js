@@ -79,44 +79,42 @@ var client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
   // check if entered passcode is correct
   const handlePasscodeCheck = () => {
     if(passcode == userAttempt){
-      console.log("Verified")
       let userData = {
         email: email
       }
-     auth.emailVerified(userData).then(() => {
-      if(auth.successfulLogin == false){  // if user not found, alert user of error and send back to the beginning section
-        setInvalidEmail(true)
-      }
-      else{       // otherwise, when user found, move on to next section
-        setEmailSent(false);
-        setCodeVerify(true);  
-      }
-     })
+     auth.emailVerified(userData)
+     setEmailSent(false);
+     setCodeVerify(true); 
     }
     else{
-      console.log("Incorrect")
       setWrongPasscode(true)
     }
   }
 
   // check if new password is valid and the same as the input from the confirmed password field
   const handleNewPasswordClose = () => {
-    let password_format = /^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9]).{8,}/;
-    if(newPassword != confirm){
-      setWrongConfirm(true)
+    if(auth.user == null){  // if user not found, alert user of error and send back to the beginning section
+      setInvalidEmail(true)
     }
-    else if(!password_format.test(newPassword)){
-      setInvalidPassword(true)
-    }
-    else {
-      const userData = {
-        id: auth.user._id,
-        password: newPassword,
-        passwordVerify: confirm,
+    else{
+      let password_format = /^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9]).{8,}/;
+      if(newPassword != confirm){
+        setWrongConfirm(true)
       }
-      auth.passwordReset(userData);
+      else if(!password_format.test(newPassword)){
+        setInvalidPassword(true)
+      }
+      else {
+        const userData = {
+          id: auth.user._id,
+          password: newPassword,
+          passwordVerify: confirm,
+        }
+        auth.passwordReset(userData);
+      }
+  
+  
     }
-
   }
 
   const loginImage = <Box 
