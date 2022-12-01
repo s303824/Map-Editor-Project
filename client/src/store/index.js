@@ -475,7 +475,7 @@ store.setNewMap = async function(mapData){
                 currentLayer: response.data.map.layers
 
             }});
-        navigate("/editor/"+response.data.map._id)
+        navigate("/editor/"+response.data.mapInfo._id)
         }
     }
     catch(error){
@@ -841,19 +841,42 @@ store.saveCurrentMap = async function () {
         backgroundcolor: store.currentMap.backgroundcolor,  
         height: store.currentMap.height, 
         infinite: store.currentMap.infinite, 
-        layers: store.currentLayer,                             // takes currentLayer 
+        layers: store.currentMap.layers,                            
         nextlayerid: store.currentMap.nextlayerid, 
         nextobjectid: store.currentMap.nextobjectid, 
         renderorder: store.currentMap.renderorder, 
         tiledversion: store.currentMap.tiledversion, 
         tileheight: store.currentMap.tileheight, 
-        tilesets: store.currentTileSet,                         // takes currentTileset
+        tilesets: store.currentMap.tilesets,
         tilewidth: store.currentMap.tilewidth, 
         version: store.currentMap.version, 
         width: store.currentMap.width
     }
+    console.log(UpdateMapdata)
     const response = await api.updateMap(UpdateMapdata)
+    if(response.status == 200) {
+        storeReducer({
+            type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
+                payload: {
+                    currentMap: response.data.map,
+                    mapInfo: store.currentMapInfo
+                }
+        })
+    }
     
+}
+
+store.updateMapSize = async function () {
+    const response = await api.updateMap(store.currentMap)
+    if(response.status == 200) {
+        storeReducer({
+            type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
+                payload: {
+                    currentMap: response.data.map,
+                    mapInfo: store.currentMapInfo
+                }
+        })
+    }
 }
 
 //Saves the current map and adds it to the publishedMaps  
@@ -904,35 +927,11 @@ store.unpublishCurrentMap = async function () {
     }
 }
 
-//Saves the current map and exports the json map data.  
-store.exportCurrentMap = async function () {}
-
-//Adds paint a tile transaction ,uses currentMap and currentLayer
-store.addPaintTileTransaction = function (tile,tilecoord) {}
-
-//Adds delete a tile transaction ,uses currentMap and currentLayer
-store.addDeleteTileTransaction = function (tilecoord) {}
-
-//Adds paint a layer transaction ,uses currentMap , currentLayer and currentTile.
-store.addPaintLayerTransaction = function () {}
-
 //Sets the canUndo 
 store.canUndo = function () {}
 
 //Sets the canRedo 
 store.canRedo = function () {}
-
-//Add paint a tile transaction to the transaction store
-store.addPaintTileTransaction = function (layer, index, tile) {}
-
-//Add delete a tile transaction to the transaction store
-store.addDeleteTileTransaction = function (layer,index) {} 
-
-//Add paint a layer transaction to the transaction store
-store.addPaintLayerTransaction = function (layer,tile) {} 
-
-//Sets "openmodal" and allows the different modal to open/close based on user action. 
-store.setopenModal =  function (modalType) {} 
 
 //Opens the map editor and sets the currentMap
 //Used by: map-card.component(edit button press)

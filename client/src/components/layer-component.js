@@ -19,7 +19,8 @@ const Layer =()=>{
   }
   let currentLayer = store.currentLayer[0];
   const tileCount = currentLayer.height * currentLayer.width;
-  const tileWidth = 64;
+  const tileWidth = store.currentMap.tilewidth;
+  const tileHeight = store.currentMap.tileheight;
 
   let tilesets = store.tilesets;
  
@@ -55,7 +56,7 @@ const Layer =()=>{
             }}}>
 
       {Array.from({ length:tileCount }, (_, i) => (
-          <Tile id={i}  value={currentLayer.data[i]} row={currentLayer.height} column={currentLayer.width} img={LayerTileBackround} tileWidth = {tileWidth} tileHeight={64} next={findTileImage}/>
+          <Tile id={i}  value={currentLayer.data[i]} row={currentLayer.height} column={currentLayer.width} img={LayerTileBackround} tileWidth = {tileWidth} tileHeight={tileHeight} next={findTileImage}/>
       ))} 
         
       </ImageList>

@@ -173,8 +173,6 @@ updateMap = async (req, res) => {
         nextobjectid, renderorder, tiledversion, tileheight, tilesets, 
         tilewidth, version, width } = req.body;
     const selectedMap = await Map.findOne({ _id: _id });
-
-    console.log(selectedMap)
     
     if(selectedMap === null){
         return res
@@ -197,37 +195,13 @@ updateMap = async (req, res) => {
     selectedMap.version = version;
     selectedMap.width = width;
 
-    Map.findOneAndUpdate({_id: _id}, {
-        compressionlevel : compressionlevel,
-        backgroundcolor : backgroundcolor,
-        height : height, 
-        infinite : infinite,
-        layers : layers,
-        nextlayerid : nextlayerid,
-        nextobjectid : nextobjectid,
-        renderorder : renderorder,
-        tiledversion : tiledversion,
-        tileheight : tileheight,
-        tilesets : tilesets,
-        tilewidth : tilewidth,
-        version : version,
-        width : width
-    }, function (err, docs) {
-        if (err){
-            console.log(err)
-            return res.status(500).json({
-                err,
-                message: 'could not update the map!',
-            }).send();
-        }
-        else{
-            return res.status(200).json({
-                message: 'Map Updated!',
-                map: docs,
-            }).send()
-        }
-        
-    });
+    selectedMap.save();
+
+        return res.status(200).json({
+            message: 'Map Updated!',
+            map: selectedMap,
+        })
+
 }
 
 getMap = async (req, res) => {
