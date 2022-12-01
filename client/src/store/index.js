@@ -965,7 +965,7 @@ store.addTilsetToMap = async function (tileImage, tileWidth, tileHeight, imageHe
 
     const tileData = {
         backgroundcolor: "#d31313",
-        columns : 1,
+        columns: column,
         fillmode: "stretch",
         firstgid: firstgid,
         grid: {},
