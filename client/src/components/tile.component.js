@@ -16,10 +16,11 @@ const Tile =(tileInfo)=>{
       // set = set[0]
       let set = store.currentMap.tilesets.filter( tileset => value < (tileset.tilecount+tileset.firstgid ));
       newImg = set[0].image; 
-      // console.log(newImg)
-      // console.log(set)
-      left = -(((value-(set.firstgid)) % (set.imagewidth/set.tilewidth))* tileWidth);
-      top = -((Math.floor((value-(set.firstgid)) / (set.imageheight/set.tileheight))) * tileHeight);
+      set = set[0]
+      console.log(set)
+      //console.log(set.firstgid)
+      left = -(((value-(set.firstgid)) % (parseInt(set.imagewidth)/parseInt(set.tilewidth)))* tileWidth);
+      top = -((Math.floor((value-(set.firstgid)) / (parseInt(set.imageheight)/parseInt(set.tileheight)))) * tileHeight);
     }
   }else{
     left = -((id % column)* tileWidth);
@@ -44,6 +45,10 @@ const Tile =(tileInfo)=>{
       store.currentTile.id == id && value==-1? 
       "white" : "" 
     : ""
+
+    if(value > 0) {
+      console.log(left)
+    }
  
     return(
       <Box 
