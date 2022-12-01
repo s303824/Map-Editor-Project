@@ -64,7 +64,7 @@ export default function SideBar() {
   auth.loggedIn && 'My Projects', 
   auth.loggedIn && 'Liked Maps', 
   'Explore', 
-  auth.loggedIn && 'Settings', 
+  auth.loggedIn && 'Account', 
   auth.loggedIn && 'Log Out']
   sideList = sideList.filter(e => e!=false)
   icons = icons.filter( e=> e!= null)

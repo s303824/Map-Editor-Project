@@ -242,6 +242,56 @@ getMap = async (req, res) => {
     }
 }
 
+// For adding Tilesets to a Map
+addMapTileset = async (req, res) => {
+    const { _id} = req.body;
+    
+    const selectedMap = await Map.findOne({ _id: _id });
+    console.log(selectedMap)
+    
+    if(selectedMap === null){
+        return res
+            .status(404)
+            .json({ errorMessage: "No map found!" });
+    }
+
+    selectedMap.tilesets.push(tilesets);
+    
+
+    Map.findOneAndUpdate({_id: _id}, {
+        compressionlevel : compressionlevel,
+        backgroundcolor : backgroundcolor,
+        height : height, 
+        infinite : infinite,
+        layers : layers,
+        nextlayerid : nextlayerid,
+        nextobjectid : nextobjectid,
+        renderorder : renderorder,
+        tiledversion : tiledversion,
+        tileheight : tileheight,
+        tilesets : tilesets,
+        tilewidth : tilewidth,
+        version : version,
+        width : width
+    }, function (err, docs) {
+        if (err){
+            console.log(err)
+            return res.status(500).json({
+                err,
+                message: 'could not update the map!',
+            }).send();
+        }
+        else{
+            return res.status(200).json({
+                message: 'Map Updated!',
+                map: docs,
+            }).send()
+        }
+        
+    });
+
+}
+
 module.exports = {
     registerMap,
     deleteMap,

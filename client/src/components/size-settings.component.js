@@ -202,6 +202,8 @@ const SizeSettings = ({onClose}) => {
                 onChange={(event) => updateField(event, "twidth")}
                 />  
 
+                <Typography>Recommended tile sizes: 32x32, 64x64</Typography>
+
                 <Box className="qmodal-text">Map Height</Box>
                 <TextField
                 required
@@ -227,8 +229,10 @@ const SizeSettings = ({onClose}) => {
                 className = "text-field"
                 onChange={(event) => updateField(event, "mwidth")}
                 />
+                
 
             </Typography>
+            <Typography sx={{marginTop:2}}>Beware of unintended consequences of reducing map size</Typography>
             <Box display="flex" justifyContent="space-between" sx={{marginTop:2}}>
                 <Button variant="contained" onClick={handleUpdateSettings} paddingRight={2}>Update Map</Button>
                 <Button variant="contained" onClick={onClose} marginLeft={3}>Close</Button>
