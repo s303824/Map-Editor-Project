@@ -4,7 +4,7 @@ import GlobalStoreContext from '../store';
 import map from '../assets/map-card-7.jpg';
 
 const Tile =(tileInfo)=>{
-  const {id,value,row,column,img,tileWidth,tileHeight, isTileset} = tileInfo;
+  const {id,value,row,column,img,tileWidth,tileHeight} = tileInfo;
   const {store} = useContext(GlobalStoreContext);
   let left =0;
   let top = 0;
@@ -41,7 +41,7 @@ const Tile =(tileInfo)=>{
   } 
 
   let highlightedColor = store.currentTile ? 
-      store.currentTile.id == id && isTileset? 
+      store.currentTile.id == id && value==-1? 
       "white" : "" 
     : ""
  
