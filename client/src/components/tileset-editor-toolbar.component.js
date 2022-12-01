@@ -8,11 +8,19 @@ import IconButton from '@mui/material/IconButton';
 import CancelTwoToneIcon from '@mui/icons-material/CancelTwoTone';
 import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { saveAs } from 'file-saver'
+import { GlobalStoreContext } from '../store'
 
 const TileSetToolBar=() =>{
+    const { store } = useContext(GlobalStoreContext);
     const navigate = useNavigate();
     const handleEditMap = () => {
         navigate("/editor", {})
+    }
+    const handledownloadTileset = () => {
+        console.log(store.currentTileSet.image)
+        saveAs(store.currentTileSet.image, 'Tileset.jpg') 
     }
 
     return (
@@ -21,7 +29,7 @@ const TileSetToolBar=() =>{
               <Toolbar sx={{backgroundColor:'#1E1E1E',boxShadow: '0 1px 1px 1px rgba(68,68,69,255)',boxShadow: 1 ,justifyContent: 'space-between'}}> 
             <Box sx={{marginLeft:'80%'}}>
 
-            <Button sx = {{backgroundImage: 'linear-gradient(to right,#a51916,#F83600)',borderRadius:'10px',color:"white",fontWeight:"bold",fontSize:15,marginX:1}}>
+            <Button  onClick={handledownloadTileset} sx = {{backgroundImage: 'linear-gradient(to right,#a51916,#F83600)',borderRadius:'10px',color:"white",fontWeight:"bold",fontSize:15,marginX:1}}>
                     Export
                 </Button>
 

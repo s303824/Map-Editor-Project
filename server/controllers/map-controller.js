@@ -1,6 +1,7 @@
 const Map = require('../model/map-model')
 const MapInfo = require('../model/mapInfo-model')
 const User = require("../model/user-model")
+const Tile = require("../model/tileset-model")
 
 registerMap = async (req, res) => {
     try {
@@ -173,6 +174,12 @@ updateMap = async (req, res) => {
         nextobjectid, renderorder, tiledversion, tileheight, tilesets, 
         tilewidth, version, width } = req.body;
     const selectedMap = await Map.findOne({ _id: _id });
+
+    console.log(selectedMap)
+
+    console.log("-----------------------------")
+    console.log(tilesets)
+    console.log("-----------------------------")
     
     if(selectedMap === null){
         return res
@@ -203,6 +210,7 @@ updateMap = async (req, res) => {
         })
 
 }
+
 
 getMap = async (req, res) => {
     try{
@@ -238,5 +246,6 @@ module.exports = {
     registerMap,
     deleteMap,
     updateMap,
-    getMap
+    getMap,
+    addMapTileset
 }

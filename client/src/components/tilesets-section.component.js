@@ -14,32 +14,47 @@ import map from '../assets/map-card.jpg'
 import { useNavigate } from 'react-router-dom';
 import GlobalStoreContext from '../store';
 import { useContext } from 'react';
+import TilsetAdd from '../components/AddTileset.component'
 
 const TilesetsSection =()=>{
     const navigate = useNavigate();
     const {store} =useContext(GlobalStoreContext);
     const [value, setValue] = React.useState(0);
     const [btnColor, setBtnColor] = useState("#d72b05");
+    const [addTileset, setAddTileset] = useState(false);
+
+
+    const handleAddTileset = () => {
+      setAddTileset(true)
+    }
+    const handleCloseTilesetModal = () => {
+        setAddTileset(false)
+    }
+    const addTilesetModal = addTileset ? <TilsetAdd onClose={() => handleCloseTilesetModal()}></TilsetAdd> : null;
+
     const handleTileEdit = () => {
         navigate("/tileseteditor", {})
     }
-
-    const tilesets =[{ //to display sample data
-        "_id": 1,
-        "name":"DEFAULT2",
-        "precedence":1,
-      },
-      {
-        "_id": 2,
-        "name":"DEFAULT3",
-        "precedence":2,
-      },
-      {
-        "_id": 3,
-        "name":"DEFAULT4",
-        "precedence":3,
-      }
-    ]
+    const tilesets = store.currentMap.tilesets
+    // console.log("---------------------------")
+    // console.log(tilesets)
+    // console.log("---------------------------")
+    // const tilesets =[{ //to display sample data
+    //     "_id": 1,
+    //     "name":"DEFAULT2",
+    //     "precedence":1,
+    //   },
+    //   {
+    //     "_id": 2,
+    //     "name":"DEFAULT3",
+    //     "precedence":2,
+    //   },
+    //   {
+    //     "_id": 3,
+    //     "name":"DEFAULT4",
+    //     "precedence":3,
+    //   }
+    // ]
 
     const handleTileSetDisplay = (event)=>{
         event.preventDefault();
@@ -48,47 +63,52 @@ const TilesetsSection =()=>{
         btnColor === "#d72b05" ? setBtnColor("green") : setBtnColor("#d72b05");
     };
 
-
+    let main = tilesets != undefined ? 
+    <Tabs
+        value={value}
+        variant="scrollable"
+        scrollButtons={false}
+        aria-label="scrollable prevent tabs example"
+        sx={{backgroundImage:'linear-gradient(to bottom,#7A7A7B,#7A7A7B)',boxShadow: `inset 0 0 6px rgba(0, 0, 0, 0.3)`,marginLeft:3,marginLeft:3,
+        marginRight:3,
+        marginTop:2,
+        borderRadius:1,}}
+        >
+            {tilesets.map((layer) => (
+                <Box display='flex' sx={{backgroundImage:'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',borderRadius:2,width:"145px",marginRight:1.5}}>
+                    
+                <Tab 
+                    key ={layer._id}
+                    sx={{
+                    backgroundColor:{btnColor},
+                    width:"4px"}}
+                    id={layer._id} 
+                    onClick = {handleTileSetDisplay}
+                    label={layer.name}
+                    >{layer.name}
+                </Tab>
+                    
+                <Button variant="contained"  sx={{backgroundColor:"#d72b05" ,fontSize:12,borderRadius:1,marginLeft:-1 }} onClick={handleTileEdit}>
+                    Edit
+                </Button>
+                </Box>
+            ))}
+    </Tabs> 
+    : null
+    
     return(
         <Grid sx={{backgroundImage :'linear-gradient(to left, #505051, #303031)',boxShadow: '0 1px 2px 2px rgba(68,68,69,255)',borderRadius:2}}>
+            {addTilesetModal}
             <Grid >
                 <Box sx={{display:"flex",justifyContent:"space-between"}}>
                     <Typography sx={{color:"white",fontSize:20,fontWeight:"bold",marginTop:2,marginLeft:3}}>TILESETS</Typography>
-                    <Button variant="contained" endIcon={<AddCircleTwoToneIcon />} sx={{backgroundColor:"#d72b05",boxShadow: '0 2px 4px 2px rgba(68,68,69,255)',marginRight:3,marginTop:1}}>
+                    <Button onClick={handleAddTileset} variant="contained" endIcon={<AddCircleTwoToneIcon />} sx={{backgroundColor:"#d72b05",boxShadow: '0 2px 4px 2px rgba(68,68,69,255)',marginRight:3,marginTop:1}}>
                         Add
                     </Button>
                 </Box>
                 
-                <Tabs
-                value={value}
-                variant="scrollable"
-                scrollButtons={false}
-                aria-label="scrollable prevent tabs example"
-                sx={{backgroundImage:'linear-gradient(to bottom,#7A7A7B,#7A7A7B)',boxShadow: `inset 0 0 6px rgba(0, 0, 0, 0.3)`,marginLeft:3,marginLeft:3,
-                marginRight:3,
-                marginTop:2,
-                borderRadius:1,}}
-                >
-                    {tilesets.map((layer) => (
-                        <Box display='flex' sx={{backgroundImage:'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',borderRadius:2,width:"145px",marginRight:1.5}}>
-                            
-                        <Tab 
-                            key ={layer._id}
-                            sx={{
-                            backgroundColor:{btnColor},
-                            width:"4px"}}
-                            id={layer.id} 
-                            onClick = {handleTileSetDisplay}
-                            label={layer.name}
-                            >{layer.name}</Tab>
-                            
-                        <Button variant="contained"  sx={{backgroundColor:"#d72b05" ,fontSize:12,borderRadius:1,marginLeft:-1 }} onClick={handleTileEdit}>
-                            Edit
-                        </Button>
-                        </Box>
-                    ))}
-                </Tabs>
-            <Tileset/>
+                {main}
+            {store.currentTileSet ? <Tileset/> : null}
             </Grid>
                 
         <Grid >

@@ -14,10 +14,13 @@ import { GlobalStoreContext } from '../store';
 
 const Layer =()=>{
   const {store} = useContext(GlobalStoreContext);
+  // console.log(store.currentMap)
   if(!store.currentMap.tileheight) {
     return null;
   }
   let currentLayer = store.currentLayer[0];
+  // console.log(store.currentMap)
+  // console.log("currentlayer",store.currentLayer);
   const tileCount = currentLayer.height * currentLayer.width;
   const tileWidth = store.currentMap.tilewidth;
   const tileHeight = store.currentMap.tileheight;
@@ -30,6 +33,10 @@ const Layer =()=>{
 
   //should have the total tile count in the 
   //should just render layer.data array
+
+  //THIS IS THE IMPORTANT CHANGE:
+  //hard coded tileset[1] to have this first gid
+  // store.currentMap.tilesets[1].firstgid = 226
 
     return(
       <Box>
