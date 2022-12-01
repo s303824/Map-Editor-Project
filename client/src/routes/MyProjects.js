@@ -75,7 +75,7 @@ const MyProjects=() =>{
             tilesets: [{
                           _id: 1,
                           backgroundcolor: "#d31313",
-                          columns : 1,
+                          columns : 960/64,
                           fillmode: "stretch",
                           firstgid: 1 ,
                           grid: {},
