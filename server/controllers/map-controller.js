@@ -202,37 +202,44 @@ updateMap = async (req, res) => {
     selectedMap.version = version;
     selectedMap.width = width;
 
-    Map.findByIdAndUpdate(_id, {
-        compressionlevel : compressionlevel,
-        backgroundcolor : backgroundcolor,
-        height : height, 
-        infinite : infinite,
-        layers : layers,
-        nextlayerid : nextlayerid,
-        nextobjectid : nextobjectid,
-        renderorder : renderorder,
-        tiledversion : tiledversion,
-        tileheight : tileheight,
-        tilesets : tilesets,
-        tilewidth : tilewidth,
-        version : version,
-        width : width
-    }, function (err, docs) {
-        if (err){
-            console.log(err)
-            return res.status(500).json({
-                err,
-                message: 'could not update the map!',
-            }).send();
+    selectedMap.save();
+
+        return res.status(200).json({
+            message: 'Map Updated!',
+            map: selectedMap,
+        })
+
+}
+
+
+getMap = async (req, res) => {
+    try{
+        const _id  = req.query._id;
+        if(!req.query._id){
+            return res
+                .status(400)
+                .json({ errorMessage: "Please enter all required fields." });
         }
-        else{
-            return res.status(200).json({
-                message: 'Map Updated!',
-                map: docs,
-            }).send()
-        }
-        
-    });
+        console.log("map get:" +req.query._id )
+        Map.findOne({_id: req.query._id}, function (err, docs) {
+            if (err){
+                console.log(err)
+                return res.status(404).json({
+                    message: "Map not found!"
+                })
+            }
+            else{
+                return res.status(200).json({
+                    success:true,
+                    map: docs 
+                })
+                
+            }
+        })
+    } catch (err){ 
+        console.error(err);
+        res.status(500).send();
+    }
 }
 
 // For adding Tilesets to a Map
@@ -283,37 +290,6 @@ addMapTileset = async (req, res) => {
         
     });
 
-}
-
-
-getMap = async (req, res) => {
-    try{
-        const _id  = req.query._id;
-        if(!req.query._id){
-            return res
-                .status(400)
-                .json({ errorMessage: "Please enter all required fields." });
-        }
-        console.log("map get:" +req.query._id )
-        Map.findOne({_id: req.query._id}, function (err, docs) {
-            if (err){
-                console.log(err)
-                return res.status(404).json({
-                    message: "Map not found!"
-                })
-            }
-            else{
-                return res.status(200).json({
-                    success:true,
-                    map: docs 
-                })
-                
-            }
-        })
-    } catch (err){ 
-        console.error(err);
-        res.status(500).send();
-    }
 }
 
 module.exports = {

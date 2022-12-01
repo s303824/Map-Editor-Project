@@ -35,6 +35,7 @@ import PublishMap from './publish.component';
 import map from '../assets/map-card.jpg';
 import { uploadImageToCloudinaryAPIMethod } from "../api/cloudinary"
 import LoginModal from './login-modal.component';
+import SizeSettings from './size-settings.component';
 
 
 const MapToolBar=() =>{
@@ -58,6 +59,8 @@ const MapToolBar=() =>{
     const anchorRef = React.useRef(null);
     const expoRef = React.useRef(null)
     const [popup, setPopup] = useState(false)
+    const [saveConfirm, setSaveConfirm] = useState(false)
+    const [sizeSettings, setSizeSettings] = useState(false)
 
     const handleClickOpen = () => {
         setDialogOpen(true);
@@ -153,9 +156,13 @@ const MapToolBar=() =>{
         await store.loadUserMaps(auth.user.username)
         navigate("/projects", {});
     }
+
+    const handleOpenSizeSettings = async () => {
+        setSizeSettings(true)
+    }
  
     const handleMapSave = async () => {
-        console.log(store.currentMap)
+        setSaveConfirm(true);
         store.saveCurrentMap()
 
     }
@@ -205,15 +212,38 @@ const MapToolBar=() =>{
         setPopup(true)
     }
 
-    //need to figure out how to export as png
     const exportAsJSON = async () => {
         setPopup(false)
         let mapData = store.currentMap 
-        mapData.tilesets[0].image = "map-card-7.jpg"
+        mapData.tilesets[0].image = "/" + store.currentMapInfo.name + "-tileset" + "-0"
         mapData.tilesets[0].source = null
         mapData.tilesets[0].margin = 0
         mapData.tilewidth = 64;
         mapData.tileheight = 64;
+
+        let i = 0;
+        store.currentMap.tilesets.forEach(async tileset => {
+            tileset.image = "/" + store.currentMapInfo.name + "-tileset" + (i)
+            tileset.source = null;
+            tileset.margin = 0;
+            mapData.tilesets[i] = tileset
+
+            const link1 = document.createElement("a");
+            const fileName1 = store.currentMapInfo.name + "-tileset-0";
+            const blob1 = await fetch("https://images-ext-2.discordapp.net/external/4By1q9JYY7g_uNWyYRRC6GQdL8P_L7gSrIixurpvlAc/https/res.cloudinary.com/natialemu47/image/upload/v1669851225/Tileslate/map-card-7_xhnvme.jpg?width=676&height=676").
+            then(res => res.blob());
+            const href1 = URL.createObjectURL(blob1);
+    
+            link1.href = href1;
+            link1.download = fileName1 + ".jpg";
+            document.body.appendChild(link1);
+            link1.click();
+    
+            // clean up "a" element & remove ObjectURL
+            document.body.removeChild(link1);
+            URL.revokeObjectURL(href1); 
+            i = i + 1;
+        })
 
         // create file in browser
         const fileName = store.currentMapInfo.name;
@@ -232,20 +262,6 @@ const MapToolBar=() =>{
         document.body.removeChild(link);
         URL.revokeObjectURL(href); 
 
-
-        /*const link1 = document.createElement("a");
-        const fileName1 = store.currentMapInfo.name + "-tileset";
-        const blob1 = new Blob([], { type: "image/jpg;base64" });
-        const href1 = URL.createObjectURL(blob1);
-
-        link1.href = href1;
-        link1.download = fileName1 + ".jpg";
-        document.body.appendChild(link1);
-        link1.click();
-
-        // clean up "a" element & remove ObjectURL
-        document.body.removeChild(link1);
-        URL.revokeObjectURL(href1); */
     }
 
     const handleStampClick = (event) =>{
@@ -311,10 +327,14 @@ const MapToolBar=() =>{
 
     let popupModal = popup ? <LoginModal message = {popupMessage} onClose = {() => exportAsJSON()} closeButtonText = "Download" onClose2={() => setPopup(false)}></LoginModal> : null
 
+    let saveConfirmModal = saveConfirm ? <LoginModal message="Successfully saved!" onClose={() => setSaveConfirm(false)}></LoginModal> : null
+
+    let sizeSettingsModal = sizeSettings ? <SizeSettings onClose = {() => setSizeSettings(false)}></SizeSettings> : null
+
     return (
         
         <Box className='top-navbar' sx={{ display: 'flex' ,flexGrow: 1,}} >
-            {[settingsModal, deleteModalBox, publishModal, teamsModal, popupModal]}
+            {[settingsModal, deleteModalBox, publishModal, teamsModal, popupModal, saveConfirmModal, sizeSettingsModal]}
 
            <AppBar position="static" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1}}>
               <Toolbar sx={{boxShadow: 1 ,backgroundColor:'#1E1E1E',boxShadow: '0 1px 1px 1px rgba(68,68,69,255)',justifyContent: 'space-between'}}> 
@@ -395,11 +415,12 @@ const MapToolBar=() =>{
                                         onKeyDown={handleListKeyDown}
                                     >
                                         {/* add settings to the settings menu-bar here  */}
-                                        <MenuItem onClick={handleOpenSettings}>Update Map Settings</MenuItem>   
+                                        <MenuItem onClick={handleOpenSettings}>Update Map Info</MenuItem>  
                                         <MenuItem variant="contained" component="label"> 
                                         Change Map thumbnail
                                         <input hidden accept="image/*" multiple type="file" onChange={handleChangeThumbnail} />
                                         </MenuItem> 
+                                        <MenuItem onClick={handleOpenSizeSettings}>Update Tile/Map Size</MenuItem> 
                                         <MenuItem onClick={handleClickOpen}>Delete Map</MenuItem>
                                     </MenuList>
                                 </ClickAwayListener>

@@ -22,9 +22,16 @@ const Layer =(layer)=>{
   // console.log(store.currentMap)
   // console.log("currentlayer",store.currentLayer);
   const tileCount = currentLayer.height * currentLayer.width;
-  const tileWidth = 64;
+  const tileWidth = store.currentMap.tilewidth;
+  const tileHeight = store.currentMap.tileheight;
 
   let tilesets = store.tilesets;
+ 
+
+  let layers = store.currentMap.layers;
+  let reverse = [...layers].reverse(); 
+  
+
  
   const findTileImage = () => {
 
@@ -60,14 +67,16 @@ const Layer =(layer)=>{
                 backgroundColor: "#ffc806",
                 outline: `1px solid #ffc806`,
             }}}>
+
+        {reverse.map((layer) => (
+             console.log("reverse",layer)
+        ))}
+
       
         {Array.from({ length:tileCount }, (_, i) => (
           <Tile id={i}  value={currentLayer.data[i]} row={currentLayer.height} column={currentLayer.width} img={LayerTileBackround} tileWidth = {tileWidth} tileHeight={64} next={findTileImage}/>
       ))} 
 
-
-
-        
       </ImageList>
     </Box>
      

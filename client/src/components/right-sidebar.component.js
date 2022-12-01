@@ -180,48 +180,55 @@ function handleListKeyDown(event) {
     setPopup(true)
 }
 
-//need to figure out how to export as png
 const exportAsJSON = async () => {
-    setPopup(false)
-    store.downloadMap(store.currentMapInfo._id)
-    let mapData = store.currentMap 
-    //mapData.tilesets[0].image = "map-card-7.jpg"
-    mapData.tilesets[0].source = null
-    mapData.tilesets[0].margin = 0
-    mapData.tilewidth = 64;
-    mapData.tileheight = 64;
+  setPopup(false)
+  let mapData = store.currentMap 
+  mapData.tilesets[0].image = "/" + store.currentMapInfo.name + "-tileset" + "-0"
+  mapData.tilesets[0].source = null
+  mapData.tilesets[0].margin = 0
+  mapData.tilewidth = 64;
+  mapData.tileheight = 64;
 
-    // create file in browser
-    const fileName = store.currentMapInfo.name;
-    const json = JSON.stringify(mapData, null, 2);
-    const blob = new Blob([json], { type: "application/json" });
-    const href = URL.createObjectURL(blob);
+  let i = 0;
+  store.currentMap.tilesets.forEach(async tileset => {
+      tileset.image = "/" + store.currentMapInfo.name + "-tileset" + (i)
+      tileset.source = null;
+      tileset.margin = 0;
+      mapData.tilesets[i] = tileset
 
-    // create "a" HTLM element with href to file
-    const link = document.createElement("a");
-    link.href = href;
-    link.download = fileName + ".json";
-    document.body.appendChild(link);
-    link.click();
+      const link1 = document.createElement("a");
+      const fileName1 = store.currentMapInfo.name + "-tileset-0";
+      const blob1 = await fetch("https://images-ext-2.discordapp.net/external/4By1q9JYY7g_uNWyYRRC6GQdL8P_L7gSrIixurpvlAc/https/res.cloudinary.com/natialemu47/image/upload/v1669851225/Tileslate/map-card-7_xhnvme.jpg?width=676&height=676").
+      then(res => res.blob());
+      const href1 = URL.createObjectURL(blob1);
 
-    // clean up "a" element & remove ObjectURL
-    document.body.removeChild(link);
-    URL.revokeObjectURL(href); 
+      link1.href = href1;
+      link1.download = fileName1 + ".jpg";
+      document.body.appendChild(link1);
+      link1.click();
 
+      // clean up "a" element & remove ObjectURL
+      document.body.removeChild(link1);
+      URL.revokeObjectURL(href1); 
+      i = i + 1;
+  })
 
-    /*const link1 = document.createElement("a");
-    const fileName1 = store.currentMapInfo.name + "-tileset";
-    const blob1 = new Blob([], { type: "image/jpg;base64" });
-    const href1 = URL.createObjectURL(blob1);
+  // create file in browser
+  const fileName = store.currentMapInfo.name;
+  const json = JSON.stringify(mapData, null, 2);
+  const blob = new Blob([json], { type: "application/json" });
+  const href = URL.createObjectURL(blob);
 
-    link1.href = href1;
-    link1.download = fileName1 + ".jpg";
-    document.body.appendChild(link1);
-    link1.click();
+  // create "a" HTLM element with href to file
+  const link = document.createElement("a");
+  link.href = href;
+  link.download = fileName + ".json";
+  document.body.appendChild(link);
+  link.click();
 
-    // clean up "a" element & remove ObjectURL
-    document.body.removeChild(link1);
-    URL.revokeObjectURL(href1); */
+  // clean up "a" element & remove ObjectURL
+  document.body.removeChild(link);
+  URL.revokeObjectURL(href); 
 }
   
   let creatorSettings = <Box marginLeft={22.5}>
