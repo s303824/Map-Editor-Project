@@ -215,11 +215,6 @@ const MapToolBar=() =>{
     const exportAsJSON = async () => {
         setPopup(false)
         let mapData = store.currentMap 
-        mapData.tilesets[0].image = "/" + store.currentMapInfo.name + "-tileset" + "-0"
-        mapData.tilesets[0].source = null
-        mapData.tilesets[0].margin = 0
-        mapData.tilewidth = 64;
-        mapData.tileheight = 64;
 
         let i = 0;
         store.currentMap.tilesets.forEach(async tileset => {
