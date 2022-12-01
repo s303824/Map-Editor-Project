@@ -769,8 +769,8 @@ store.paintHelper = function(id) {
 }
 
 store.paintHelperUndo = function(id, tileId) {
-    console.log(parseInt(tileId)+ parseInt(store.currentTileSet.firstgid))
-    store.currentLayer[0].data[id]=(parseInt(tileId)+ parseInt(store.currentTileSet.firstgid));
+    console.log(parseInt(tileId)+ parseInt(store.currentTileSet[0].firstgid))
+    store.currentLayer[0].data[id]=(parseInt(tileId)+ parseInt(store.currentTileSet[0].firstgid));
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
         payload: {

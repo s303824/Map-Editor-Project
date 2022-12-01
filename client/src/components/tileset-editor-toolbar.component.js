@@ -20,7 +20,7 @@ const TileSetToolBar=() =>{
     }
     const handledownloadTileset = () => {
         console.log(store.currentTileSet.image)
-        saveAs(store.currentTileSet.image, 'Tileset.jpg') 
+        saveAs(store.currentTileSet[0].image, 'Tileset.jpg') 
     }
 
     return (

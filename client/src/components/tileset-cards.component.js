@@ -30,7 +30,7 @@ const Tileset =()=>{
   // console.log(map)
   // console.log("#########################")
 
-  console.log(tileset)
+  // console.log(tileset)
 
 
     return(

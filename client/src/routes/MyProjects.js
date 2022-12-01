@@ -79,7 +79,7 @@ const MyProjects=() =>{
                           fillmode: "stretch",
                           firstgid: 1 ,
                           grid: {},
-                          image: '../assets/map-card-7.jpg',
+                          image: 'https://res.cloudinary.com/natialemu47/image/upload/v1669851225/Tileslate/map-card-7_xhnvme.jpg',
                           imageheight: "960",
                           imagewidth: "960",
                           margin: 2,

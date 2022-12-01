@@ -58,7 +58,7 @@ const TilesetsSection =()=>{
 
     const handleTileSetDisplay = (event)=>{
         event.preventDefault();
-        console.log(event.target.id);
+        // console.log(event.target.id);
         store.setCurrentTileset(event.target.id);
         btnColor === "#d72b05" ? setBtnColor("green") : setBtnColor("#d72b05");
     };
