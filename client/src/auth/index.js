@@ -177,6 +177,14 @@ function AuthContextProvider(props) {
     auth.sendEmail = async function (userData) {
         try{
             const response = await api.sendEmail(userData);
+            if(response.status !== 200){
+                console.log(error.response.data.errorMessage)
+                return false;
+            }
+            else{
+                console.log("email sent")
+                return true;
+            }
         }catch(error){
         }
     }

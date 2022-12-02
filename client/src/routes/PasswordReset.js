@@ -52,13 +52,18 @@ const PasswordReset = ({}) => {
 }  
 
 // send email and move to the "Enter Passcode" modal
-  const handleVerification = () => {
+  const handleVerification = async () => {
       let userData = {
         email: email,
       }
-      auth.sendEmail(userData)
-      setEnterEmail(false)
-      setEmailSent(true)
+      let success = await auth.sendEmail(userData)
+      if(success === true){
+        setEnterEmail(false)
+        setEmailSent(true)
+      }
+      else{
+        setInvalidEmail(true)
+      }
   }
 
   // check if entered passcode is correct
@@ -69,7 +74,7 @@ const PasswordReset = ({}) => {
     }
 
     let success = await auth.passcodeVerify(userData)
-    if(success == true){
+    if(success === true){
       let userData = {
         email: email
       }
@@ -84,10 +89,6 @@ const PasswordReset = ({}) => {
 
   // check if new password is valid and the same as the input from the confirmed password field
   const handleNewPasswordClose = () => {
-    if(auth.user == null){  // if user not found, alert user of error and send back to the beginning section
-      setInvalidEmail(true)
-    }
-    else{
       let password_format = /^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9]).{8,}/;
       if(newPassword != confirm){
         setWrongConfirm(true)
@@ -103,9 +104,6 @@ const PasswordReset = ({}) => {
         }
         auth.passwordReset(userData);
       }
-  
-  
-    }
   }
 
   const loginImage = <Box 

@@ -1,10 +1,16 @@
 const postmark = require("postmark");
 const Email = require('../model/email-model')
+const User = require('../model/user-model')
 
 
 sendEmail = async (req, res) => {
     const {email} = req.body;
     try{
+
+    const possibleUser = await User.findOne({ email: email });
+    if(!possibleUser) {
+        return res.status(400).json({errorMessage:"Email not found"});
+    }
     let code = Math.floor(1000000 + Math.random() * 9000000);
     const client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
     client.sendEmail({
