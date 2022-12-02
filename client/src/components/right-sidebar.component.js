@@ -185,26 +185,32 @@ const exportAsJSON = async () => {
   let mapData = store.currentMap  
   let i = 0;
   store.currentMap.tilesets.forEach(async tileset => {
-      tileset.image = "/" + store.currentMapInfo.name + "-tileset" + (i)
-      tileset.source = null;
-      tileset.margin = 0;
-      mapData.tilesets[i] = tileset
+    let link = tileset.image
+    //tileset.image = "/" + store.currentMapInfo.name + "-tileset-" + (i)
+    tileset.source = null;
+    tileset.margin = 0;
+    tileset.imageheight = parseInt(tileset.imageheight)
+    tileset.imagewidth = parseInt(tileset.imagewidth)
+    console.log(tileset)
+    mapData.tilesets[i] = tileset
 
-      const link1 = document.createElement("a");
-      const fileName1 = store.currentMapInfo.name + "-tileset-0";
-      const blob1 = await fetch("https://images-ext-2.discordapp.net/external/4By1q9JYY7g_uNWyYRRC6GQdL8P_L7gSrIixurpvlAc/https/res.cloudinary.com/natialemu47/image/upload/v1669851225/Tileslate/map-card-7_xhnvme.jpg?width=676&height=676").
-      then(res => res.blob());
-      const href1 = URL.createObjectURL(blob1);
+    console.log(link)
 
-      link1.href = href1;
-      link1.download = fileName1 + ".jpg";
-      document.body.appendChild(link1);
-      link1.click();
+    const link1 = document.createElement("a");
+    const fileName1 = store.currentMapInfo.name + "-tileset-0";
+    const blob1 = await fetch(link).
+    then(res => res.blob());
+    const href1 = URL.createObjectURL(blob1);
 
-      // clean up "a" element & remove ObjectURL
-      document.body.removeChild(link1);
-      URL.revokeObjectURL(href1); 
-      i = i + 1;
+    link1.href = href1;
+    link1.download = fileName1 + ".jpg";
+    document.body.appendChild(link1);
+    link1.click();
+
+    // clean up "a" element & remove ObjectURL
+    document.body.removeChild(link1);
+    URL.revokeObjectURL(href1); 
+    i = i + 1;
   })
 
   // create file in browser

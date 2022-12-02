@@ -442,13 +442,11 @@ store.updateMapDislike= async function (mapInfo, amount) {
 //Updates the number of downloads for the published map and returns the associated json file to user
 //Used by: right-sidebar.component (not yet implemented)
 store.downloadMap= async function (mapId) {
-    console.log(mapId)
     const response = await api.getMapInfo(mapId)
     if(response.status == 200) {
         response.data.mapInfo.downloads = response.data.mapInfo.downloads +1;
         const response2= await api.updateMapInfo(response.data.mapInfo);
         if (response2.status === 200) {
-            console.log(response2.data.mapInfo)
             storeReducer({
                 type: GlobalStoreActionType.UPDATE_MAP_INFO,
                 payload: {
@@ -665,51 +663,13 @@ store.setCurrentTile = function (id,value) {
 
 // Sets the current tileset
 store.setCurrentTileset = function (id) {
-    // console.log("================")
-    // console.log(id)
-    // console.log(store.currentMap.tilesets.filter(tileset => tileset._id === id ))
-    // console.log("================")
+
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_TILESET,
         payload: {
             currentTileSet: store.currentMap.tilesets.filter(tileset => tileset._id == id )
         }
-        // {
-        //     currentTileSet : {
-        //         _id: 1,
-        //         backgroundcolor: "#d31313",
-        //         columns : 1,
-        //         fillmode: "stretch",
-        //         firstgid: 1 ,
-        //         grid: {},
-        //         image: '../assets/map-card.jpg',
-        //         imageheight: "960",
-        //         imagewidth: "960",
-        //         margin: 2,
-        //         name: "tileset 2",
-        //         objectalignment: "top",
-        //         properties:[
-        //                         {
-        //                         name:"myProperty2",
-        //                         type:"string",
-        //                         value:"myProperty2_value"
-        //                         }],
-        //         source : "tilelsate",
-        //         tilecount: "225",
-        //         tileslateversion: "1.0.1",
-        //         tileheight: "64",
-        //         tilerendersize: "10",
-        //         tiles : [],
-        //         tilewidth:"64",
-        //         transparentcolor :  "#000000",
-        //         type : "tileset",
-        //         version : "1.1",
-        //         wangsets: []
-        //     }
-        // }
     });
-    console.log(store.currentTileSet)
-   
 
 }
 
@@ -774,7 +734,7 @@ store.paintHelper = function(id) {
 }
 
 store.paintHelperUndo = function(id, tileId) {
-    console.log(parseInt(tileId)+ parseInt(store.currentTileSet[0].firstgid))
+    //console.log(parseInt(tileId)+ parseInt(store.currentTileSet[0].firstgid))
     store.currentLayer[0].data[id]=(parseInt(tileId)+ parseInt(store.currentTileSet[0].firstgid));
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
@@ -801,7 +761,6 @@ store.deleteTileHelper = function(id) {
 }
 
 store.deleteTileUndo = function(id, oldTileId) {
-    console.log(oldTileId)
     store.currentLayer[0].data[id]=oldTileId;
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
@@ -866,7 +825,6 @@ store.saveCurrentMap = async function () {
         version: store.currentMap.version, 
         width: store.currentMap.width
     }
-    console.log(UpdateMapdata)
     const response = await api.updateMap(UpdateMapdata)
     if(response.status == 200) {
         storeReducer({
@@ -950,23 +908,13 @@ store.addTilsetToMap = async function (tileImage, tileWidth, tileHeight, imageHe
     const column = imageWidth/tileWidth;
     const row = imageHeight/tileHeight;
     const tilecount = column * row
+    console.log("ei")
     let firstgid;
-    console.log("*************************")
-    console.log(store.currentMap.tilesets[store.currentMap.tilesets.length - 1])
     if (store.currentMap.tilesets.length == 0){
         firstgid = 1
     }else{
         firstgid = store.currentMap.tilesets[store.currentMap.tilesets.length - 1].tilecount + store.currentMap.tilesets[store.currentMap.tilesets.length - 1].firstgid + 1  
     }
-    console.log("*************************")
-    console.log(tileWidth)
-    console.log(tileHeight)
-    console.log(imageHeight)
-    console.log(imageWidth)
-    console.log(firstgid)
-    console.log(tilecount)
-    console.log("*************************")
-
 
     const tileData = {
         backgroundcolor: "#d31313",
@@ -1013,16 +961,11 @@ store.addTilsetToMap = async function (tileImage, tileWidth, tileHeight, imageHe
     catch(error){
         console.error(error)
     }
-    console.log("----------------")
-    console.log(store.currentMap.tilesets)
-    console.log("----------------")
+
     let response
     try {
         response = await api.updateMap(store.currentMap);
         if (response.status === 200) {
-            console.log("aaaaaaaaaaa")
-            console.log(response.data.map)
-            console.log("aaaaaaaaaaa")
             storeReducer({
             type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                 payload: {
@@ -1044,15 +987,6 @@ store.addTilsetToMap = async function (tileImage, tileWidth, tileHeight, imageHe
     }
 
 }
-
-//Adds paint a tile transaction ,uses currentMap and currentLayer
-store.addPaintTileTransaction = function (tile,tilecoord) {}
-
-//Adds delete a tile transaction ,uses currentMap and currentLayer
-store.addDeleteTileTransaction = function (tilecoord) {}
-
-//Adds paint a layer transaction ,uses currentMap , currentLayer and currentTile.
-store.addPaintLayerTransaction = function () {}
 
 //Sets the canUndo 
 store.canUndo = function () {}
