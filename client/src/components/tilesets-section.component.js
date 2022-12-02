@@ -15,6 +15,11 @@ import { useNavigate } from 'react-router-dom';
 import GlobalStoreContext from '../store';
 import { useContext } from 'react';
 import TilsetAdd from '../components/AddTileset.component'
+import { saveAs } from 'file-saver'
+
+// TEMP
+import EditTileT from '../components/tileset-editor-temporary.component'
+// TEMP
 
 const TilesetsSection =()=>{
     const navigate = useNavigate();
@@ -23,6 +28,9 @@ const TilesetsSection =()=>{
     const [btnColor, setBtnColor] = useState("#d72b05");
     const [addTileset, setAddTileset] = useState(false);
 
+    // TEMP
+    const [editTilesetT, setEditTilesetT] = useState(false);
+    // TEMP
 
     const handleAddTileset = () => {
       setAddTileset(true)
@@ -31,11 +39,27 @@ const TilesetsSection =()=>{
         setAddTileset(false)
     }
     const addTilesetModal = addTileset ? <TilsetAdd onClose={() => handleCloseTilesetModal()}></TilsetAdd> : null;
+    
+    // TEMP
+    const handleCloseTilesetModalT = () => {
+        setEditTilesetT(false)
+    }
+    const editTilesetModal_temp = editTilesetT ? <EditTileT onClose={() => handleCloseTilesetModalT()}></EditTileT> : null;
+    // TEMP
 
     const handleTileEdit = () => {
         // console.log(store.currentMapInfo._id)
         // console.log(store.currentTileSet[0]._id)
-        navigate("/tileseteditor/" + store.currentMapInfo._id + "/" + store.currentTileSet[0]._id)
+
+        // navigate("/tileseteditor/" + store.currentMapInfo._id + "/" + store.currentTileSet[0]._id)
+
+        // TEMP
+        setEditTilesetT(true)
+        saveAs(store.currentTileSet[0].image, 'Tileset.jpg') 
+
+
+        // TEMP
+        
     }
     const tilesets = store.currentMap.tilesets
 
@@ -82,6 +106,11 @@ const TilesetsSection =()=>{
     return(
         <Grid sx={{backgroundImage :'linear-gradient(to left, #505051, #303031)',boxShadow: '0 1px 2px 2px rgba(68,68,69,255)',borderRadius:2}}>
             {addTilesetModal}
+
+            {/* TEMP */}
+            {editTilesetModal_temp}
+            {/* TEMP */}
+
             <Grid >
                 <Box sx={{display:"flex",justifyContent:"space-between"}}>
                     <Typography sx={{color:"white",fontSize:20,fontWeight:"bold",marginTop:2,marginLeft:3}}>TILESETS</Typography>
