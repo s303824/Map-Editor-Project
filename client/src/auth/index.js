@@ -198,13 +198,14 @@ function AuthContextProvider(props) {
         try{
             const response = await api.sendEmail(userData);
             if(response.status === 200){
-                if(auth.emailCheck){
-                    setEnterEmail(false)
-                    setEmailSent(true)
-                  }
-                  else{
-                    setInvalidEmail(true)
-                  }              
+                console.log("email sent")
+                authReducer({
+                    type: AuthActionType.EMAIL_VERIFICATION,
+                    payload: {
+                        emailCheck: true
+                    }
+                });
+           
             }
             else{
                 console.log(response.data.errorMessage)
