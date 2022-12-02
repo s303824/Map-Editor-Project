@@ -5,7 +5,6 @@ import bannerImage from '../assets/login-screen-image.png'
 import { useNavigate } from "react-router-dom";
 import LoginModal from "../components/login-modal.component";
 import AuthContext from '../auth';
-import api from '../api'
 
 const PasswordReset = ({}) => {
 
