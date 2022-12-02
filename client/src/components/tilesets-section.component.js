@@ -33,7 +33,9 @@ const TilesetsSection =()=>{
     const addTilesetModal = addTileset ? <TilsetAdd onClose={() => handleCloseTilesetModal()}></TilsetAdd> : null;
 
     const handleTileEdit = () => {
-        navigate("/tileseteditor", {})
+        // console.log(store.currentMapInfo._id)
+        // console.log(store.currentTileSet[0]._id)
+        navigate("/tileseteditor/" + store.currentMapInfo._id + "/" + store.currentTileSet[0]._id)
     }
     const tilesets = store.currentMap.tilesets
     // console.log("---------------------------")
