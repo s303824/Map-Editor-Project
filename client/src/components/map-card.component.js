@@ -139,7 +139,7 @@ const MapCard = ({mapInfo}) => {
  {published!=null ? width='80%': width='60%'}
 
  let likeColor = auth.user ? auth.user.liked_projects.includes(mapInfo._id) ? "green" : "#FFFFFF" : "#FFFFFF"
- let dislikeColor = auth.user.disliked_projects ? auth.user.disliked_projects.includes(mapInfo._id) ? "red" : "#FFFFFF" : "#FFFFFF"
+ let dislikeColor = auth.user ? auth.user.disliked_projects.includes(mapInfo._id) ? "red" : "#FFFFFF" : "#FFFFFF"
 
  let loginModal = guestWarning ? <LoginModal message="You must log in to do that!" onClose={() => handleGuestWarning()}></LoginModal> : null
   let oppositeModal = oppositeWarning ? <LoginModal message="You can't like/dislike a map you have already done the opposite for!" onClose={() => handleOpposite()}></LoginModal> : null
