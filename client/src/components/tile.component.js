@@ -37,6 +37,7 @@ const Tile =(tileInfo)=>{
     //to differentiate click coming from a tileset or a map container 
     
     if(event.target.parentElement.className.includes('tileset-section')){
+      //console.log(event.target.id)
       store.setCurrentTile(event.target.id,value);
     }else{
       //console.log("target",event);

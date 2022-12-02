@@ -58,6 +58,7 @@ function GlobalStoreContextProvider(props) {
 
     const storeReducer = (action) => {
         const {type, payload} = action;
+        console.log(payload.currentLayer)
         switch(type) {
             case GlobalStoreActionType.LOAD_PUBLISHED_MAPS:
                 return setStore({
@@ -652,13 +653,13 @@ store.importNewTileset = async function (id, source) {}
 // Sets the current tile that is selected from the current tileset
 store.setCurrentTile = function (id,value) {
     console.log("id",id);
-    console.log("value", value)
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_TILE,
         payload: {
             currentTile : {id,value}
         }
     });
+    console.log(store.currentTile)
 }
 
 // Sets the current tileset
@@ -724,18 +725,22 @@ store.paintTile = function (id,value) {
 }
 
 store.paintHelper = function(id) {
+    //console.log(store.currentTileSet[0].firstgid)
     store.currentLayer[0].data[id]=(parseInt(store.currentTile.id)+ parseInt(store.currentTileSet[0].firstgid));
+    console.log(store.currentLayer[0].data[id])
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
         payload: {
             currentLayer:store.currentLayer
         }
     });
+    console.log(store.currentLayer)
 }
 
 store.paintHelperUndo = function(id, tileId) {
     //console.log(parseInt(tileId)+ parseInt(store.currentTileSet[0].firstgid))
-    store.currentLayer[0].data[id]=(parseInt(tileId)+ parseInt(store.currentTileSet[0].firstgid));
+    console.log(parseInt(tileId))
+    store.currentLayer[0].data[id]=(parseInt(tileId));
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
         payload: {
@@ -808,34 +813,17 @@ store.paintLayerUndo = function(oldLayerData) {
 //Saves the "currentMap" to database with the edits made by user
 //Used by: Save button at Map editor toolbar(map-toolbar.component.js)
 store.saveCurrentMap = async function () {
-    let UpdateMapdata = {
-        _id: store.currentMap._id,
-        compressionlevel: store.currentMap.compressionlevel, 
-        backgroundcolor: store.currentMap.backgroundcolor,  
-        height: store.currentMap.height, 
-        infinite: store.currentMap.infinite, 
-        layers: store.currentMap.layers,                            
-        nextlayerid: store.currentMap.nextlayerid, 
-        nextobjectid: store.currentMap.nextobjectid, 
-        renderorder: store.currentMap.renderorder, 
-        tiledversion: store.currentMap.tiledversion, 
-        tileheight: store.currentMap.tileheight, 
-        tilesets: store.currentMap.tilesets,
-        tilewidth: store.currentMap.tilewidth, 
-        version: store.currentMap.version, 
-        width: store.currentMap.width
-    }
-    const response = await api.updateMap(UpdateMapdata)
+    const response = await api.updateMap(store.currentMap)
     if(response.status == 200) {
         storeReducer({
             type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                 payload: {
                     currentMap: response.data.map,
-                    mapInfo: store.currentMapInfo
+                    mapInfo: store.currentMapInfo,
+                    currentLayer: response.data.map.layers[0]
                 }
         })
     }
-    
 }
 
 store.updateMapSize = async function () {
@@ -845,7 +833,8 @@ store.updateMapSize = async function () {
             type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                 payload: {
                     currentMap: response.data.map,
-                    mapInfo: store.currentMapInfo
+                    mapInfo: store.currentMapInfo,
+                    currentLayer: response.data.map.layers[0]
                 }
         })
     }

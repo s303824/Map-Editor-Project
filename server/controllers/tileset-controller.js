@@ -17,14 +17,14 @@ registerTileSet = async (req, res) => {
                 .json({ errorMessage: "Please enter all required fields." });
         }
         const existingTileSet = await Tileset.findOne({ name: name });
-        if (existingTileSet) {
+       /* if (existingTileSet) {
             return res
                 .status(400)
                 .json({
                     success: false,
                     errorMessage: "A tileset with the same name already exists."
                 })
-        }
+        }*/
 
         const newTileSet = new Tileset({
             backgroundcolor, columns, fillmode, firstgid, grid, image, imageheight, imagewidth, margin, name,
