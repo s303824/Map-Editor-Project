@@ -178,7 +178,7 @@ function AuthContextProvider(props) {
         try{
             const response = await api.sendEmail(userData);
             if(response.status !== 200){
-                console.log(error.response.data.errorMessage)
+                console.log(response.data.errorMessage)
                 return false;
             }
             else{
