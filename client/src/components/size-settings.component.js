@@ -159,7 +159,8 @@ const SizeSettings = ({onClose}) => {
     let emptyModal = empty ? <LoginModal message="A field cannot be empty!" onClose={handleCloseEmpty}></LoginModal> : null
     let incorrectSizeModal = incorrectSize ? <LoginModal message={errorMessage} onClose={() => setIncorrectSize(false)}></LoginModal> : null
 
-    console.log(store.currentMap.layers)
+    let str = "(may delete some tiles)"
+
     return(
         <Box>
             {modal}
@@ -232,7 +233,7 @@ const SizeSettings = ({onClose}) => {
                 
 
             </Typography>
-            <Typography sx={{marginTop:2}}>Beware of unintended consequences of reducing map size</Typography>
+            <Typography sx={{marginTop:2}}>Beware of unintended consequences of reducing map size {str}</Typography>
             <Box display="flex" justifyContent="space-between" sx={{marginTop:2}}>
                 <Button variant="contained" onClick={handleUpdateSettings} paddingRight={2}>Update Map</Button>
                 <Button variant="contained" onClick={onClose} marginLeft={3}>Close</Button>

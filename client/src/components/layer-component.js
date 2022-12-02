@@ -12,7 +12,7 @@ import LayerTileBackround from "../assets/layer-backround.jpg";
 import { useContext } from 'react';
 import { GlobalStoreContext } from '../store';
 
-const Layer =()=>{
+const Layer =(layer)=>{
   const {store} = useContext(GlobalStoreContext);
   // console.log(store.currentMap)
   if(!store.currentMap.tileheight) {
@@ -26,11 +26,16 @@ const Layer =()=>{
   const tileHeight = store.currentMap.tileheight;
 
   let tilesets = store.tilesets;
+  let layers = store.currentMap.layers;
+  let reverse = [...layers].reverse(); 
+  let canvas = new Array(tileCount).fill(0);
+
+  reverse.map((layer) => (
+    layer.data.map((value,index) => ( 
+      value > 0 ? canvas[index]=value : null
+ ))
+))
  
-  const findTileImage = () => {
-
-  }
-
   //should have the total tile count in the 
   //should just render layer.data array
 
@@ -62,10 +67,10 @@ const Layer =()=>{
                 outline: `1px solid #ffc806`,
             }}}>
 
-      {Array.from({ length:tileCount }, (_, i) => (
-          <Tile id={i}  value={currentLayer.data[i]} row={currentLayer.height} column={currentLayer.width} img={LayerTileBackround} tileWidth = {tileWidth} tileHeight={tileHeight} next={findTileImage}/>
-      ))} 
-        
+      {canvas.map((value,index) => (
+          <Tile id={index}  value={value} row={currentLayer.height} column={currentLayer.width} img={LayerTileBackround} tileWidth = {tileWidth} tileHeight={tileHeight} /> 
+      ))}
+
       </ImageList>
     </Box>
      

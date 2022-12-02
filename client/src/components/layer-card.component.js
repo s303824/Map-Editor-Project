@@ -17,12 +17,10 @@ const LayerCard =({id,layerInfo,selected})=>{
         event.preventDefault();
         store.deleteSelectedLayer(id);
     }
-
-
-    
+  
     return(
         <Grid container spacing={2} 
-        sx={{backgroundImage: selected ?  'linear-gradient(to right,#a51916,#F83600)' :'linear-gradient(to right,#feaf06,#ffc806,#F7D24F)',
+        sx={{backgroundImage: id == store.currentLayer[0].id ?  'linear-gradient(to right,#a51916,#F83600)' :'linear-gradient(to right,#feaf06,#ffc806,#F7D24F)',
             boxShadow: `inset 0 0 3px rgba(0, 0, 0, 0.2)`,
             borderRadius:5,
             marginTop:1,marginLeft:3,

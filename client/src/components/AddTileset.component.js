@@ -47,6 +47,7 @@ const TilsetAdd = ({onClose}) => {
     const [imageWidth, setImageWidth] = useState("")
     const [tileName, setTileName] = useState("")
     const [successful, setSuccessful] = useState(false)
+    const [message, setMessage] = useState("")
 
 
     const addWidth = (event) => {  
@@ -102,10 +103,26 @@ const TilsetAdd = ({onClose}) => {
 
     const handleAddTile = () => {
         console.log(tileImage, tileWidth, tileHeight)
-        if (tileImage == "" && tileWidth == "" && tileHeight == "" && imageHeight == "" && imageWidth == "" && tileName == ""){
+
+        
+        if (tileImage == "" || tileWidth == "" || tileHeight == "" || imageHeight == "" || imageWidth == "" || tileName == ""){
+            setMessage("Make sure all fields are filled!")
             setSuccessful(true)
-            return 
+            return;
         }
+
+        if(tileWidth != store.currentMap.tilesets[0].tilewidth || tileHeight != store.currentMap.tilesets[0].tileheight) {
+            setMessage("Make sure your tilewidth and tileheight match your other tilesets (" + store.currentMap.tilesets[0].tilewidth + ")! You can change this number in the settings." )
+            setSuccessful(true)
+            return;
+        }
+
+        if(imageHeight % tileHeight != 0 || imageWidth % tileWidth != 0 ) {
+            setMessage("This tile size is not compatible with your image.")
+            setSuccessful(true)
+            return;
+        }
+
         store.addTilsetToMap(tileImage, tileWidth, tileHeight, imageHeight, imageWidth, tileName )
         onClose()
     } 
@@ -194,7 +211,7 @@ const TilsetAdd = ({onClose}) => {
                 onChange={(event) => addTilesetName(event)}
                 />
 
-                {successful && <Typography fontSize="15px" sx={{color : 'red'}}> Make sure all Inputs are filled! </Typography>}
+                {successful && <Typography fontSize="15px" sx={{color : 'red'}}> {message} </Typography>}
 
                 <Box paddingTop={3} display="flex" justifyContent="space-between">
                     <Button variant="contained" onClick={handleAddTile}>Add Tileset</Button>

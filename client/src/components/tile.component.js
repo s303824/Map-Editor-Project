@@ -9,6 +9,7 @@ const Tile =(tileInfo)=>{
   let left =0;
   let top = 0;
   let newImg = img;
+  let opasity = 1;
 
   if(value != -1){
     if(value!=0){
@@ -21,7 +22,10 @@ const Tile =(tileInfo)=>{
       left = -(((value-(set.firstgid)) % (parseInt(set.imagewidth)/parseInt(set.tilewidth)))* tileWidth);
       top = -((Math.floor((value-(set.firstgid)) / (parseInt(set.imageheight)/parseInt(set.tileheight)))) * tileHeight);
     }
-  }else{
+  else{
+    opasity = 0;
+  }
+  }else{ //rendering a tileset tile
     left = -((id % column)* tileWidth);
     top = -((Math.floor(id / row)) * tileHeight); 
   }
@@ -37,6 +41,7 @@ const Tile =(tileInfo)=>{
     }else{
       //console.log("target",event);
       store.handleMapAction(event.target.id,value);
+      
     }
   } 
 
@@ -45,10 +50,6 @@ const Tile =(tileInfo)=>{
       "white" : "" 
     : ""
 
-    if(value > 0) {
-      console.log(left)
-    }
- 
     return(
       <Box 
       id={id}
@@ -57,6 +58,7 @@ const Tile =(tileInfo)=>{
       width:`${tileWidth}px`,
       backgroundImage: `url(${newImg})`,
       backgroundPosition:`left ${left}px top ${top}px`,
+      opacity: {opasity},
       border:"solid",
       margin:'0px',
       color:highlightedColor
