@@ -62,14 +62,14 @@ const PasswordReset = ({}) => {
   }
 
   // check if entered passcode is correct
-  const handlePasscodeCheck = () => {
+  const handlePasscodeCheck = async () => {
     let userData = {
       email: email,
       attempt: userAttempt
     }
 
-    let success = auth.passcodeVerify(userData)
-    if(success){
+    let success = await auth.passcodeVerify(userData)
+    if(success == true){
       let userData = {
         email: email
       }

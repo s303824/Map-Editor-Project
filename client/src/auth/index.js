@@ -183,6 +183,7 @@ function AuthContextProvider(props) {
     auth.passcodeVerify = async function (userData) {
         try{
             const response = await api.passcodeVerify(userData);
+            console.log(response.data.success)
             return response.data.success;
         }catch(error){
         }
