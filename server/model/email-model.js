@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 const emailSchema = new Schema({
     email: String,
-    passcode: String,
+    passcode: Number,
     expire_at: {type: Date, default: Date.now, expires: 600} 
 })
 

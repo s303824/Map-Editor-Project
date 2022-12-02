@@ -65,7 +65,7 @@ const PasswordReset = ({}) => {
   const handlePasscodeCheck = async () => {
     let userData = {
       email: email,
-      attempt: userAttempt
+      attempt: parseInt(userAttempt)
     }
 
     let success = await auth.passcodeVerify(userData)
