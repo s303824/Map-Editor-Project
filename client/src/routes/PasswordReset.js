@@ -56,7 +56,7 @@ const PasswordReset = ({}) => {
       let userData = {
         email: email,
       }
-      let success = sendEmail(userData)
+      let success = auth.sendEmail(userData)
       if(success === true){
         setEnterEmail(false)
         setEmailSent(true)
@@ -66,40 +66,6 @@ const PasswordReset = ({}) => {
       }
   }
 
-  const sendEmail = async function (userData) {
-    try{
-        const response = await api.sendEmail(userData);
-        if(response.status !== 200){
-            console.log(response.data.errorMessage)
-            return false;
-        }
-        else{
-            console.log("email sent")
-            return true;
-        }
-    }catch(error){
-        console.log("Unexpected error")
-        return false;
-    }
-}
-
-const passcodeVerify = async function (userData) {
-  try{
-      const response = await api.passcodeVerify(userData);
-      if(response.status !== 200){
-          console.log("passcode incorrect")
-          return false;
-      }
-      else{
-          console.log("passcode verified")
-          return true;
-      }
-  }catch(error){
-      console.log("Unexpected error")
-      return false;
-  }
-}
-
   // check if entered passcode is correct
   const handlePasscodeCheck = () => {
     let userData = {
@@ -107,7 +73,7 @@ const passcodeVerify = async function (userData) {
       attempt: parseInt(userAttempt)
     }
 
-    let success = passcodeVerify(userData)
+    let success = auth.passcodeVerify(userData)
     if(success === true){
       let userData = {
         email: email
