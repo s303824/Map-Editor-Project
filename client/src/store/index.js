@@ -355,6 +355,38 @@ function GlobalStoreContextProvider(props) {
         }
     };
 
+// TEMP
+
+store.EditedTilsetToMap_Temp = async function (editedTileset_url, id){
+    const edited_map_tileset = store.currentMap.tilesets.filter(tileset => tileset._id == id )
+
+    edited_map_tileset[0].image = editedTileset_url
+
+    store.currentMap.tilesets = store.currentMap.tilesets.map(tileset => tileset._id == id ?  tileset = edited_map_tileset[0] : tileset);
+ 
+    console.log(id)
+    const response = await api.updateMap(store.currentMap)
+    if(response.status == 200) {
+        storeReducer({
+            type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
+                payload: {
+                    currentMap: response.data.map,
+                    mapInfo: store.currentMapInfo
+                }
+        })
+        storeReducer({
+            type: GlobalStoreActionType.SET_THE_CURRENT_TILESET,
+            payload: {
+                currentTileSet: store.currentMap.tilesets.filter(tileset => tileset._id == id )
+            }
+        });
+
+    }
+
+
+}
+
+// TEMP
 
 //Loads all the user maps so we can display them 
 //Used by: useEffect(MyProjects)
