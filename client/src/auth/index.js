@@ -186,14 +186,24 @@ function AuthContextProvider(props) {
                 return true;
             }
         }catch(error){
+            console.log("Unexpected error")
+            return false;
         }
     }
     auth.passcodeVerify = async function (userData) {
         try{
             const response = await api.passcodeVerify(userData);
-            console.log(response.data.success)
-            return response.data.success;
+            if(response.status !== 200){
+                console.log("passcode incorrect")
+                return false;
+            }
+            else{
+                console.log("passcode verified")
+                return true;
+            }
         }catch(error){
+            console.log("Unexpected error")
+            return false;
         }
     }
     auth.registerUser = async function(userData, store) {
