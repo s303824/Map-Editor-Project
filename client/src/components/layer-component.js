@@ -36,8 +36,6 @@ const Layer =(layer)=>{
  ))
 ))
  
-
-
   //should have the total tile count in the 
   //should just render layer.data array
 
