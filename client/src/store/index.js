@@ -663,7 +663,6 @@ store.setCurrentTile = function (id,value) {
 
 // Sets the current tileset
 store.setCurrentTileset = function (id) {
-
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_TILESET,
         payload: {
@@ -1056,13 +1055,20 @@ store.loadMapById = async function(_id) {
             if(response2.status === 200) {
                 // console.log(response.data.mapInfo)
                 console.log(response2.data)
+
+                // used in tileset editor, sets currentTileset using the id stored in path
+                let currentTileset_ = response2.data.map.tilesets[0] 
+                if (window.location.pathname.split("/")[3] != null){
+                    currentTileset_ = response2.data.map.tilesets.filter(tileset => tileset._id == window.location.pathname.split("/")[3] )
+                }
+                
                 storeReducer({
                     type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                     payload: {
                         mapInfo: response.data.mapInfo,
                         currentMap: response2.data.map,
                         currentLayer: response2.data.map.layers[0],
-                        currentTileSet: response2.data.map.tilesets[0] 
+                        currentTileSet: currentTileset_ 
                     }
                 });
             }

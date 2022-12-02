@@ -14,7 +14,7 @@ const Navigation=() =>{
     let toolbar =
     pathname.split("/")[1] === "editor"
     ? <MapToolBar/>
-    : pathname === "/tileseteditor"
+    : pathname.split("/")[1] === "tileseteditor"
     ? <TileSetToolBar/>
     : <Banner/>;
 

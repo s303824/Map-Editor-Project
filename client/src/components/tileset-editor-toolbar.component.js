@@ -12,15 +12,26 @@ import { useContext } from 'react';
 import { saveAs } from 'file-saver'
 import { GlobalStoreContext } from '../store'
 
+import LC from "literallycanvas";
+
 const TileSetToolBar=() =>{
     const { store } = useContext(GlobalStoreContext);
     const navigate = useNavigate();
-    const handleEditMap = () => {
-        navigate("/editor", {})
+
+
+    const handleEditMap = async () => {
+        await store.loadMapById(window.location.pathname.split("/")[2]);
+        navigate("/editor/" + store.currentMap.mapinfo)
     }
     const handledownloadTileset = () => {
         console.log(store.currentTileSet.image)
         saveAs(store.currentTileSet[0].image, 'Tileset.jpg') 
+    }
+    
+    const handleTilesetEdit = () => {
+        window.open(LC.getImage().toDataURL())
+        // console.log(LC.getImage().toDataURL())
+        // window.open(lc.getImage().toDataURL())
     }
 
     return (
@@ -33,7 +44,7 @@ const TileSetToolBar=() =>{
                     Export
                 </Button>
 
-                <Button sx = {{backgroundImage: 'linear-gradient(to right,#fa5a01,#fe9f05)',borderRadius:'10px',color:"white",fontWeight:"bold",fontSize:15,marginX:1}}>
+                <Button onClick={handleTilesetEdit} sx = {{backgroundImage: 'linear-gradient(to right,#fa5a01,#fe9f05)',borderRadius:'10px',color:"white",fontWeight:"bold",fontSize:15,marginX:1}}>
                     Save 
                 </Button>
                 
