@@ -35,7 +35,6 @@ function LiterallyCanvasTest() {
       return backgroundShapes;
     };
 
-
     return (
       <Box >
         <LC.LiterallyCanvasReactComponent
