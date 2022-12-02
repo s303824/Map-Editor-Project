@@ -58,7 +58,6 @@ function GlobalStoreContextProvider(props) {
 
     const storeReducer = (action) => {
         const {type, payload} = action;
-        console.log(payload.currentLayer)
         switch(type) {
             case GlobalStoreActionType.LOAD_PUBLISHED_MAPS:
                 return setStore({

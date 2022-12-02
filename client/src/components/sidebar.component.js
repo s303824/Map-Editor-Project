@@ -50,7 +50,7 @@ export default function SideBar() {
         navigate("/explore", {})
         break;
 
-      case "Settings":
+      case "Account":
         navigate("/accountSettings", {})
         break;
       

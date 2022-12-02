@@ -38,25 +38,6 @@ const TilesetsSection =()=>{
         navigate("/tileseteditor/" + store.currentMapInfo._id + "/" + store.currentTileSet[0]._id)
     }
     const tilesets = store.currentMap.tilesets
-    // console.log("---------------------------")
-    // console.log(tilesets)
-    // console.log("---------------------------")
-    // const tilesets =[{ //to display sample data
-    //     "_id": 1,
-    //     "name":"DEFAULT2",
-    //     "precedence":1,
-    //   },
-    //   {
-    //     "_id": 2,
-    //     "name":"DEFAULT3",
-    //     "precedence":2,
-    //   },
-    //   {
-    //     "_id": 3,
-    //     "name":"DEFAULT4",
-    //     "precedence":3,
-    //   }
-    // ]
 
     const handleTileSetDisplay = (event)=>{
         event.preventDefault();
