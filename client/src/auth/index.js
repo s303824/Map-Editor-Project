@@ -177,10 +177,16 @@ function AuthContextProvider(props) {
     auth.sendEmail = async function (userData) {
         try{
             const response = await api.sendEmail(userData);
-    }catch(error){
+        }catch(error){
+        }
     }
-}
-
+    auth.passcodeVerify = async function (userData) {
+        try{
+            const response = await api.passcodeVerify(userData);
+            return response.data.success;
+        }catch(error){
+        }
+    }
     auth.registerUser = async function(userData, store) {
         let response;
         try {

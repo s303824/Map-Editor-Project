@@ -14,7 +14,6 @@ const PasswordReset = ({}) => {
   const [email, setEmail] = useState("");   // store user email
   const [enterEmail, setEnterEmail] = useState(true)    
   const [emailSent, setEmailSent] = useState(false);    // passcode verification
-  const [passcode, setPasscode] = useState("");
   const [userAttempt, setUserAttempt] = useState("");
   const [wrongPasscode, setWrongPasscode] = useState(false);
 
@@ -54,11 +53,8 @@ const PasswordReset = ({}) => {
 
 // send email and move to the "Enter Passcode" modal
   const handleVerification = () => {
-      let code = Math.floor(1000000 + Math.random() * 9000000);
-      setPasscode(code.toString())
       let userData = {
         email: email,
-        message: "Your Tileslate passcode is: " + code
       }
       auth.sendEmail(userData)
       setEnterEmail(false)
@@ -67,7 +63,13 @@ const PasswordReset = ({}) => {
 
   // check if entered passcode is correct
   const handlePasscodeCheck = () => {
-    if(passcode == userAttempt){
+    let userData = {
+      email: email,
+      attempt: userAttempt
+    }
+
+    let success = auth.passcodeVerify(userData)
+    if(success){
       let userData = {
         email: email
       }
