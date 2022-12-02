@@ -52,11 +52,11 @@ const PasswordReset = ({}) => {
 }  
 
 // send email and move to the "Enter Passcode" modal
-  const handleVerification = async () => {
+  const handleVerification = () => {
       let userData = {
         email: email,
       }
-      let success = await auth.sendEmail(userData)
+      let success = auth.sendEmail(userData)
       if(success === true){
         setEnterEmail(false)
         setEmailSent(true)
@@ -67,13 +67,13 @@ const PasswordReset = ({}) => {
   }
 
   // check if entered passcode is correct
-  const handlePasscodeCheck = async () => {
+  const handlePasscodeCheck = () => {
     let userData = {
       email: email,
       attempt: parseInt(userAttempt)
     }
 
-    let success = await auth.passcodeVerify(userData)
+    let success = auth.passcodeVerify(userData)
     if(success === true){
       let userData = {
         email: email
