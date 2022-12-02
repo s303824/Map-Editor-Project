@@ -218,14 +218,20 @@ const MapToolBar=() =>{
 
         let i = 0;
         store.currentMap.tilesets.forEach(async tileset => {
-            tileset.image = "/" + store.currentMapInfo.name + "-tileset" + (i)
+            let link = tileset.image
+            //tileset.image = "/" + store.currentMapInfo.name + "-tileset-" + (i)
             tileset.source = null;
             tileset.margin = 0;
+            tileset.imageheight = parseInt(tileset.imageheight)
+            tileset.imagewidth = parseInt(tileset.imagewidth)
+            console.log(tileset)
             mapData.tilesets[i] = tileset
+
+            console.log(link)
 
             const link1 = document.createElement("a");
             const fileName1 = store.currentMapInfo.name + "-tileset-0";
-            const blob1 = await fetch("https://images-ext-2.discordapp.net/external/4By1q9JYY7g_uNWyYRRC6GQdL8P_L7gSrIixurpvlAc/https/res.cloudinary.com/natialemu47/image/upload/v1669851225/Tileslate/map-card-7_xhnvme.jpg?width=676&height=676").
+            const blob1 = await fetch(link).
             then(res => res.blob());
             const href1 = URL.createObjectURL(blob1);
     

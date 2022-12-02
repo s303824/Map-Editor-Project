@@ -45,10 +45,6 @@ const Tile =(tileInfo)=>{
       "white" : "" 
     : ""
 
-    if(value > 0) {
-      console.log(left)
-    }
- 
     return(
       <Box 
       id={id}
