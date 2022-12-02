@@ -21,11 +21,30 @@ function LiterallyCanvasTest() {
     var img = new Image();
     img.src = imageAddr;
 
+    const generateBackgroundShapes = () => {
+      let backgroundImage = new Image();
+      backgroundImage.src =  imageAddr;
+  
+      const backgroundShapes = [
+        LC.createShape("Image", { image: backgroundImage })
+      ];
+      const shapes = LC.snapshotToShapes(backgroundSnapshot);
+      if (shapes) {
+        return backgroundShapes.concat(shapes);
+      }
+      return backgroundShapes;
+    };
+
+
     return (
       <Box >
         <LC.LiterallyCanvasReactComponent
           watermarkImage={img}
+          onInit={handleInit}
+          snapshot={snapshot}
+          backgroundShapes={generateBackgroundShapes()}
           imageURLPrefix="img">
+          
         </LC.LiterallyCanvasReactComponent>
       </Box>
     );
