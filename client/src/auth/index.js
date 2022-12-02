@@ -12,6 +12,7 @@ export const AuthActionType = {
     REGISTER_RETRY: "REGISTER_RETRY",
     LOGIN_RETRY: "LOGIN_RETRY",
     RESET_ERROR: "RESET_ERROR",
+    EMAIL_VERIFICATION : "EMAIL_VERIFICATION"
 }
 
 function AuthContextProvider(props) {
@@ -22,6 +23,7 @@ function AuthContextProvider(props) {
         successfulRegister: true,
         successfulLogin: true,
         error: null,
+        emailCheck: false
     });
 
     const history = useNavigate();
@@ -40,7 +42,8 @@ function AuthContextProvider(props) {
                     successfulRegister: payload.successfulRegister,
                     successfulLogin: false,
                     error: payload.error,
-                    guest: auth.guest
+                    guest: auth.guest,
+                    emailCheck: auth.emailCheck
                 })
             }
 
@@ -51,7 +54,8 @@ function AuthContextProvider(props) {
                     successfulRegister: true,
                     successfulLogin: true,
                     error: null,
-                    guest: auth.guest
+                    guest: auth.guest,
+                    emailCheck: auth.emailCheck
                 });
             }
             case AuthActionType.SET_LOGGED_IN: {
@@ -61,7 +65,8 @@ function AuthContextProvider(props) {
                     successfulRegister: false,
                     successfulLogin: payload.successfulLogin,
                     error: payload.error,
-                    guest: false
+                    guest: false,
+                    emailCheck: auth.emailCheck
                 });
             }
             case AuthActionType.LOGOUT: {
@@ -71,7 +76,8 @@ function AuthContextProvider(props) {
                     successfulRegister: true,
                     successfulLogin: true,
                     error: null,
-                    guest: auth.guest
+                    guest: auth.guest,
+                    emailCheck: auth.emailCheck
                 });
             }
             case AuthActionType.LOGIN_RETRY: {
@@ -81,7 +87,8 @@ function AuthContextProvider(props) {
                     successfulRegister: true,
                     successfulLogin: payload.successfulLogin,
                     error: null,
-                    guest: auth.guest
+                    guest: auth.guest,
+                    emailCheck: auth.emailCheck
                 });
             }
             case AuthActionType.REGISTER_RETRY: {
@@ -91,7 +98,8 @@ function AuthContextProvider(props) {
                     successfulRegister: true,
                     successfulLogin: true,
                     error: null,
-                    guest: auth.guest
+                    guest: auth.guest,
+                    emailCheck: auth.emailCheck
                 })
             }
             case AuthActionType.RESET_ERROR: {
@@ -101,7 +109,19 @@ function AuthContextProvider(props) {
                     successfulRegister: true,
                     successfulLogin: true,
                     error: null,
-                    guest: auth.guest
+                    guest: auth.guest,
+                    emailCheck: auth.emailCheck
+                })
+            }
+            case AuthActionType.EMAIL_VERIFICATION: {
+                return setAuth({
+                    user: auth.user,
+                    loggedIn: auth.loggedIn,
+                    successfulRegister: auth.successfulRegister,
+                    successfulLogin: auth.successfulLogin,
+                    error: auth.error,
+                    guest: auth.guest,
+                    emailCheck: payload.emailCheck
                 })
             }
         }
@@ -178,32 +198,50 @@ function AuthContextProvider(props) {
         try{
             const response = await api.sendEmail(userData);
             if(response.status !== 200){
+                authReducer({
+                    type: AuthActionType.EMAIL_VERIFICATION,
+                    payload: {
+                        emailCheck: false
+                    }
+                });
                 console.log(response.data.errorMessage)
-                return false;
             }
             else{
+                authReducer({
+                    type: AuthActionType.EMAIL_VERIFICATION,
+                    payload: {
+                        emailCheck: true
+                    }
+                });
                 console.log("email sent")
-                return true;
             }
         }catch(error){
             console.log("Unexpected error")
-            return false;
         }
     }
     auth.passcodeVerify = async function (userData) {
         try{
+            authReducer({
+                type: AuthActionType.EMAIL_VERIFICATION,
+                payload: {
+                    emailCheck: false
+                }
+            });
             const response = await api.passcodeVerify(userData);
             if(response.status !== 200){
                 console.log("passcode incorrect")
-                return false;
             }
             else{
                 console.log("passcode verified")
-                return true;
+                authReducer({
+                    type: AuthActionType.EMAIL_VERIFICATION,
+                    payload: {
+                        emailCheck: true
+                    }
+                });
             }
         }catch(error){
             console.log("Unexpected error")
-            return false;
         }
     }
     auth.registerUser = async function(userData, store) {

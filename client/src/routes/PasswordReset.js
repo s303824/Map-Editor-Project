@@ -56,14 +56,18 @@ const PasswordReset = ({}) => {
       let userData = {
         email: email,
       }
-      let success = auth.sendEmail(userData)
-      if(success === true){
-        setEnterEmail(false)
-        setEmailSent(true)
-      }
-      else{
-        setInvalidEmail(true)
-      }
+      auth.sendEmail(userData)
+      checkEmailInput()
+  }
+
+  const checkEmailInput = () => {
+    if(auth.emailCheck){
+      setEnterEmail(false)
+      setEmailSent(true)
+    }
+    else{
+      setInvalidEmail(true)
+    }
   }
 
   // check if entered passcode is correct
@@ -73,8 +77,12 @@ const PasswordReset = ({}) => {
       attempt: parseInt(userAttempt)
     }
 
-    let success = auth.passcodeVerify(userData)
-    if(success === true){
+    auth.passcodeVerify(userData)
+    checkPasscodeInput()
+  }
+
+  const checkPasscodeInput = () => {
+    if(auth.emailCheck){
       let userData = {
         email: email
       }
@@ -85,7 +93,9 @@ const PasswordReset = ({}) => {
     else{
       setWrongPasscode(true)
     }
+
   }
+
 
   // check if new password is valid and the same as the input from the confirmed password field
   const handleNewPasswordClose = () => {
