@@ -29,7 +29,7 @@ const App = () => {
               <Route path="/home" element={<Home/>}/>
               <Route path="/projects" element={<MyProjects/>}/>
               <Route path="/explore" element={<Explore/>}/>
-              <Route path="/tileseteditor" element={<TileSetEditor/>}/>
+              <Route path="/tileseteditor/:id/:id" element={<TileSetEditor/>}/>
               <Route path="/editor/:id" element={<MapEditor/>}/>
               <Route path="/likedmaps" element={<LikedMaps/>}/>
               <Route path="/view/:id" element={<MapViewer/>}/>
