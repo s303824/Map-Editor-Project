@@ -587,23 +587,27 @@ store.addNewLayer = function () {
 // Changes the selected layer's name
 store.changeLayerName = function (id, newName) {}
 
+var swapArrayElements = function(arr, indexA, indexB) {
+    var temp = arr[indexA];
+    arr[indexA] = arr[indexB];
+    arr[indexB] = temp;
+  };
+
 // Changes the current layer's precedence
 store.increaseLayerPrecedence = function () {
     let idx = store.currentMap.layers.indexOf(store.currentLayer[0]);
-    var layer = store.currentMap.layers.splice(idx, 1)[0];
-    console.log("layer",layer);
-   // let arr = store.currentMap.layers;
-   // console.log("arr1",arr)
-   // let i1 = idx;
-    //let i2= idx-1;
-  //  arr.slice(0,i1).concat(arr[i2],arr.slice(i1+1,i2),arr[i1],arr.slice(i2+1))
-    // insert stored layer into position 
-   // console.log("arr",arr)
-    let ne = store.currentMap.layers.splice(idx-1,0, layer);
-    console.log("ne",ne);
-    let new_layer = store.currentMap.layers[idx-1];
-    console.log("new",new_layer);
-    
+    let layers = store.currentMap.layers;
+  //  var layer = store.currentMap.layers.splice(idx, 1)[0];
+  //  let ne = store.currentMap.layers.splice(idx-1,0, layer);
+  //  console.log("ne",store.currentMap.layers);
+ //   let new_layer = store.currentMap.layers[idx-1];
+ //   let idy = store.currentMap.layers.indexOf(new_layer);
+ //   console.log("id layer",idy)
+ //   console.log("new",new_layer);
+
+   swapArrayElements(layers, idx, idx-1) 
+   let new_layer = store.currentMap.layers[idx-1];
+   
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
         payload: {
@@ -617,22 +621,16 @@ store.increaseLayerPrecedence = function () {
 
 store.decreaseLayerPrecedence = function () {
     let idx = store.currentMap.layers.indexOf(store.currentLayer[0]);
-    var layer = store.currentMap.layers.splice(idx, 1)[0];
-    // insert stored layer into position 
-    store.currentMap.layers.splice(idx-1,0, store.currentLayer[0]);
-    
-    let ne = store.currentMap.layers.splice(idx-1,0, layer);
-    console.log("ne",ne);
-    let new_layer = store.currentMap.layers[idx-1];
-    console.log("new",new_layer); 
-    
+    let layers = store.currentMap.layers;
+    swapArrayElements(layers, idx, idx+1);
+    let new_layer = store.currentMap.layers[idx+1];
     
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
         payload: {
             currentMap: store.currentMap,
             mapInfo: store.currentMapInfo,
-            currentLayer: layer,
+            currentLayer: new_layer,
             currentTileSet: store.current
         }
     });
@@ -1223,8 +1221,6 @@ store.setEditActive= async function (_id,editActive) {
         })
     }
 }
-
-
 
 //Removes the editing permission(for currentMap) from the selected user
 //Used by: manage-team.component
