@@ -218,7 +218,6 @@ const MapToolBar=() =>{
         let mapData = store.currentMap 
 
         store.currentMap.tilesets.forEach(async (tileset, i) => {
-            console.log(tileset.image)
             let link = (' ' + tileset.image).slice(1);
             tileset.image = "/" + store.currentMapInfo.name + "-tileset-" + i;
             tileset.source = null;
@@ -227,7 +226,6 @@ const MapToolBar=() =>{
             tileset.imagewidth = parseInt(tileset.imagewidth)
             mapData.tilesets[i] = tileset
 
-            console.log(link)
             const link1 = document.createElement("a");
             const fileName1 = store.currentMapInfo.name + "-tileset-" + i;
             const blob1 = await fetch(link).

@@ -185,19 +185,16 @@ const exportAsJSON = async () => {
   let mapData = store.currentMap  
   let i = 0;
   store.currentMap.tilesets.forEach(async tileset => {
-    let link = tileset.image
-    //tileset.image = "/" + store.currentMapInfo.name + "-tileset-" + (i)
+    let link = (' ' + tileset.image).slice(1);
+    tileset.image = "/" + store.currentMapInfo.name + "-tileset-" + i;
     tileset.source = null;
     tileset.margin = 0;
     tileset.imageheight = parseInt(tileset.imageheight)
     tileset.imagewidth = parseInt(tileset.imagewidth)
-    console.log(tileset)
     mapData.tilesets[i] = tileset
 
-    console.log(link)
-
     const link1 = document.createElement("a");
-    const fileName1 = store.currentMapInfo.name + "-tileset-0";
+    const fileName1 = store.currentMapInfo.name + "-tileset-" + i;
     const blob1 = await fetch(link).
     then(res => res.blob());
     const href1 = URL.createObjectURL(blob1);
@@ -210,7 +207,8 @@ const exportAsJSON = async () => {
     // clean up "a" element & remove ObjectURL
     document.body.removeChild(link1);
     URL.revokeObjectURL(href1); 
-    i = i + 1;
+    i=i++;
+    tileset.image = link;
   })
 
   // create file in browser
@@ -283,8 +281,12 @@ if (filteredTags.length > 0){
 }
 tagsList = tagsList.trim()
 
-let popupMessage = "Here's how to export this map into a program like Tiled! \n When you click the download button below, you will be downloading the JSON map file, as well as the maps tileset images.\n " +
-    "When you import the map into Tiled, make sure the JSON file and tileset images are in the same folder.\n It's as simple as that!"
+let popupMessage = 
+<Box sx={{display:"flex", flexDirection:"column", gap:2}}>
+    <Typography sx={{fontSize:20}}>Here's how to export your map into a program like Tiled! </Typography>
+    <Typography sx={{fontSize:20}}>When you click the download button below, you will be downloading the JSON map file, as well as your tileset images in PNG format.</Typography>
+    <Typography sx={{fontSize:20}}>When you import your map into Tiled, it will ask you to select the images for your tilesets at the top. It's as simple as that!</Typography>
+</Box>
 
     let popupModal = popup ? <LoginModal message = {popupMessage} onClose = {() => exportAsJSON()} closeButtonText = "Download" onClose2={() => setPopup(false)}></LoginModal> : null
 
