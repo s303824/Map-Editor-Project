@@ -28,8 +28,11 @@ passcodeVerify = async (req, res) => {
     try{
         const requestedEmail = await Email.findOne({ email: email });
         if(!requestedEmail){
-            return res.status(404).json({errorMessage:"Email error"});
+                    return res.status(200).json(
+            {success: false}
+        )
         }
+
         return res.status(200).json(
             {success: attempt == requestedEmail.passcode}
         )
