@@ -209,7 +209,7 @@ function AuthContextProvider(props) {
             }
             else{
                 console.log(response.data.errorMessage)
-D            }
+            }
         }catch(error){
             console.log("Unexpected error")
         }
