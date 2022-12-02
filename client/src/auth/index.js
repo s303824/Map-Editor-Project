@@ -197,24 +197,18 @@ function AuthContextProvider(props) {
     auth.sendEmail = async function (userData) {
         try{
             const response = await api.sendEmail(userData);
-            if(response.status !== 200){
-                authReducer({
-                    type: AuthActionType.EMAIL_VERIFICATION,
-                    payload: {
-                        emailCheck: false
-                    }
-                });
-                console.log(response.data.errorMessage)
+            if(response.status === 200){
+                if(auth.emailCheck){
+                    setEnterEmail(false)
+                    setEmailSent(true)
+                  }
+                  else{
+                    setInvalidEmail(true)
+                  }              
             }
             else{
-                authReducer({
-                    type: AuthActionType.EMAIL_VERIFICATION,
-                    payload: {
-                        emailCheck: true
-                    }
-                });
-                console.log("email sent")
-            }
+                console.log(response.data.errorMessage)
+D            }
         }catch(error){
             console.log("Unexpected error")
         }
@@ -228,10 +222,7 @@ function AuthContextProvider(props) {
                 }
             });
             const response = await api.passcodeVerify(userData);
-            if(response.status !== 200){
-                console.log("passcode incorrect")
-            }
-            else{
+            if(response.status === 200){
                 console.log("passcode verified")
                 authReducer({
                     type: AuthActionType.EMAIL_VERIFICATION,
@@ -239,6 +230,9 @@ function AuthContextProvider(props) {
                         emailCheck: true
                     }
                 });
+            }
+            else{
+                console.log("passcode incorrect")
             }
         }catch(error){
             console.log("Unexpected error")
