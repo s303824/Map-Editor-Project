@@ -10,103 +10,39 @@ import AuthContext from '../auth';
 import {Excalidraw} from "@excalidraw/excalidraw"
 import { useRef } from 'react';
 import initalData from "./initalData"
+import 'tui-image-editor/dist/tui-image-editor.css';
+import ImageEditor from '@toast-ui/react-image-editor';
 
 function ExcalidrawTest() {
 
-    const excalidrawRef = useRef(null);
-
-  const [viewModeEnabled, setViewModeEnabled] = useState(false);
-  const [zenModeEnabled, setZenModeEnabled] = useState(false);
-  const [gridModeEnabled, setGridModeEnabled] = useState(false);
-
-  const updateScene = () => {
-    const sceneData = {
-      elements: [
-        {
-          type: "rectangle",
-          version: 141,
-          versionNonce: 361174001,
-          isDeleted: false,
-          id: "oDVXy8D6rom3H1-LLH2-f",
-          fillStyle: "hachure",
-          strokeWidth: 1,
-          strokeStyle: "solid",
-          roughness: 1,
-          opacity: 100,
-          angle: 0,
-          x: 100.50390625,
-          y: 93.67578125,
-          strokeColor: "#c92a2a",
-          backgroundColor: "transparent",
-          width: 186.47265625,
-          height: 141.9765625,
-          seed: 1968410350,
-          groupIds: [],
-        },
-      ],
-      appState: {
-        viewBackgroundColor: "#edf2ff",
-      },
-    };
-    excalidrawRef.current.updateScene(sceneData);
-  };
+    let imagePath = 'https://res.cloudinary.com/natialemu47/image/upload/v1669851225/Tileslate/map-card-7_xhnvme.jpg'
 
   return (
-    <Box className="App" sx={{height:"1000px"}}>
-      <h1> Excalidraw Example</h1>
-      <div className="button-wrapper">
-        <button className="update-scene" onClick={updateScene}>
-          Update Scene
-        </button>
-        <button
-          className="reset-scene"
-          onClick={() => {
-            excalidrawRef.current.resetScene();
-          }}
-        >
-          Reset Scene
-        </button>
-        <label>
-          <input
-            type="checkbox"
-            checked={viewModeEnabled}
-            onChange={() => setViewModeEnabled(!viewModeEnabled)}
-          />
-          View mode
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={zenModeEnabled}
-            onChange={() => setZenModeEnabled(!zenModeEnabled)}
-          />
-          Zen mode
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={gridModeEnabled}
-            onChange={() => setGridModeEnabled(!gridModeEnabled)}
-          />
-          Grid mode
-        </label>
-      </div>
-      <Box className="excalidraw-wrapper" sx={{marginLeft:30, height:1000}}>
-        <Excalidraw
-          ref={excalidrawRef}
-          initialData={initalData}
-          onChange={(elements, state) =>
-            console.log("Elements :", elements, "State : ", state)
-          }
-          onPointerUpdate={(payload) => console.log(payload)}
-          onCollabButtonClick={() =>
-            window.alert("You clicked on collab button")
-          }
-          viewModeEnabled={viewModeEnabled}
-          zenModeEnabled={zenModeEnabled}
-          gridModeEnabled={gridModeEnabled}
-        />
-      </Box>
+    <Box className="App" sx={{marginLeft:50}}>
+
+        <ImageEditor
+      includeUI={{
+        loadImage: {
+          path: imagePath,
+          name: 'SampleImage',
+        },
+        
+        menu: ['shape', 'filter', 'draw'],
+        initMenu: 'filter',
+        uiSize: {
+          width: '1100px',
+          height: '900px',
+        },
+        menuBarPosition: 'bottom',
+      }}
+      cssMaxHeight={1100}
+      cssMaxWidth={900}
+      selectionStyle={{
+        cornerSize: 20,
+        rotatingPointOffset: 70,
+      }}
+      usageStatistics={true}
+    />
     </Box>
   );
 
