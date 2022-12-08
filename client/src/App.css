@@ -203,6 +203,18 @@
   background-color: #282c34;
 }
 
+.tui-image-editor-load-btn {
+  max-width:0;
+}
+
+.tui-image-editor-header-buttons {
+  display:flex;
+  flex-direction: row-reverse;
+  position: absolute;
+  right:-12%;
+}
+
+
 .Home{
   padding-top: 1%;
   align-items: center;

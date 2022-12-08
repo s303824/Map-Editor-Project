@@ -15,34 +15,43 @@ import ImageEditor from '@toast-ui/react-image-editor';
 
 function ExcalidrawTest() {
 
+  let editorRef = useRef();
     let imagePath = 'https://res.cloudinary.com/natialemu47/image/upload/v1669851225/Tileslate/map-card-7_xhnvme.jpg'
+
+    let editor = <ImageEditor
+    ref = {editorRef}
+    includeUI={{
+      loadImage: {
+        path: imagePath,
+        name: 'SampleImage',
+      },
+      
+      menu: ['shape', 'filter', 'draw'],
+      initMenu: 'filter',
+      uiSize: {
+        width: '1200px',
+        height: '1100px',
+      },
+      menuBarPosition: 'bottom',
+    }}
+    selectionStyle={{
+      cornerSize: 20,
+      rotatingPointOffset: 70,
+    }}
+    usageStatistics={true}
+  />
+
+  const handleClickButton = () => {
+    const editorInstance = editorRef.current.getInstance();
+
+    editorInstance.flipX();
+  };
+
 
   return (
     <Box className="App" sx={{marginLeft:50}}>
-
-        <ImageEditor
-      includeUI={{
-        loadImage: {
-          path: imagePath,
-          name: 'SampleImage',
-        },
-        
-        menu: ['shape', 'filter', 'draw'],
-        initMenu: 'filter',
-        uiSize: {
-          width: '1100px',
-          height: '900px',
-        },
-        menuBarPosition: 'bottom',
-      }}
-      cssMaxHeight={1100}
-      cssMaxWidth={900}
-      selectionStyle={{
-        cornerSize: 20,
-        rotatingPointOffset: 70,
-      }}
-      usageStatistics={true}
-    />
+      {editor}
+      <button onClick={() => handleClickButton()}>Flip image by X Axis!</button>
     </Box>
   );
 
