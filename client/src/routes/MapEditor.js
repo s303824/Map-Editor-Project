@@ -21,14 +21,13 @@ const MapEditor=() =>{
         if (store.currentMap.mapinfo == null){
           store.loadMapById(window.location.pathname.split("/")[2]);
         }
-        /*
-        if(auth.user == null){      // guestUsers are sent back to home if attempting to illegally access map
-          navigate("/home", {})
+        else {
+          store.currentMapInfo.creator.forEach(creator => {
+            if(creator.creator != auth.user.username) {
+              navigate("/", {})
+            }
+          })
         }
-        const currentUser = {creator:auth.user.username, email:auth.user.email, profile_picture:auth.user.profile_picture}
-        if(!store.currentMapInfo.creator.includes(currentUser)){ // unauthorized users are sent back to home if attempting to illegally access map
-          navigate("/home", {})
-        }*/
 
         //for going back
         window.addEventListener('popstate', (event) => {
@@ -49,6 +48,10 @@ const MapEditor=() =>{
       }
 
       }, []);   
+
+      if(auth.user == null) {
+        navigate("/", {})
+      }
 
 
       //this SHOULD be called when tab is closed but isnt

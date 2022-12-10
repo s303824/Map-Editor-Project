@@ -227,6 +227,8 @@ const exportAsJSON = async () => {
   // clean up "a" element & remove ObjectURL
   document.body.removeChild(link);
   URL.revokeObjectURL(href); 
+
+  store.downloadMap(store.currentMapInfo._id)
 }
   
   let creatorSettings = <Box marginLeft={22.5}>
@@ -336,6 +338,9 @@ let popupMessage =
                 <Typography sx={{color: 'white',fontSize:15,marginLeft:1}}>{store.currentMapInfo.downloads} Downloads </Typography>
         </Box>
           {creatorSettings}
+          <Box sx={{display:"flex", justifyContent:"flex-end"}}>
+            <Button color="warning" variant="contained" onClick={() => exportAsJSONPopup()}>Download</Button>
+          </Box>
       </Drawer>
     </Box>
   );

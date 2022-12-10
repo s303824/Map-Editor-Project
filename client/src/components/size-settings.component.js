@@ -204,6 +204,7 @@ const SizeSettings = ({onClose}) => {
                 />  
 
                 <Typography>Recommended tile sizes: 32x32, 64x64</Typography>
+                <Typography sx={{marginTop:1.5}}>You should set your tile size when you first create your map, it can cause side-effects if you change it later!</Typography>
 
                 <Box className="qmodal-text">Map Height</Box>
                 <TextField

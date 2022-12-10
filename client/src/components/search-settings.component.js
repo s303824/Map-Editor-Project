@@ -61,8 +61,9 @@ const SearchSettings = ({onClose, changePageUp, changePageDown, pageNum, changeS
                     <Button variant={sortingBy == "Dislikes" ? "contained" : ""} color="success" onClick={(event) => handleChange(event)} >Dislikes</Button>
                     <Button variant={sortingBy == "Downloads" ? "contained" : ""}  color="success" onClick={(event) => handleChange(event)}>Downloads</Button>
                 </Box>
-                <Box display="flex" justifyContent="space-between">
-                    <Button variant="contained" color="warning" onClick={onClose} marginLeft={3}>Close</Button>
+                <Box sx={{display:"flex", justifyContent:"flex-end", flexDirection:"column"}}>
+                    <Button variant="contained" color="warning" onClick={onClose}>Close</Button>
+                    <Typography sx={{marginTop:1}}>Hint: press enter to search.</Typography>
                 </Box>
             </Box>
         </Modal>
