@@ -6,18 +6,27 @@ import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import LayersSection from '../components/layers.component';
 import TilesetsSection from '../components/tilesets-section.component';
 import Layer from '../components/layer-component';
+import { useNavigate } from 'react-router-dom';
 
 
 const MapEditor=() =>{
     const { store } = useContext(GlobalStoreContext);
     const {auth} = useContext(AuthContext)
     const [id, setId] = useState(window.location.pathname.split("/")[2]);
+    const navigate = useNavigate();
     //let layers = store.currentMap.layers;
     //let reverse = [...layers].reverse(); 
 
     useEffect(() => {
         if (store.currentMap.mapinfo == null){
           store.loadMapById(window.location.pathname.split("/")[2]);
+        }
+        if(auth.user == null){      // guestUsers are sent back to home if attempting to illegally access map
+          navigate("/home", {})
+        }
+        const currentUser = {creator:auth.user.username, email:auth.user.email, profile_picture:auth.user.profile_picture}
+        if(!store.currentMapInfo.creator.include(currentUser)){ // unauthorized users are sent back to home if attempting to illegally access map
+          navigate("/home", {})
         }
 
         //for going back
