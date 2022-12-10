@@ -5,6 +5,7 @@ import bannerImage from '../assets/login-screen-image.png'
 import { useNavigate } from "react-router-dom";
 import LoginModal from "../components/login-modal.component";
 import AuthContext from '../auth';
+import api from '../api'
 
 const PasswordReset = ({}) => {
 
@@ -52,18 +53,31 @@ const PasswordReset = ({}) => {
 }  
 
 // send email and move to the "Enter Passcode" modal
-  const handleVerification = () => {
+  const handleVerification = async() => {
       let userData = {
         email: email,
       }
-      auth.sendEmail(userData)    // send email
+      try{
+        const response = await api.sendEmail(userData);
+        if(response.status === 200){
+            console.log("email sent")
+            setEnterEmail(false)
+            setEmailSent(true)       
+        }
+        else{
+          setInvalidEmail(true)
+        }
+    }catch(error){
+        setInvalidEmail(true)
+    }
+      /*auth.sendEmail(userData)    // send email
       if(auth.emailCheck){        // check if it went through
         setEnterEmail(false)
         setEmailSent(true)
       }
       else{
         setInvalidEmail(true)
-      }
+      }*/
     }
 
   // check if entered passcode is correct
