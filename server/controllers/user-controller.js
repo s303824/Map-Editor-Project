@@ -74,6 +74,15 @@ registerUser = async (req, res) => {
             "MessageStream": "outbound"
         });
 
+        client.getBounces({ email: newUser.email }).then(bounces => {
+            if (bounces.length > 0) {
+                return res
+                .status(300)
+                .json({ errorMessage: "Email bounced." });            
+            }
+          });
+
+
         const savedUser = await newUser.save();
 
         // LOGIN THE USER
