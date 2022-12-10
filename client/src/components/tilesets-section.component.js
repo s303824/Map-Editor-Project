@@ -96,9 +96,7 @@ const TilesetsSection =()=>{
 
     } 
 
-    console.log(store.currentTileSet[0].name)
-
-    let main = tilesets != undefined ? 
+    let main = tilesets != undefined ?
     <Tabs
         value={value}
         variant="scrollable"
@@ -118,7 +116,8 @@ const TilesetsSection =()=>{
                 <Tab 
                     key ={layer._id}
                     sx={{
-                    backgroundColor: layer.name == store.currentTileSet[0].name ? "#a82037" : {btnColor},
+                    backgroundColor: layer.name == (store.currentTileSet[0] != undefined ? store.currentTileSet[0].name : store.currentTileSet.name) 
+                                                                                 ? "#a82037" : {btnColor},
                     width:"4px"}}
                     id={layer._id} 
                     onClick = {handleTileSetDisplay}

@@ -15,7 +15,10 @@ const Tile =(tileInfo)=>{
     if(value!=0){
       // let set = store.currentMap.tilesets.filter( tileset => value < (parseInt(tileset.tilecount)+tileset.firstgid ) && value > (tileset.firstgid ));
       // set = set[0]
-      let set = store.currentMap.tilesets.filter( tileset => value < (tileset.tilecount+tileset.firstgid ));
+      let set = store.currentMap.tilesets.filter( tileset => value < (tileset.tilecount+tileset.firstgid ) && value > tileset.firstgid);
+      if(set.length == 0) {
+        return
+      }
       newImg = set[0].image; 
       set = set[0]
       //console.log(set.firstgid)

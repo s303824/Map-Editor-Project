@@ -73,6 +73,8 @@ const MapEditor=() =>{
       while (new Date().getTime() < start + delay);
     }
 
+    console.log(store.currentMap)
+
     return(
         <Box className="map-editor-container" >
           <Grid container spacing={1}>

@@ -30,8 +30,6 @@ const TileSetEditor=() =>{
     }
   },[])
 
-  console.log(imagePath)
-
   let editor = store.currentTileSet.length === 0 ? null : <ImageEditor
                 includeUI={{
                     loadImage: {

@@ -32,6 +32,7 @@ const TileSetToolBar=() =>{
     
     const handleTilesetEdit = (event) => {
         console.log("New File Selected");
+        let check = false;
         
         if (event.target.files && event.target.files[0]) {
 
@@ -56,6 +57,7 @@ const TileSetToolBar=() =>{
                 
                 if (height !== parseInt(store.currentTileSet[0].imageheight) || width !== parseInt(store.currentTileSet[0].imagewidth)) {
                     alert("Height and Width must match original tileset.");
+                    check = true;
                     return false
                     
                 }else{
@@ -65,6 +67,10 @@ const TileSetToolBar=() =>{
           
             };
             console.log("flag")
+
+            if(check == true) {
+                return false;
+            }
          
             
       
