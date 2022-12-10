@@ -70,35 +70,31 @@ const PasswordReset = ({}) => {
     }catch(error){
         setInvalidEmail(true)
     }
-      /*auth.sendEmail(userData)    // send email
-      if(auth.emailCheck){        // check if it went through
-        setEnterEmail(false)
-        setEmailSent(true)
-      }
-      else{
-        setInvalidEmail(true)
-      }*/
     }
 
   // check if entered passcode is correct
-  const handlePasscodeCheck = () => {
+  const handlePasscodeCheck = async () => {
     let userData = {
       email: email,
       attempt: parseInt(userAttempt)
     }
-    auth.passcodeVerify(userData)   // check if attempt is correct
-    if(auth.emailCheck){
-      let userData = {
-        email: email
-      }
-        auth.emailVerified(userData)
-        setEmailSent(false);
-        setCodeVerify(true); 
-      }
+    try{
+      const response = await api.passcodeVerify(userData);
+      if(response.status === 200){
+          console.log("passcode verified")
+          let userData = { email: email }
+          setEmailSent(false);
+          setCodeVerify(true); 
+          auth.emailVerified(userData)
+        }
       else{
+          console.log("passcode incorrect")
+          setWrongPasscode(true)
+        }
+    }catch(error){
         setWrongPasscode(true)
-      }
     }
+  }
 
   // check if new password is valid and the same as the input from the confirmed password field
   const handleNewPasswordClose = () => {
