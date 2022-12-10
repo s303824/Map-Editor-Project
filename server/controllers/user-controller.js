@@ -66,22 +66,25 @@ registerUser = async (req, res) => {
         }
 
         const client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
-        client.sendEmail({
+        const message = {
             "From": "sean.yang@stonybrook.edu",
             "To": newUser.email,
             "Subject": "Welcome " + first_name + "!",
             "HtmlBody": "Welcome to Tileslate, we're here to make art together.",
             "MessageStream": "outbound"
-        });
-
-        client.getBounces({ email: newUser.email }).then(bounces => {
-            if (bounces.length > 0) {
+        };
+        client.sendEmail(message).then(sentEmail => {           // send email and then wait to check if it bounced
+            client.getBounces({ email: newUser.email}).then(bounces => {
+              if (bounces.length > 0) {
                 return res
                 .status(300)
                 .json({ errorMessage: "Email bounced." });            
+              } else {
+                console.log("The email did not bounce.");
+              }
             }
-          });
-
+        );
+    });
 
         const savedUser = await newUser.save();
 
