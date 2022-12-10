@@ -96,25 +96,29 @@ const TilesetsSection =()=>{
 
     } 
 
+    console.log(store.currentTileSet[0].name)
 
     let main = tilesets != undefined ? 
     <Tabs
         value={value}
         variant="scrollable"
-        scrollButtons={false}
+        scrollButtons="auto"
         aria-label="scrollable prevent tabs example"
         sx={{backgroundImage:'linear-gradient(to bottom,#7A7A7B,#7A7A7B)',boxShadow: `inset 0 0 6px rgba(0, 0, 0, 0.3)`,marginLeft:3,marginLeft:3,
         marginRight:3,
         marginTop:2,
-        borderRadius:1,}}
+        borderRadius:1,
+        width:"90%",
+        }}
         >
             {tilesets.map((layer) => (
-                <Box display='flex' sx={{backgroundImage:'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',borderRadius:2,width:"145px",marginRight:1.5}}>
+                <Box display='flex' 
+                sx={{backgroundImage:'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',borderRadius:1,width:"145px",marginRight:1.5}}>
                     
                 <Tab 
                     key ={layer._id}
                     sx={{
-                    backgroundColor:{btnColor},
+                    backgroundColor: layer.name == store.currentTileSet[0].name ? "#a82037" : {btnColor},
                     width:"4px"}}
                     id={layer._id} 
                     onClick = {handleTileSetDisplay}
@@ -122,12 +126,13 @@ const TilesetsSection =()=>{
                     >{layer.name}
                 </Tab>
                     
-                <Button variant="contained"  sx={{backgroundColor:"#d72b05" ,fontSize:12,borderRadius:1,marginLeft:-1 }} onClick={handleTileEdit}>
+                <Button variant="contained"  sx={{backgroundColor:"#d72b05" ,fontSize:12,borderRadius:0,marginLeft:-1 }} onClick={handleTileEdit}>
                     Edit
                 </Button>
                 </Box>
             ))}
     </Tabs> 
+    
     : null
     
     return(
@@ -138,7 +143,7 @@ const TilesetsSection =()=>{
             {editTilesetModal_temp}
             {/* TEMP */}
 
-            <Grid >
+            <Grid>
                 <Box sx={{display:"flex",justifyContent:"space-between"}}>
                     <Typography sx={{color:"white",fontSize:20,fontWeight:"bold",marginTop:2,marginLeft:3}}>TILESETS</Typography>
                     <Button 
@@ -189,7 +194,6 @@ const TilesetsSection =()=>{
                     )}
                 </Popper>
                 </Box>
-                
                 {main}
             {store.currentTileSet ? <Tileset/> : null}
             </Grid>

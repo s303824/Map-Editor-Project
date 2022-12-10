@@ -12,10 +12,13 @@ import { useContext, useEffect, useState } from 'react';
 import { saveAs } from 'file-saver'
 import { GlobalStoreContext } from '../store'
 import { uploadImageToCloudinaryAPIMethod } from "../api/cloudinary"
+import LoginModal from './login-modal.component';
+import { Typography } from '@mui/material';
 
 const TileSetToolBar=() =>{
     const { store } = useContext(GlobalStoreContext);
     const navigate = useNavigate();
+    const [tut, setTut] = useState(false);
 
 
     const handleEditMap = async () => {
@@ -91,8 +94,18 @@ const TileSetToolBar=() =>{
         }
     }
 
+    let fontSize = 18
+    let message = <Box>
+                    <Typography fontSize={fontSize}>Start by editing your map using the different options on the right side.</Typography>
+                    <Typography sx={{marginTop:1.5}} fontSize={fontSize}>Then, once you are done, download the map using the "download" button.</Typography>
+                    <Typography sx={{marginTop:1.5}} fontSize={fontSize}>Finally, click "import and save" then choose the map you downloaded, and that will save your tileset!</Typography>
+                    <Typography sx={{marginTop:1.5}} fontSize={fontSize}>Go back to your map using the "X" button and continue to create your map with the new tileset!</Typography>
+                  </Box>
+    let tutorialModal = tut ? <LoginModal message={message} onClose={() => setTut(false)}></LoginModal> : null
+
     return (
         <Box className='top-navbar' sx={{ display: 'flex' ,flexGrow: 1,}} >
+            {tutorialModal}
            <AppBar position="static" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1}}>
               <Toolbar sx={{backgroundColor:'#1E1E1E',boxShadow: '0 1px 1px 1px rgba(68,68,69,255)',boxShadow: 1 ,justifyContent: 'space-between'}}> 
             <Box sx={{marginLeft:'80%'}}>
@@ -104,6 +117,11 @@ const TileSetToolBar=() =>{
                 <Button component="label" sx = {{backgroundImage: 'linear-gradient(to right,#fa5a01,#fe9f05)',borderRadius:'10px',color:"white",fontWeight:"bold",fontSize:15,marginX:1}}>
                     Import and Save 
                     <input hidden accept="image/*" multiple type="file" onChange={handleTilesetEdit} />
+                </Button>
+
+                <Button onClick={() => setTut(true)}component="label" sx = {{backgroundImage: 'linear-gradient(to right,#fa5a01,#fe9f05)',borderRadius:'10px',color:"white",fontWeight:"bold",fontSize:15,marginX:1}}>
+                    Tutorial 
+                    
                 </Button>
                 
                 {/* <IconButton aria-label="settings">
