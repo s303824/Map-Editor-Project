@@ -23,7 +23,7 @@ const MyProjects=() =>{
         store.loadUserMaps(auth.user.username);
       }
       else{
-        const navigate = useNavigate();
+        navigate("/home", {})
       }
     }, [auth.user])
 
