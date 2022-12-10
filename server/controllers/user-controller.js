@@ -70,8 +70,8 @@ registerUser = async (req, res) => {
         client.emailVerification.verify(newUser.email, function(error, result) {    // check if email is active
             if (result.Verified === false) {
                 return res
-                .status(300)
-                .json({ errorMessage: "Email bounced." });            
+                .status(400)
+                .json({ errorMessage: "Email is invalid!" });
             }
           });
         const message = {
