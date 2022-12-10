@@ -73,19 +73,31 @@ registerUser = async (req, res) => {
             "HtmlBody": "Welcome to Tileslate, we're here to make art together.",
             "MessageStream": "outbound"
         };
-        client.sendEmail(message).then(sentEmail => {           // send email and then wait to check if it bounced
-            client.getBounces({ email: newUser.email}).then(bounces => {
-              if (bounces.length > 0) {
-                return res
-                .status(300)
-                .json({ errorMessage: "Email bounced." });            
-              } else {
-                console.log("The email did not bounce.");
-              }
-            }
-        );
-    });
-
+        client.sendEmail(message).then(response => {
+            console.log(`Email sent with ID: ${response.MessageID}`);
+            let delivered = false;
+            while(!delivered){                              // loop until we've confirmed that the email delivered or bounced
+                // Get a list of bounced emails
+                client.getBounces().then(bounces => {
+                    bounces.forEach(bounce => {
+                    if (bounce.ID === response.MessageID) {
+                        return res
+                        .status(300)
+                        .json({ errorMessage: "Email bounced." });            
+                    }
+                    });
+                });
+                
+                // Get a list of delivered emails
+                client.getOutboundMessages().then(messages => {
+                    messages.forEach(message => {
+                    if (message.ID === response.MessageID) {
+                        delivered = true;
+                    }
+                    });
+                });
+                }    
+          });
         const savedUser = await newUser.save();
 
         // LOGIN THE USER
