@@ -46,5 +46,6 @@ router.get('/getTileSet', TileSetController.getTileSet)
 router.post('/report', ReportController.sendReport)
 
 router.post('/sendEmail', EmailController.sendEmail)
+router.get('/passcodeVerify', EmailController.passcodeVerify)
 
 module.exports = router

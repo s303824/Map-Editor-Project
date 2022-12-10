@@ -43,6 +43,7 @@ export const getTileSet = (payload) => api.get(`/getTileSet/`, {params: {_id: pa
 export const sendReport = (payload) => api.post(`/report/`, payload)
 
 export const sendEmail = (payload) => api.post('/sendEmail/', payload)
+export const passcodeVerify = (payload) => api.get('/sendEmail/', payload)
 
 
 const apis= {
@@ -76,7 +77,8 @@ const apis= {
     getAllMapInfoSortedByLikes,
     sendReport,
     searchMapInfo,
-    addMapTileset
+    addMapTileset,
+    passcodeVerify
 }
 
 export default apis;

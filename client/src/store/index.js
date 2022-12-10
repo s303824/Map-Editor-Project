@@ -355,6 +355,38 @@ function GlobalStoreContextProvider(props) {
         }
     };
 
+// TEMP
+
+store.EditedTilsetToMap = async function (editedTileset_url, id){
+    const edited_map_tileset = store.currentMap.tilesets.filter(tileset => tileset._id == id )
+
+    edited_map_tileset[0].image = editedTileset_url
+
+    store.currentMap.tilesets = store.currentMap.tilesets.map(tileset => tileset._id == id ?  tileset = edited_map_tileset[0] : tileset);
+ 
+    console.log(id)
+    const response = await api.updateMap(store.currentMap)
+    if(response.status == 200) {
+        storeReducer({
+            type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
+                payload: {
+                    currentMap: response.data.map,
+                    mapInfo: store.currentMapInfo
+                }
+        })
+        storeReducer({
+            type: GlobalStoreActionType.SET_THE_CURRENT_TILESET,
+            payload: {
+                currentTileSet: store.currentMap.tilesets.filter(tileset => tileset._id == id )
+            }
+        });
+
+    }
+
+
+}
+
+// TEMP
 
 //Loads all the user maps so we can display them 
 //Used by: useEffect(MyProjects)
@@ -442,13 +474,12 @@ store.updateMapDislike= async function (mapInfo, amount) {
 //Updates the number of downloads for the published map and returns the associated json file to user
 //Used by: right-sidebar.component (not yet implemented)
 store.downloadMap= async function (mapId) {
-    console.log(mapId)
     const response = await api.getMapInfo(mapId)
     if(response.status == 200) {
+        console.log(response.data.mapInfo)
         response.data.mapInfo.downloads = response.data.mapInfo.downloads +1;
         const response2= await api.updateMapInfo(response.data.mapInfo);
         if (response2.status === 200) {
-            console.log(response2.data.mapInfo)
             storeReducer({
                 type: GlobalStoreActionType.UPDATE_MAP_INFO,
                 payload: {
@@ -652,62 +683,23 @@ store.importNewTileset = async function (id, source) {}
 // Sets the current tile that is selected from the current tileset
 store.setCurrentTile = function (id,value) {
     console.log("id",id);
-    console.log("value", value)
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_TILE,
         payload: {
             currentTile : {id,value}
         }
     });
+    console.log(store.currentTile)
 }
 
 // Sets the current tileset
 store.setCurrentTileset = function (id) {
-    // console.log("================")
-    // console.log(id)
-    // console.log(store.currentMap.tilesets.filter(tileset => tileset._id === id ))
-    // console.log("================")
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_TILESET,
         payload: {
             currentTileSet: store.currentMap.tilesets.filter(tileset => tileset._id == id )
         }
-        // {
-        //     currentTileSet : {
-        //         _id: 1,
-        //         backgroundcolor: "#d31313",
-        //         columns : 1,
-        //         fillmode: "stretch",
-        //         firstgid: 1 ,
-        //         grid: {},
-        //         image: '../assets/map-card.jpg',
-        //         imageheight: "960",
-        //         imagewidth: "960",
-        //         margin: 2,
-        //         name: "tileset 2",
-        //         objectalignment: "top",
-        //         properties:[
-        //                         {
-        //                         name:"myProperty2",
-        //                         type:"string",
-        //                         value:"myProperty2_value"
-        //                         }],
-        //         source : "tilelsate",
-        //         tilecount: "225",
-        //         tileslateversion: "1.0.1",
-        //         tileheight: "64",
-        //         tilerendersize: "10",
-        //         tiles : [],
-        //         tilewidth:"64",
-        //         transparentcolor :  "#000000",
-        //         type : "tileset",
-        //         version : "1.1",
-        //         wangsets: []
-        //     }
-        // }
     });
-    console.log(store.currentTileSet)
-   
 
 }
 
@@ -762,18 +754,22 @@ store.paintTile = function (id,value) {
 }
 
 store.paintHelper = function(id) {
+    //console.log(store.currentTileSet[0].firstgid)
     store.currentLayer[0].data[id]=(parseInt(store.currentTile.id)+ parseInt(store.currentTileSet[0].firstgid));
+    console.log(store.currentLayer[0].data[id])
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
         payload: {
             currentLayer:store.currentLayer
         }
     });
+    console.log(store.currentLayer)
 }
 
 store.paintHelperUndo = function(id, tileId) {
-    console.log(parseInt(tileId)+ parseInt(store.currentTileSet[0].firstgid))
-    store.currentLayer[0].data[id]=(parseInt(tileId)+ parseInt(store.currentTileSet[0].firstgid));
+    //console.log(parseInt(tileId)+ parseInt(store.currentTileSet[0].firstgid))
+    console.log(parseInt(tileId))
+    store.currentLayer[0].data[id]=(parseInt(tileId));
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
         payload: {
@@ -799,7 +795,6 @@ store.deleteTileHelper = function(id) {
 }
 
 store.deleteTileUndo = function(id, oldTileId) {
-    console.log(oldTileId)
     store.currentLayer[0].data[id]=oldTileId;
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
@@ -847,35 +842,17 @@ store.paintLayerUndo = function(oldLayerData) {
 //Saves the "currentMap" to database with the edits made by user
 //Used by: Save button at Map editor toolbar(map-toolbar.component.js)
 store.saveCurrentMap = async function () {
-    let UpdateMapdata = {
-        _id: store.currentMap._id,
-        compressionlevel: store.currentMap.compressionlevel, 
-        backgroundcolor: store.currentMap.backgroundcolor,  
-        height: store.currentMap.height, 
-        infinite: store.currentMap.infinite, 
-        layers: store.currentMap.layers,                            
-        nextlayerid: store.currentMap.nextlayerid, 
-        nextobjectid: store.currentMap.nextobjectid, 
-        renderorder: store.currentMap.renderorder, 
-        tiledversion: store.currentMap.tiledversion, 
-        tileheight: store.currentMap.tileheight, 
-        tilesets: store.currentMap.tilesets,
-        tilewidth: store.currentMap.tilewidth, 
-        version: store.currentMap.version, 
-        width: store.currentMap.width
-    }
-    console.log(UpdateMapdata)
-    const response = await api.updateMap(UpdateMapdata)
+    const response = await api.updateMap(store.currentMap)
     if(response.status == 200) {
         storeReducer({
             type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                 payload: {
                     currentMap: response.data.map,
-                    mapInfo: store.currentMapInfo
+                    mapInfo: store.currentMapInfo,
+                    currentLayer: response.data.map.layers[0]
                 }
         })
     }
-    
 }
 
 store.updateMapSize = async function () {
@@ -885,7 +862,8 @@ store.updateMapSize = async function () {
             type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                 payload: {
                     currentMap: response.data.map,
-                    mapInfo: store.currentMapInfo
+                    mapInfo: store.currentMapInfo,
+                    currentLayer: response.data.map.layers[0]
                 }
         })
     }
@@ -945,26 +923,18 @@ store.exportCurrentMap = async function () {}
 // Adds a tileset to map
 // Used by: Add Tileset in Map editor page
 store.addTilsetToMap = async function (tileImage, tileWidth, tileHeight, imageHeight, imageWidth, tileName) {
+
+    console.log(tileImage, tileWidth, tileHeight, imageHeight, imageWidth, tileName)
     const column = imageWidth/tileWidth;
     const row = imageHeight/tileHeight;
     const tilecount = column * row
+    console.log("ei")
     let firstgid;
-    console.log("*************************")
-    console.log(store.currentMap.tilesets[store.currentMap.tilesets.length - 1])
     if (store.currentMap.tilesets.length == 0){
         firstgid = 1
     }else{
         firstgid = store.currentMap.tilesets[store.currentMap.tilesets.length - 1].tilecount + store.currentMap.tilesets[store.currentMap.tilesets.length - 1].firstgid + 1  
     }
-    console.log("*************************")
-    console.log(tileWidth)
-    console.log(tileHeight)
-    console.log(imageHeight)
-    console.log(imageWidth)
-    console.log(firstgid)
-    console.log(tilecount)
-    console.log("*************************")
-
 
     const tileData = {
         backgroundcolor: "#d31313",
@@ -1011,16 +981,11 @@ store.addTilsetToMap = async function (tileImage, tileWidth, tileHeight, imageHe
     catch(error){
         console.error(error)
     }
-    console.log("----------------")
-    console.log(store.currentMap.tilesets)
-    console.log("----------------")
+
     let response
     try {
         response = await api.updateMap(store.currentMap);
         if (response.status === 200) {
-            console.log("aaaaaaaaaaa")
-            console.log(response.data.map)
-            console.log("aaaaaaaaaaa")
             storeReducer({
             type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                 payload: {
@@ -1029,11 +994,6 @@ store.addTilsetToMap = async function (tileImage, tileWidth, tileHeight, imageHe
                 currentLayer: store.currentLayer,       
                 currentTileSet: store.currentTileSet
             }});
-            // storeReducer({
-            // type: GlobalStoreActionType.SET_THE_CURRENT_TILESET,
-            //     payload: {
-            //         currentTileSet: response.data.map.tilesets
-            // }})
         }
     }
     catch(error){
@@ -1043,20 +1003,15 @@ store.addTilsetToMap = async function (tileImage, tileWidth, tileHeight, imageHe
 
 }
 
-//Adds paint a tile transaction ,uses currentMap and currentLayer
-store.addPaintTileTransaction = function (tile,tilecoord) {}
-
-//Adds delete a tile transaction ,uses currentMap and currentLayer
-store.addDeleteTileTransaction = function (tilecoord) {}
-
-//Adds paint a layer transaction ,uses currentMap , currentLayer and currentTile.
-store.addPaintLayerTransaction = function () {}
-
 //Sets the canUndo 
-store.canUndo = function () {}
+store.canUndo = function () {
+    return tps.hasTransactionToUndo();
+}
 
 //Sets the canRedo 
-store.canRedo = function () {}
+store.canRedo = function () {
+    return tps.hasTransactionToRedo();
+}
 
 //Opens the map editor and sets the currentMap
 //Used by: map-card.component(edit button press)
@@ -1119,14 +1074,20 @@ store.loadMapById = async function(_id) {
             const response2 = await api.getMap(response.data.mapInfo.map_id)
             if(response2.status === 200) {
                 // console.log(response.data.mapInfo)
-                console.log(response2.data)
+
+                // used in tileset editor, sets currentTileset using the id stored in path
+                let currentTileset_ = response2.data.map.tilesets[0] 
+                if (window.location.pathname.split("/")[3] != null){
+                    currentTileset_ = response2.data.map.tilesets.filter(tileset => tileset._id == window.location.pathname.split("/")[3] )
+                }
+                
                 storeReducer({
                     type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                     payload: {
                         mapInfo: response.data.mapInfo,
                         currentMap: response2.data.map,
                         currentLayer: response2.data.map.layers[0],
-                        currentTileSet: response2.data.map.tilesets[0] 
+                        currentTileSet: currentTileset_ 
                     }
                 });
             }

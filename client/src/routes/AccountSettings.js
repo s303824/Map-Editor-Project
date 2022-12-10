@@ -11,11 +11,13 @@ import Divider from '@mui/material/Divider';
 import LoginModal from "../components/login-modal.component";
 import { uploadImageToCloudinaryAPIMethod } from "../api/cloudinary"
 import { Box } from "@mui/system";
+import { useNavigate } from 'react-router-dom';
 
 function AccountSettings() {
     
     const { store } = useContext(GlobalStoreContext);
     const {auth} = useContext(AuthContext);
+    const navigate = useNavigate();
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
     const [modalActive, setModalActive] = React.useState(false);                 // Modal for when the user trys to update account info without an inputs
     const [passwordModal, setPasswordModal] = React.useState(false);             // Modal for checking if password & Verify password match
@@ -39,6 +41,9 @@ function AccountSettings() {
           setLastName(auth.user.last_name)
           setUsername(auth.user.username)
           setEmail(auth.user.email)
+        }
+        else{
+            navigate("/home", {})
         }
       }, [auth])
 

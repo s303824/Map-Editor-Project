@@ -17,6 +17,7 @@ import GlobalStoreContext from '../store';
 const MapSettings = ({onClose}) => {
     const {store} = useContext(GlobalStoreContext)
     const [modalOpen, setModalOpen] = useState(false);
+    const [apoOpen, setApoOpen] = useState(false);
 
     const style = {
         position: 'absolute',
@@ -61,6 +62,11 @@ const MapSettings = ({onClose}) => {
             return;
         }
 
+        if(title.includes("'")) {
+            setApoOpen(true);
+            return;
+        }
+
         let tagList = (tags.trim()).split(" ")
         let formattedDescription = description.trim()
         store.changeMapSettings(store.currentMapInfo._id, title, formattedDescription, tagList);
@@ -76,6 +82,7 @@ const MapSettings = ({onClose}) => {
 
     let modal = modalOpen ? <LoginModal message="Successfully updated!" onClose={handleCloseModal}></LoginModal> : null
     let emptyModal = empty ? <LoginModal message="A field cannot be empty!" onClose={handleCloseEmpty}></LoginModal> : null
+    let apoModal = apoOpen ? <LoginModal message="Your map name cannot include an apostrophe!" onClose={() => setApoOpen(false)}></LoginModal> : null
     console.log(store.currentMapInfo)
 
     return(

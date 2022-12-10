@@ -1,7 +1,6 @@
 import '../App.css';
 import "../App"
 import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import AuthContext from '../auth';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -19,12 +18,15 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import { uploadImageToCloudinaryAPIMethod } from "../api/cloudinary"
+import {Cloudinary} from "@cloudinary/url-gen";
+import {AdvancedImage} from '@cloudinary/react';
+import {fill} from "@cloudinary/url-gen/actions/resize";
+import { Navigate, useNavigate } from 'react-router-dom'
 
-
-const TilsetAdd = ({onClose}) => {
+const TilsetCreateModal = ({onClose}) => {
     const {store} = useContext(GlobalStoreContext)
     const {auth} = useContext(AuthContext)
+    const navigate= useNavigate();
 
     const style = {
         position: 'absolute',
@@ -40,9 +42,7 @@ const TilsetAdd = ({onClose}) => {
         p: 4,
       };
               
-    const [tileImage, setTileImage] = useState("")              
-    const [tileWidth, setTileWidth] = useState("")
-    const [tileHeight, setTileHeight] = useState("")
+
     const [imageHeight, setImageHeight] = useState("")
     const [imageWidth, setImageWidth] = useState("")
     const [tileName, setTileName] = useState("")
@@ -50,14 +50,6 @@ const TilsetAdd = ({onClose}) => {
     const [message, setMessage] = useState("")
 
 
-    const addWidth = (event) => {  
-        setSuccessful(false)
-        setTileWidth(event.target.value)
-    } 
-    const addHeight = (event) => {  
-        setSuccessful(false)
-        setTileHeight(event.target.value)
-    }
     const addImageWidth = (event) => {  
         setSuccessful(false)
         setImageWidth(event.target.value)
@@ -70,60 +62,37 @@ const TilsetAdd = ({onClose}) => {
         setSuccessful(false)
         setTileName(event.target.value)
     }
-    const handleImageSelected = (event) => {  
-        setSuccessful(false)     
-        console.log("New File Selected");
-        if (event.target.files && event.target.files[0]) {
-      
-            // Could also do additional error checking on the file type, if we wanted
-            // to only allow certain types of files.
-            const selectedFile = event.target.files[0];
-            console.dir(selectedFile);
-      
-            const formData = new FormData();
-            // TODO: You need to create an "unsigned" upload preset on your Cloudinary account
-            // Then enter the text for that here.
-            const unsignedUploadPreset = 'mftlkxf6'
-            formData.append('file', selectedFile);
-            formData.append('upload_preset', unsignedUploadPreset);
-      
-            console.log("Cloudinary upload");
-            uploadImageToCloudinaryAPIMethod(formData)
-            .then(async(response) => {
-                console.log("Upload success");
-                console.dir(response);
-                console.log(response.url)
-                // Now the URL gets saved to the tileimage
-                setTileImage(response.url)
-            
-            });
-        }
 
-    }
-
-    const handleAddTile = () => {
-        console.log(tileImage, tileWidth, tileHeight)
-
+    const handleAddTile = async () => {
+       
+        const cld = new Cloudinary({
+            cloud: {
+              cloudName: 'natialemu47'
+            }
+        });
+        const myImage = cld.image('v1670625672/Tileslate/plain-white-background-or-wallpaper-abstract-image-2E064N7_gbgqgo.jpg');
         
-        if (tileImage == "" || tileWidth == "" || tileHeight == "" || imageHeight == "" || imageWidth == "" || tileName == ""){
+        const src = myImage.resize(fill().width(imageWidth).height(imageHeight)).toURL();
+
+        console.log(src)
+        console.log(store.currentMap.tilesets[0].tilewidth, store.currentMap.tilesets[0].tileheight)
+        const tileWidth = store.currentMap.tilesets[0].tilewidth
+        const tileHeight = store.currentMap.tilesets[0].tileheight
+        
+        if (imageHeight == "" || imageWidth == "" || tileName == ""){
             setMessage("Make sure all fields are filled!")
             setSuccessful(true)
             return;
         }
-
-        if(tileWidth != store.currentMap.tilesets[0].tilewidth || tileHeight != store.currentMap.tilesets[0].tileheight) {
-            setMessage("Make sure your tilewidth and tileheight match your other tilesets (" + store.currentMap.tilesets[0].tilewidth + ")! You can change this number in the settings." )
-            setSuccessful(true)
-            return;
-        }
-
         if(imageHeight % tileHeight != 0 || imageWidth % tileWidth != 0 ) {
-            setMessage("This tile size is not compatible with your image.")
+            setMessage("This image size is not compatible with the current map tile size.")
             setSuccessful(true)
             return;
         }
 
-        store.addTilsetToMap(tileImage, tileWidth, tileHeight, imageHeight, imageWidth, tileName )
+        await store.addTilsetToMap(src, tileWidth, tileHeight, imageHeight, imageWidth, tileName )
+        await store.setCurrentTileset(store.currentMap.tilesets[store.currentMap.tilesets.length - 1]._id)
+        navigate("/tileseteditor/" + store.currentMapInfo._id + "/" + store.currentMap.tilesets[store.currentMap.tilesets.length - 1]._id)
         onClose()
     } 
     
@@ -135,43 +104,8 @@ const TilsetAdd = ({onClose}) => {
             aria-describedby="modal-modal-description"
         >
             <Box sx={style}>
-              
-                <Box className="qmodal-text">Add Tile Source Image</Box>
-                <span>
-                    <h6 style={{overflow: "hidden", "marginBottom": "12px", "marginTop": "8px"}}>{tileImage}</h6>
-                    <Button variant="contained" className='button-color' component="label" size="small">
-                        Add Tileset Image
-                        <input hidden accept="image/*" multiple type="file" onChange={handleImageSelected} />
-                    </Button>
-                </span>
-                
-                <Box className="qmodal-text">Add Tile Width</Box>
-                <TextField
-                required
-                id="outlined-tags-input"
-                label="Tile width"
-                type="number"
-                variant="filled"
-                autoComplete="current-tags"
-                className = "text-field"
-                value = {tileWidth}
-                onChange={(event) => addWidth(event)}
-                />
 
-                <Box className="qmodal-text">Add Tile Height</Box>
-                <TextField
-                required
-                id="outlined-tags-input"
-                label="Tile Height"
-                type= 'number'
-                variant="filled"
-                autoComplete="current-tags"
-                className = "text-field"
-                value = {tileHeight}
-                onChange={(event) => addHeight(event)}
-                />
-
-                <Box className="qmodal-text">Add Image Width</Box>
+                <Box className="qmodal-text">Add Tileset Width</Box>
                 <TextField
                 required
                 id="outlined-tags-input"
@@ -184,7 +118,7 @@ const TilsetAdd = ({onClose}) => {
                 onChange={(event) => addImageWidth(event)}
                 />
 
-                <Box className="qmodal-text">Add Image Height</Box>
+                <Box className="qmodal-text">Add Tileset Height</Box>
                 <TextField
                 required
                 id="outlined-tags-input"
@@ -224,4 +158,4 @@ const TilsetAdd = ({onClose}) => {
         </Box> 
     )}
 
-export default TilsetAdd;
+export default TilsetCreateModal;

@@ -113,6 +113,12 @@ const SizeSettings = ({onClose}) => {
 
             let newLayerData = []
             console.log("width difference of " + (mapWidth - layer.width ))
+
+            let tileDiff = parseInt(tileWidth) > parseInt(store.currentMap.tilesets[0].tilewidth) ? 
+            parseInt(tileWidth) / parseInt(store.currentMap.tilesets[0].tilewidth) :
+            parseInt(store.currentMap.tilesets[0].tilewidth) / parseInt(tileWidth)
+
+            let negative = parseInt(tileWidth) > parseInt(store.currentMap.tilesets[0].tilewidth) ? -1 : 1;
             let k = 0;
 
             for(let i=0; i<parseInt(mapHeight) *parseInt(mapWidth); i++) {
@@ -126,7 +132,7 @@ const SizeSettings = ({onClose}) => {
                     }
                 }
 
-                newLayerData[i] = layer.data[k]
+                newLayerData[i] = negative == 1 ? layer.data[k] * (tileDiff * tileDiff) : layer.data[k] / (tileDiff * tileDiff)
                 k = k+1;
     
             }
@@ -144,22 +150,41 @@ const SizeSettings = ({onClose}) => {
             tileset.tilewidth = parseInt(tileWidth);
             tileset.tileheight = parseInt(tileHeight);
             tileset.tilecount = (parseInt(tileset.imageheight) / parseInt(tileHeight)) * (parseInt(tileset.imagewidth) / parseInt(tileWidth))
-            console.log((parseInt(tileset.imageheight) / parseInt(tileHeight)) * (parseInt(tileset.imagewidth) / parseInt(tileWidth)))
+            //console.log((parseInt(tileset.imageheight) / parseInt(tileHeight)) * (parseInt(tileset.imagewidth) / parseInt(tileWidth)))
         })
+
+        if(store.currentMap.tilesets.length == 1) {
+            console.log("one tileset")
+        }
+        else {
+            let previousTileset = store.currentMap.tilesets[0]
+            let totalCount = 1;
+            for(let i=1; i<store.currentMap.tilesets.length; i++) {
+                let currentTileset = store.currentMap.tilesets[i]
+
+                currentTileset.firstgid = previousTileset.tilecount + totalCount + 1;
+                totalCount = totalCount + currentTileset.tilecount + 2;
+
+                previousTileset = currentTileset;
+            }
+        }
 
         store.currentMap.tilewidth = parseInt(tileWidth);
         store.currentMap.tileheight = parseInt(tileHeight);
 
-        store.updateMapSize()
+        console.log(store.currentMap)
 
+        store.updateMapSize()
         
     }
+    console.log(store.currentMap)
 
     let modal = modalOpen ? <LoginModal message="Successfully updated!" onClose={handleCloseModal}></LoginModal> : null
     let emptyModal = empty ? <LoginModal message="A field cannot be empty!" onClose={handleCloseEmpty}></LoginModal> : null
     let incorrectSizeModal = incorrectSize ? <LoginModal message={errorMessage} onClose={() => setIncorrectSize(false)}></LoginModal> : null
 
-    console.log(store.currentMap.layers)
+    let str = "(may delete some tiles)"
+
     return(
         <Box>
             {modal}
@@ -203,6 +228,7 @@ const SizeSettings = ({onClose}) => {
                 />  
 
                 <Typography>Recommended tile sizes: 32x32, 64x64</Typography>
+                <Typography sx={{marginTop:1.5}}>You should set your tile size when you first create your map, it can cause side-effects if you change it later!</Typography>
 
                 <Box className="qmodal-text">Map Height</Box>
                 <TextField
@@ -232,7 +258,7 @@ const SizeSettings = ({onClose}) => {
                 
 
             </Typography>
-            <Typography sx={{marginTop:2}}>Beware of unintended consequences of reducing map size</Typography>
+            <Typography sx={{marginTop:2}}>Beware of unintended consequences of reducing map size {str}</Typography>
             <Box display="flex" justifyContent="space-between" sx={{marginTop:2}}>
                 <Button variant="contained" onClick={handleUpdateSettings} paddingRight={2}>Update Map</Button>
                 <Button variant="contained" onClick={onClose} marginLeft={3}>Close</Button>

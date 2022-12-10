@@ -15,6 +15,20 @@ import { useNavigate } from 'react-router-dom';
 import GlobalStoreContext from '../store';
 import { useContext } from 'react';
 import TilsetAdd from '../components/AddTileset.component'
+import { saveAs } from 'file-saver'
+import ClickAwayListener from '@mui/material/ClickAwayListener';
+import Grow from '@mui/material/Grow';
+import Paper from '@mui/material/Paper';
+import Popper from '@mui/material/Popper';
+import MenuItem from '@mui/material/MenuItem';
+import MenuList from '@mui/material/MenuList';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import TilsetCreateModal from './create-tileset-modal.component'
+
 
 const TilesetsSection =()=>{
     const navigate = useNavigate();
@@ -22,7 +36,11 @@ const TilesetsSection =()=>{
     const [value, setValue] = React.useState(0);
     const [btnColor, setBtnColor] = useState("#d72b05");
     const [addTileset, setAddTileset] = useState(false);
-
+    const [open, setOpen] = React.useState(false);   
+    const anchorRef = React.useRef(null); 
+    
+    const [editTilesetT, setEditTilesetT] = useState(false);
+  
 
     const handleAddTileset = () => {
       setAddTileset(true)
@@ -31,30 +49,22 @@ const TilesetsSection =()=>{
         setAddTileset(false)
     }
     const addTilesetModal = addTileset ? <TilsetAdd onClose={() => handleCloseTilesetModal()}></TilsetAdd> : null;
+    
+
+    const handleCloseTilesetModalT = () => {
+        setEditTilesetT(false)
+    }
+    const editTilesetModal_temp = editTilesetT ? <TilsetCreateModal onClose={() => handleCloseTilesetModalT()}></TilsetCreateModal> : null;
+
 
     const handleTileEdit = () => {
-        navigate("/tileseteditor", {})
+        // console.log(store.currentMapInfo._id)
+        // console.log(store.currentTileSet[0]._id)
+        navigate("/tileseteditor/" + store.currentMapInfo._id + "/" + store.currentTileSet[0]._id)
+
+        
     }
     const tilesets = store.currentMap.tilesets
-    // console.log("---------------------------")
-    // console.log(tilesets)
-    // console.log("---------------------------")
-    // const tilesets =[{ //to display sample data
-    //     "_id": 1,
-    //     "name":"DEFAULT2",
-    //     "precedence":1,
-    //   },
-    //   {
-    //     "_id": 2,
-    //     "name":"DEFAULT3",
-    //     "precedence":2,
-    //   },
-    //   {
-    //     "_id": 3,
-    //     "name":"DEFAULT4",
-    //     "precedence":3,
-    //   }
-    // ]
 
     const handleTileSetDisplay = (event)=>{
         event.preventDefault();
@@ -63,24 +73,51 @@ const TilesetsSection =()=>{
         btnColor === "#d72b05" ? setBtnColor("green") : setBtnColor("#d72b05");
     };
 
-    let main = tilesets != undefined ? 
+    const handleToggle = () => {
+        setOpen((prevOpen) => !prevOpen);
+    };
+    const handleClose = (event) => {
+        if (anchorRef.current && anchorRef.current.contains(event.target)) {
+            return;
+        }
+        setOpen(false);
+    };
+    function handleListKeyDown(event) {
+        if (event.key === 'Tab') {
+            event.preventDefault();
+            setOpen(false);
+        } else if (event.key === 'Escape') {
+            setOpen(false);
+        }
+    }
+
+    const handleCreateTileset = () => {
+        setEditTilesetT(true)
+
+    } 
+
+    let main = tilesets != undefined ?
     <Tabs
         value={value}
         variant="scrollable"
-        scrollButtons={false}
+        scrollButtons="auto"
         aria-label="scrollable prevent tabs example"
         sx={{backgroundImage:'linear-gradient(to bottom,#7A7A7B,#7A7A7B)',boxShadow: `inset 0 0 6px rgba(0, 0, 0, 0.3)`,marginLeft:3,marginLeft:3,
         marginRight:3,
         marginTop:2,
-        borderRadius:1,}}
+        borderRadius:1,
+        width:"90%",
+        }}
         >
             {tilesets.map((layer) => (
-                <Box display='flex' sx={{backgroundImage:'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',borderRadius:2,width:"145px",marginRight:1.5}}>
+                <Box display='flex' 
+                sx={{backgroundImage:'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',borderRadius:1,width:"145px",marginRight:1.5}}>
                     
                 <Tab 
                     key ={layer._id}
                     sx={{
-                    backgroundColor:{btnColor},
+                    backgroundColor: layer.name == (store.currentTileSet[0] != undefined ? store.currentTileSet[0].name : store.currentTileSet.name) 
+                                                                                 ? "#a82037" : {btnColor},
                     width:"4px"}}
                     id={layer._id} 
                     onClick = {handleTileSetDisplay}
@@ -88,25 +125,74 @@ const TilesetsSection =()=>{
                     >{layer.name}
                 </Tab>
                     
-                <Button variant="contained"  sx={{backgroundColor:"#d72b05" ,fontSize:12,borderRadius:1,marginLeft:-1 }} onClick={handleTileEdit}>
+                <Button variant="contained"  sx={{backgroundColor:"#d72b05" ,fontSize:12,borderRadius:0,marginLeft:-1 }} onClick={handleTileEdit}>
                     Edit
                 </Button>
                 </Box>
             ))}
     </Tabs> 
+    
     : null
     
     return(
         <Grid sx={{backgroundImage :'linear-gradient(to left, #505051, #303031)',boxShadow: '0 1px 2px 2px rgba(68,68,69,255)',borderRadius:2}}>
             {addTilesetModal}
-            <Grid >
+
+            {/* TEMP */}
+            {editTilesetModal_temp}
+            {/* TEMP */}
+
+            <Grid>
                 <Box sx={{display:"flex",justifyContent:"space-between"}}>
                     <Typography sx={{color:"white",fontSize:20,fontWeight:"bold",marginTop:2,marginLeft:3}}>TILESETS</Typography>
-                    <Button onClick={handleAddTileset} variant="contained" endIcon={<AddCircleTwoToneIcon />} sx={{backgroundColor:"#d72b05",boxShadow: '0 2px 4px 2px rgba(68,68,69,255)',marginRight:3,marginTop:1}}>
+                    <Button 
+                        // onClick={handleAddTileset} 
+                        variant="contained" endIcon={<AddCircleTwoToneIcon />}
+                        sx={{backgroundColor:"#d72b05",boxShadow: '0 2px 4px 2px rgba(68,68,69,255)',marginRight:3,marginTop:1}}
+                        ref={anchorRef}
+                        id="composition-button"
+                        aria-controls={open ? 'composition-menu' : undefined}
+                        aria-expanded={open ? 'true' : undefined}
+                        aria-haspopup="true"
+                        onClick={handleToggle}
+                        
+                        >
                         Add
                     </Button>
+                    <Popper
+                    open={open}
+                    anchorEl={anchorRef.current}
+                    role={undefined}
+                    placement='top'
+                    transition
+                    disablePortal
+                >
+                    {({ TransitionProps, placement }) => (
+                        <Grow
+                            {...TransitionProps}
+                            style={{
+                                transformOrigin:
+                                placement === 'bottom-start' ? 'left top' : 'left bottom',
+                            }}
+                            >
+                            <Paper>
+                                <ClickAwayListener onClickAway={handleClose}>
+                                    <MenuList
+                                        autoFocusItem={open}
+                                        id="composition-menu"
+                                        aria-labelledby="composition-button"
+                                        onKeyDown={handleListKeyDown}
+                                    >
+                                        {/* add settings to the settings menu-bar here  */}
+                                        <MenuItem onClick={handleAddTileset}>Import Tileset</MenuItem>  
+                                        <MenuItem onClick={handleCreateTileset}>Create Tileset</MenuItem>
+                                    </MenuList>
+                                </ClickAwayListener>
+                            </Paper>
+                        </Grow>
+                    )}
+                </Popper>
                 </Box>
-                
                 {main}
             {store.currentTileSet ? <Tileset/> : null}
             </Grid>

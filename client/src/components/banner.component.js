@@ -30,11 +30,11 @@ const images = [
         imgPath: createImage,
     },  
     {
-      label: 'Work together in Map Editor to create wonderful maps and add your friends onto your team.',
+      label: 'Work together using our Map Editor to create wonderful maps and add your friends onto your team.',
       imgPath: collaborateImage,
     },
     {
-      label: 'Export your maps as a PNG or JSON file and continue your work in supported apps like Tiled.',
+      label: 'Export your maps as a JSON file and continue your work in supported apps like Tiled and Phaser.',
       imgPath: importExportImage,
     },
     {
@@ -42,11 +42,11 @@ const images = [
       imgPath: shareImage,
     },
     {
-      label: "Search published maps by name, catagory or by your favorite creator's username.",
+      label: "Search published maps by name, category, or by your favorite creator's username.",
       imgPath: searchImage,
     },
     {
-      label: 'Let others know who you are by editing your account information in Settings.',
+      label: 'Let others know who you are by editing your account information in Account.',
       imgPath: updateImage,
     },
     
