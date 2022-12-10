@@ -199,6 +199,7 @@ function AuthContextProvider(props) {
         try {
             response = await api.registerUser(userData);   
             if (response.status === 200) {
+                console.log("New user registered with a verified email.");
                 authReducer({
                     type: AuthActionType.REGISTER_USER,
                     payload: {
@@ -210,6 +211,7 @@ function AuthContextProvider(props) {
             }
         }
         catch(error) {
+            console.log("User registration failed.");
             authReducer({
                 type: AuthActionType.REGISTER_USER,
                 payload: {

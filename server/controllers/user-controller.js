@@ -66,6 +66,14 @@ registerUser = async (req, res) => {
         }
 
         const client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
+
+        client.emailVerification.verify(newUser.email, function(error, result) {    // check if email is active
+            if (result.Verified === false) {
+                return res
+                .status(300)
+                .json({ errorMessage: "Email bounced." });            
+            }
+          });
         const message = {
             "From": "sean.yang@stonybrook.edu",
             "To": newUser.email,
@@ -73,31 +81,7 @@ registerUser = async (req, res) => {
             "HtmlBody": "Welcome to Tileslate, we're here to make art together.",
             "MessageStream": "outbound"
         };
-        client.sendEmail(message).then(response => {
-            console.log(`Email sent with ID: ${response.MessageID}`);
-            let delivered = false;
-            while(!delivered){                              // loop until we've confirmed that the email delivered or bounced
-                // Get a list of bounced emails
-                client.getBounces().then(bounces => {
-                    bounces.forEach(bounce => {
-                    if (bounce.ID === response.MessageID) {
-                        return res
-                        .status(300)
-                        .json({ errorMessage: "Email bounced." });            
-                    }
-                    });
-                });
-                
-                // Get a list of delivered emails
-                client.getOutboundMessages().then(messages => {
-                    messages.forEach(message => {
-                    if (message.ID === response.MessageID) {
-                        delivered = true;
-                    }
-                    });
-                });
-                }    
-          });
+        client.sendEmail(message);
         const savedUser = await newUser.save();
 
         // LOGIN THE USER
