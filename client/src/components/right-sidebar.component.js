@@ -227,6 +227,8 @@ const exportAsJSON = async () => {
   // clean up "a" element & remove ObjectURL
   document.body.removeChild(link);
   URL.revokeObjectURL(href); 
+
+  store.downloadMap(store.currentMapInfo._id)
 }
   
   let creatorSettings = <Box marginLeft={22.5}>
@@ -318,7 +320,8 @@ let popupMessage =
         {teamMembers}
         <Divider />
         <Typography sx={{fontSize:'20px',color: 'black',marginTop:0,padding:1,backgroundImage: 'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',boxShadow: '0 1px 1px 1px rgba(68,68,69,255)'}}> Description </Typography>
-        <Typography sx={{fontSize:'15px',color: 'white',marginTop:2,marginLeft:3,marginBottom:3}}> {`Published on ${store.currentMapInfo.published}\n${tagsList}`} </Typography>
+        <Typography sx={{fontSize:'15px',color: 'white',marginTop:2,marginLeft:3}}> {`Published on ${store.currentMapInfo.published}`} </Typography>
+        <Typography sx={{fontSize:'15px',color: 'white',marginTop:2,marginLeft:3,marginBottom:3}}> {`${tagsList}`} </Typography>
         <Typography sx={{fontSize:'15px',color: 'white',marginTop:0,marginLeft:3,marginBottom:3}}> {store.currentMapInfo.description} </Typography>
         <Divider />
         <Typography sx={{fontSize:'20px',color: 'black',marginTop:0,padding:1,backgroundImage: 'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)',boxShadow: '0 1px 1px 1px rgba(68,68,69,255)'}}> Map Options </Typography>
@@ -335,6 +338,9 @@ let popupMessage =
                 <Typography sx={{color: 'white',fontSize:15,marginLeft:1}}>{store.currentMapInfo.downloads} Downloads </Typography>
         </Box>
           {creatorSettings}
+          <Box sx={{display:"flex", justifyContent:"flex-end"}}>
+            <Button color="warning" variant="contained" onClick={() => exportAsJSONPopup()}>Download</Button>
+          </Box>
       </Drawer>
     </Box>
   );

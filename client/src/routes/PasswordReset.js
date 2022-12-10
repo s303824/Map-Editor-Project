@@ -5,6 +5,7 @@ import bannerImage from '../assets/login-screen-image.png'
 import { useNavigate } from "react-router-dom";
 import LoginModal from "../components/login-modal.component";
 import AuthContext from '../auth';
+import api from '../api'
 
 const PasswordReset = ({}) => {
 
@@ -52,39 +53,48 @@ const PasswordReset = ({}) => {
 }  
 
 // send email and move to the "Enter Passcode" modal
-  const handleVerification = () => {
+  const handleVerification = async() => {
       let userData = {
         email: email,
       }
-      auth.sendEmail(userData)    // send email
-      if(auth.emailCheck){        // check if it went through
-        setEnterEmail(false)
-        setEmailSent(true)
-      }
-      else{
+      try{
+        const response = await api.sendEmail(userData);
+        if(response.status === 200){
+            console.log("email sent")
+            setEnterEmail(false)
+            setEmailSent(true)       
+        }
+        else{
+          setInvalidEmail(true)
+        }
+    }catch(error){
         setInvalidEmail(true)
-      }
+    }
     }
 
   // check if entered passcode is correct
-  const handlePasscodeCheck = () => {
+  const handlePasscodeCheck = async () => {
     let userData = {
       email: email,
       attempt: parseInt(userAttempt)
     }
-    auth.passcodeVerify(userData)   // check if attempt is correct
-    if(auth.emailCheck){
-      let userData = {
-        email: email
-      }
-        auth.emailVerified(userData)
-        setEmailSent(false);
-        setCodeVerify(true); 
-      }
+    try{
+      const response = await api.passcodeVerify(userData);
+      if(response.status === 200){
+          console.log("passcode verified")
+          let userData = { email: email }
+          setEmailSent(false);
+          setCodeVerify(true); 
+          auth.emailVerified(userData)
+        }
       else{
+          console.log("passcode incorrect")
+          setWrongPasscode(true)
+        }
+    }catch(error){
         setWrongPasscode(true)
-      }
     }
+  }
 
   // check if new password is valid and the same as the input from the confirmed password field
   const handleNewPasswordClose = () => {
@@ -104,6 +114,26 @@ const PasswordReset = ({}) => {
         auth.passwordReset(userData);
       }
   }
+
+  const handleOnKeyDownEmailSent = (event) => {
+    if(event.key == 'Enter') {
+      handleVerification();
+    }
+  }
+
+  const handleOnKeyDownPasscode = (event) => {
+    if(event.key == 'Enter') {
+      handlePasscodeCheck();
+    }
+  }
+
+  const handleOnKeyDownNewPassword = (event) => {
+    if(event.key == 'Enter') {
+      handleNewPasswordClose();
+    }
+  }
+
+
 
   const loginImage = <Box 
     component="img"
@@ -139,7 +169,7 @@ const PasswordReset = ({}) => {
       
     <Box className="login-email-field">
         <Typography>Email</Typography>
-        <TextField label="Email" className="login-textfield" variant="filled" onChange={(event) => updateField(event, "email")}></TextField>
+        <TextField label="Email" className="login-textfield" variant="filled" onChange={(event) => updateField(event, "email")} onKeyDown ={handleOnKeyDownEmailSent}></TextField>
       </Box>
 
       <Box className="login-button-holder">
@@ -166,7 +196,7 @@ const PasswordReset = ({}) => {
       
     <Box className="login-email-field">
         <Typography>Passcode</Typography>
-        <TextField label="Passcode" className="login-textfield" variant="filled" onChange={(event) => updateField(event, "passcode")}></TextField>
+        <TextField label="Passcode" className="login-textfield" variant="filled" onChange={(event) => updateField(event, "passcode")} onKeyDown={handleOnKeyDownPasscode}></TextField>
       </Box>
 
       <Box className="login-button-holder">
@@ -184,7 +214,6 @@ const PasswordReset = ({}) => {
   <Box className="login-box-top">    
       <Box className="login-bar">
         <Box>RESET PASSWORD</Box>  
-        <Button variant="contained" color="error" fontSize="32px">X</Button>
       </Box>
   </Box>
 
@@ -192,12 +221,12 @@ const PasswordReset = ({}) => {
       
       <Box className="login-email-field">
         <Typography>New Password</Typography>
-        <TextField id="outlined-password-input" label="Password" type="password" className="login-textfield" variant="filled" onChange={(event) => updateField(event, "new_password")}></TextField>
+        <TextField id="outlined-password-input" label="Password" type="password" className="login-textfield" variant="filled" onChange={(event) => updateField(event, "new_password")} onKeyDown={handleOnKeyDownNewPassword}></TextField>
       </Box>
 
       <Box className="login-email-field">
         <Typography>Confirm Password</Typography>
-        <TextField id="outlined-password-input" label="Confirm Password" type="password" className="login-textfield" variant="filled" onChange={(event) => updateField(event, "confirm")}></TextField>
+        <TextField id="outlined-password-input" label="Confirm Password" type="password" className="login-textfield" variant="filled" onChange={(event) => updateField(event, "confirm")} onKeyDown={handleOnKeyDownNewPassword}></TextField>
       </Box>
 
       <Box className="login-button-holder">

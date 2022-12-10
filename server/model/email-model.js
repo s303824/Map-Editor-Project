@@ -4,7 +4,8 @@ const Schema = mongoose.Schema
 const emailSchema = new Schema({
     email: String,
     passcode: Number,
-    expire_at: {type: Date, default: Date.now, expires: 600} 
+},{
+    expires: 600
 })
 
 module.exports = mongoose.model('Email', emailSchema)

@@ -1,5 +1,6 @@
 const MapInfo = require('../model/mapInfo-model')
 const User = require('../model/user-model')
+const postmark = require("postmark");
 
 registerMapInfo = async (req, res) => {
     try {
@@ -176,6 +177,18 @@ updateMapInfo = async (req, res) => {
             return res.status(500).send();
         }
         else{
+            if(selectedMapInfo.published != "false"){        
+                const client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
+                selectedMapInfo.creator.forEach(maker =>
+                    client.sendEmail({
+                        "From": "sean.yang@stonybrook.edu",
+                        "To": maker.email,
+                        "Subject": "Congrats on publishing!",
+                        "HtmlBody": "You just published a new map '" + name + "' on Tileslate.",
+                        "MessageStream": "outbound"
+                    })
+                );
+            }
             return res
                 .status(200)
                 .json({ 
@@ -360,6 +373,15 @@ addCreator = async (req, res) => {
      }
     else{
         const newPerson = {creator:creator_exists.username, email:creator_exists.email, profile_picture:creator_exists.profile_picture}
+        
+        const client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
+        client.sendEmail({
+            "From": "sean.yang@stonybrook.edu",
+            "To": newPerson.email,
+            "Subject": "Tileslate project shared with you",
+            "HtmlBody": "You have been added to the project entitled '"  + selectedMapInfo.name + "'",
+            "MessageStream": "outbound"
+        });
 
          if(!selectedMapInfo.creator.includes(newPerson)){
             selectedMapInfo.creator.push(newPerson)    

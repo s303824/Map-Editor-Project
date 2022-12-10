@@ -354,11 +354,11 @@ const MapToolBar=() =>{
                 </Button>
 
                <IconButton key={1} aria-label="undo" onClick={() => handleUndo()}>
-                <UndoIcon sx={{fill:"white" ,fontSize:40}}/>
+                <UndoIcon sx={{fill:store.canUndo() ? "white" : "black" ,fontSize:40}}/>
                 </IconButton>
 
                 <IconButton id={2} ariaLabel="redo" onClick={() => handleRedo()} >
-                <RedoTwoToneIcon sx={{fill:"white" ,fontSize:40}}/>
+                <RedoTwoToneIcon sx={{fill:store.canRedo() ? "white" : "black" ,fontSize:40}}/>
                 </IconButton>
 
                 <IconButton key={3} aria-label="stamp" onClick ={handleStampClick}>

@@ -476,6 +476,7 @@ store.updateMapDislike= async function (mapInfo, amount) {
 store.downloadMap= async function (mapId) {
     const response = await api.getMapInfo(mapId)
     if(response.status == 200) {
+        console.log(response.data.mapInfo)
         response.data.mapInfo.downloads = response.data.mapInfo.downloads +1;
         const response2= await api.updateMapInfo(response.data.mapInfo);
         if (response2.status === 200) {
@@ -1005,10 +1006,14 @@ store.addTilsetToMap = async function (tileImage, tileWidth, tileHeight, imageHe
 }
 
 //Sets the canUndo 
-store.canUndo = function () {}
+store.canUndo = function () {
+    return tps.hasTransactionToUndo();
+}
 
 //Sets the canRedo 
-store.canRedo = function () {}
+store.canRedo = function () {
+    return tps.hasTransactionToRedo();
+}
 
 //Opens the map editor and sets the currentMap
 //Used by: map-card.component(edit button press)
@@ -1071,7 +1076,6 @@ store.loadMapById = async function(_id) {
             const response2 = await api.getMap(response.data.mapInfo.map_id)
             if(response2.status === 200) {
                 // console.log(response.data.mapInfo)
-                console.log(response2.data)
 
                 // used in tileset editor, sets currentTileset using the id stored in path
                 let currentTileset_ = response2.data.map.tilesets[0] 

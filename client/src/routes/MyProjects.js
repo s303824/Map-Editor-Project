@@ -7,10 +7,12 @@ import { useEffect } from 'react'
 import AuthContext from '../auth';
 import Typography from '@mui/material/Typography';
 import MapCard from '../components/map-card.component';
+import { useNavigate } from 'react-router-dom';
 
 const MyProjects=() =>{ 
     const { store } = useContext(GlobalStoreContext);
     const {auth} = useContext(AuthContext);
+    const navigate = useNavigate();
 
     useEffect(() => {
       auth.getLoggedIn();      
@@ -19,6 +21,9 @@ const MyProjects=() =>{
     useEffect(() => {
       if (auth.user !== null){
         store.loadUserMaps(auth.user.username);
+      }
+      else{
+        navigate("/home", {})
       }
     }, [auth.user])
 
