@@ -4,58 +4,64 @@ import { useContext, useEffect, useState } from 'react'
 import { GlobalStoreContext } from '../store'
 import "../App.css"
 import AuthContext from '../auth';
-import "../literallycanvas.css"
 import { saveAs } from 'file-saver'
-import { LiterallyCanvasReactComponent } from 'literallycanvas';
-
-import LC from "literallycanvas";
+import 'tui-image-editor/dist/tui-image-editor.css';
+import ImageEditor from '@toast-ui/react-image-editor';
 
 const TileSetEditor=() =>{
 
-    const { store } = useContext(GlobalStoreContext)
-    const {auth} = useContext(AuthContext)
-    console.log(document.getElementsByClassName('lc-drawing')[0])
+  const { store } = useContext(GlobalStoreContext)
+  const {auth} = useContext(AuthContext)
   
-    const handledownload = (img) => {
-      // var lc = LC.init(document.getElementsByClassName('lc-drawing')[0]);
-      // console.log(LC.getImage())  
-      // LC.renderSnapshotToImage()
-      // window.open(LC.renderSnapshotToImage())
-      // saveAs(LC.renderSnapshotToImage(), 'Tileset.jpg') 
-      // window.open(getImage().toDataURL());
-    }
-    let image
-    if (store.currentTileSet.length === 0){
-      image =  "https://res.cloudinary.com/natialemu47/image/upload/v1667096203/Tileslate/layer-backround_sr6ida.jpg"
-    }else{ 
-      image = store.currentTileSet[0].image
-    }
-
-    useEffect(() => {
-      if (store.currentTileSet.length === 0){
-        store.loadMapById(window.location.pathname.split("/")[2]);  
-      }
-    },[])
-  
-
-   const imageAddr = image;
-    var img = new Image();
-    img.src = imageAddr;
-
-    return (
-      
-      <Box className="tileset-container">
-          <Box display="flex" sx={{height:"680px"}} >
-            <LC.LiterallyCanvasReactComponent
-              watermarkImage={img}
-              imageURLPrefix="img"
-              className = "literally export"
-              >
-            </LC.LiterallyCanvasReactComponent>
-        </Box>
-        {/* <Button onClick={handledownload(img)}>download</Button> */}
-      </Box>
-    );
+  let imagePath
+  if (store.currentTileSet.length === 0){ 
+    // when page refreshes and if currentTileSet is empty uses white background for imagePath
+      imagePath = "https://res.cloudinary.com/natialemu47/image/upload/v1667096203/Tileslate/layer-backround_sr6ida.jpg"
+    
+  }else{ 
+    imagePath = store.currentTileSet[0].image
   }
-  
-  export default TileSetEditor;
+
+  useEffect(() => {
+    if (store.currentTileSet.length === 0){
+      store.loadMapById(window.location.pathname.split("/")[2]);  
+    }
+  },[])
+
+
+  return (
+    
+    <Box className="tileset-container">
+    
+        <Box display="flex" sx={{height:"680px"}} >
+          <ImageEditor
+                  includeUI={{
+                      loadImage: {
+                      path: imagePath,
+                      name: 'SampleImage',
+                      },
+                      menu: ['shape', 'filter', 'draw'],
+                      initMenu: 'filter',
+                      uiSize: {
+                      width: '100%',
+                      height: '100%',
+                      },
+                      menuBarPosition: 'right',
+                  }}
+                  cssMaxHeight={1100}
+                  cssMaxWidth={900}
+                  selectionStyle={{
+                      cornerSize: 20,
+                      rotatingPointOffset: 70,
+                  }}
+                  usageStatistics={true}
+              />
+          
+          
+      </Box>
+    
+    </Box>
+  );
+};
+
+export default TileSetEditor;

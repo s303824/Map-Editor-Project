@@ -357,7 +357,7 @@ function GlobalStoreContextProvider(props) {
 
 // TEMP
 
-store.EditedTilsetToMap_Temp = async function (editedTileset_url, id){
+store.EditedTilsetToMap = async function (editedTileset_url, id){
     const edited_map_tileset = store.currentMap.tilesets.filter(tileset => tileset._id == id )
 
     edited_map_tileset[0].image = editedTileset_url
@@ -924,6 +924,8 @@ store.exportCurrentMap = async function () {}
 // Adds a tileset to map
 // Used by: Add Tileset in Map editor page
 store.addTilsetToMap = async function (tileImage, tileWidth, tileHeight, imageHeight, imageWidth, tileName) {
+
+    console.log(tileImage, tileWidth, tileHeight, imageHeight, imageWidth, tileName)
     const column = imageWidth/tileWidth;
     const row = imageHeight/tileHeight;
     const tilecount = column * row
@@ -993,11 +995,6 @@ store.addTilsetToMap = async function (tileImage, tileWidth, tileHeight, imageHe
                 currentLayer: store.currentLayer,       
                 currentTileSet: store.currentTileSet
             }});
-            // storeReducer({
-            // type: GlobalStoreActionType.SET_THE_CURRENT_TILESET,
-            //     payload: {
-            //         currentTileSet: response.data.map.tilesets
-            // }})
         }
     }
     catch(error){

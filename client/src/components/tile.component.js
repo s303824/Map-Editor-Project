@@ -54,6 +54,7 @@ const Tile =(tileInfo)=>{
     return(
       <Box 
       id={id}
+      key = {id}
       sx={{
       height:`${tileHeight}px`,
       width:`${tileWidth}px`,

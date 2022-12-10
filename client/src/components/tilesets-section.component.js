@@ -16,10 +16,19 @@ import GlobalStoreContext from '../store';
 import { useContext } from 'react';
 import TilsetAdd from '../components/AddTileset.component'
 import { saveAs } from 'file-saver'
+import ClickAwayListener from '@mui/material/ClickAwayListener';
+import Grow from '@mui/material/Grow';
+import Paper from '@mui/material/Paper';
+import Popper from '@mui/material/Popper';
+import MenuItem from '@mui/material/MenuItem';
+import MenuList from '@mui/material/MenuList';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import TilsetCreateModal from './create-tileset-modal.component'
 
-// TEMP
-import EditTileT from '../components/tileset-editor-temporary.component'
-// TEMP
 
 const TilesetsSection =()=>{
     const navigate = useNavigate();
@@ -27,10 +36,11 @@ const TilesetsSection =()=>{
     const [value, setValue] = React.useState(0);
     const [btnColor, setBtnColor] = useState("#d72b05");
     const [addTileset, setAddTileset] = useState(false);
-
-    // TEMP
+    const [open, setOpen] = React.useState(false);   
+    const anchorRef = React.useRef(null); 
+    
     const [editTilesetT, setEditTilesetT] = useState(false);
-    // TEMP
+  
 
     const handleAddTileset = () => {
       setAddTileset(true)
@@ -40,25 +50,18 @@ const TilesetsSection =()=>{
     }
     const addTilesetModal = addTileset ? <TilsetAdd onClose={() => handleCloseTilesetModal()}></TilsetAdd> : null;
     
-    // TEMP
+
     const handleCloseTilesetModalT = () => {
         setEditTilesetT(false)
     }
-    const editTilesetModal_temp = editTilesetT ? <EditTileT onClose={() => handleCloseTilesetModalT()}></EditTileT> : null;
-    // TEMP
+    const editTilesetModal_temp = editTilesetT ? <TilsetCreateModal onClose={() => handleCloseTilesetModalT()}></TilsetCreateModal> : null;
+
 
     const handleTileEdit = () => {
         // console.log(store.currentMapInfo._id)
         // console.log(store.currentTileSet[0]._id)
+        navigate("/tileseteditor/" + store.currentMapInfo._id + "/" + store.currentTileSet[0]._id)
 
-        // navigate("/tileseteditor/" + store.currentMapInfo._id + "/" + store.currentTileSet[0]._id)
-
-        // TEMP
-        setEditTilesetT(true)
-        saveAs(store.currentTileSet[0].image, 'Tileset.jpg') 
-
-
-        // TEMP
         
     }
     const tilesets = store.currentMap.tilesets
@@ -69,6 +72,30 @@ const TilesetsSection =()=>{
         store.setCurrentTileset(event.target.id);
         btnColor === "#d72b05" ? setBtnColor("green") : setBtnColor("#d72b05");
     };
+
+    const handleToggle = () => {
+        setOpen((prevOpen) => !prevOpen);
+    };
+    const handleClose = (event) => {
+        if (anchorRef.current && anchorRef.current.contains(event.target)) {
+            return;
+        }
+        setOpen(false);
+    };
+    function handleListKeyDown(event) {
+        if (event.key === 'Tab') {
+            event.preventDefault();
+            setOpen(false);
+        } else if (event.key === 'Escape') {
+            setOpen(false);
+        }
+    }
+
+    const handleCreateTileset = () => {
+        setEditTilesetT(true)
+
+    } 
+
 
     let main = tilesets != undefined ? 
     <Tabs
@@ -114,9 +141,53 @@ const TilesetsSection =()=>{
             <Grid >
                 <Box sx={{display:"flex",justifyContent:"space-between"}}>
                     <Typography sx={{color:"white",fontSize:20,fontWeight:"bold",marginTop:2,marginLeft:3}}>TILESETS</Typography>
-                    <Button onClick={handleAddTileset} variant="contained" endIcon={<AddCircleTwoToneIcon />} sx={{backgroundColor:"#d72b05",boxShadow: '0 2px 4px 2px rgba(68,68,69,255)',marginRight:3,marginTop:1}}>
+                    <Button 
+                        // onClick={handleAddTileset} 
+                        variant="contained" endIcon={<AddCircleTwoToneIcon />}
+                        sx={{backgroundColor:"#d72b05",boxShadow: '0 2px 4px 2px rgba(68,68,69,255)',marginRight:3,marginTop:1}}
+                        ref={anchorRef}
+                        id="composition-button"
+                        aria-controls={open ? 'composition-menu' : undefined}
+                        aria-expanded={open ? 'true' : undefined}
+                        aria-haspopup="true"
+                        onClick={handleToggle}
+                        
+                        >
                         Add
                     </Button>
+                    <Popper
+                    open={open}
+                    anchorEl={anchorRef.current}
+                    role={undefined}
+                    placement='top'
+                    transition
+                    disablePortal
+                >
+                    {({ TransitionProps, placement }) => (
+                        <Grow
+                            {...TransitionProps}
+                            style={{
+                                transformOrigin:
+                                placement === 'bottom-start' ? 'left top' : 'left bottom',
+                            }}
+                            >
+                            <Paper>
+                                <ClickAwayListener onClickAway={handleClose}>
+                                    <MenuList
+                                        autoFocusItem={open}
+                                        id="composition-menu"
+                                        aria-labelledby="composition-button"
+                                        onKeyDown={handleListKeyDown}
+                                    >
+                                        {/* add settings to the settings menu-bar here  */}
+                                        <MenuItem onClick={handleAddTileset}>Import Tileset</MenuItem>  
+                                        <MenuItem onClick={handleCreateTileset}>Create Tileset</MenuItem>
+                                    </MenuList>
+                                </ClickAwayListener>
+                            </Paper>
+                        </Grow>
+                    )}
+                </Popper>
                 </Box>
                 
                 {main}
