@@ -1070,40 +1070,29 @@ store.loadMapById = async function(_id) {
     try{
         const response = await api.getMapInfo(_id)
         if(response.status===200) {
-            if(auth.user == null){          // is user a guest
-                navigate("/home", {})
-            }
-            else{
-                const currentUser = {creator:auth.user.username, email:auth.user.email, profile_picture:auth.user.profile_picture}
-                const authorizedUsers = response.data.mapInfo.creator;
-                if(!authorizedUsers.includes(currentUser)){ // is user authorized
-                    navigate("/home", {})
+
+            const response2 = await api.getMap(response.data.mapInfo.map_id)
+            if(response2.status === 200) {
+                // console.log(response.data.mapInfo)
+                console.log(response2.data)
+
+                // used in tileset editor, sets currentTileset using the id stored in path
+                let currentTileset_ = response2.data.map.tilesets[0] 
+                if (window.location.pathname.split("/")[3] != null){
+                    currentTileset_ = response2.data.map.tilesets.filter(tileset => tileset._id == window.location.pathname.split("/")[3] )
                 }
-                else{
-                    const response2 = await api.getMap(response.data.mapInfo.map_id)
-                    if(response2.status === 200) {
-                        // console.log(response.data.mapInfo)
-                        console.log(response2.data)
-        
-                        // used in tileset editor, sets currentTileset using the id stored in path
-                        let currentTileset_ = response2.data.map.tilesets[0] 
-                        if (window.location.pathname.split("/")[3] != null){
-                            currentTileset_ = response2.data.map.tilesets.filter(tileset => tileset._id == window.location.pathname.split("/")[3] )
-                        }
-                        
-                        storeReducer({
-                            type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
-                            payload: {
-                                mapInfo: response.data.mapInfo,
-                                currentMap: response2.data.map,
-                                currentLayer: response2.data.map.layers[0],
-                                currentTileSet: currentTileset_ 
-                            }
-                        });
+                
+                storeReducer({
+                    type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
+                    payload: {
+                        mapInfo: response.data.mapInfo,
+                        currentMap: response2.data.map,
+                        currentLayer: response2.data.map.layers[0],
+                        currentTileSet: currentTileset_ 
                     }
-        
-                }
+                });
             }
+
         }
     } catch(err) {
         console.log(err)
