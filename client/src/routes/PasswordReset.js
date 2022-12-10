@@ -115,6 +115,26 @@ const PasswordReset = ({}) => {
       }
   }
 
+  const handleOnKeyDownEmailSent = (event) => {
+    if(event.key == 'Enter') {
+      handleVerification();
+    }
+  }
+
+  const handleOnKeyDownPasscode = (event) => {
+    if(event.key == 'Enter') {
+      handlePasscodeCheck();
+    }
+  }
+
+  const handleOnKeyDownNewPassword = (event) => {
+    if(event.key == 'Enter') {
+      handleNewPasswordClose();
+    }
+  }
+
+
+
   const loginImage = <Box 
     component="img"
     alt="banner Image"
@@ -149,7 +169,7 @@ const PasswordReset = ({}) => {
       
     <Box className="login-email-field">
         <Typography>Email</Typography>
-        <TextField label="Email" className="login-textfield" variant="filled" onChange={(event) => updateField(event, "email")}></TextField>
+        <TextField label="Email" className="login-textfield" variant="filled" onChange={(event) => updateField(event, "email")} onKeyDown ={handleOnKeyDownEmailSent}></TextField>
       </Box>
 
       <Box className="login-button-holder">
@@ -176,7 +196,7 @@ const PasswordReset = ({}) => {
       
     <Box className="login-email-field">
         <Typography>Passcode</Typography>
-        <TextField label="Passcode" className="login-textfield" variant="filled" onChange={(event) => updateField(event, "passcode")}></TextField>
+        <TextField label="Passcode" className="login-textfield" variant="filled" onChange={(event) => updateField(event, "passcode")} onKeyDown={handleOnKeyDownPasscode}></TextField>
       </Box>
 
       <Box className="login-button-holder">
@@ -194,7 +214,6 @@ const PasswordReset = ({}) => {
   <Box className="login-box-top">    
       <Box className="login-bar">
         <Box>RESET PASSWORD</Box>  
-        <Button variant="contained" color="error" fontSize="32px">X</Button>
       </Box>
   </Box>
 
@@ -202,12 +221,12 @@ const PasswordReset = ({}) => {
       
       <Box className="login-email-field">
         <Typography>New Password</Typography>
-        <TextField id="outlined-password-input" label="Password" type="password" className="login-textfield" variant="filled" onChange={(event) => updateField(event, "new_password")}></TextField>
+        <TextField id="outlined-password-input" label="Password" type="password" className="login-textfield" variant="filled" onChange={(event) => updateField(event, "new_password")} onKeyDown={handleOnKeyDownNewPassword}></TextField>
       </Box>
 
       <Box className="login-email-field">
         <Typography>Confirm Password</Typography>
-        <TextField id="outlined-password-input" label="Confirm Password" type="password" className="login-textfield" variant="filled" onChange={(event) => updateField(event, "confirm")}></TextField>
+        <TextField id="outlined-password-input" label="Confirm Password" type="password" className="login-textfield" variant="filled" onChange={(event) => updateField(event, "confirm")} onKeyDown={handleOnKeyDownNewPassword}></TextField>
       </Box>
 
       <Box className="login-button-holder">
