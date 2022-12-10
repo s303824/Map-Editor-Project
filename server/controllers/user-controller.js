@@ -3,6 +3,7 @@ const User = require('../model/user-model')
 const bcrypt = require('bcryptjs')
 const Map = require('../model/map-model')
 const MapInfo = require('../model/mapInfo-model')
+const postmark = require("postmark");
 
 
 registerUser = async (req, res) => {
@@ -63,6 +64,15 @@ registerUser = async (req, res) => {
         if(_id) {
             newUser._id = _id
         }
+
+        const client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
+        client.sendEmail({
+            "From": "sean.yang@stonybrook.edu",
+            "To": newUser.email,
+            "Subject": "Welcome " + first_name + "!",
+            "HtmlBody": "Welcome to Tileslate, we're here to make art together.",
+            "MessageStream": "outbound"
+        });
 
         const savedUser = await newUser.save();
 
