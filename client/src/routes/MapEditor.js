@@ -21,14 +21,13 @@ const MapEditor=() =>{
         if (store.currentMap.mapinfo == null){
           store.loadMapById(window.location.pathname.split("/")[2]);
         }
-        /*  TODO PREVENT GUESTS AND UNAUTHORIZED USERS FROM ACCESSING MAPS WITH THE LINK
         if(auth.user == null){      // guestUsers are sent back to home if attempting to illegally access map
           navigate("/home", {})
         }
         const currentUser = {creator:auth.user.username, email:auth.user.email, profile_picture:auth.user.profile_picture}
-        if(!store.currentMapInfo.creator.include(currentUser)){ // unauthorized users are sent back to home if attempting to illegally access map
+        if(!store.currentMapInfo.creator.includes(currentUser)){ // unauthorized users are sent back to home if attempting to illegally access map
           navigate("/home", {})
-        }*/
+        }
 
         //for going back
         window.addEventListener('popstate', (event) => {
