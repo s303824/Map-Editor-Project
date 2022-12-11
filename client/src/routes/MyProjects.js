@@ -131,8 +131,14 @@ const MyProjects=() =>{
         ))}
     </Box>
 
+          console.log(store)
     if(store.userMaps.length == 0) {
       mapList = <Box className="loading"></Box>
+    }
+    if(auth.user != undefined) {
+      if(auth.user.myprojects.length == 0 ){
+        mapList = <Box><Typography sx={{color:"white", fontSize:18}}>You have not created any maps yet!</Typography></Box>
+      }
     }
   
     return (

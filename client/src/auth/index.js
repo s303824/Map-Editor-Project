@@ -211,7 +211,7 @@ function AuthContextProvider(props) {
             }
         }
         catch(error) {
-            console.log("User registration failed.");
+            console.log(error.response);
             authReducer({
                 type: AuthActionType.REGISTER_USER,
                 payload: {
