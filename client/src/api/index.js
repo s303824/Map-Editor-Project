@@ -31,7 +31,7 @@ export const addCreator = (payload) => api.put(`/addCreator/`,  payload)
 export const removeCreator = (payload) => api.put(`/removeCreator/`, payload)
 
 export const getMapInfoByListOfIds = (payload) => api.get(`/getMapInfoByListOfIds/`, {params: {idList: payload}})
-export const getAllMapInfoSortedByLikes = () => api.get(`getAllMapInfoSortedByLikes/`)
+export const getAllMapInfoSortedByLikes = (payload) => api.get(`getAllMapInfoSortedByLikes/`, {params: {page: payload}})
 export const searchMapInfo = (payload) => api.get(`/search`, {params: {payload: payload}})
 
 

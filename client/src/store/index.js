@@ -429,8 +429,8 @@ store.loadMapInfosByIds = async function(idList) {
 //Gets the top 10 maps in the database sorted by likes
 //Used by: useEffect(Home)
 //TODO: add "amount" field to get different amount of maps
-store.getMapInfosSortedByLikes = async function() {
-    let response = await api.getAllMapInfoSortedByLikes()
+store.getMapInfosSortedByLikes = async function(page) {
+    let response = await api.getAllMapInfoSortedByLikes(page)
     if(response.status === 200) {
         storeReducer({
             type: GlobalStoreActionType.LOAD_PUBLISHED_MAPS,

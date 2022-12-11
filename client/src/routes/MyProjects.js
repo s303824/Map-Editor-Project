@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { GlobalStoreContext } from '../store'
 import "../App.css"
 import { useEffect } from 'react'
@@ -8,32 +8,27 @@ import AuthContext from '../auth';
 import Typography from '@mui/material/Typography';
 import MapCard from '../components/map-card.component';
 import { useNavigate } from 'react-router-dom';
+import LoginModal from '../components/login-modal.component';
 
 const MyProjects=() =>{ 
     const { store } = useContext(GlobalStoreContext);
     const {auth} = useContext(AuthContext);
-    const navigate = useNavigate();
 
-    useEffect(() => {
-      auth.getLoggedIn();      
-    }, []);
+    useEffect( () => {
+       auth.getLoggedIn();    
 
-    /*useEffect(() => {
-      if (auth.user !== null){
+       if (auth.user !== null){
         store.loadUserMaps(auth.user.username);
       }
-      else{
-        navigate("/home", {})
-      }
-    }, [auth.user])*/
-    if (auth.user !== null){
-      store.loadUserMaps(auth.user.username);
-    }
-    else{
-      navigate("/home", {})
-    }
+    }, [auth.user]);
+
+    const [sneaker, setSneaker] = useState(false)
 
     const handleCreateNewProject = async () => {   
+      if(auth.user == null) {
+        setSneaker(true)
+        return;
+      }
 
       let mapData = {
             compressionlevel: -1,
@@ -94,14 +89,14 @@ const MyProjects=() =>{
                           imageheight: "960",
                           imagewidth: "960",
                           margin: 0,
-                          name: "sample Tileset",
+                          name: "Sample Tileset",
                           objectalignment: "top",
                           properties:[{
-                                      name:"myProperty2",
+                                      name:"SourceWebsite",
                                       type:"string",
-                                      value:"myProperty2_value"
+                                      value:"tileslate.herokuapp.com"
                                       }],
-                          source : "tilelsate",
+                          source : "",
                           tilecount: 225,
                           tileslateversion: "1.0.1",
                           tileheight: 64,
@@ -137,7 +132,6 @@ const MyProjects=() =>{
         ))}
     </Box>
 
-          console.log(store)
     if(store.userMaps.length == 0) {
       mapList = <Box className="loading"></Box>
     }
@@ -146,9 +140,12 @@ const MyProjects=() =>{
         mapList = <Box><Typography sx={{color:"white", fontSize:18}}>You have not created any maps yet!</Typography></Box>
       }
     }
+
+    let sneakyModal = sneaker ? <LoginModal message="How did you get here you little sneaky guy? Get outta here" onClose={() => setSneaker(false)}></LoginModal> : null
   
     return (
       <Box className="home-container" sx={{marginLeft:'260px' }}>
+        {sneakyModal}
         <Typography variant="h4" sx={{borderRadius:'10px',justifyContent: 'center',maxWidth:"90%",color:"white",marginTop:'0%',marginBottom:'2%',padding:'0%',font: 'Bebas Neue'}}>My Projects</Typography>
         <Box 
           className="mapcard-container" 

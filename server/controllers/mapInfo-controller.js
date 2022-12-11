@@ -334,7 +334,9 @@ getAllPublishedMapInfo = async (req, res) => {
 
 getAllMapInfoSortedByLikes = async (req, res) => {
     try{
-        MapInfo.find(({published: {$ne: "false"}})).sort({likes: -1}).limit(10).exec(function (err, docs) {
+        let skip = (10)*(req.query.page-1)
+        console.log(skip)
+        MapInfo.find(({published: {$ne: "false"}})).skip(skip).sort({likes: -1}).limit(10).exec(function (err, docs) {
             if (err){
                 console.log(err)
             }
