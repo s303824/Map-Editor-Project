@@ -18,14 +18,20 @@ const MyProjects=() =>{
       auth.getLoggedIn();      
     }, []);
 
-    useEffect(() => {
+    /*useEffect(() => {
       if (auth.user !== null){
         store.loadUserMaps(auth.user.username);
       }
       else{
         navigate("/home", {})
       }
-    }, [auth.user])
+    }, [auth.user])*/
+    if (auth.user !== null){
+      store.loadUserMaps(auth.user.username);
+    }
+    else{
+      navigate("/home", {})
+    }
 
     const handleCreateNewProject = async () => {   
 
