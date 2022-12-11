@@ -339,11 +339,11 @@ let popupMessage =
         <Box display="flex" sx={{marginLeft:1,marginTop:2}}>
                 <DownloadForOfflineTwoToneIcon sx={{fill:"lightgrey"}} onClick={() => exportAsJSONPopup()}/>
                 <Typography sx={{color: 'white',fontSize:15,marginLeft:1}}>{store.currentMapInfo.downloads} Downloads </Typography>
-        </Box>
-          {creatorSettings}
-          <Box sx={{display:"flex", justifyContent:"flex-end"}}>
+        </Box>  
+        <Box sx={{display:"flex", justifyContent:"flex-end"}}>
             <Button color="warning" variant="contained" onClick={() => exportAsJSONPopup()}>Download</Button>
           </Box>
+          {creatorSettings}
       </Drawer>
     </Box>
   );

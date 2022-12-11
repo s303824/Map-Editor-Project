@@ -25,7 +25,7 @@ function Home() {
     }, [])
 
     const handleTextField = (event) => {
-      if(isNaN(event.target.value) || event.target.value.includes(" ") || parseInt(event.target.value) > 99) {
+      if(isNaN(event.target.value) || event.target.value.includes(" ") || parseInt(event.target.value) > 99 ||  parseInt(event.target.value) < 0) {
         return;
       }
       setPage(event.target.value)
@@ -33,7 +33,13 @@ function Home() {
 
 
     const handleEnterPress = (event) => {
+
       if(event.key == "Enter") {
+
+        if(page == "" || page < 1 || page > 99) {
+          setPage(1)
+        }
+
         loadPage();
       }
     }
@@ -44,7 +50,7 @@ function Home() {
 
     let currentMaps = maps != null ?
                       maps.length == 0 ?
-                      <Box sx={{color:"white"}}>There are no maps on this page!</Box>
+                      <Box sx={{color:"white", fontSize:18}}>There are no maps on this page!</Box>
     : 
     <Box 
     className="mapcard-container" 
@@ -75,7 +81,7 @@ function Home() {
           <Typography variant="h4" sx={{color:"white",font:'Bebas Neue',marginTop:'0%',marginBottom:'0%'}}>Most Popular Maps</Typography>
           <Box sx={{display:"flex", flexDirection:"row", justifyContent:"flex-end", marginRight:"10%"}}>
             <Typography variant="h3" sx={{color:"white", fontSize:18, marginTop:"5%"}}>Page Number: </Typography>
-            <TextField value={page} sx={{backgroundColor:"white", borderRadius:6, width:"13.5%", height:"88.5%", marginLeft:1}} 
+            <TextField value={page} sx={{backgroundColor:"lightgray", borderRadius:6, width:"13.5%", height:"88.5%", marginLeft:1}} 
             onChange={(event) => handleTextField(event)} onKeyDown={(event) => handleEnterPress(event)}></TextField>
           </Box>
         </Box>
