@@ -587,13 +587,17 @@ store.deleteSelectedLayer = function (id) {
 // Adds a new layer 
 store.addNewLayer = function () {
     let old_layer=store.currentMap.layers[0];
+    const ids = store.currentMap.layers.map(object => {
+        return object.id;
+      });    
+    const max = Math.max(...ids);
 
     //init new Layer
     let new_layer={
         data : new Array(old_layer.width*old_layer.height).fill(0), //init data with 0's
         height :old_layer.height,
-        id  : (parseInt(store.currentMap.layers[0].id)+1), //latest id increased by one 
-        name : "Untitled Layer" + (parseInt( store.currentMap.layers[0].id)+1),
+        id  : max+1, //latest id increased by one 
+        name : "Untitled Layer" + (max+1),
         opasity : 1,
         type : "tilelayer",
         visible :true,
