@@ -1095,6 +1095,7 @@ store.loadMapById = async function(_id) {
                         currentTileSet: currentTileset_ 
                     }
                 });
+                return currentTileset_
             }
 
         }

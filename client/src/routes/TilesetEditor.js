@@ -13,24 +13,21 @@ const TileSetEditor=() =>{
   const { store } = useContext(GlobalStoreContext)
   const {auth} = useContext(AuthContext)
   const [imageLoaded, setImageLoaded] = useState(false)
+  const [imagePath, setImagePath] = useState("")
   
-  let imagePath
-  if (store.currentTileSet.length === 0){ 
-    // when page refreshes and if currentTileSet is empty uses white background for imagePath
-      imagePath = "https://res.cloudinary.com/natialemu47/image/upload/v1667096203/Tileslate/layer-backround_sr6ida.jpg"
-  }else{ 
-    imagePath = store.currentTileSet[0].image
-  }
 
   useEffect(() => {
-    console.log("useeffect")
-    if (store.currentTileSet.length === 0){
-      store.loadMapById(window.location.pathname.split("/")[2]);  
-
+    const loadMap = async () => {
+      let ts = (await store.loadMapById(window.location.pathname.split("/")[2]));
+      setImagePath(ts[0].image)
+      setImageLoaded(true)
     }
+    
+    loadMap();
+
   },[])
 
-  let editor = store.currentTileSet.length === 0 ? null : <ImageEditor
+  let editor = !imageLoaded ? <Box className="loading"></Box> : <ImageEditor
                 includeUI={{
                     loadImage: {
                     path: imagePath,

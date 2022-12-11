@@ -17,7 +17,6 @@ import AccountSettings from "./routes/AccountSettings";
 import SignIn from "./routes/SignIn";
 import SignOut from "./routes/SignOut";
 import PasswordReset from "./routes/PasswordReset";
-import ExcalidrawTest from "./components/excalidraw-test.component";
 
 const App = () => {
   return (
@@ -39,7 +38,6 @@ const App = () => {
               <Route path="/logout" element={<SignOut/>}/>
               <Route path="/signup" element={<SignUp/>}/>
               <Route path="/accountSettings" element={<AccountSettings/>}/>
-              <Route path="/excali" element={<ExcalidrawTest/>}/>
             </Routes>
         </GlobalStoreContextProvider>
       </AuthContextProvider>
