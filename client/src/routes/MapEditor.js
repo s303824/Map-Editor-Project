@@ -28,7 +28,43 @@ const MapEditor=() =>{
           })
         }
 
+        window.addEventListener('popstate', (event) => {
+          console.log("going back")
+          // Cancel the event as stated by the standard.
+          event.preventDefault();
+          // Chrome requires returnValue to be set.
+          event.returnValue = '';
+          store.setEditActive(id, false);
+        }); 
+
+
+        window.addEventListener('beforeunload', alertUser)
+        window.addEventListener('unload', handleTabClosing)
+        return () => {
+          window.removeEventListener('beforeunload', alertUser)
+          window.removeEventListener('unload', handleTabClosing)
+      }
+
       }, []);   
+
+      if(auth.user == null) {
+        navigate("/", {})
+      }
+
+
+      //this SHOULD be called when tab is closed but isnt
+      const handleTabClosing = () => {
+        console.log("FSd")
+        store.setEditActive(id, false)
+    }
+
+    //called before tab is closed with a popup
+    const alertUser = (event) => {
+      store.setEditActive(id, false)
+      event.preventDefault()
+      event.returnValue = ''
+      console.log("pop")
+    }   
 
       if(auth.user == null) {
         navigate("/", {})
