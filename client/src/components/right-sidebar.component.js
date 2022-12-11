@@ -186,6 +186,9 @@ const exportAsJSON = async () => {
   let i = 0;
   store.currentMap.tilesets.forEach(async tileset => {
     let link = (' ' + tileset.image).slice(1);
+    if(link.substring(0,5) != "https") {
+      link = ("https" +link.substring(5))
+    }
     tileset.image = "/" + store.currentMapInfo.name + "-tileset-" + i;
     tileset.source = null;
     tileset.margin = 0;
