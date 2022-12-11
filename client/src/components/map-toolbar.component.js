@@ -219,6 +219,9 @@ const MapToolBar=() =>{
             store.currentMap.tilesets.forEach(async (tileset, i) => {
                 try {
                     let link = (' ' + tileset.image).slice(1);
+                    if(link.substring(0,5) != "https") {
+                        link = ("https" +link.substring(5))
+                    }
                     tileset.image = "/" + store.currentMapInfo.name + "-tileset-" + i;
                     tileset.source = null;
                     tileset.margin = 0;
