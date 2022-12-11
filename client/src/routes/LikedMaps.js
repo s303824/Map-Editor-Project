@@ -1,5 +1,5 @@
 import Box from '@mui/material/Box';
-import { useContext,useEffect } from 'react'
+import { useContext,useEffect, useState } from 'react'
 import { GlobalStoreContext } from '../store'
 import "../App.css"
 import Typography from '@mui/material/Typography';
@@ -10,14 +10,23 @@ function LikedMaps() {
 
   const {auth} = useContext(AuthContext);
   const {store} = useContext(GlobalStoreContext)
+  const [maps, setMaps] = useState(null)
     
   useEffect(() => {
+    const getData = async () => {
+      setMaps(await store.loadMapInfosByIds(auth.user.liked_projects))
+    }
+
     if (auth.user !== null){
-      store.loadMapInfosByIds(auth.user.liked_projects);
+      getData();
     }
   }, [auth.user])
 
-  let mapList = <Box 
+  let mapList = maps != null ?
+                maps.length == 0 ?
+                <Box sx={{color:"white"}}>You have no liked maps!</Box>
+                : 
+  <Box 
     className="mapcard-container" 
     sx={{ 
       overflow: 'scrool',
@@ -35,18 +44,11 @@ function LikedMaps() {
         outline: `1px solid #ffc806`,
       }}}>
 
-    {store.publishedMaps.map((map) => (
+    {maps.map((map) => (
       <MapCard key={map._id} mapInfo={map} />
     ))}
-  </Box>
-
-if(auth.user == null){
-  mapList = <Box className="loading"></Box>
-}
-
-  else if(store.publishedMaps.length == 0) {
-    mapList = <Typography color="white" fontSize={24}>You have not liked any maps yet.</Typography>
-  }
+  </Box> 
+  : <Box className="loading"></Box>
 
     return (
       <Box className="home-container" sx={{marginLeft:'260px' }}>

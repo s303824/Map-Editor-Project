@@ -13,12 +13,15 @@ import LoginModal from '../components/login-modal.component';
 const MyProjects=() =>{ 
     const { store } = useContext(GlobalStoreContext);
     const {auth} = useContext(AuthContext);
+    const [maps, setMaps] = useState(null);
 
     useEffect( () => {
-       auth.getLoggedIn();    
+      const getData = async () => {
+       setMaps(await store.loadUserMaps(auth.user.username));
+      } 
 
        if (auth.user !== null){
-        store.loadUserMaps(auth.user.username);
+        getData();
       }
     }, [auth.user]);
 
@@ -116,30 +119,26 @@ const MyProjects=() =>{
       await store.setNewMap(mapData)
     }
 
-    let mapList = 
+    let mapList = maps != null ?
+                maps.length == 0 ?
+                <Box sx={{color:"white"}}>You have not created any maps yet!</Box>
+                : 
     <Box>
-      {store.userMaps.filter((map) => (
+      {maps.filter((map) => (
           map.published == "false"
         )).map((map) => (
           <MapCard key={map._id} mapInfo={map} />
         ))}  
 
       <Typography variant="h4" sx={{justifyContent: 'center',maxWidth:"25%",color:"white",marginTop:'3%',marginBottom:'2%',padding:'1%',fontSize:22,font: 'Bebas Neue'}}> Published Maps </Typography>
-        {store.userMaps.filter((map) => (
+        {maps.filter((map) => (
           map.published != "false"
         )).map((map) => (
           <MapCard key={map._id} mapInfo={map} />
         ))}
     </Box>
+    : <Box className="loading"></Box>
 
-    if(store.userMaps.length == 0) {
-      mapList = <Box className="loading"></Box>
-    }
-    if(auth.user != undefined) {
-      if(auth.user.myprojects.length == 0 ){
-        mapList = <Box><Typography sx={{color:"white", fontSize:18}}>You have not created any maps yet!</Typography></Box>
-      }
-    }
 
     let sneakyModal = sneaker ? <LoginModal message="How did you get here you little sneaky guy? Get outta here" onClose={() => setSneaker(false)}></LoginModal> : null
   

@@ -399,6 +399,7 @@ store.loadUserMaps = async function (username) {
                 userMaps: response.data.mapInfos
             }
         });
+        return response.data.mapInfos
     }    
 }
 
@@ -412,7 +413,7 @@ store.loadMapInfosByIds = async function(idList) {
                 publishedMaps: []
             }
         })
-        return;
+        return [];
     }
 
     let response = await api.getMapInfoByListOfIds(idList)
@@ -423,6 +424,7 @@ store.loadMapInfosByIds = async function(idList) {
                 publishedMaps: response.data.mapInfos
             }
         })
+        return response.data.mapInfos;
     }
 }
 
@@ -438,6 +440,7 @@ store.getMapInfosSortedByLikes = async function(page) {
                 publishedMaps: response.data.mapInfos
             }
         })
+        return response.data.mapInfos;
     }
 }
 

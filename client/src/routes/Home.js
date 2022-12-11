@@ -14,9 +14,14 @@ function Home() {
     const { store } = useContext(GlobalStoreContext);
     const {auth} = useContext(AuthContext);
     const [page, setPage] = useState(1);
+    const [maps, setMaps] = useState(null)
 
     useEffect(() => {
-      store.getMapInfosSortedByLikes(page);
+      const getData = async () => {
+        setMaps(await store.getMapInfosSortedByLikes(page));
+      }
+
+      getData();
     }, [])
 
     const handleTextField = (event) => {
@@ -29,12 +34,18 @@ function Home() {
 
     const handleEnterPress = (event) => {
       if(event.key == "Enter") {
-        store.getMapInfosSortedByLikes(page)
+        loadPage();
       }
     }
 
-    console.log(store.publishedMaps)
-    let currentMaps = store.publishedMaps == undefined|| store.publishedMaps.length != 0 ?
+    const loadPage = async() => {
+      setMaps(await store.getMapInfosSortedByLikes(page))
+    }
+
+    let currentMaps = maps != null ?
+                      maps.length == 0 ?
+                      <Box sx={{color:"white"}}>There are no maps on this page!</Box>
+    : 
     <Box 
     className="mapcard-container" 
     sx={{ 
@@ -51,11 +62,11 @@ function Home() {
         backgroundColor: "#ffc806",
         outline: `1px solid #ffc806`,
       }}}>
-    {store.publishedMaps.map((map) => (
+    {maps.map((map) => (
       <MapCard key={map._id} mapInfo={map} />
     ))}
   </Box> :
-  <Typography sx={{color:"white", fontSize:18}}>There are no maps on this page!</Typography>
+  <Box className="loading"></Box>
 
     return (
       <Box className="home-container" sx={{marginLeft:'260px' }}>
