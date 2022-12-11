@@ -67,21 +67,34 @@ registerUser = async (req, res) => {
 
         const client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
 
-        client.emailVerification.verify(newUser.email, function(error, result) {    // check if email is active
+       /* client.emailVerification().verify(newUser.email, function(error, result) {    // check if email is active
+            if(error ) {
+                console.log(error)
+                console.log("fdsoiubjdfsbuojih")
+            }
             if (result.Verified === false) {
                 return res
                 .status(400)
                 .json({ errorMessage: "Email is invalid!" });
             }
-          });
-        const message = {
-            "From": "sean.yang@stonybrook.edu",
-            "To": newUser.email,
-            "Subject": "Welcome " + first_name + "!",
-            "HtmlBody": "Welcome to Tileslate, we're here to make art together.",
-            "MessageStream": "outbound"
-        };
-        client.sendEmail(message);
+          });*/
+          try{
+            const message = {
+                "From": "sean.yang@stonybrook.edu",
+                "To": newUser.email,
+                "Subject": "Welcome " + first_name + "!",
+                "HtmlBody": "Welcome to Tileslate, we're here to make art together.",
+                "MessageStream": "outbound"
+            };
+            await client.sendEmail(message);
+            //console.log(client.getBounces)
+          }
+          catch(error) {
+            return res.status(400).json({
+                errorMessage: "Not a real email!"
+            })
+          }
+
         const savedUser = await newUser.save();
 
         // LOGIN THE USER
