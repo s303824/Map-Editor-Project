@@ -17,8 +17,13 @@ const MapEditor=() =>{
 
 
     useEffect(() => {
+
+      const loadMap = async () => {
+        await store.loadMapById(window.location.pathname.split("/")[2]);
+      }
+
         if (store.currentMap.mapinfo == null){
-          store.loadMapById(window.location.pathname.split("/")[2]);
+          console.log("")
         }
         else {
           store.currentMapInfo.creator.forEach(creator => {
@@ -27,6 +32,7 @@ const MapEditor=() =>{
             }
           })
         }
+        loadMap();
 
         window.addEventListener('popstate', (event) => {
           console.log("going back")

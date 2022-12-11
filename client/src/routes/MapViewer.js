@@ -14,9 +14,11 @@ const MapViewer=() =>{
     const [mapInfo_id, setMapInfo_id] = useState("")
     
     useEffect(() => {
-      if (store.currentMap.name == null){
-        store.loadMapById(window.location.pathname.split("/")[2]);
+      const loadMap = async () => {
+        await store.loadMapById(window.location.pathname.split("/")[2]);
       }
+
+      loadMap();
     }, [])
 
     let mockMap = 
