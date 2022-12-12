@@ -617,8 +617,6 @@ store.addNewLayer = function () {
     }
 });
 
-console.log(store.currentMap.layers)
-
 }
 
 // Changes the selected layer's name
@@ -653,9 +651,24 @@ store.increaseLayerPrecedence = function () {
 
 store.decreaseLayerPrecedence = function () {
     let idx = store.currentMap.layers.indexOf(store.currentLayer[0]);
-    var layer = store.currentMap.layers.splice(idx, 1)[0];
-    // insert stored layer into position 
-    
+    var layer = store.currentMap.layers[idx];
+    /*var oldLayer = store.currentMap.layers.splice(idx-1, 1)[0];
+
+    console.log("idx",idx)
+    console.log("newLayer", layer)
+    console.log("oldLyaer", oldLayer)
+
+    console.log("store.currentMap", store.currentMap.layers)
+
+    store.currentMap.layers.splice(idx, 1, layer);
+    store.currentMap.layers.splice(idx, 1, oldLayer);
+
+    console.log("store.currentMap after", store.currentMap.layers)*/
+
+    //console.log("store.currentMap", store.currentMap.layers)
+    [store.currentMap.layers[idx], store.currentMap.layers[idx+1] ] = [store.currentMap.layers[idx+1], store.currentMap.layers[idx]]
+    console.log("store.currentMap after", store.currentMap.layers)
+
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
         payload: {
@@ -689,6 +702,7 @@ store.setCurrentTile = function (id,value) {
             currentTile : {id,value}
         }
     });
+    console.log(store.currentTile)
 }
 
 // Sets the current tileset
@@ -714,7 +728,6 @@ store.handleMapAction = function (id,value) {
 
 // Sets the current layer being edited
 store.setCurrentLayer = function (id) {
-    console.log("HERE?")
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
         payload: {
@@ -754,7 +767,6 @@ store.paintTile = function (id,value) {
 }
 
 store.paintHelper = function(id) {
-    console.log(store.currentTileSet)
     //console.log(store.currentTileSet[0].firstgid)
     store.currentLayer[0].data[id]=(parseInt(store.currentTile.id)+ parseInt(store.currentTileSet[0].firstgid));
     console.log(store.currentLayer[0].data[id])
@@ -764,6 +776,7 @@ store.paintHelper = function(id) {
             currentLayer:store.currentLayer
         }
     });
+    console.log(store.currentLayer)
 }
 
 store.paintHelperUndo = function(id, tileId) {
