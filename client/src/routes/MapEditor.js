@@ -75,9 +75,6 @@ const MapEditor=() =>{
       if(auth.user == null) {
         navigate("/", {})
       }
-
-      console.log(store.currentMap)
-
     return(
         <Box className="map-editor-container" >
           <Grid container spacing={0}>

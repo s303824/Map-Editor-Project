@@ -28,6 +28,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import TilsetCreateModal from './create-tileset-modal.component'
+import LoginModal from './login-modal.component';
 
 
 const TilesetsSection =()=>{
@@ -40,6 +41,8 @@ const TilesetsSection =()=>{
     const anchorRef = React.useRef(null); 
     
     const [editTilesetT, setEditTilesetT] = useState(false);
+
+    const [wrong, setWrong] = useState(false)
   
 
     const handleAddTileset = () => {
@@ -57,11 +60,14 @@ const TilesetsSection =()=>{
     const editTilesetModal_temp = editTilesetT ? <TilsetCreateModal onClose={() => handleCloseTilesetModalT()}></TilsetCreateModal> : null;
 
 
-    const handleTileEdit = () => {
-        // console.log(store.currentMapInfo._id)
-        // console.log(store.currentTileSet[0]._id)
-        navigate("/tileseteditor/" + store.currentMapInfo._id + "/" + store.currentTileSet[0]._id)
-
+    const handleTileEdit = (tileset) => {
+        if(tileset.target.id != store.currentTileSet[0].name) {
+            setWrong(true)
+            return;
+        }
+        else {
+            navigate("/tileseteditor/" + store.currentMapInfo._id + "/" + store.currentTileSet[0]._id)
+        }
         
     }
     const tilesets = store.currentMap.tilesets
@@ -125,7 +131,7 @@ const TilesetsSection =()=>{
                     >{layer.name}
                 </Tab>
                     
-                <Button variant="contained"  sx={{backgroundColor:"#d72b05" ,fontSize:12,borderRadius:0,marginLeft:-1 }} onClick={handleTileEdit}>
+                <Button variant="contained"  sx={{backgroundColor:"#d72b05" ,fontSize:12,borderRadius:0,marginLeft:-1 }} id={layer.name} onClick={(layer) => handleTileEdit(layer)}>
                     Edit
                 </Button>
                 </Box>
@@ -133,11 +139,13 @@ const TilesetsSection =()=>{
     </Tabs> 
     
     : null
+
+    let wrongTsModal = wrong ? <LoginModal message="Please select your tileset before you choose to edit it" onClose={() => setWrong(false)}></LoginModal> : null
     
     return(
         <Grid sx={{backgroundImage :'linear-gradient(to left, #505051, #303031)',boxShadow: '0 1px 2px 2px rgba(68,68,69,255)',borderRadius:2}}>
             {addTilesetModal}
-
+            {wrongTsModal}
             {/* TEMP */}
             {editTilesetModal_temp}
             {/* TEMP */}
