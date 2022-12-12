@@ -1092,7 +1092,7 @@ store.loadMapById = async function(_id) {
                         mapInfo: response.data.mapInfo,
                         currentMap: response2.data.map,
                         currentLayer: response2.data.map.layers[0],
-                        currentTileSet: []
+                        currentTileSet: currentTileset_
                     }
                 });
                 return currentTileset_

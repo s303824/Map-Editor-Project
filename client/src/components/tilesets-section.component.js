@@ -62,7 +62,7 @@ const TilesetsSection =()=>{
 
     const handleTileEdit = (tileset) => {
         console.log(store.currentTileSet)
-        if(store.currentTileSet.name == undefined || tileset.target.id != store.currentTileSet[0].name ) {
+        if(tileset.target.id != store.currentTileSet[0].name ) {
             setWrong(true)
             return;
         }
