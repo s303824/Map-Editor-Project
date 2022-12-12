@@ -27,7 +27,8 @@ export const GlobalStoreActionType = {
     SET_THE_OPEN_MODAL: "SET_THE_OPEN_MODAL",
     SET_THE_MAP_MARKED_FOR_DELETION: "SET_THE_MAP_MARKED_FOR_DELETION",
     UPDATE_MAP_INFO: "UPDATE_MAP_INFO",
-    ERROR: "ERROR"
+    ERROR: "ERROR",
+    CLOSE_MAP: "CLOSE_MAP"
 }
 
 const tps = new JsTPS();
@@ -350,6 +351,26 @@ function GlobalStoreContextProvider(props) {
                         mapMarkedForDeletion: store.mapMarkedForDeletion,
                         error: payload.error
                     })
+
+                    case GlobalStoreActionType.CLOSE_MAP:
+                return setStore({
+                    publishedMaps: store.publishedMaps,              
+                    userMaps: store.userMaps,                    
+                    searchResults: store.searchResults,                  
+                    currentMap: {},                    
+                    currentMapInfo:[],     
+                    currentLayer: [],       
+                    currentTileSet: [],              
+                    currentTile: [],
+                    tilesetBeingEdited: store.tilesetBeingEdited,        
+                    selectedMapEditTool: "",   
+                    canUndo: store.canUndo,                  
+                    canRedo: store.canRedo,                  
+                    searchCriteria: store.searchCriteria,            
+                    openModal: store.openModal,       
+                    mapMarkedForDeletion: store.mapMarkedForDeletion,
+                    error: ""
+                })
             default:
                 return store;
         }
@@ -1178,6 +1199,17 @@ store.setEditActive= async function (_id,editActive) {
     response.data.mapInfo.editActive = editActive;
     const response1 = await api.updateMapInfo(response.data.mapInfo);
     if(response1.status === 200) {
+
+        if(editActive == false) {
+            storeReducer({
+                type: GlobalStoreActionType.CLOSE_MAP,
+                payload: {
+                    mapInfo: response1.data.mapInfo
+                }
+            })
+            return;
+        }
+
         storeReducer({
             type: GlobalStoreActionType.UPDATE_MAP_INFO,
             payload: {
