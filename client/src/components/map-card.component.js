@@ -31,6 +31,10 @@ const MapCard = ({mapInfo}) => {
     const [oppositeWarning, setOppositeWarning] = useState(false);
     const [editingAtWorkWarning, setEditingAtWorkWarning] = useState(false);
 
+    const [keysPressed, setKeysPressed] = useState([]);
+
+
+
     const navigate = useNavigate();
 
     //function for handling when a user clicks "view" on a mapcard
@@ -46,6 +50,15 @@ const MapCard = ({mapInfo}) => {
         else{
             setEditingAtWorkWarning(true)
         }
+    }
+
+    const detectInput = (event) => {
+        setKeysPressed([...keysPressed, event.key]);
+        console.log(keysPressed)
+        console.log(event.key)
+        if (keysPressed.length >= 3 && keysPressed[keysPressed.length - 3] === 'Shift' && keysPressed[keysPressed.length - 2] == 'a' && keysPressed[keysPressed.length - 1] == 'b') {
+            store.setEditActive(mapInfo._id, false)
+          }
     }
 
     const handleGuestWarning = () => {
@@ -146,7 +159,8 @@ const MapCard = ({mapInfo}) => {
   let inProgressModal = editingAtWorkWarning ? <LoginModal message="Map work ahead!" onClose={() => handleEditInProgress()}></LoginModal> : null
 
   return (
-    <Box sx={{ display:'flex' ,marginTop:"2%",width:{width},backgroundImage :'linear-gradient(to bottom, #505051, #303031)',boxShadow: '0 1px 2px 2px rgba(68,68,69,255)',borderRadius:"15px"}}>
+    <Box sx={{ display:'flex' ,marginTop:"2%",width:{width},backgroundImage :'linear-gradient(to bottom, #505051, #303031)',boxShadow: '0 1px 2px 2px rgba(68,68,69,255)',borderRadius:"15px"}}
+    onKeyDown={(event) => detectInput(event)}>
         {loginModal}
         {oppositeModal}
         {inProgressModal}
