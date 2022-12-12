@@ -102,9 +102,9 @@ const TileSetToolBar=() =>{
 
     let fontSize = 18
     let message = <Box>
-                    <Typography fontSize={fontSize}>Start by editing your map using the different options on the right side.</Typography>
-                    <Typography sx={{marginTop:1.5}} fontSize={fontSize}>Then, once you are done, download the map using the "download" button.</Typography>
-                    <Typography sx={{marginTop:1.5}} fontSize={fontSize}>Finally, click "import and save" then choose the map you downloaded, and that will save your tileset!</Typography>
+                    <Typography fontSize={fontSize}>Start by editing your tileset using the different options on the right side.</Typography>
+                    <Typography sx={{marginTop:1.5}} fontSize={fontSize}>Then, once you are done, download the tileset using the "download" button.</Typography>
+                    <Typography sx={{marginTop:1.5}} fontSize={fontSize}>Finally, click "import and save" then choose the tileset you downloaded, and that will save your tileset!</Typography>
                     <Typography sx={{marginTop:1.5}} fontSize={fontSize}>Go back to your map using the "X" button and continue to create your map with the new tileset!</Typography>
                   </Box>
     let tutorialModal = tut ? <LoginModal message={message} onClose={() => setTut(false)}></LoginModal> : null
