@@ -610,7 +610,7 @@ store.addNewLayer = function () {
         y : 0
 }
    store.currentMap.layers.unshift(new_layer); //add new layer to the top of the array 
-   
+
    storeReducer({
     type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
     payload: {
@@ -865,7 +865,8 @@ store.updateMapSize = async function () {
                 payload: {
                     currentMap: response.data.map,
                     mapInfo: store.currentMapInfo,
-                    currentLayer: response.data.map.layers[0]
+                    currentLayer: response.data.map.layers[0],
+                    currentTileSet: []
                 }
         })
     }
