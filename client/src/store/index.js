@@ -689,7 +689,6 @@ store.setCurrentTile = function (id,value) {
             currentTile : {id,value}
         }
     });
-    console.log(store.currentTile)
 }
 
 // Sets the current tileset
@@ -755,6 +754,7 @@ store.paintTile = function (id,value) {
 }
 
 store.paintHelper = function(id) {
+    console.log(store.currentTileSet)
     //console.log(store.currentTileSet[0].firstgid)
     store.currentLayer[0].data[id]=(parseInt(store.currentTile.id)+ parseInt(store.currentTileSet[0].firstgid));
     console.log(store.currentLayer[0].data[id])
@@ -764,7 +764,6 @@ store.paintHelper = function(id) {
             currentLayer:store.currentLayer
         }
     });
-    console.log(store.currentLayer)
 }
 
 store.paintHelperUndo = function(id, tileId) {
