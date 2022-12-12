@@ -15,6 +15,11 @@ const LayerCard =({id,layerInfo,selected})=>{
 
     const handleDeleteNewLayer  = (event) =>{
         event.preventDefault();
+
+        if(store.currentMap.layers.length == 1) {
+            return;
+        }
+
         store.deleteSelectedLayer(id);
     }
   

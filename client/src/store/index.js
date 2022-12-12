@@ -597,7 +597,7 @@ store.addNewLayer = function () {
         height :old_layer.height,
         id  : (parseInt(store.currentMap.layers[0].id)+1), //latest id increased by one 
         name : "Untitled Layer" + (parseInt( store.currentMap.layers[0].id)+1),
-        opasity : 1,
+        opacity : 1,
         type : "tilelayer",
         visible :true,
         width :old_layer.width,
@@ -605,6 +605,7 @@ store.addNewLayer = function () {
         y : 0
 }
    store.currentMap.layers.unshift(new_layer); //add new layer to the top of the array 
+   console.log(new_layer)
 
    storeReducer({
     type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
@@ -616,6 +617,8 @@ store.addNewLayer = function () {
     }
 });
 
+console.log(store.currentMap.layers)
+
 }
 
 // Changes the selected layer's name
@@ -625,7 +628,6 @@ store.changeLayerName = function (id, newName) {}
 store.increaseLayerPrecedence = function () {
     let idx = store.currentMap.layers.indexOf(store.currentLayer[0]);
     var layer = store.currentMap.layers.splice(idx, 1)[0];
-    console.log("layer",layer);
    // let arr = store.currentMap.layers;
    // console.log("arr1",arr)
    // let i1 = idx;
@@ -653,13 +655,6 @@ store.decreaseLayerPrecedence = function () {
     let idx = store.currentMap.layers.indexOf(store.currentLayer[0]);
     var layer = store.currentMap.layers.splice(idx, 1)[0];
     // insert stored layer into position 
-    store.currentMap.layers.splice(idx-1,0, store.currentLayer[0]);
-    
-    let ne = store.currentMap.layers.splice(idx-1,0, layer);
-    console.log("ne",ne);
-    let new_layer = store.currentMap.layers[idx-1];
-    console.log("new",new_layer); 
-    
     
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
@@ -720,6 +715,7 @@ store.handleMapAction = function (id,value) {
 
 // Sets the current layer being edited
 store.setCurrentLayer = function (id) {
+    console.log("HERE?")
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
         payload: {

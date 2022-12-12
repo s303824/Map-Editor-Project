@@ -33,8 +33,6 @@ const MapCard = ({mapInfo}) => {
 
     const [keysPressed, setKeysPressed] = useState([]);
 
-
-
     const navigate = useNavigate();
 
     //function for handling when a user clicks "view" on a mapcard
@@ -54,8 +52,6 @@ const MapCard = ({mapInfo}) => {
 
     const detectInput = (event) => {
         setKeysPressed([...keysPressed, event.key]);
-        console.log(keysPressed)
-        console.log(event.key)
         if (keysPressed.length >= 3 && keysPressed[keysPressed.length - 3] === 'Shift' && keysPressed[keysPressed.length - 2] == 'a' && keysPressed[keysPressed.length - 1] == 'b') {
             store.setEditActive(mapInfo._id, false)
           }
