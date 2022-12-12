@@ -385,7 +385,6 @@ store.EditedTilsetToMap = async function (editedTileset_url, id){
 
     store.currentMap.tilesets = store.currentMap.tilesets.map(tileset => tileset._id == id ?  tileset = edited_map_tileset[0] : tileset);
  
-    console.log(id)
     const response = await api.updateMap(store.currentMap)
     if(response.status == 200) {
         storeReducer({
@@ -500,7 +499,6 @@ store.updateMapDislike= async function (mapInfo, amount) {
 store.downloadMap= async function (mapId) {
     const response = await api.getMapInfo(mapId)
     if(response.status == 200) {
-        console.log(response.data.mapInfo)
         response.data.mapInfo.downloads = response.data.mapInfo.downloads +1;
         const response2= await api.updateMapInfo(response.data.mapInfo);
         if (response2.status === 200) {
@@ -549,7 +547,6 @@ store.setNewMap = async function(mapData){
 //Deletes the selected map 
 //Used by: map-settings.component(button press)
 store.deleteMap= async function (mapId) {
-    console.log("MAPID FOR DELETE:" + mapId)
         try {
             const response = api.deleteMap(mapId);
         if (response.status === 200) {
@@ -651,17 +648,9 @@ store.changeLayerName = function (id, newName) {}
 store.increaseLayerPrecedence = function () {
     let idx = store.currentMap.layers.indexOf(store.currentLayer[0]);
     var layer = store.currentMap.layers.splice(idx, 1)[0];
-   // let arr = store.currentMap.layers;
-   // console.log("arr1",arr)
-   // let i1 = idx;
-    //let i2= idx-1;
-  //  arr.slice(0,i1).concat(arr[i2],arr.slice(i1+1,i2),arr[i1],arr.slice(i2+1))
-    // insert stored layer into position 
-   // console.log("arr",arr)
+
     let ne = store.currentMap.layers.splice(idx-1,0, layer);
-    console.log("ne",ne);
     let new_layer = store.currentMap.layers[idx-1];
-    console.log("new",new_layer);
     
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
@@ -712,7 +701,6 @@ store.setCurrentTile = function (id,value) {
             currentTile : {id,value}
         }
     });
-    console.log(store.currentTile)
 }
 
 // Sets the current tileset
@@ -777,7 +765,6 @@ store.paintTile = function (id,value) {
 }
 
 store.paintHelper = function(id) {
-    //console.log(store.currentTileSet[0].firstgid)
     store.currentLayer[0].data[id]=(parseInt(store.currentTile.id)+ parseInt(store.currentTileSet[0].firstgid));
     console.log(store.currentLayer[0].data[id])
     storeReducer({
@@ -786,12 +773,9 @@ store.paintHelper = function(id) {
             currentLayer:store.currentLayer
         }
     });
-    console.log(store.currentLayer)
 }
 
 store.paintHelperUndo = function(id, tileId) {
-    //console.log(parseInt(tileId)+ parseInt(store.currentTileSet[0].firstgid))
-    console.log(parseInt(tileId))
     store.currentLayer[0].data[id]=(parseInt(tileId));
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_LAYER,
@@ -952,7 +936,6 @@ store.addTilsetToMap = async function (tileImage, tileWidth, tileHeight, imageHe
     const column = imageWidth/tileWidth;
     const row = imageHeight/tileHeight;
     const tilecount = column * row
-    console.log("ei")
     let firstgid;
     if (store.currentMap.tilesets.length == 0){
         firstgid = 1
@@ -1056,7 +1039,6 @@ store.loadMapEditor= async function (mapId, mapInfo) {
 
         const response = await api.getMap(mapId);
         if (response.status === 200) {
-            console.log(response.data)
             storeReducer({
                 type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                 payload: {
@@ -1097,7 +1079,6 @@ store.loadMapById = async function(_id) {
 
             const response2 = await api.getMap(response.data.mapInfo.map_id)
             if(response2.status === 200) {
-                // console.log(response.data.mapInfo)
 
                 // used in tileset editor, sets currentTileset using the id stored in path
                 let currentTileset_ = response2.data.map.tilesets[0] 
@@ -1111,7 +1092,7 @@ store.loadMapById = async function(_id) {
                         mapInfo: response.data.mapInfo,
                         currentMap: response2.data.map,
                         currentLayer: response2.data.map.layers[0],
-                        currentTileSet: currentTileset_ 
+                        currentTileSet: []
                     }
                 });
                 return currentTileset_
@@ -1130,7 +1111,6 @@ store.loadMapViewer= async function (mapId, mapInfo) {
 
         const response = await api.getMap(mapId);
         if (response.status === 200) {
-            console.log(response.data.map)
             storeReducer({
                 type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
                 payload: {
@@ -1246,7 +1226,6 @@ store.addTeamMember = async function (username) {
         const response = await api.addCreator({username:username, _id:store.currentMapInfo._id});
         
         if(response.status === 200) {
-            console.log(response.data.mapInfo)
             storeReducer({
                 type: GlobalStoreActionType.UPDATE_MAP_INFO,
                 payload: {
@@ -1286,7 +1265,6 @@ store.changeMapSettings = async function (_id, title, description, tags) {
 //Sends a report with the mapInfo_id and report text
 //Used by: right-sidebar.component
 store.sendReport = async function(report) {
-    console.log(store.currentMapInfo._id)
     const response = await api.sendReport({report:report, mapInfo_id:store.currentMapInfo._id})
     if(response.status === 200) {
         return true;
