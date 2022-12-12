@@ -132,7 +132,7 @@ const SizeSettings = ({onClose}) => {
                     }
                 }
 
-                newLayerData[i] = negative == 1 ? layer.data[k] * (tileDiff * tileDiff) : layer.data[k] / (tileDiff * tileDiff)
+                newLayerData[i] = negative == 1 ? layer.data[k] * (tileDiff * tileDiff) : Math.floor(layer.data[k] / (tileDiff * tileDiff))
                 k = k+1;
     
             }
@@ -177,7 +177,7 @@ const SizeSettings = ({onClose}) => {
         store.updateMapSize()
         
     }
-    console.log(store.currentMap)
+    //console.log(store.currentMap)
 
     let modal = modalOpen ? <LoginModal message="Successfully updated!" onClose={handleCloseModal}></LoginModal> : null
     let emptyModal = empty ? <LoginModal message="A field cannot be empty!" onClose={handleCloseEmpty}></LoginModal> : null

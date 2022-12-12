@@ -16,6 +16,12 @@ const Tile =(tileInfo)=>{
       // let set = store.currentMap.tilesets.filter( tileset => value < (parseInt(tileset.tilecount)+tileset.firstgid ) && value > (tileset.firstgid ));
       // set = set[0]
       let set = store.currentMap.tilesets.filter( tileset => value < (tileset.tilecount+tileset.firstgid ) && value >= tileset.firstgid);
+      //console.log(tileInfo)
+      if(set.length == 0) {
+        
+        console.log("Tile error!")
+        return;
+      }
       newImg = set[0].image; 
       set = set[0]
       //console.log(set.firstgid)

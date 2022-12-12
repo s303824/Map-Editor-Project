@@ -76,9 +76,11 @@ const MapEditor=() =>{
         navigate("/", {})
       }
 
+      console.log(store.currentMap)
+
     return(
         <Box className="map-editor-container" >
-          <Grid container spacing={1}>
+          <Grid container spacing={0}>
             <Grid xs={8} sx={{backroundColor:'white'}}>
             <Layer/>
                
