@@ -610,8 +610,7 @@ store.addNewLayer = function () {
         y : 0
 }
    store.currentMap.layers.unshift(new_layer); //add new layer to the top of the array 
-   console.log(new_layer)
-
+   
    storeReducer({
     type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
     payload: {
