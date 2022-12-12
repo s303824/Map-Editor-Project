@@ -27,10 +27,16 @@ const LayersSection =()=>{
     }
 
     const handleIncreasePredence = () => {
+        if(store.currentMap.layers.indexOf(store.currentLayer[0]) == 0 ){
+            return;
+        }
         store.increaseLayerPrecedence();
     }
 
     const handleDecreasePredence = () => {
+        if(store.currentMap.layers.indexOf(store.currentLayer[0]) == store.currentMap.layers.length-1) {
+            return;
+        }
         store.decreaseLayerPrecedence();
     }
 

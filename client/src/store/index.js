@@ -591,12 +591,17 @@ store.deleteSelectedLayer = function (id) {
 store.addNewLayer = function () {
     let old_layer=store.currentMap.layers[0];
 
+    const ids = store.currentMap.layers.map(object => {
+        return object.id;
+      });    
+    const max = Math.max(...ids);
+
     //init new Layer
     let new_layer={
         data : new Array(old_layer.width*old_layer.height).fill(0), //init data with 0's
         height :old_layer.height,
-        id  : (parseInt(store.currentMap.layers[0].id)+1), //latest id increased by one 
-        name : "Untitled Layer" + (parseInt( store.currentMap.layers[0].id)+1),
+        id  : max+1, //latest id increased by one 
+        name : "Untitled Layer" + (max+1),
         opacity : 1,
         type : "tilelayer",
         visible :true,
@@ -652,29 +657,14 @@ store.increaseLayerPrecedence = function () {
 store.decreaseLayerPrecedence = function () {
     let idx = store.currentMap.layers.indexOf(store.currentLayer[0]);
     var layer = store.currentMap.layers[idx];
-    /*var oldLayer = store.currentMap.layers.splice(idx-1, 1)[0];
 
-    console.log("idx",idx)
-    console.log("newLayer", layer)
-    console.log("oldLyaer", oldLayer)
-
-    console.log("store.currentMap", store.currentMap.layers)
-
-    store.currentMap.layers.splice(idx, 1, layer);
-    store.currentMap.layers.splice(idx, 1, oldLayer);
-
-    console.log("store.currentMap after", store.currentMap.layers)*/
-
-    //console.log("store.currentMap", store.currentMap.layers)
     [store.currentMap.layers[idx], store.currentMap.layers[idx+1] ] = [store.currentMap.layers[idx+1], store.currentMap.layers[idx]]
-    console.log("store.currentMap after", store.currentMap.layers)
 
     storeReducer({
         type: GlobalStoreActionType.SET_THE_CURRENT_MAP,
         payload: {
             currentMap: store.currentMap,
             mapInfo: store.currentMapInfo,
-            currentLayer: layer,
             currentTileSet: store.current
         }
     });
