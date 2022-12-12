@@ -67,17 +67,6 @@ registerUser = async (req, res) => {
 
         const client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
 
-       /* client.emailVerification().verify(newUser.email, function(error, result) {    // check if email is active
-            if(error ) {
-                console.log(error)
-                console.log("fdsoiubjdfsbuojih")
-            }
-            if (result.Verified === false) {
-                return res
-                .status(400)
-                .json({ errorMessage: "Email is invalid!" });
-            }
-          });*/
           try{
             const message = {
                 "From": "sean.yang@stonybrook.edu",

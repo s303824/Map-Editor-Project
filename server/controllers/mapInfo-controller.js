@@ -177,18 +177,6 @@ updateMapInfo = async (req, res) => {
             return res.status(500).send();
         }
         else{
-            if(selectedMapInfo.published != "false"){        
-                const client = new postmark.ServerClient("e6e0a7f9-eaed-43f2-986c-a4a8267fef50");
-                selectedMapInfo.creator.forEach(maker =>
-                    client.sendEmail({
-                        "From": "sean.yang@stonybrook.edu",
-                        "To": maker.email,
-                        "Subject": "Congrats on publishing!",
-                        "HtmlBody": "You just published a new map '" + name + "' on Tileslate.",
-                        "MessageStream": "outbound"
-                    })
-                );
-            }
             return res
                 .status(200)
                 .json({ 
